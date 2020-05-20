@@ -1,0 +1,1287 @@
+{
+  "x-generator": "NSwag v13.1.5.0 (NJsonSchema v10.0.27.0 (Newtonsoft.Json v12.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "Simulator API",
+    "description": "This API allows simulators to provide states and receive commands from the platform.",
+    "version": "v2"
+  },
+  "host": "api.bons.ai",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v2/simgateway/ping": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "summary": "Implementaton of the GET /v2/ping endpoint.",
+        "operationId": "Gateway_Ping",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/v2/simgateway/status": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "summary": "Implementaton of the GET /v2/status endpoint.",
+        "operationId": "Gateway_Status",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "A json-formatted string",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulators/{sessionId}/simulatorHub/negotiate": {
+      "post": {
+        "tags": [
+          "SimulatorNotification"
+        ],
+        "summary": "http post/negotiate endpoint to broker connection to Azure SignalR Service",
+        "operationId": "SimulatorNotification_Index",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "workspace information for subscription grain",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "simulator identifier",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "user",
+            "in": "query",
+            "description": "unique user session identifier. SignalR clients send this as user, but this is internally used as user session id ",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulators": {
+      "get": {
+        "tags": [
+          "Simulators"
+        ],
+        "summary": "Implementaton of the GET /v2/.../simulators endpoint.",
+        "description": "Retrieves all of the simulators currently registered with all\nsimulator gateways within this workspace.\nThe deployment_mode appears in the query string. It can be one of\nUnspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means \"not;\"\ne.g., .../simulators?deployment_mode=neq:Hosted means the response should not include\nsimulators that are hosted.",
+        "operationId": "Simulators_ListSimulators",
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "deployment_mode",
+            "in": "query",
+            "description": "A specifier to filter on deployment mode",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "List of simulators registered with all simulator gateways.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorList"
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Simulators"
+        ],
+        "summary": "Implementation of the PUT /v2/.../simulators endpoint.",
+        "description": "Registers a simulator with the simulator gateway.",
+        "operationId": "Simulators_RegisterSimulator",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "name": "registrationInfo",
+            "in": "body",
+            "required": true,
+            "description": "Information and capabilities about the simulator.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorInterface"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "Unique identification for the simulator and any events ready for the\nsimulator to process.",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "500": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulators/{sessionIdString}": {
+      "get": {
+        "tags": [
+          "Simulators"
+        ],
+        "summary": "Implementation of the GET /v2/.../simulators/{sessionId} endpoint.",
+        "description": "Gets the most recent action sent to the simulator to process.",
+        "operationId": "Simulators_GetMostRecentAction",
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionIdString",
+            "in": "path",
+            "required": true,
+            "description": "Unique identification of the simulator.",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "The most recent event for the simulator.",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Simulators"
+        ],
+        "summary": "Implementation of the POST /v2/.../simulators/{sessionId}\nendpoint.",
+        "operationId": "Simulators_Advance",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionIdString",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the simulator.",
+            "x-nullable": true
+          },
+          {
+            "name": "state",
+            "in": "body",
+            "required": true,
+            "description": "The new state of the simulator.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorState"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "The action from the scholar",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Simulators"
+        ],
+        "summary": "Implementation of the DELETE /v2/.../simulators endpoint.",
+        "description": "Unregisters the simulator with the simulator gateway.",
+        "operationId": "Simulators_DeregisterSimulator",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionIdString",
+            "in": "path",
+            "required": true,
+            "description": "The session ID generated during registration",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "HTTP result code.",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulatorSessions": {
+      "get": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementaton of the GET /v2/.../simulatorSessions endpoint.",
+        "description": "Retrieves all of the simulators currently registered with all\nsimulator gateways within this workspace.\n            \nThe deployment_mode appears in the query string. It can be one of\nUnspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means \"not;\"\ne.g., .../simulatorSessions?deployment_mode=neq:Hosted means the response should not include\nsimulators that are hosted.\n            \nThe session_status can be one of Attachable, Attached, Detaching, Rejected,\nand supports the neq: prefix.\n            \nThe collection appears in the query string\n            \nThe package appears in the query string\n            \nThe filter queries can appear together, like\n.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333",
+        "operationId": "SimulatorSession_ListSessions",
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "deployment_mode",
+            "in": "query",
+            "description": "A specifier to filter on deployment mode",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "session_status",
+            "in": "query",
+            "description": "A specifier to filter on session status",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "collection",
+            "in": "query",
+            "description": "If present, only sessions in this collection",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "package",
+            "in": "query",
+            "description": "If present, only sessions in this package",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "List of simulators registered with all simulator gateways.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SimulatorSessionSummary"
+              }
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementation of the POST /v2/.../simulatorSessions endpoint.",
+        "description": "Registers a simulator with the simulator gateway.",
+        "operationId": "SimulatorSession_RegisterSimulator",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "name": "registrationInfo",
+            "in": "body",
+            "required": true,
+            "description": "Information and capabilities about the simulator.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorInterface"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "x-nullable": false,
+            "description": "Unique identification for the simulator and any events ready for the\nsimulator to process.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorSession"
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}": {
+      "get": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementaton of the GET /v2/.../simulatorSessions/{sessionId} endpoint.",
+        "description": "Retrieves a simulator session corresponding to the sessionId",
+        "operationId": "SimulatorSession_DescribeOneSession",
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "The sessionId of the simulator session to fetch",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "A single simulator description",
+            "schema": {
+              "$ref": "#/definitions/SimulatorSession"
+            }
+          },
+          "404": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementation of the DELETE /v2/.../simulators endpoint.",
+        "description": "Unregisters the simulator with the simulator gateway.",
+        "operationId": "SimulatorSession_DeregisterSimulator",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "The session ID generated during registration",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "HTTP result code."
+          },
+          "404": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "400": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/action": {
+      "get": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.",
+        "description": "Gets the most recent action sent to the simulator to process.",
+        "operationId": "SimulatorSession_GetMostRecentAction",
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identification of the simulator.",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "The most recent event for the simulator.",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        }
+      }
+    },
+    "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/advance": {
+      "post": {
+        "tags": [
+          "SimulatorSession"
+        ],
+        "summary": "Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance\nendpoint.",
+        "operationId": "SimulatorSession_Advance",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "workspaceName",
+            "in": "path",
+            "required": true,
+            "description": "The workspace identifier.",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the simulator.",
+            "x-nullable": true
+          },
+          {
+            "name": "state",
+            "in": "body",
+            "required": true,
+            "description": "The new state of the simulator.",
+            "schema": {
+              "$ref": "#/definitions/SimulatorState"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "The action from the scholar, or Unregister on error",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SimulatorList": {
+      "type": "object",
+      "properties": {
+        "simulators": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SimulatorInfo"
+          }
+        }
+      }
+    },
+    "SimulatorInfo": {
+      "type": "object",
+      "required": [
+        "iterationRate",
+        "sessionStatus"
+      ],
+      "properties": {
+        "interface": {
+          "$ref": "#/definitions/SimulatorInterface"
+        },
+        "simulatorContext": {
+          "$ref": "#/definitions/SimulatorContext"
+        },
+        "lastSeen": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "registrationTime": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "details": {
+          "type": "string"
+        },
+        "iterationRate": {
+          "type": "number",
+          "format": "double"
+        },
+        "sessionStatus": {
+          "$ref": "#/definitions/Status"
+        }
+      }
+    },
+    "SimulatorInterface": {
+      "type": "object",
+      "required": [
+        "timeout"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "format": "double"
+        },
+        "capabilities": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "simulatorContext": {
+          "type": "string"
+        },
+        "description": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "SimulatorContext": {
+      "type": "object",
+      "required": [
+        "deploymentMode"
+      ],
+      "properties": {
+        "deploymentMode": {
+          "$ref": "#/definitions/DeploymentMode"
+        },
+        "deploymentDetails": {
+          "type": "string"
+        },
+        "simulatorClientId": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string"
+        },
+        "package": {
+          "type": "string"
+        },
+        "purpose": {
+          "$ref": "#/definitions/Purpose"
+        }
+      }
+    },
+    "DeploymentMode": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unspecified",
+        "Hosted",
+        "Testing"
+      ],
+      "enum": [
+        0,
+        1,
+        100
+      ]
+    },
+    "Purpose": {
+      "type": "object",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/Action"
+        },
+        "target": {
+          "$ref": "#/definitions/PurposeTarget"
+        }
+      }
+    },
+    "Action": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Inactive",
+        "Debug",
+        "Train",
+        "Assess"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "PurposeTarget": {
+      "type": "object",
+      "required": [
+        "brainVersion"
+      ],
+      "properties": {
+        "workspaceName": {
+          "type": "string"
+        },
+        "brainName": {
+          "type": "string"
+        },
+        "brainVersion": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "conceptName": {
+          "type": "string"
+        }
+      }
+    },
+    "Timestamp": {
+      "type": "object",
+      "required": [
+        "seconds",
+        "nanos"
+      ],
+      "properties": {
+        "seconds": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Status": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Deregistered",
+        "Attachable",
+        "Attached",
+        "Detaching",
+        "Rejected"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "Event": {
+      "type": "object",
+      "required": [
+        "type",
+        "sequenceId",
+        "kindCase"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/EventType"
+        },
+        "sessionId": {
+          "type": "string"
+        },
+        "sequenceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "episodeStart": {
+          "$ref": "#/definitions/EpisodeStart"
+        },
+        "episodeStep": {
+          "$ref": "#/definitions/Step"
+        },
+        "episodeFinish": {
+          "$ref": "#/definitions/EpisodeFinish"
+        },
+        "playbackStart": {
+          "$ref": "#/definitions/PlaybackStart"
+        },
+        "playbackStep": {
+          "$ref": "#/definitions/PlaybackStep"
+        },
+        "playbackFinish": {
+          "$ref": "#/definitions/PlaybackFinish"
+        },
+        "idle": {
+          "$ref": "#/definitions/Idle"
+        },
+        "registered": {
+          "$ref": "#/definitions/Registered"
+        },
+        "unregister": {
+          "$ref": "#/definitions/Unregister"
+        },
+        "kindCase": {
+          "$ref": "#/definitions/KindOneofCase2"
+        }
+      }
+    },
+    "EventType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unspecified",
+        "EpisodeStart",
+        "EpisodeStep",
+        "EpisodeFinish",
+        "PlaybackStart",
+        "PlaybackStep",
+        "PlaybackFinish",
+        "Idle",
+        "Registered",
+        "Unregister"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "EpisodeStart": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/Value"
+        }
+      }
+    },
+    "Value": {
+      "type": "object",
+      "required": [
+        "nullValue",
+        "numberValue",
+        "boolValue",
+        "kindCase"
+      ],
+      "properties": {
+        "nullValue": {
+          "$ref": "#/definitions/NullValue"
+        },
+        "numberValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "stringValue": {
+          "type": "string"
+        },
+        "boolValue": {
+          "type": "boolean"
+        },
+        "structValue": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "listValue": {
+          "$ref": "#/definitions/ListValue"
+        },
+        "kindCase": {
+          "$ref": "#/definitions/KindOneofCase"
+        }
+      }
+    },
+    "NullValue": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "NullValue"
+      ],
+      "enum": [
+        0
+      ]
+    },
+    "ListValue": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Value"
+          }
+        }
+      }
+    },
+    "KindOneofCase": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "NullValue",
+        "NumberValue",
+        "StringValue",
+        "BoolValue",
+        "StructValue",
+        "ListValue"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "Step": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/Value"
+        }
+      }
+    },
+    "EpisodeFinish": {
+      "type": "object",
+      "required": [
+        "reason"
+      ],
+      "properties": {
+        "reason": {
+          "$ref": "#/definitions/Reason"
+        }
+      }
+    },
+    "Reason": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Invalid",
+        "Unspecified",
+        "LessonChanged",
+        "Terminal",
+        "Interrupted"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "PlaybackStart": {
+      "type": "object"
+    },
+    "PlaybackStep": {
+      "type": "object"
+    },
+    "PlaybackFinish": {
+      "type": "object"
+    },
+    "Idle": {
+      "type": "object",
+      "required": [
+        "callbackTime"
+      ],
+      "properties": {
+        "callbackTime": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "Registered": {
+      "type": "object"
+    },
+    "Unregister": {
+      "type": "object",
+      "required": [
+        "reason"
+      ],
+      "properties": {
+        "reason": {
+          "$ref": "#/definitions/Reason2"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "Reason2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unspecified",
+        "Finished",
+        "Error",
+        "NotFound"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "KindOneofCase2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "EpisodeStart",
+        "EpisodeStep",
+        "EpisodeFinish",
+        "PlaybackStart",
+        "PlaybackStep",
+        "PlaybackFinish",
+        "Idle",
+        "Registered",
+        "Unregister"
+      ],
+      "enum": [
+        0,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    "SimulatorState": {
+      "type": "object",
+      "required": [
+        "sequenceId"
+      ],
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "sequenceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "state": {
+          "$ref": "#/definitions/Value"
+        },
+        "halted": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "SimulatorSessionSummary": {
+      "type": "object",
+      "required": [
+        "sessionStatus"
+      ],
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "sessionStatus": {
+          "$ref": "#/definitions/Status"
+        },
+        "simulatorName": {
+          "type": "string"
+        },
+        "simulatorContext": {
+          "$ref": "#/definitions/SimulatorContext"
+        }
+      }
+    },
+    "SimulatorSession": {
+      "type": "object",
+      "required": [
+        "sessionStatus",
+        "iterationRate"
+      ],
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "sessionStatus": {
+          "$ref": "#/definitions/Status"
+        },
+        "sessionProgress": {
+          "$ref": "#/definitions/SimulatorSessionProgress"
+        },
+        "interface": {
+          "$ref": "#/definitions/SimulatorInterface"
+        },
+        "simulatorContext": {
+          "$ref": "#/definitions/SimulatorContext"
+        },
+        "registrationTime": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "lastSeenTime": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "iterationRate": {
+          "type": "number",
+          "format": "double"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "SimulatorSessionProgress": {
+      "type": "object",
+      "properties": {
+        "attached": {
+          "$ref": "#/definitions/SimulatorSessionMilestone"
+        },
+        "iterated": {
+          "$ref": "#/definitions/SimulatorSessionMilestone"
+        }
+      }
+    },
+    "SimulatorSessionMilestone": {
+      "type": "object",
+      "properties": {
+        "firstTime": {
+          "$ref": "#/definitions/Timestamp"
+        }
+      }
+    }
+  }
+}

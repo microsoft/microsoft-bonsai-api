@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorState class.
         /// </summary>
-        public SimulatorState(int sequenceId, string sessionId = default(string), Value state = default(Value), bool? halted = default(bool?), string error = default(string))
+        public SimulatorState(string sessionId = default(string), int? sequenceId = default(int?), object state = default(object), bool? halted = default(bool?), string error = default(string))
         {
             SessionId = sessionId;
             SequenceId = sequenceId;
@@ -45,12 +45,12 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "sequenceId")]
-        public int SequenceId { get; set; }
+        public int? SequenceId { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "state")]
-        public Value State { get; set; }
+        public object State { get; set; }
 
         /// <summary>
         /// </summary>
@@ -62,18 +62,5 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         [JsonProperty(PropertyName = "error")]
         public string Error { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (State != null)
-            {
-                State.Validate();
-            }
-        }
     }
 }

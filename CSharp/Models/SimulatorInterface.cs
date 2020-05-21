@@ -4,11 +4,9 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
 
     public partial class SimulatorInterface
@@ -24,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorInterface class.
         /// </summary>
-        public SimulatorInterface(double timeout, string name = default(string), IDictionary<string, object> capabilities = default(IDictionary<string, object>), string simulatorContext = default(string), IDictionary<string, object> description = default(IDictionary<string, object>))
+        public SimulatorInterface(string name = default(string), double? timeout = default(double?), object capabilities = default(object), string simulatorContext = default(string), object description = default(object))
         {
             Name = name;
             Timeout = timeout;
@@ -47,12 +45,12 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
-        public double Timeout { get; set; }
+        public double? Timeout { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "capabilities")]
-        public IDictionary<string, object> Capabilities { get; set; }
+        public object Capabilities { get; set; }
 
         /// <summary>
         /// </summary>
@@ -62,16 +60,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "description")]
-        public IDictionary<string, object> Description { get; set; }
+        public object Description { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-        }
     }
 }

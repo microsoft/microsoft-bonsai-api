@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -44,22 +44,5 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         [JsonProperty(PropertyName = "iterated")]
         public SimulatorSessionMilestone Iterated { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Attached != null)
-            {
-                Attached.Validate();
-            }
-            if (Iterated != null)
-            {
-                Iterated.Validate();
-            }
-        }
     }
 }

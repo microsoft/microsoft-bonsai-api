@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the EpisodeStart class.
         /// </summary>
-        public EpisodeStart(Value config = default(Value))
+        public EpisodeStart(object config = default(object))
         {
             Config = config;
             CustomInit();
@@ -36,20 +36,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "config")]
-        public Value Config { get; set; }
+        public object Config { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Config != null)
-            {
-                Config.Validate();
-            }
-        }
     }
 }

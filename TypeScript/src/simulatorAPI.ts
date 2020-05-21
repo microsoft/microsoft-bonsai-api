@@ -11,10 +11,7 @@ import { SimulatorAPIContext } from "./simulatorAPIContext";
 
 class SimulatorAPI extends SimulatorAPIContext {
   // Operation groups
-  gateway: operations.Gateway;
-  simulatorNotification: operations.SimulatorNotification;
-  simulators: operations.Simulators;
-  simulatorSession: operations.SimulatorSessionOperations;
+  session: operations.Session;
 
   /**
    * Initializes a new instance of the SimulatorAPI class.
@@ -22,10 +19,7 @@ class SimulatorAPI extends SimulatorAPIContext {
    */
   constructor(options?: Models.SimulatorAPIOptions) {
     super(options);
-    this.gateway = new operations.Gateway(this);
-    this.simulatorNotification = new operations.SimulatorNotification(this);
-    this.simulators = new operations.Simulators(this);
-    this.simulatorSession = new operations.SimulatorSessionOperations(this);
+    this.session = new operations.Session(this);
   }
 }
 

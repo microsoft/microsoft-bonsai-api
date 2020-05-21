@@ -4,7 +4,4 @@
  * regenerated.
  */
 
-export * from "./gateway";
-export * from "./simulatorNotification";
-export * from "./simulators";
-export * from "./simulatorSessionOperations";
+export * from "./session";

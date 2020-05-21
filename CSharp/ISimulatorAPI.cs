@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI
+namespace Bonsai.SimulatorApi
 {
     using Models;
     using Newtonsoft.Json;
@@ -32,24 +32,9 @@ namespace Microsoft.Bonsai.SimulatorAPI
 
 
         /// <summary>
-        /// Gets the IGateway.
+        /// Gets the ISession.
         /// </summary>
-        IGateway Gateway { get; }
-
-        /// <summary>
-        /// Gets the ISimulatorNotification.
-        /// </summary>
-        ISimulatorNotification SimulatorNotification { get; }
-
-        /// <summary>
-        /// Gets the ISimulators.
-        /// </summary>
-        ISimulators Simulators { get; }
-
-        /// <summary>
-        /// Gets the ISimulatorSessionOperations.
-        /// </summary>
-        ISimulatorSessionOperations SimulatorSession { get; }
+        ISession Session { get; }
 
     }
 }

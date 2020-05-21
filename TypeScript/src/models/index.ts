@@ -7,23 +7,12 @@ import { ServiceClientOptions } from "@azure/ms-rest-js";
 import * as msRest from "@azure/ms-rest-js";
 
 /**
- * An interface representing SimulatorInterface.
- */
-export interface SimulatorInterface {
-  name?: string;
-  timeout: number;
-  capabilities?: { [propertyName: string]: any };
-  simulatorContext?: string;
-  description?: { [propertyName: string]: any };
-}
-
-/**
  * An interface representing PurposeTarget.
  */
 export interface PurposeTarget {
   workspaceName?: string;
   brainName?: string;
-  brainVersion: number;
+  brainVersion?: number;
   conceptName?: string;
 }
 
@@ -31,7 +20,10 @@ export interface PurposeTarget {
  * An interface representing Purpose.
  */
 export interface Purpose {
-  action: number;
+  /**
+   * Possible values include: 'Inactive', 'Debug', 'Train', 'Assess'
+   */
+  action?: PurposeTypesAction;
   target?: PurposeTarget;
 }
 
@@ -39,7 +31,10 @@ export interface Purpose {
  * An interface representing SimulatorContext.
  */
 export interface SimulatorContext {
-  deploymentMode: number;
+  /**
+   * Possible values include: 'Unspecified', 'Hosted', 'Testing'
+   */
+  deploymentMode?: SimulatorContextTypesDeploymentMode;
   deploymentDetails?: string;
   simulatorClientId?: string;
   collection?: string;
@@ -48,31 +43,16 @@ export interface SimulatorContext {
 }
 
 /**
- * An interface representing Timestamp.
+ * An interface representing SimulatorSessionSummary.
  */
-export interface Timestamp {
-  seconds: number;
-  nanos: number;
-}
-
-/**
- * An interface representing SimulatorInfo.
- */
-export interface SimulatorInfo {
-  interfaceProperty?: SimulatorInterface;
+export interface SimulatorSessionSummary {
+  sessionId?: string;
+  /**
+   * Possible values include: 'Deregistered', 'Attachable', 'Attached', 'Detaching', 'Rejected'
+   */
+  sessionStatus?: SimulatorSessionTypesStatus;
+  simulatorName?: string;
   simulatorContext?: SimulatorContext;
-  lastSeen?: Timestamp;
-  registrationTime?: Timestamp;
-  details?: string;
-  iterationRate: number;
-  sessionStatus: number;
-}
-
-/**
- * An interface representing SimulatorList.
- */
-export interface SimulatorList {
-  simulators?: { [propertyName: string]: SimulatorInfo };
 }
 
 /**
@@ -84,109 +64,28 @@ export interface ProblemDetails {
   status?: number;
   detail?: string;
   instance?: string;
-  extensions?: { [propertyName: string]: any };
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly extensions?: { [propertyName: string]: any };
 }
 
 /**
- * An interface representing ListValue.
+ * An interface representing SimulatorInterface.
  */
-export interface ListValue {
-  values?: Value[];
-}
-
-/**
- * An interface representing Value.
- */
-export interface Value {
-  numberValue: number;
-  stringValue?: string;
-  boolValue: boolean;
-  structValue?: { [propertyName: string]: any };
-  listValue?: ListValue;
-  kindCase: number;
-}
-
-/**
- * An interface representing EpisodeStart.
- */
-export interface EpisodeStart {
-  config?: Value;
-}
-
-/**
- * An interface representing Step.
- */
-export interface Step {
-  action?: Value;
-}
-
-/**
- * An interface representing EpisodeFinish.
- */
-export interface EpisodeFinish {
-  reason: number;
-}
-
-/**
- * An interface representing Idle.
- */
-export interface Idle {
-  callbackTime: number;
-}
-
-/**
- * An interface representing Unregister.
- */
-export interface Unregister {
-  reason: number;
-  details?: string;
-}
-
-/**
- * An interface representing Event.
- */
-export interface Event {
-  type: number;
-  sessionId?: string;
-  sequenceId: number;
-  episodeStart?: EpisodeStart;
-  episodeStep?: Step;
-  episodeFinish?: EpisodeFinish;
-  playbackStart?: any;
-  playbackStep?: any;
-  playbackFinish?: any;
-  idle?: Idle;
-  registered?: any;
-  unregister?: Unregister;
-  kindCase: number;
-}
-
-/**
- * An interface representing SimulatorState.
- */
-export interface SimulatorState {
-  sessionId?: string;
-  sequenceId: number;
-  state?: Value;
-  halted?: boolean;
-  error?: string;
-}
-
-/**
- * An interface representing SimulatorSessionSummary.
- */
-export interface SimulatorSessionSummary {
-  sessionId?: string;
-  sessionStatus: number;
-  simulatorName?: string;
-  simulatorContext?: SimulatorContext;
+export interface SimulatorInterface {
+  name?: string;
+  timeout?: number;
+  capabilities?: any;
+  simulatorContext?: string;
+  description?: any;
 }
 
 /**
  * An interface representing SimulatorSessionMilestone.
  */
 export interface SimulatorSessionMilestone {
-  firstTime?: Timestamp;
+  firstTime?: Date;
 }
 
 /**
@@ -198,18 +97,101 @@ export interface SimulatorSessionProgress {
 }
 
 /**
- * An interface representing SimulatorSession.
+ * An interface representing SimulatorSessionResponse.
  */
-export interface SimulatorSession {
-  sessionId?: string;
-  sessionStatus: number;
+export interface SimulatorSessionResponse {
+  sessionId: string;
+  /**
+   * Possible values include: 'Deregistered', 'Attachable', 'Attached', 'Detaching', 'Rejected'
+   */
+  sessionStatus?: SimulatorSessionTypesStatus;
   sessionProgress?: SimulatorSessionProgress;
   interfaceProperty?: SimulatorInterface;
   simulatorContext?: SimulatorContext;
-  registrationTime?: Timestamp;
-  lastSeenTime?: Timestamp;
-  iterationRate: number;
+  registrationTime: Date;
+  lastSeenTime: Date;
+  iterationRate?: number;
   details?: string;
+}
+
+/**
+ * An interface representing EpisodeStart.
+ */
+export interface EpisodeStart {
+  config?: any;
+}
+
+/**
+ * An interface representing Step.
+ */
+export interface Step {
+  action?: any;
+}
+
+/**
+ * An interface representing EpisodeFinish.
+ */
+export interface EpisodeFinish {
+  /**
+   * Possible values include: 'Invalid', 'Unspecified', 'LessonChanged', 'Terminal', 'Interrupted'
+   */
+  reason?: EpisodeFinishTypesReason;
+}
+
+/**
+ * An interface representing Idle.
+ */
+export interface Idle {
+  callbackTime?: number;
+}
+
+/**
+ * An interface representing Unregister.
+ */
+export interface Unregister {
+  /**
+   * Possible values include: 'Unspecified', 'Finished', 'Error', 'NotFound'
+   */
+  reason?: UnregisterTypesReason;
+  details?: string;
+}
+
+/**
+ * An interface representing Event.
+ */
+export interface Event {
+  /**
+   * Possible values include: 'Unspecified', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
+   * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+   */
+  type?: EventTypesEventType;
+  sessionId?: string;
+  sequenceId?: number;
+  episodeStart?: EpisodeStart;
+  episodeStep?: Step;
+  episodeFinish?: EpisodeFinish;
+  playbackStart?: any;
+  playbackStep?: any;
+  playbackFinish?: any;
+  idle?: Idle;
+  registered?: any;
+  unregister?: Unregister;
+  /**
+   * Possible values include: 'None', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
+   * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+   */
+  kindCase?: EventKindOneofCase;
+}
+
+/**
+ * An interface representing SimulatorState.
+ */
+export interface SimulatorState {
+  sessionId?: string;
+  sequenceId?: number;
+  state?: any;
+  halted?: boolean;
+  error?: string;
 }
 
 /**
@@ -222,28 +204,7 @@ export interface SimulatorAPIOptions extends ServiceClientOptions {
 /**
  * Optional Parameters.
  */
-export interface SimulatorNotificationIndexOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * unique user session identifier. SignalR clients send this as user, but this is internally used
-   * as user session id
-   */
-  user?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SimulatorsListSimulatorsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A specifier to filter on deployment mode
-   */
-  deploymentMode?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SimulatorSessionListSessionsOptionalParams extends msRest.RequestOptionsBase {
+export interface SessionListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * A specifier to filter on deployment mode
    */
@@ -263,40 +224,87 @@ export interface SimulatorSessionListSessionsOptionalParams extends msRest.Reque
 }
 
 /**
- * Contains response data for the ping operation.
+ * Optional Parameters.
  */
-export type GatewayPingResponse = {
+export interface SessionCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
+   * Information and capabilities about the simulator.
    */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse;
-};
+  body?: SimulatorInterface;
+}
 
 /**
- * Contains response data for the status operation.
+ * Optional Parameters.
  */
-export type GatewayStatusResponse = {
+export interface SessionAdvanceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The parsed response body.
+   * The new state of the simulator.
    */
-  body: string;
+  body?: SimulatorState;
+}
 
+/**
+ * Defines values for SimulatorSessionTypesStatus.
+ * Possible values include: 'Deregistered', 'Attachable', 'Attached', 'Detaching', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type SimulatorSessionTypesStatus = 'Deregistered' | 'Attachable' | 'Attached' | 'Detaching' | 'Rejected';
+
+/**
+ * Defines values for SimulatorContextTypesDeploymentMode.
+ * Possible values include: 'Unspecified', 'Hosted', 'Testing'
+ * @readonly
+ * @enum {string}
+ */
+export type SimulatorContextTypesDeploymentMode = 'Unspecified' | 'Hosted' | 'Testing';
+
+/**
+ * Defines values for PurposeTypesAction.
+ * Possible values include: 'Inactive', 'Debug', 'Train', 'Assess'
+ * @readonly
+ * @enum {string}
+ */
+export type PurposeTypesAction = 'Inactive' | 'Debug' | 'Train' | 'Assess';
+
+/**
+ * Defines values for EventTypesEventType.
+ * Possible values include: 'Unspecified', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
+ * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+ * @readonly
+ * @enum {string}
+ */
+export type EventTypesEventType = 'Unspecified' | 'EpisodeStart' | 'EpisodeStep' | 'EpisodeFinish' | 'PlaybackStart' | 'PlaybackStep' | 'PlaybackFinish' | 'Idle' | 'Registered' | 'Unregister';
+
+/**
+ * Defines values for EpisodeFinishTypesReason.
+ * Possible values include: 'Invalid', 'Unspecified', 'LessonChanged', 'Terminal', 'Interrupted'
+ * @readonly
+ * @enum {string}
+ */
+export type EpisodeFinishTypesReason = 'Invalid' | 'Unspecified' | 'LessonChanged' | 'Terminal' | 'Interrupted';
+
+/**
+ * Defines values for UnregisterTypesReason.
+ * Possible values include: 'Unspecified', 'Finished', 'Error', 'NotFound'
+ * @readonly
+ * @enum {string}
+ */
+export type UnregisterTypesReason = 'Unspecified' | 'Finished' | 'Error' | 'NotFound';
+
+/**
+ * Defines values for EventKindOneofCase.
+ * Possible values include: 'None', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
+ * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+ * @readonly
+ * @enum {string}
+ */
+export type EventKindOneofCase = 'None' | 'EpisodeStart' | 'EpisodeStep' | 'EpisodeFinish' | 'PlaybackStart' | 'PlaybackStep' | 'PlaybackFinish' | 'Idle' | 'Registered' | 'Unregister';
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SessionListResponse = Array<SimulatorSessionSummary> & {
   /**
    * The underlying HTTP response.
    */
@@ -309,45 +317,14 @@ export type GatewayStatusResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: SimulatorSessionSummary[];
     };
 };
 
 /**
- * Contains response data for the index operation.
+ * Contains response data for the create operation.
  */
-export type SimulatorNotificationIndexResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse;
-};
-
-/**
- * Contains response data for the listSimulators operation.
- */
-export type SimulatorsListSimulatorsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type SessionCreateResponse = SimulatorSessionResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -360,14 +337,14 @@ export type SimulatorsListSimulatorsResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: SimulatorSessionResponse;
     };
 };
 
 /**
- * Contains response data for the registerSimulator operation.
+ * Contains response data for the get operation.
  */
-export type SimulatorsRegisterSimulatorResponse = Event & {
+export type SessionGetResponse = SimulatorSessionResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -380,14 +357,14 @@ export type SimulatorsRegisterSimulatorResponse = Event & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Event;
+      parsedBody: SimulatorSessionResponse;
     };
 };
 
 /**
  * Contains response data for the getMostRecentAction operation.
  */
-export type SimulatorsGetMostRecentActionResponse = Event & {
+export type SessionGetMostRecentActionResponse = Event & {
   /**
    * The underlying HTTP response.
    */
@@ -407,168 +384,7 @@ export type SimulatorsGetMostRecentActionResponse = Event & {
 /**
  * Contains response data for the advance operation.
  */
-export type SimulatorsAdvanceResponse = Event & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Event;
-    };
-};
-
-/**
- * Contains response data for the deregisterSimulator operation.
- */
-export type SimulatorsDeregisterSimulatorResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse;
-};
-
-/**
- * Contains response data for the listSessions operation.
- */
-export type SimulatorSessionListSessionsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the registerSimulator operation.
- */
-export type SimulatorSessionRegisterSimulatorResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the describeOneSession operation.
- */
-export type SimulatorSessionDescribeOneSessionResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the deregisterSimulator operation.
- */
-export type SimulatorSessionDeregisterSimulatorResponse = ProblemDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProblemDetails;
-    };
-};
-
-/**
- * Contains response data for the getMostRecentAction operation.
- */
-export type SimulatorSessionGetMostRecentActionResponse = Event & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Event;
-    };
-};
-
-/**
- * Contains response data for the advance operation.
- */
-export type SimulatorSessionAdvanceResponse = Event & {
+export type SessionAdvanceResponse = Event & {
   /**
    * The underlying HTTP response.
    */

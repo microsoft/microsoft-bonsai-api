@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,9 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorContext class.
         /// </summary>
-        public SimulatorContext(int deploymentMode, string deploymentDetails = default(string), string simulatorClientId = default(string), string collection = default(string), string package = default(string), Purpose purpose = default(Purpose))
+        /// <param name="deploymentMode">Possible values include:
+        /// 'Unspecified', 'Hosted', 'Testing'</param>
+        public SimulatorContext(SimulatorContextTypesDeploymentMode? deploymentMode = default(SimulatorContextTypesDeploymentMode?), string deploymentDetails = default(string), string simulatorClientId = default(string), string collection = default(string), string package = default(string), Purpose purpose = default(Purpose))
         {
             DeploymentMode = deploymentMode;
             DeploymentDetails = deploymentDetails;
@@ -39,9 +41,11 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets possible values include: 'Unspecified', 'Hosted',
+        /// 'Testing'
         /// </summary>
         [JsonProperty(PropertyName = "deploymentMode")]
-        public int DeploymentMode { get; set; }
+        public SimulatorContextTypesDeploymentMode? DeploymentMode { get; set; }
 
         /// <summary>
         /// </summary>
@@ -68,18 +72,5 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         [JsonProperty(PropertyName = "purpose")]
         public Purpose Purpose { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Purpose != null)
-            {
-                Purpose.Validate();
-            }
-        }
     }
 }

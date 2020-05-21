@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the PurposeTarget class.
         /// </summary>
-        public PurposeTarget(int brainVersion, string workspaceName = default(string), string brainName = default(string), string conceptName = default(string))
+        public PurposeTarget(string workspaceName = default(string), string brainName = default(string), int? brainVersion = default(int?), string conceptName = default(string))
         {
             WorkspaceName = workspaceName;
             BrainName = brainName;
@@ -49,22 +49,12 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "brainVersion")]
-        public int BrainVersion { get; set; }
+        public int? BrainVersion { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "conceptName")]
         public string ConceptName { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            //Nothing to validate
-        }
     }
 }

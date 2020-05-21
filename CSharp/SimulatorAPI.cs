@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI
+namespace Bonsai.SimulatorApi
 {
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
@@ -37,24 +37,9 @@ namespace Microsoft.Bonsai.SimulatorAPI
         public JsonSerializerSettings DeserializationSettings { get; private set; }
 
         /// <summary>
-        /// Gets the IGateway.
+        /// Gets the ISession.
         /// </summary>
-        public virtual IGateway Gateway { get; private set; }
-
-        /// <summary>
-        /// Gets the ISimulatorNotification.
-        /// </summary>
-        public virtual ISimulatorNotification SimulatorNotification { get; private set; }
-
-        /// <summary>
-        /// Gets the ISimulators.
-        /// </summary>
-        public virtual ISimulators Simulators { get; private set; }
-
-        /// <summary>
-        /// Gets the ISimulatorSessionOperations.
-        /// </summary>
-        public virtual ISimulatorSessionOperations SimulatorSession { get; private set; }
+        public virtual ISession Session { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the SimulatorAPI class.
@@ -148,11 +133,8 @@ namespace Microsoft.Bonsai.SimulatorAPI
         /// </summary>
         private void Initialize()
         {
-            Gateway = new Gateway(this);
-            SimulatorNotification = new SimulatorNotification(this);
-            Simulators = new Simulators(this);
-            SimulatorSession = new SimulatorSessionOperations(this);
-            BaseUri = new System.Uri("https://api.bons.ai");
+            Session = new Session(this);
+            BaseUri = new System.Uri("http://localhost");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,

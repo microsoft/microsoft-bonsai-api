@@ -52,16 +52,6 @@ export const sessionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const sessionIdString: msRest.OperationURLParameter = {
-  parameterPath: "sessionIdString",
-  mapper: {
-    required: true,
-    serializedName: "sessionIdString",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const sessionStatus: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -69,18 +59,6 @@ export const sessionStatus: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "session_status",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const user: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "user"
-  ],
-  mapper: {
-    serializedName: "user",
     type: {
       name: "String"
     }

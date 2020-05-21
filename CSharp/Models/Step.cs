@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the Step class.
         /// </summary>
-        public Step(Value action = default(Value))
+        public Step(object action = default(object))
         {
             Action = action;
             CustomInit();
@@ -36,20 +36,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "action")]
-        public Value Action { get; set; }
+        public object Action { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Action != null)
-            {
-                Action.Validate();
-            }
-        }
     }
 }

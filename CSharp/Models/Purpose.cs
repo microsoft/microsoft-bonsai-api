@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,9 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the Purpose class.
         /// </summary>
-        public Purpose(int action, PurposeTarget target = default(PurposeTarget))
+        /// <param name="action">Possible values include: 'Inactive', 'Debug',
+        /// 'Train', 'Assess'</param>
+        public Purpose(PurposeTypesAction? action = default(PurposeTypesAction?), PurposeTarget target = default(PurposeTarget))
         {
             Action = action;
             Target = target;
@@ -35,27 +37,16 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets possible values include: 'Inactive', 'Debug', 'Train',
+        /// 'Assess'
         /// </summary>
         [JsonProperty(PropertyName = "action")]
-        public int Action { get; set; }
+        public PurposeTypesAction? Action { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "target")]
         public PurposeTarget Target { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Target != null)
-            {
-                Target.Validate();
-            }
-        }
     }
 }

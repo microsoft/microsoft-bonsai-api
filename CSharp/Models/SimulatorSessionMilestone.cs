@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionMilestone class.
         /// </summary>
-        public SimulatorSessionMilestone(Timestamp firstTime = default(Timestamp))
+        public SimulatorSessionMilestone(System.DateTime? firstTime = default(System.DateTime?))
         {
             FirstTime = firstTime;
             CustomInit();
@@ -36,20 +36,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "firstTime")]
-        public Timestamp FirstTime { get; set; }
+        public System.DateTime? FirstTime { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (FirstTime != null)
-            {
-                FirstTime.Validate();
-            }
-        }
     }
 }

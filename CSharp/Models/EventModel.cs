@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,15 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the EventModel class.
         /// </summary>
-        public EventModel(int type, int sequenceId, int kindCase, string sessionId = default(string), EpisodeStart episodeStart = default(EpisodeStart), Step episodeStep = default(Step), EpisodeFinish episodeFinish = default(EpisodeFinish), object playbackStart = default(object), object playbackStep = default(object), object playbackFinish = default(object), Idle idle = default(Idle), object registered = default(object), Unregister unregister = default(Unregister))
+        /// <param name="type">Possible values include: 'Unspecified',
+        /// 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish', 'PlaybackStart',
+        /// 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered',
+        /// 'Unregister'</param>
+        /// <param name="kindCase">Possible values include: 'None',
+        /// 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish', 'PlaybackStart',
+        /// 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered',
+        /// 'Unregister'</param>
+        public EventModel(EventTypesEventType? type = default(EventTypesEventType?), string sessionId = default(string), int? sequenceId = default(int?), EpisodeStart episodeStart = default(EpisodeStart), Step episodeStep = default(Step), EpisodeFinish episodeFinish = default(EpisodeFinish), object playbackStart = default(object), object playbackStep = default(object), object playbackFinish = default(object), Idle idle = default(Idle), object registered = default(object), Unregister unregister = default(Unregister), EventKindOneofCase? kindCase = default(EventKindOneofCase?))
         {
             Type = type;
             SessionId = sessionId;
@@ -46,9 +54,13 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets possible values include: 'Unspecified',
+        /// 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish', 'PlaybackStart',
+        /// 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered',
+        /// 'Unregister'
         /// </summary>
         [JsonProperty(PropertyName = "type")]
-        public int Type { get; set; }
+        public EventTypesEventType? Type { get; set; }
 
         /// <summary>
         /// </summary>
@@ -58,7 +70,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "sequenceId")]
-        public int SequenceId { get; set; }
+        public int? SequenceId { get; set; }
 
         /// <summary>
         /// </summary>
@@ -106,38 +118,12 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         public Unregister Unregister { get; set; }
 
         /// <summary>
+        /// Gets or sets possible values include: 'None', 'EpisodeStart',
+        /// 'EpisodeStep', 'EpisodeFinish', 'PlaybackStart', 'PlaybackStep',
+        /// 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
         /// </summary>
         [JsonProperty(PropertyName = "kindCase")]
-        public int KindCase { get; set; }
+        public EventKindOneofCase? KindCase { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (EpisodeStart != null)
-            {
-                EpisodeStart.Validate();
-            }
-            if (EpisodeStep != null)
-            {
-                EpisodeStep.Validate();
-            }
-            if (EpisodeFinish != null)
-            {
-                EpisodeFinish.Validate();
-            }
-            if (Idle != null)
-            {
-                Idle.Validate();
-            }
-            if (Unregister != null)
-            {
-                Unregister.Validate();
-            }
-        }
     }
 }

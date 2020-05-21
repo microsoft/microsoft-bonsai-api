@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,9 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the EpisodeFinish class.
         /// </summary>
-        public EpisodeFinish(int reason)
+        /// <param name="reason">Possible values include: 'Invalid',
+        /// 'Unspecified', 'LessonChanged', 'Terminal', 'Interrupted'</param>
+        public EpisodeFinish(EpisodeFinishTypesReason? reason = default(EpisodeFinishTypesReason?))
         {
             Reason = reason;
             CustomInit();
@@ -34,19 +36,11 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets possible values include: 'Invalid', 'Unspecified',
+        /// 'LessonChanged', 'Terminal', 'Interrupted'
         /// </summary>
         [JsonProperty(PropertyName = "reason")]
-        public int Reason { get; set; }
+        public EpisodeFinishTypesReason? Reason { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            //Nothing to validate
-        }
     }
 }

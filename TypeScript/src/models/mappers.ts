@@ -6,57 +6,6 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
-export const SimulatorInterface: msRest.CompositeMapper = {
-  serializedName: "SimulatorInterface",
-  type: {
-    name: "Composite",
-    className: "SimulatorInterface",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      timeout: {
-        required: true,
-        serializedName: "timeout",
-        type: {
-          name: "Number"
-        }
-      },
-      capabilities: {
-        serializedName: "capabilities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      },
-      simulatorContext: {
-        serializedName: "simulatorContext",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const PurposeTarget: msRest.CompositeMapper = {
   serializedName: "PurposeTarget",
   type: {
@@ -76,7 +25,6 @@ export const PurposeTarget: msRest.CompositeMapper = {
         }
       },
       brainVersion: {
-        required: true,
         serializedName: "brainVersion",
         type: {
           name: "Number"
@@ -99,10 +47,15 @@ export const Purpose: msRest.CompositeMapper = {
     className: "Purpose",
     modelProperties: {
       action: {
-        required: true,
         serializedName: "action",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Inactive",
+            "Debug",
+            "Train",
+            "Assess"
+          ]
         }
       },
       target: {
@@ -123,10 +76,14 @@ export const SimulatorContext: msRest.CompositeMapper = {
     className: "SimulatorContext",
     modelProperties: {
       deploymentMode: {
-        required: true,
         serializedName: "deploymentMode",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Unspecified",
+            "Hosted",
+            "Testing"
+          ]
         }
       },
       deploymentDetails: {
@@ -164,41 +121,35 @@ export const SimulatorContext: msRest.CompositeMapper = {
   }
 };
 
-export const Timestamp: msRest.CompositeMapper = {
-  serializedName: "Timestamp",
+export const SimulatorSessionSummary: msRest.CompositeMapper = {
+  serializedName: "SimulatorSessionSummary",
   type: {
     name: "Composite",
-    className: "Timestamp",
+    className: "SimulatorSessionSummary",
     modelProperties: {
-      seconds: {
-        required: true,
-        serializedName: "seconds",
+      sessionId: {
+        serializedName: "sessionId",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      nanos: {
-        required: true,
-        serializedName: "nanos",
+      sessionStatus: {
+        serializedName: "sessionStatus",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Deregistered",
+            "Attachable",
+            "Attached",
+            "Detaching",
+            "Rejected"
+          ]
         }
-      }
-    }
-  }
-};
-
-export const SimulatorInfo: msRest.CompositeMapper = {
-  serializedName: "SimulatorInfo",
-  type: {
-    name: "Composite",
-    className: "SimulatorInfo",
-    modelProperties: {
-      interfaceProperty: {
-        serializedName: "interface",
+      },
+      simulatorName: {
+        serializedName: "simulatorName",
         type: {
-          name: "Composite",
-          className: "SimulatorInterface"
+          name: "String"
         }
       },
       simulatorContext: {
@@ -206,62 +157,6 @@ export const SimulatorInfo: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SimulatorContext"
-        }
-      },
-      lastSeen: {
-        serializedName: "lastSeen",
-        type: {
-          name: "Composite",
-          className: "Timestamp"
-        }
-      },
-      registrationTime: {
-        serializedName: "registrationTime",
-        type: {
-          name: "Composite",
-          className: "Timestamp"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "String"
-        }
-      },
-      iterationRate: {
-        required: true,
-        serializedName: "iterationRate",
-        type: {
-          name: "Number"
-        }
-      },
-      sessionStatus: {
-        required: true,
-        serializedName: "sessionStatus",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const SimulatorList: msRest.CompositeMapper = {
-  serializedName: "SimulatorList",
-  type: {
-    name: "Composite",
-    className: "SimulatorList",
-    modelProperties: {
-      simulators: {
-        serializedName: "simulators",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "SimulatorInfo"
-            }
-          }
         }
       }
     }
@@ -305,6 +200,7 @@ export const ProblemDetails: msRest.CompositeMapper = {
         }
       },
       extensions: {
+        readOnly: true,
         serializedName: "extensions",
         type: {
           name: "Dictionary",
@@ -319,86 +215,157 @@ export const ProblemDetails: msRest.CompositeMapper = {
   }
 };
 
-export const ListValue: msRest.CompositeMapper = {
-  serializedName: "ListValue",
+export const SimulatorInterface: msRest.CompositeMapper = {
+  serializedName: "SimulatorInterface",
   type: {
     name: "Composite",
-    className: "ListValue",
+    className: "SimulatorInterface",
     modelProperties: {
-      values: {
-        serializedName: "values",
+      name: {
+        serializedName: "name",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Value"
-            }
-          }
+          name: "String"
+        }
+      },
+      timeout: {
+        serializedName: "timeout",
+        type: {
+          name: "Number"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Object"
+        }
+      },
+      simulatorContext: {
+        serializedName: "simulatorContext",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "Object"
         }
       }
     }
   }
 };
 
-export const Value: msRest.CompositeMapper = {
-  serializedName: "Value",
+export const SimulatorSessionMilestone: msRest.CompositeMapper = {
+  serializedName: "SimulatorSessionMilestone",
   type: {
     name: "Composite",
-    className: "Value",
+    className: "SimulatorSessionMilestone",
     modelProperties: {
-      nullValue: {
-        required: true,
-        isConstant: true,
-        serializedName: "nullValue",
-        defaultValue: 0,
+      firstTime: {
+        serializedName: "firstTime",
         type: {
-          name: "Number"
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const SimulatorSessionProgress: msRest.CompositeMapper = {
+  serializedName: "SimulatorSessionProgress",
+  type: {
+    name: "Composite",
+    className: "SimulatorSessionProgress",
+    modelProperties: {
+      attached: {
+        serializedName: "attached",
+        type: {
+          name: "Composite",
+          className: "SimulatorSessionMilestone"
         }
       },
-      numberValue: {
-        required: true,
-        serializedName: "numberValue",
+      iterated: {
+        serializedName: "iterated",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "SimulatorSessionMilestone"
         }
-      },
-      stringValue: {
-        serializedName: "stringValue",
+      }
+    }
+  }
+};
+
+export const SimulatorSessionResponse: msRest.CompositeMapper = {
+  serializedName: "SimulatorSessionResponse",
+  type: {
+    name: "Composite",
+    className: "SimulatorSessionResponse",
+    modelProperties: {
+      sessionId: {
+        required: true,
+        serializedName: "sessionId",
         type: {
           name: "String"
         }
       },
-      boolValue: {
-        required: true,
-        serializedName: "boolValue",
+      sessionStatus: {
+        serializedName: "sessionStatus",
         type: {
-          name: "Boolean"
+          name: "Enum",
+          allowedValues: [
+            "Deregistered",
+            "Attachable",
+            "Attached",
+            "Detaching",
+            "Rejected"
+          ]
         }
       },
-      structValue: {
-        serializedName: "structValue",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      },
-      listValue: {
-        serializedName: "listValue",
+      sessionProgress: {
+        serializedName: "sessionProgress",
         type: {
           name: "Composite",
-          className: "ListValue"
+          className: "SimulatorSessionProgress"
         }
       },
-      kindCase: {
+      interfaceProperty: {
+        serializedName: "interface",
+        type: {
+          name: "Composite",
+          className: "SimulatorInterface"
+        }
+      },
+      simulatorContext: {
+        serializedName: "simulatorContext",
+        type: {
+          name: "Composite",
+          className: "SimulatorContext"
+        }
+      },
+      registrationTime: {
         required: true,
-        serializedName: "kindCase",
+        serializedName: "registrationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastSeenTime: {
+        required: true,
+        serializedName: "lastSeenTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      iterationRate: {
+        serializedName: "iterationRate",
         type: {
           name: "Number"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "String"
         }
       }
     }
@@ -414,8 +381,7 @@ export const EpisodeStart: msRest.CompositeMapper = {
       config: {
         serializedName: "config",
         type: {
-          name: "Composite",
-          className: "Value"
+          name: "Object"
         }
       }
     }
@@ -431,8 +397,7 @@ export const Step: msRest.CompositeMapper = {
       action: {
         serializedName: "action",
         type: {
-          name: "Composite",
-          className: "Value"
+          name: "Object"
         }
       }
     }
@@ -446,10 +411,16 @@ export const EpisodeFinish: msRest.CompositeMapper = {
     className: "EpisodeFinish",
     modelProperties: {
       reason: {
-        required: true,
         serializedName: "reason",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Invalid",
+            "Unspecified",
+            "LessonChanged",
+            "Terminal",
+            "Interrupted"
+          ]
         }
       }
     }
@@ -463,7 +434,6 @@ export const Idle: msRest.CompositeMapper = {
     className: "Idle",
     modelProperties: {
       callbackTime: {
-        required: true,
         serializedName: "callbackTime",
         type: {
           name: "Number"
@@ -480,10 +450,15 @@ export const Unregister: msRest.CompositeMapper = {
     className: "Unregister",
     modelProperties: {
       reason: {
-        required: true,
         serializedName: "reason",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Unspecified",
+            "Finished",
+            "Error",
+            "NotFound"
+          ]
         }
       },
       details: {
@@ -503,10 +478,21 @@ export const Event: msRest.CompositeMapper = {
     className: "Event",
     modelProperties: {
       type: {
-        required: true,
         serializedName: "type",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "Unspecified",
+            "EpisodeStart",
+            "EpisodeStep",
+            "EpisodeFinish",
+            "PlaybackStart",
+            "PlaybackStep",
+            "PlaybackFinish",
+            "Idle",
+            "Registered",
+            "Unregister"
+          ]
         }
       },
       sessionId: {
@@ -516,7 +502,6 @@ export const Event: msRest.CompositeMapper = {
         }
       },
       sequenceId: {
-        required: true,
         serializedName: "sequenceId",
         type: {
           name: "Number"
@@ -582,10 +567,21 @@ export const Event: msRest.CompositeMapper = {
         }
       },
       kindCase: {
-        required: true,
         serializedName: "kindCase",
         type: {
-          name: "Number"
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "EpisodeStart",
+            "EpisodeStep",
+            "EpisodeFinish",
+            "PlaybackStart",
+            "PlaybackStep",
+            "PlaybackFinish",
+            "Idle",
+            "Registered",
+            "Unregister"
+          ]
         }
       }
     }
@@ -605,7 +601,6 @@ export const SimulatorState: msRest.CompositeMapper = {
         }
       },
       sequenceId: {
-        required: true,
         serializedName: "sequenceId",
         type: {
           name: "Number"
@@ -614,8 +609,7 @@ export const SimulatorState: msRest.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "Composite",
-          className: "Value"
+          name: "Object"
         }
       },
       halted: {
@@ -626,154 +620,6 @@ export const SimulatorState: msRest.CompositeMapper = {
       },
       error: {
         serializedName: "error",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SimulatorSessionSummary: msRest.CompositeMapper = {
-  serializedName: "SimulatorSessionSummary",
-  type: {
-    name: "Composite",
-    className: "SimulatorSessionSummary",
-    modelProperties: {
-      sessionId: {
-        serializedName: "sessionId",
-        type: {
-          name: "String"
-        }
-      },
-      sessionStatus: {
-        required: true,
-        serializedName: "sessionStatus",
-        type: {
-          name: "Number"
-        }
-      },
-      simulatorName: {
-        serializedName: "simulatorName",
-        type: {
-          name: "String"
-        }
-      },
-      simulatorContext: {
-        serializedName: "simulatorContext",
-        type: {
-          name: "Composite",
-          className: "SimulatorContext"
-        }
-      }
-    }
-  }
-};
-
-export const SimulatorSessionMilestone: msRest.CompositeMapper = {
-  serializedName: "SimulatorSessionMilestone",
-  type: {
-    name: "Composite",
-    className: "SimulatorSessionMilestone",
-    modelProperties: {
-      firstTime: {
-        serializedName: "firstTime",
-        type: {
-          name: "Composite",
-          className: "Timestamp"
-        }
-      }
-    }
-  }
-};
-
-export const SimulatorSessionProgress: msRest.CompositeMapper = {
-  serializedName: "SimulatorSessionProgress",
-  type: {
-    name: "Composite",
-    className: "SimulatorSessionProgress",
-    modelProperties: {
-      attached: {
-        serializedName: "attached",
-        type: {
-          name: "Composite",
-          className: "SimulatorSessionMilestone"
-        }
-      },
-      iterated: {
-        serializedName: "iterated",
-        type: {
-          name: "Composite",
-          className: "SimulatorSessionMilestone"
-        }
-      }
-    }
-  }
-};
-
-export const SimulatorSession: msRest.CompositeMapper = {
-  serializedName: "SimulatorSession",
-  type: {
-    name: "Composite",
-    className: "SimulatorSession",
-    modelProperties: {
-      sessionId: {
-        serializedName: "sessionId",
-        type: {
-          name: "String"
-        }
-      },
-      sessionStatus: {
-        required: true,
-        serializedName: "sessionStatus",
-        type: {
-          name: "Number"
-        }
-      },
-      sessionProgress: {
-        serializedName: "sessionProgress",
-        type: {
-          name: "Composite",
-          className: "SimulatorSessionProgress"
-        }
-      },
-      interfaceProperty: {
-        serializedName: "interface",
-        type: {
-          name: "Composite",
-          className: "SimulatorInterface"
-        }
-      },
-      simulatorContext: {
-        serializedName: "simulatorContext",
-        type: {
-          name: "Composite",
-          className: "SimulatorContext"
-        }
-      },
-      registrationTime: {
-        serializedName: "registrationTime",
-        type: {
-          name: "Composite",
-          className: "Timestamp"
-        }
-      },
-      lastSeenTime: {
-        serializedName: "lastSeenTime",
-        type: {
-          name: "Composite",
-          className: "Timestamp"
-        }
-      },
-      iterationRate: {
-        required: true,
-        serializedName: "iterationRate",
-        type: {
-          name: "Number"
-        }
-      },
-      details: {
-        serializedName: "details",
         type: {
           name: "String"
         }

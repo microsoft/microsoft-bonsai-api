@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Collections;
@@ -68,7 +68,7 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "extensions")]
-        public IDictionary<string, object> Extensions { get; set; }
+        public IDictionary<string, object> Extensions { get; private set; }
 
     }
 }

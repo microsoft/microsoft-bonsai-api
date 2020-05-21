@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,9 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the Unregister class.
         /// </summary>
-        public Unregister(int reason, string details = default(string))
+        /// <param name="reason">Possible values include: 'Unspecified',
+        /// 'Finished', 'Error', 'NotFound'</param>
+        public Unregister(UnregisterTypesReason? reason = default(UnregisterTypesReason?), string details = default(string))
         {
             Reason = reason;
             Details = details;
@@ -35,24 +37,16 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets possible values include: 'Unspecified', 'Finished',
+        /// 'Error', 'NotFound'
         /// </summary>
         [JsonProperty(PropertyName = "reason")]
-        public int Reason { get; set; }
+        public UnregisterTypesReason? Reason { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "details")]
         public string Details { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            //Nothing to validate
-        }
     }
 }

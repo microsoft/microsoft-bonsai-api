@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Microsoft.Bonsai.SimulatorAPI.Models
+namespace Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
@@ -22,7 +22,10 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionSummary class.
         /// </summary>
-        public SimulatorSessionSummary(int sessionStatus, string sessionId = default(string), string simulatorName = default(string), SimulatorContext simulatorContext = default(SimulatorContext))
+        /// <param name="sessionStatus">Possible values include:
+        /// 'Deregistered', 'Attachable', 'Attached', 'Detaching',
+        /// 'Rejected'</param>
+        public SimulatorSessionSummary(string sessionId = default(string), SimulatorSessionTypesStatus? sessionStatus = default(SimulatorSessionTypesStatus?), string simulatorName = default(string), SimulatorContext simulatorContext = default(SimulatorContext))
         {
             SessionId = sessionId;
             SessionStatus = sessionStatus;
@@ -42,9 +45,11 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         public string SessionId { get; set; }
 
         /// <summary>
+        /// Gets or sets possible values include: 'Deregistered', 'Attachable',
+        /// 'Attached', 'Detaching', 'Rejected'
         /// </summary>
         [JsonProperty(PropertyName = "sessionStatus")]
-        public int SessionStatus { get; set; }
+        public SimulatorSessionTypesStatus? SessionStatus { get; set; }
 
         /// <summary>
         /// </summary>
@@ -56,18 +61,5 @@ namespace Microsoft.Bonsai.SimulatorAPI.Models
         [JsonProperty(PropertyName = "simulatorContext")]
         public SimulatorContext SimulatorContext { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (SimulatorContext != null)
-            {
-                SimulatorContext.Validate();
-            }
-        }
     }
 }

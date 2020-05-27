@@ -68,10 +68,6 @@
               "$ref": "#/definitions/ProblemDetails"
             },
             "x-ms-error-response": true
-          },
-          "500": {
-            "description": "Server Error",
-            "x-ms-error-response": true
           }
         }
       },
@@ -122,14 +118,6 @@
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Server Error",
-            "x-ms-error-response": true
-          },
-          "500": {
-            "description": "Server Error",
             "x-ms-error-response": true
           }
         }
@@ -184,10 +172,6 @@
               "$ref": "#/definitions/ProblemDetails"
             },
             "x-ms-error-response": true
-          },
-          "500": {
-            "description": "Server Error",
-            "x-ms-error-response": true
           }
         }
       },
@@ -236,10 +220,6 @@
               "$ref": "#/definitions/ProblemDetails"
             },
             "x-ms-error-response": true
-          },
-          "500": {
-            "description": "Server Error",
-            "x-ms-error-response": true
           }
         }
       }
@@ -279,6 +259,20 @@
             "schema": {
               "$ref": "#/definitions/Event"
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            },
+            "x-ms-error-response": true
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            },
+            "x-ms-error-response": true
           }
         }
       }
@@ -332,8 +326,11 @@
               "$ref": "#/definitions/Event"
             }
           },
-          "500": {
-            "description": "Server Error",
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            },
             "x-ms-error-response": true
           }
         }

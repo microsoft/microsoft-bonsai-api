@@ -4,9 +4,9 @@ import time
 from datetime import datetime
 import requests
 import json
-from bonsai.simulatorapi.simulator_api import *
-from bonsai.simulatorapi.models import *
-from bonsai.simulatorapi import *
+from microsoft.bonsai.simulatorapi.models._models_py3 import *
+from microsoft.bonsai.simulatorapi._simulator_api import *
+
 
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClient(object):
@@ -17,8 +17,6 @@ class BonsaiClient(object):
         host:str,
         access_key:str
     ):
-        # TODO: Use access_key!
-
         self._headers = {
             'Content-Type': 'application/json',
             'Authorization': access_key,
@@ -26,8 +24,7 @@ class BonsaiClient(object):
 
         self._workspace = workspace
 
-        self._ws_url = '{}/v2/workspaces/{}/simulators'.format(host, workspace)
-        self.simApi = SimulatorAPI(host)
+        self.simApi = SimulatorAPI(headers=self._headers)
         self.workspace = workspace
     
     def pretty_json(self, o):
@@ -52,7 +49,7 @@ class BonsaiClient(object):
 
         print("Creating session with", self.pretty_json(registration_info), '\n\n')
 
-        response = self.simApi.session.create(self.workspace, registration_info, custom_headers=self._headers)
+        response = self.simApi.session.create(self.workspace, registration_info)
         
         if (isinstance(response, SimulatorSessionResponse)):
             return response
@@ -65,7 +62,7 @@ class BonsaiClient(object):
         return response
 
     def delete_session(self, session_id: str):
-        response = self.simApi.session.delete(self.workspace, session_id, custom_headers=self._headers)
+        response = self.simApi.session.delete(self.workspace, session_id)
         
         if (isinstance(response, ProblemDetails)):
             print('Error in deleting session. Details: {}'.format(response))
@@ -75,7 +72,7 @@ class BonsaiClient(object):
         return response
 
     def list_sessions(self):
-        response = self.simApi.session.list(self.workspace, custom_headers=self._headers)
+        response = self.simApi.session.list(self.workspace)
         
         if (isinstance(response, list)):
             return response
@@ -85,7 +82,7 @@ class BonsaiClient(object):
 
 
     def fetch_action(self, session_id: str):
-        response = self.simApi.session.get_most_recent_action(self.workspace, session_id, custom_headers=self._headers)
+        response = self.simApi.session.get_most_recent_action(self.workspace, session_id)
         
         if (isinstance(response, Event)):
             return response
@@ -101,7 +98,7 @@ class BonsaiClient(object):
             'halted': False
         }
         
-        response = self.simApi.session.advance(self.workspace, session_id, json, custom_headers=self._headers)
+        response = self.simApi.session.advance(self.workspace, session_id, json)
         
         if (isinstance(response, Event)):
             return response

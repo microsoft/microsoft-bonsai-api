@@ -1,4 +1,4 @@
-autorest --input-file=Swagger/swagger_swashbuckle.json --csharp --output-folder=Swashbuckle/CSharp --namespace=Bonsai.SimulatorApi
-autorest --input-file=Swagger/swagger_swashbuckle.json --python --output-folder=Swashbuckle/Python --namespace=Bonsai.SimulatorApi --package-name=Bonsai.SimulatorApi
-autorest --input-file=Swagger/swagger_swashbuckle.json --java --output-folder=Swashbuckle/Java --namespace=Bonsai.SimulatorApi 
-autorest --input-file=Swagger/swagger_swashbuckle.json --typescript --output-folder=Swashbuckle/Typescript --namespace=Bonsai.SimulatorApi
+autorest --input-file=Swagger/swagger.json --csharp --output-folder=CSharp --namespace=Microsoft.Bonsai.SimulatorApi 
+autorest --input-file=Swagger/swagger.json --python --output-folder=Python --namespace=microsoft.bonsai.simulatorapi --package-name=microsoft.bonsai.simulatorapi --use=@autorest/python@5.0.0-preview.7
+autorest --input-file=Swagger/swagger.json --java --output-folder=Java --namespace=Microsoft.Bonsai.SimulatorApi 
+autorest --input-file=Swagger/swagger.json --typescript --output-folder=Typescript --namespace=Microsoft.Bonsai.SimulatorApi

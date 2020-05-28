@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Bonsai.SimulatorApi
+namespace Microsoft.Bonsai.SimulatorApi
 {
     using Models;
     using Newtonsoft.Json;

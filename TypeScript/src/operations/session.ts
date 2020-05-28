@@ -261,7 +261,6 @@ const listOperationSpec: msRest.OperationSpec = {
     400: {
       bodyMapper: Mappers.ProblemDetails
     },
-    500: {},
     default: {}
   },
   serializer
@@ -287,8 +286,6 @@ const createOperationSpec: msRest.OperationSpec = {
     400: {
       bodyMapper: Mappers.ProblemDetails
     },
-    500: {},
-    503: {},
     default: {}
   },
   serializer
@@ -311,7 +308,6 @@ const getOperationSpec: msRest.OperationSpec = {
     404: {
       bodyMapper: Mappers.ProblemDetails
     },
-    500: {},
     default: {}
   },
   serializer
@@ -332,7 +328,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     404: {
       bodyMapper: Mappers.ProblemDetails
     },
-    500: {},
     default: {}
   },
   serializer
@@ -348,6 +343,12 @@ const getMostRecentActionOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Event
+    },
+    400: {
+      bodyMapper: Mappers.ProblemDetails
+    },
+    404: {
+      bodyMapper: Mappers.ProblemDetails
     },
     default: {}
   },
@@ -372,7 +373,9 @@ const advanceOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Event
     },
-    500: {},
+    400: {
+      bodyMapper: Mappers.ProblemDetails
+    },
     default: {}
   },
   serializer

@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace Bonsai.SimulatorApi
+namespace Microsoft.Bonsai.SimulatorApi
 {
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
@@ -134,7 +134,7 @@ namespace Bonsai.SimulatorApi
         private void Initialize()
         {
             Session = new Session(this);
-            BaseUri = new System.Uri("http://localhost");
+            BaseUri = new System.Uri("https://api.bons.ai");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,

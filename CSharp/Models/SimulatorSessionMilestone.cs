@@ -4,11 +4,14 @@
 // regenerated.
 // </auto-generated>
 
-namespace Bonsai.SimulatorApi.Models
+namespace Microsoft.Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// SimulatorSession progress milestone.
+    /// </summary>
     public partial class SimulatorSessionMilestone
     {
         /// <summary>
@@ -22,6 +25,8 @@ namespace Bonsai.SimulatorApi.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionMilestone class.
         /// </summary>
+        /// <param name="firstTime">First time, this session made the specified
+        /// progress.</param>
         public SimulatorSessionMilestone(System.DateTime? firstTime = default(System.DateTime?))
         {
             FirstTime = firstTime;
@@ -34,6 +39,7 @@ namespace Bonsai.SimulatorApi.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets first time, this session made the specified progress.
         /// </summary>
         [JsonProperty(PropertyName = "firstTime")]
         public System.DateTime? FirstTime { get; set; }

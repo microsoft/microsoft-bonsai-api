@@ -4,11 +4,14 @@
 // regenerated.
 // </auto-generated>
 
-namespace Bonsai.SimulatorApi.Models
+namespace Microsoft.Bonsai.SimulatorApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// SimulatorSession progress related to train an actual brain.
+    /// </summary>
     public partial class SimulatorSessionProgress
     {
         /// <summary>

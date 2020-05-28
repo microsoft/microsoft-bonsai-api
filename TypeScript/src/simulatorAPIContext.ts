@@ -28,7 +28,7 @@ export class SimulatorAPIContext extends msRest.ServiceClient {
 
     super(undefined, options);
 
-    this.baseUri = options.baseUri || this.baseUri || "http://localhost";
+    this.baseUri = options.baseUri || this.baseUri || "https://api.bons.ai";
     this.requestContentType = "application/json; charset=utf-8";
   }
 }

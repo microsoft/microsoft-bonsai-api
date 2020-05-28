@@ -4,12 +4,15 @@
 // regenerated.
 // </auto-generated>
 
-namespace Bonsai.SimulatorApi.Models
+namespace Microsoft.Bonsai.SimulatorApi.Models
 {
     using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// SimulatorSession model, having details of one active simulator session.
+    /// </summary>
     public partial class SimulatorSessionResponse
     {
         /// <summary>
@@ -23,9 +26,18 @@ namespace Bonsai.SimulatorApi.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionResponse class.
         /// </summary>
+        /// <param name="sessionId">Unique sessionId for this session.</param>
+        /// <param name="registrationTime">Time, when this session was
+        /// registered with Bonsai platform.</param>
+        /// <param name="lastSeenTime">Last time, when any request for this
+        /// session was seen.</param>
         /// <param name="sessionStatus">Possible values include:
         /// 'Deregistered', 'Attachable', 'Attached', 'Detaching',
         /// 'Rejected'</param>
+        /// <param name="iterationRate">Current IterationRate, 1 state-action
+        /// loop is roughly maps to 1 iteration.</param>
+        /// <param name="details">Additional Details for this session provided
+        /// by bonsai platform.</param>
         public SimulatorSessionResponse(string sessionId, System.DateTime registrationTime, System.DateTime lastSeenTime, SimulatorSessionTypesStatus? sessionStatus = default(SimulatorSessionTypesStatus?), SimulatorSessionProgress sessionProgress = default(SimulatorSessionProgress), SimulatorInterface interfaceProperty = default(SimulatorInterface), SimulatorContext simulatorContext = default(SimulatorContext), double? iterationRate = default(double?), string details = default(string))
         {
             SessionId = sessionId;
@@ -46,6 +58,7 @@ namespace Bonsai.SimulatorApi.Models
         partial void CustomInit();
 
         /// <summary>
+        /// Gets or sets unique sessionId for this session.
         /// </summary>
         [JsonProperty(PropertyName = "sessionId")]
         public string SessionId { get; set; }
@@ -73,21 +86,28 @@ namespace Bonsai.SimulatorApi.Models
         public SimulatorContext SimulatorContext { get; set; }
 
         /// <summary>
+        /// Gets or sets time, when this session was registered with Bonsai
+        /// platform.
         /// </summary>
         [JsonProperty(PropertyName = "registrationTime")]
         public System.DateTime RegistrationTime { get; set; }
 
         /// <summary>
+        /// Gets or sets last time, when any request for this session was seen.
         /// </summary>
         [JsonProperty(PropertyName = "lastSeenTime")]
         public System.DateTime LastSeenTime { get; set; }
 
         /// <summary>
+        /// Gets or sets current IterationRate, 1 state-action loop is roughly
+        /// maps to 1 iteration.
         /// </summary>
         [JsonProperty(PropertyName = "iterationRate")]
         public double? IterationRate { get; set; }
 
         /// <summary>
+        /// Gets or sets additional Details for this session provided by bonsai
+        /// platform.
         /// </summary>
         [JsonProperty(PropertyName = "details")]
         public string Details { get; set; }

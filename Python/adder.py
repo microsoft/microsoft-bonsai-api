@@ -22,12 +22,11 @@ Requires --sim-workspace or SIM_WORKSPACE
 import os
 import sys
 import time
-from datetime import datetime
+import datetime
 import requests
 import json
-from bonsai.simulatorapi.simulator_api import *
-from bonsai.simulatorapi.models import *
-from bonsai.simulatorapi import *
+from microsoft.bonsai.simulatorapi._simulator_api import *
+from microsoft.bonsai.simulatorapi.models._models_py3 import *
 from bonsaiclient import BonsaiClient, CreateSimContext
 
 def main():
@@ -104,7 +103,7 @@ def main():
         while event_type != 'Unregister':
 
             # invoke SimulatorGateway/Advance
-            advance_time = datetime.utcnow()
+            advance_time = datetime.datetime.utcnow()
             advance_response: Event = rest_api.advance(
                 session_id, sequence_id,
                 {'value1': value1, 'value2': value2, '_reward': reward})
@@ -176,9 +175,9 @@ def main():
             print('\n\n\nUnregistering {}'.format(session_id))
             try:
                 deregister_response = rest_api.delete_session(session_id)
-                print(datetime.utcnow(), 'UNREGISTER ->', deregister_response)
+                print(datetime.datetime.utcnow(), 'UNREGISTER ->', deregister_response)
             except:
-                print(datetime.utcnow(), 'UNREGISTER -> CANNOT')
+                print(datetime.datetime.utcnow(), 'UNREGISTER -> CANNOT')
     
 
 if __name__ == "__main__":

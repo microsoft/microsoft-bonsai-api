@@ -82,14 +82,17 @@ export interface SimulatorInterface {
 }
 
 /**
- * An interface representing SimulatorSessionMilestone.
+ * SimulatorSession progress milestone.
  */
 export interface SimulatorSessionMilestone {
+  /**
+   * First time, this session made the specified progress.
+   */
   firstTime?: Date;
 }
 
 /**
- * An interface representing SimulatorSessionProgress.
+ * SimulatorSession progress related to train an actual brain.
  */
 export interface SimulatorSessionProgress {
   attached?: SimulatorSessionMilestone;
@@ -97,9 +100,12 @@ export interface SimulatorSessionProgress {
 }
 
 /**
- * An interface representing SimulatorSessionResponse.
+ * SimulatorSession model, having details of one active simulator session.
  */
 export interface SimulatorSessionResponse {
+  /**
+   * Unique sessionId for this session.
+   */
   sessionId: string;
   /**
    * Possible values include: 'Deregistered', 'Attachable', 'Attached', 'Detaching', 'Rejected'
@@ -108,9 +114,21 @@ export interface SimulatorSessionResponse {
   sessionProgress?: SimulatorSessionProgress;
   interfaceProperty?: SimulatorInterface;
   simulatorContext?: SimulatorContext;
+  /**
+   * Time, when this session was registered with Bonsai platform.
+   */
   registrationTime: Date;
+  /**
+   * Last time, when any request for this session was seen.
+   */
   lastSeenTime: Date;
+  /**
+   * Current IterationRate, 1 state-action loop is roughly maps to 1 iteration.
+   */
   iterationRate?: number;
+  /**
+   * Additional Details for this session provided by bonsai platform.
+   */
   details?: string;
 }
 

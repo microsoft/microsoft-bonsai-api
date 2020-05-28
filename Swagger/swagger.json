@@ -5,6 +5,10 @@
     "description": "This API allows simulators to provide states and receive commands from the platform.",
     "version": "v1"
   },
+  "host": "api.bons.ai",
+  "schemes": [
+    "https"
+  ],
   "paths": {
     "/v2/workspaces/{workspaceName}/simulatorSessions": {
       "get": {

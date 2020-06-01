@@ -76,12 +76,27 @@ def main():
             host=params['api-host'],
             access_key=params['access-key']
             )
+        
+        capabilities = {
+            'headless': True,
+            'braking': 'anti-lock',
+            'hardness': 6,
+        }
+
+        json_file_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "adder_description.json"
+        )
+        with open(json_file_path, 'r') as file:
+            json_interface = file.read()
+        description = json.loads(json_interface)
 
         # register this simulator
         register_response: SimulatorSessionResponse = rest_api.create_session(
             'the_simulator',
             latency_seconds * 2.0,
-            simulator_context=params['sim-context']
+            simulator_context=params['sim-context'],
+            capabilities=capabilities,
+            description=description
         )
 
         print('REGISTER, session: -> {}'.format(register_response.session_id))

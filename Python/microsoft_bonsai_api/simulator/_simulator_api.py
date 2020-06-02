@@ -22,7 +22,7 @@ class SimulatorAPI(object):
     """This API allows simulators to provide states and receive commands from the platform.
 
     :ivar session: SessionOperations operations
-    :vartype session: microsoft.bonsai.simulatorapi.operations.SessionOperations
+    :vartype session: microsoft_bonsai_api.simulator.operations.SessionOperations
     :param str base_url: Service URL
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """

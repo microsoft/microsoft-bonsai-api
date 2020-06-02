@@ -18,7 +18,7 @@ class EpisodeFinish(msrest.serialization.Model):
 
     :param reason:  Possible values include: "Invalid", "Unspecified", "LessonChanged", "Terminal",
      "Interrupted".
-    :type reason: str or ~microsoft.bonsai.simulatorapi.models.EpisodeFinishTypesReason
+    :type reason: str or ~microsoft_bonsai_api.simulator.models.EpisodeFinishTypesReason
     """
 
     _attribute_map = {
@@ -62,17 +62,17 @@ class Event(msrest.serialization.Model):
     :param type:  Possible values include: "Unspecified", "EpisodeStart", "EpisodeStep",
      "EpisodeFinish", "PlaybackStart", "PlaybackStep", "PlaybackFinish", "Idle", "Registered",
      "Unregister".
-    :type type: str or ~microsoft.bonsai.simulatorapi.models.EventTypesEventType
+    :type type: str or ~microsoft_bonsai_api.simulator.models.EventTypesEventType
     :param session_id:
     :type session_id: str
     :param sequence_id:
     :type sequence_id: int
     :param episode_start:
-    :type episode_start: ~microsoft.bonsai.simulatorapi.models.EpisodeStart
+    :type episode_start: ~microsoft_bonsai_api.simulator.models.EpisodeStart
     :param episode_step:
-    :type episode_step: ~microsoft.bonsai.simulatorapi.models.Step
+    :type episode_step: ~microsoft_bonsai_api.simulator.models.Step
     :param episode_finish:
-    :type episode_finish: ~microsoft.bonsai.simulatorapi.models.EpisodeFinish
+    :type episode_finish: ~microsoft_bonsai_api.simulator.models.EpisodeFinish
     :param playback_start: Any object.
     :type playback_start: object
     :param playback_step: Any object.
@@ -80,15 +80,15 @@ class Event(msrest.serialization.Model):
     :param playback_finish: Any object.
     :type playback_finish: object
     :param idle:
-    :type idle: ~microsoft.bonsai.simulatorapi.models.Idle
+    :type idle: ~microsoft_bonsai_api.simulator.models.Idle
     :param registered: Any object.
     :type registered: object
     :param unregister:
-    :type unregister: ~microsoft.bonsai.simulatorapi.models.Unregister
+    :type unregister: ~microsoft_bonsai_api.simulator.models.Unregister
     :param kind_case:  Possible values include: "None", "EpisodeStart", "EpisodeStep",
      "EpisodeFinish", "PlaybackStart", "PlaybackStep", "PlaybackFinish", "Idle", "Registered",
      "Unregister".
-    :type kind_case: str or ~microsoft.bonsai.simulatorapi.models.EventKindOneofCase
+    :type kind_case: str or ~microsoft_bonsai_api.simulator.models.EventKindOneofCase
     """
 
     _attribute_map = {
@@ -217,9 +217,9 @@ class Purpose(msrest.serialization.Model):
     """Purpose.
 
     :param action:  Possible values include: "Inactive", "Debug", "Train", "Assess".
-    :type action: str or ~microsoft.bonsai.simulatorapi.models.PurposeTypesAction
+    :type action: str or ~microsoft_bonsai_api.simulator.models.PurposeTypesAction
     :param target:
-    :type target: ~microsoft.bonsai.simulatorapi.models.PurposeTarget
+    :type target: ~microsoft_bonsai_api.simulator.models.PurposeTarget
     """
 
     _attribute_map = {
@@ -280,7 +280,7 @@ class SimulatorContext(msrest.serialization.Model):
 
     :param deployment_mode:  Possible values include: "Unspecified", "Hosted", "Testing".
     :type deployment_mode: str or
-     ~microsoft.bonsai.simulatorapi.models.SimulatorContextTypesDeploymentMode
+     ~microsoft_bonsai_api.simulator.models.SimulatorContextTypesDeploymentMode
     :param deployment_details:
     :type deployment_details: str
     :param simulator_client_id:
@@ -290,7 +290,7 @@ class SimulatorContext(msrest.serialization.Model):
     :param package:
     :type package: str
     :param purpose:
-    :type purpose: ~microsoft.bonsai.simulatorapi.models.Purpose
+    :type purpose: ~microsoft_bonsai_api.simulator.models.Purpose
     """
 
     _attribute_map = {
@@ -388,9 +388,9 @@ class SimulatorSessionProgress(msrest.serialization.Model):
     """SimulatorSession progress related to train an actual brain.
 
     :param attached: SimulatorSession progress milestone.
-    :type attached: ~microsoft.bonsai.simulatorapi.models.SimulatorSessionMilestone
+    :type attached: ~microsoft_bonsai_api.simulator.models.SimulatorSessionMilestone
     :param iterated: SimulatorSession progress milestone.
-    :type iterated: ~microsoft.bonsai.simulatorapi.models.SimulatorSessionMilestone
+    :type iterated: ~microsoft_bonsai_api.simulator.models.SimulatorSessionMilestone
     """
 
     _attribute_map = {
@@ -419,13 +419,13 @@ class SimulatorSessionResponse(msrest.serialization.Model):
     :type session_id: str
     :param session_status:  Possible values include: "Deregistered", "Attachable", "Attached",
      "Detaching", "Rejected".
-    :type session_status: str or ~microsoft.bonsai.simulatorapi.models.SimulatorSessionTypesStatus
+    :type session_status: str or ~microsoft_bonsai_api.simulator.models.SimulatorSessionTypesStatus
     :param session_progress: SimulatorSession progress related to train an actual brain.
-    :type session_progress: ~microsoft.bonsai.simulatorapi.models.SimulatorSessionProgress
+    :type session_progress: ~microsoft_bonsai_api.simulator.models.SimulatorSessionProgress
     :param interface:
-    :type interface: ~microsoft.bonsai.simulatorapi.models.SimulatorInterface
+    :type interface: ~microsoft_bonsai_api.simulator.models.SimulatorInterface
     :param simulator_context:
-    :type simulator_context: ~microsoft.bonsai.simulatorapi.models.SimulatorContext
+    :type simulator_context: ~microsoft_bonsai_api.simulator.models.SimulatorContext
     :param registration_time: Required. Time, when this session was registered with Bonsai
      platform.
     :type registration_time: ~datetime.datetime
@@ -489,11 +489,11 @@ class SimulatorSessionSummary(msrest.serialization.Model):
     :type session_id: str
     :param session_status:  Possible values include: "Deregistered", "Attachable", "Attached",
      "Detaching", "Rejected".
-    :type session_status: str or ~microsoft.bonsai.simulatorapi.models.SimulatorSessionTypesStatus
+    :type session_status: str or ~microsoft_bonsai_api.simulator.models.SimulatorSessionTypesStatus
     :param simulator_name:
     :type simulator_name: str
     :param simulator_context:
-    :type simulator_context: ~microsoft.bonsai.simulatorapi.models.SimulatorContext
+    :type simulator_context: ~microsoft_bonsai_api.simulator.models.SimulatorContext
     """
 
     _attribute_map = {
@@ -585,7 +585,7 @@ class Unregister(msrest.serialization.Model):
     """Unregister.
 
     :param reason:  Possible values include: "Unspecified", "Finished", "Error", "NotFound".
-    :type reason: str or ~microsoft.bonsai.simulatorapi.models.UnregisterTypesReason
+    :type reason: str or ~microsoft_bonsai_api.simulator.models.UnregisterTypesReason
     :param details:
     :type details: str
     """

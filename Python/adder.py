@@ -28,7 +28,7 @@ import json
 
 from microsoft_bonsai_api.simulator._simulator_api import *
 from microsoft_bonsai_api.simulator.models._models_py3 import *
-from microsoft_bonsai_api import BonsaiClient, CreateSimContext
+from microsoft_bonsai_api.client import BonsaiClient, CreateSimContext, Config
 
 
 def main():
@@ -41,10 +41,6 @@ def main():
         c = CreateSimContext("Train", "00a5e6686af84f1f", "AdderSdk3", 4, "addition")
         params = {
             "latency": 0.0,
-            "api-host": os.getenv("SIM_API_HOST", ""),
-            "workspace": os.getenv("SIM_WORKSPACE", ""),
-            "access-key": os.getenv("SIM_ACCESS_KEY", "bonsai nothing"),
-            "sim-context": c,  # os.getenv('SIM_CONTEXT', ''),
         }
 
         # Override / augment environment variables with cmd line
@@ -59,14 +55,6 @@ def main():
                 param_name = None
 
         error_strings = []
-        if not params["api-host"]:
-            error_strings.append(
-                "Must define an api host in SIM_API_HOST or --api-host"
-            )
-        if not params["workspace"]:
-            error_strings.append(
-                "Must define a workspace in SIM_WORKSPACE or --workspace"
-            )
 
         if len(error_strings) > 0:
             raise RuntimeError("\n".join(error_strings))
@@ -77,11 +65,9 @@ def main():
             print("Using latency = {} seconds".format(latency_seconds))
 
         # build the api handler
-        rest_api = BonsaiClient(
-            workspace=params["workspace"],
-            host=params["api-host"],
-            access_key=params["access-key"],
-        )
+        config = Config(argv=sys.argv)
+        config.simulator_context = c
+        rest_api = BonsaiClient(config)
 
         capabilities = {
             "headless": True,
@@ -100,7 +86,7 @@ def main():
         register_response: SimulatorSessionResponse = rest_api.create_session(
             "the_simulator",
             latency_seconds * 2.0,
-            simulator_context=params["sim-context"],
+            simulator_context=config.simulator_context,
             capabilities=capabilities,
             description=description,
         )

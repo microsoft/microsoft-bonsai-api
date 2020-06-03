@@ -8,19 +8,18 @@ from typing import Optional
 
 from microsoft_bonsai_api.simulator._simulator_api import *
 from microsoft_bonsai_api.simulator.models import *
+from .config import Config
 
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClient(object):
-    def __init__(self, workspace: str, host: str, access_key: str):
+    def __init__(self, config: Config):
         self._headers = {
             "Content-Type": "application/json",
-            "Authorization": access_key,
+            "Authorization": config.access_key,
         }
 
-        self._workspace = workspace
-
-        self.simApi = SimulatorAPI(headers=self._headers)
-        self.workspace = workspace
+        self.workspace = config.workspace
+        self.sim_api = SimulatorAPI(base_url=config.server, headers=self._headers)
 
     def pretty_json(self, o):
         return json.dumps(o, sort_keys=True, indent=3, separators=(",", ": "))
@@ -50,7 +49,7 @@ class BonsaiClient(object):
 
         print("Creating session with", self.pretty_json(registration_info), "\n\n")
 
-        response = self.simApi.session.create(self.workspace, registration_info)
+        response = self.sim_api.session.create(self.workspace, registration_info)
 
         if isinstance(response, SimulatorSessionResponse):
             return response
@@ -67,7 +66,7 @@ class BonsaiClient(object):
         return response
 
     def delete_session(self, session_id: str):
-        response = self.simApi.session.delete(self.workspace, session_id)
+        response = self.sim_api.session.delete(self.workspace, session_id)
 
         if isinstance(response, ProblemDetails):
             print("Error in deleting session. Details: {}".format(response))
@@ -77,7 +76,7 @@ class BonsaiClient(object):
         return response
 
     def list_sessions(self):
-        response = self.simApi.session.list(self.workspace)
+        response = self.sim_api.session.list(self.workspace)
 
         if isinstance(response, list):
             return response
@@ -86,7 +85,7 @@ class BonsaiClient(object):
             return None
 
     def fetch_action(self, session_id: str):
-        response = self.simApi.session.get_most_recent_action(
+        response = self.sim_api.session.get_most_recent_action(
             self.workspace, session_id
         )
 
@@ -104,7 +103,7 @@ class BonsaiClient(object):
             "halted": False,
         }
 
-        response = self.simApi.session.advance(self.workspace, session_id, json)
+        response = self.sim_api.session.advance(self.workspace, session_id, json)
 
         if isinstance(response, Event):
             return response

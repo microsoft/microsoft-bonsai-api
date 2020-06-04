@@ -54,6 +54,7 @@ class BonsaiClient(object):
         if isinstance(response, SimulatorSessionResponse):
             return response
         elif isinstance(response, ProblemDetails):
+            # TODO: Investigate under what situations ProblemDetails is returned
             # ToDo: For each error response type, take actions such as retry.
             print(
                 "Encountered Error in Creating Session. status: {}, reason: {}".format(

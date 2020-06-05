@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 import requests
 import json
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from microsoft_bonsai_api.simulator._simulator_api import *
 from microsoft_bonsai_api.simulator.models import *
@@ -96,7 +96,7 @@ class BonsaiClient(object):
             print("Error in FetchAction. Details: {}".format(response))
             return None
 
-    def advance(self, session_id: str, sequence_id: int, state):
+    def advance(self, session_id: str, sequence_id: int, state: Dict[str, Any]):
         json = {
             "session_id": session_id,
             "sequence_id": sequence_id,

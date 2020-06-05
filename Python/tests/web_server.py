@@ -4,6 +4,7 @@ Copyright 2020 Microsoft
 """
 
 from aiohttp import web
+from microsoft_bonsai_api.simulator.models import ProblemDetails
 from .mock_responses import *
 
 
@@ -52,16 +53,20 @@ class SimulatorGatewayStub:
         return web.json_response({})
 
     async def register(self, request):
+        if "badrequest" in request.match_info["workspace"]:
+            return web.Response(status=400)
         if "unauthorized" in request.match_info["workspace"]:
-            return web.Response(status=401, text="Unauthorized")
+            return web.Response(status=401)
         if "forbidden" in request.match_info["workspace"]:
-            return web.Response(status=403, text="Forbidden")
+            return web.Response(status=403)
+        if "notfound" in request.match_info["workspace"]:
+            return web.Response(status=404)
         if "badgateway" in request.match_info["workspace"]:
-            return web.Response(status=502, text="BadGateway")
+            return web.Response(status=502)
         if "unavailable" in request.match_info["workspace"]:
-            return web.Response(status=503, text="Service Unavailable")
+            return web.Response(status=503)
         if "gatewaytimeout" in request.match_info["workspace"]:
-            return web.Response(status=504, text="GatewayTimeout")
+            return web.Response(status=504)
         if "flaky" in request.match_info["workspace"]:
             self._FLAKY = True
         return web.json_response(status=201, data=MOCK_REGISTRATION_RESPONSE)

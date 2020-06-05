@@ -1,2 +1,2 @@
-from .bonsaiclient import BonsaiClient, CreateSimContext
+from .bonsaiclient import BonsaiClient
 from .config import Config

@@ -111,25 +111,3 @@ class BonsaiClient(object):
         else:
             print("Error in Advance session. Details: {}".format(response))
             return None
-
-
-# Helper Method to create sim-context string.
-def CreateSimContext(
-    action,
-    workspaceName,
-    brainName,
-    brainVersion,
-    conceptName,
-    deploymentMode="Testing",
-    simulatorClientId="1234",
-):
-
-    return '{{"deploymentMode": "{}", "simulatorClientId": "{}", "purpose": {{ "action": "{}", "target": {{ "workspaceName": "{}", "brainName": "{}", "brainVersion": {}, "conceptName": "{}" }} }} }}'.format(
-        deploymentMode,
-        simulatorClientId,
-        action,
-        workspaceName,
-        brainName,
-        brainVersion,
-        conceptName,
-    )

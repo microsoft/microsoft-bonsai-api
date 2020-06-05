@@ -28,7 +28,7 @@ import json
 
 from microsoft_bonsai_api.simulator._simulator_api import *
 from microsoft_bonsai_api.simulator.models._models_py3 import *
-from microsoft_bonsai_api.client import BonsaiClient, CreateSimContext, Config
+from microsoft_bonsai_api.client import BonsaiClient, Config
 
 
 def main():
@@ -191,6 +191,28 @@ def main():
                 print(datetime.datetime.utcnow(), "UNREGISTER ->", deregister_response)
             except:
                 print(datetime.datetime.utcnow(), "UNREGISTER -> CANNOT")
+
+
+# Helper Method to create sim-context string.
+def CreateSimContext(
+    action,
+    workspaceName,
+    brainName,
+    brainVersion,
+    conceptName,
+    deploymentMode="Testing",
+    simulatorClientId="1234",
+):
+
+    return '{{"deploymentMode": "{}", "simulatorClientId": "{}", "purpose": {{ "action": "{}", "target": {{ "workspaceName": "{}", "brainName": "{}", "brainVersion": {}, "conceptName": "{}" }} }} }}'.format(
+        deploymentMode,
+        simulatorClientId,
+        action,
+        workspaceName,
+        brainName,
+        brainVersion,
+        conceptName,
+    )
 
 
 if __name__ == "__main__":

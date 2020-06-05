@@ -3,8 +3,6 @@ Tests for BonsaiClient class
 Copyright 2020 Microsoft
 """
 from unittest.mock import Mock, patch
-
-import pytest
 from microsoft_bonsai_api.client import Config, BonsaiClient
 from azure.core.exceptions import HttpResponseError
 
@@ -14,8 +12,21 @@ def test_default_client_construction():
     BonsaiClient(config)
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
-def test_unauthorized_registration():
+def test_400_err_registration():
+    config = Config()
+    config.server = "http://127.0.0.1:9000"
+    config.workspace = "badrequest"
+    config.access_key = "111"
+
+    client = BonsaiClient(config)
+
+    try:
+        client.create_session("a", 1, "c")
+    except HttpResponseError as err:
+        assert err.status_code == 400
+
+
+def test_401_err_registration():
     config = Config()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "unauthorized"
@@ -27,11 +38,9 @@ def test_unauthorized_registration():
         client.create_session("a", 1, "c")
     except HttpResponseError as err:
         assert err.status_code == 401
-        assert "Unauthorized" in err.message
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
-def test_forbidden_registration():
+def test_403_err_registration():
     config = Config()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "forbidden"
@@ -43,11 +52,23 @@ def test_forbidden_registration():
         client.create_session("a", 1, "c")
     except HttpResponseError as err:
         assert err.status_code == 403
-        assert "Forbidden" in err.message
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
-def test_badgateway_registration():
+def test_404_err_registration():
+    config = Config()
+    config.server = "http://127.0.0.1:9000"
+    config.workspace = "notfound"
+    config.access_key = "111"
+
+    client = BonsaiClient(config)
+
+    try:
+        client.create_session("a", 1, "c")
+    except HttpResponseError as err:
+        assert err.status_code == 404
+
+
+def test_502_err_registration():
     config = Config()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "badgateway"
@@ -59,11 +80,9 @@ def test_badgateway_registration():
         client.create_session("a", 1, "c")
     except HttpResponseError as err:
         assert err.status_code == 502
-        assert "Bad Gateway" in err.message
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
-def test_unavailable_registration():
+def test_503_err_registration():
     config = Config()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "unavailable"
@@ -75,11 +94,9 @@ def test_unavailable_registration():
         client.create_session("a", 1, "c")
     except HttpResponseError as err:
         assert err.status_code == 503
-        assert "Unavailable" in err.message
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
-def test_gateway_timeout():
+def test_504_err_timeout():
     config = Config()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "gatewaytimeout"
@@ -91,10 +108,8 @@ def test_gateway_timeout():
         client.create_session("a", 1, "c")
     except HttpResponseError as err:
         assert err.status_code == 504
-        assert "Gateway Timeout" in err.message
 
 
-# TODO: Test represents current behavor of library. It may not be what we want it to do
 def test_training():
     config = Config()
     config.server = "http://127.0.0.1:9000"

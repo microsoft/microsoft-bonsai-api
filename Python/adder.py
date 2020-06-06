@@ -23,12 +23,11 @@ import os
 import sys
 import time
 import datetime
-import requests
 import json
-
-from microsoft_bonsai_api.simulator._simulator_api import *
-from microsoft_bonsai_api.simulator.models._models_py3 import *
+import logging
+from microsoft_bonsai_api.simulator.models import SimulatorState, SimulatorInterface, SimulatorSessionResponse, Event
 from microsoft_bonsai_api.client import BonsaiClient, Config
+from azure.core.exceptions import HttpResponseError
 
 
 def main():
@@ -38,7 +37,7 @@ def main():
 
     try:
         # parse the arguments and environment variables
-        c = CreateSimContext("Train", "00a5e6686af84f1f", "AdderSdk3", 4, "addition")
+
         params = {
             "latency": 0.0,
         }
@@ -65,8 +64,9 @@ def main():
             print("Using latency = {} seconds".format(latency_seconds))
 
         # build the api handler
-        config = Config(argv=sys.argv)
-        config.simulator_context = c
+        config = Config(argv=sys.argv, enable_logging=True)
+        #config.simulator_context = CreateSimContext("Train", "00a5e6686af84f1f", "AdderSdk3", 4, "addition")
+        logging.basicConfig(level=logging.WARNING)
         rest_api = BonsaiClient(config)
 
         capabilities = {
@@ -76,22 +76,28 @@ def main():
         }
 
         json_file_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "adder_description.json"
+            os.path.dirname(os.path.abspath(__file__)
+                            ), "adder_description.json"
         )
         with open(json_file_path, "r") as file:
             json_interface = file.read()
         description = json.loads(json_interface)
 
-        # register this simulator
-        register_response: SimulatorSessionResponse = rest_api.create_session(
-            "the_simulator",
-            latency_seconds * 2.0,
-            simulator_context=config.simulator_context,
-            capabilities=capabilities,
-            description=description,
-        )
+        registration_info: SimulatorInterface = SimulatorInterface(name="the_simulator",
+                                                                   timeout=latency_seconds*0.2,
+                                                                   capabilities=capabilities,
+                                                                   description=description,
+                                                                   simulator_context=config.simulator_context)
 
-        print("REGISTER, session: -> {}".format(register_response.session_id))
+        # register this simulator
+        try:
+            register_response: SimulatorSessionResponse = rest_api.session.create(
+                config.workspace, registration_info)
+        except HttpResponseError as ex:
+            print(f'Error in registering session: {ex.model}')
+            raise ex
+
+        print("REGISTER, session: -> {}".format(register_response))
 
         # extract the session id from the response
         session_id = register_response.session_id
@@ -111,10 +117,17 @@ def main():
 
             # invoke SimulatorGateway/Advance
             advance_time = datetime.datetime.utcnow()
-            advance_response: Event = rest_api.advance(
+
+            sim_state: SimulatorState = SimulatorState(session_id=session_id,
+                                                       sequence_id=sequence_id,
+                                                       state={
+                                                           "value1": value1, "value2": value2, "_reward": reward},
+                                                       halted=False)
+
+            advance_response: Event = rest_api.session.advance(
+                config.workspace,
                 session_id,
-                sequence_id,
-                {"value1": value1, "value2": value2, "_reward": reward},
+                body=sim_state
             )
 
             if 0 == (episode_iterations % 100):
@@ -187,8 +200,10 @@ def main():
             pass
             print("\n\n\nUnregistering {}".format(session_id))
             try:
-                deregister_response = rest_api.delete_session(session_id)
-                print(datetime.datetime.utcnow(), "UNREGISTER ->", deregister_response)
+                deregister_response = rest_api.session.delete(
+                    config.workspace, session_id)
+                print(datetime.datetime.utcnow(),
+                      "UNREGISTER ->", deregister_response)
             except:
                 print(datetime.datetime.utcnow(), "UNREGISTER -> CANNOT")
 

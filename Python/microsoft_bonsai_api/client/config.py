@@ -49,6 +49,7 @@ class Config:
                  workspace: str='',
                  access_key: str='',
                  server: str='https://api.bons.ai',
+                 enable_logging=False,
                  argv: Optional[List[str]]=sys.argv):
         """
         Initialize a config object.
@@ -62,6 +63,7 @@ class Config:
         self.workspace = os.getenv('SIM_WORKSPACE', workspace)
         self.access_key = os.getenv('SIM_ACCESS_KEY', access_key)
         self.simulator_context = os.getenv('SIM_CONTEXT', '')
+        self.enable_logging = enable_logging
 
         # parse the args last
         if argv:

@@ -10,5 +10,9 @@ class BonsaiClient(SimulatorAPI):
         }
 
         self.workspace = config.workspace
-        super(BonsaiClient, self).__init__(base_url=config.server,
-                                           headers=self._headers, logging_enable=config.enable_logging, kwargs=kwargs)
+        super(BonsaiClient, self).__init__(
+            base_url=config.server,
+            headers=self._headers,
+            logging_enable=config.enable_logging,
+            kwargs=kwargs,
+        )

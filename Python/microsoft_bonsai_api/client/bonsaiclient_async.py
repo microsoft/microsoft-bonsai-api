@@ -10,5 +10,9 @@ class BonsaiClientAsync(SimulatorAPI):
         }
 
         self.workspace = config.workspace
-        super(BonsaiClientAsync, self).__init__(base_url=config.server,
-                                                headers=self._headers, logging_enable=config.enable_logging, kwargs=kwargs)
+        super(BonsaiClientAsync, self).__init__(
+            base_url=config.server,
+            headers=self._headers,
+            logging_enable=config.enable_logging,
+            kwargs=kwargs,
+        )

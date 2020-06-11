@@ -23,9 +23,6 @@ export class Session {
   }
 
   /**
-   * Retrieves all of the simulators currently registered with all
-   * simulator gateways within this workspace.
-   *
    * The deployment_mode appears in the query string. It can be one of
    * Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
    * e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
@@ -40,7 +37,8 @@ export class Session {
    *
    * The filter queries can appear together, like
    * {.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333}
-   * @summary Implementaton of the GET /v2/.../simulatorSessions endpoint.
+   * @summary Retrieves all of the simulators currently registered with all
+   * simulator gateways within this workspace.
    * @param workspaceName The workspace identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.SessionListResponse>
@@ -68,8 +66,7 @@ export class Session {
   }
 
   /**
-   * Registers a simulator with the simulator gateway.
-   * @summary Implementation of the POST /v2/.../simulatorSessions endpoint.
+   * @summary Registers a simulator with the Bonsai platform.
    * @param workspaceName The workspace identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.SessionCreateResponse>
@@ -97,8 +94,7 @@ export class Session {
   }
 
   /**
-   * Retrieves a simulator session corresponding to the sessionId
-   * @summary Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
+   * @summary Retrieves a simulator session corresponding to the sessionId
    * @param workspaceName The workspace identifier.
    * @param sessionId The sessionId of the simulator session to fetch
    * @param [options] The optional parameters
@@ -130,8 +126,7 @@ export class Session {
   }
 
   /**
-   * Unregisters the simulator with the simulator gateway.
-   * @summary Implementation of the DELETE /v2/.../simulators endpoint.
+   * @summary Deletes the Simulator session
    * @param workspaceName The workspace identifier.
    * @param sessionId The session ID generated during registration
    * @param [options] The optional parameters
@@ -163,8 +158,7 @@ export class Session {
   }
 
   /**
-   * Gets the most recent action sent to the simulator to process.
-   * @summary Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
+   * @summary Gets the most recent action sent to the simulator to process.
    * @param workspaceName The workspace identifier.
    * @param sessionId Unique identification of the simulator.
    * @param [options] The optional parameters
@@ -196,8 +190,11 @@ export class Session {
   }
 
   /**
-   * @summary Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-   * endpoint.
+   * @summary Advance the RL agent with the new state of the simulator, and returns an action
+   * computed by our policy.
+   * Simulatorsession is supposed to use the returned action for stepping inside the sim and thne
+   * getting the new state.false
+   * You can send the same state again, as long as you didn't get a Non-Idle Action back.
    * @param workspaceName The workspace identifier.
    * @param sessionId Unique identifier for the simulator.
    * @param [options] The optional parameters

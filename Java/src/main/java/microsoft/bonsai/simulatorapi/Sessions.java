@@ -22,10 +22,9 @@ import rx.Observable;
  */
 public interface Sessions {
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -45,10 +44,9 @@ public interface Sessions {
     Object list(String workspaceName);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -67,10 +65,9 @@ public interface Sessions {
     ServiceFuture<Object> listAsync(String workspaceName, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -88,10 +85,9 @@ public interface Sessions {
     Observable<Object> listAsync(String workspaceName);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -108,10 +104,9 @@ public interface Sessions {
      */
     Observable<ServiceResponse<Object>> listWithServiceResponseAsync(String workspaceName);
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -135,10 +130,9 @@ public interface Sessions {
     Object list(String workspaceName, String deploymentMode, String sessionStatus, String collection, String packageParameter);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -161,10 +155,9 @@ public interface Sessions {
     ServiceFuture<Object> listAsync(String workspaceName, String deploymentMode, String sessionStatus, String collection, String packageParameter, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -186,10 +179,9 @@ public interface Sessions {
     Observable<Object> listAsync(String workspaceName, String deploymentMode, String sessionStatus, String collection, String packageParameter);
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -211,8 +203,7 @@ public interface Sessions {
     Observable<ServiceResponse<Object>> listWithServiceResponseAsync(String workspaceName, String deploymentMode, String sessionStatus, String collection, String packageParameter);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -223,8 +214,7 @@ public interface Sessions {
     Object create(String workspaceName);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -234,8 +224,7 @@ public interface Sessions {
     ServiceFuture<Object> createAsync(String workspaceName, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -244,8 +233,7 @@ public interface Sessions {
     Observable<Object> createAsync(String workspaceName);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -253,8 +241,7 @@ public interface Sessions {
      */
     Observable<ServiceResponse<Object>> createWithServiceResponseAsync(String workspaceName);
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -266,8 +253,7 @@ public interface Sessions {
     Object create(String workspaceName, SimulatorInterface body);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -278,8 +264,7 @@ public interface Sessions {
     ServiceFuture<Object> createAsync(String workspaceName, SimulatorInterface body, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -289,8 +274,7 @@ public interface Sessions {
     Observable<Object> createAsync(String workspaceName, SimulatorInterface body);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -300,7 +284,6 @@ public interface Sessions {
     Observable<ServiceResponse<Object>> createWithServiceResponseAsync(String workspaceName, SimulatorInterface body);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -313,7 +296,6 @@ public interface Sessions {
     Object get(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -325,7 +307,6 @@ public interface Sessions {
     ServiceFuture<Object> getAsync(String workspaceName, String sessionId, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -336,7 +317,6 @@ public interface Sessions {
     Observable<Object> getAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -347,8 +327,7 @@ public interface Sessions {
     Observable<ServiceResponse<Object>> getWithServiceResponseAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -360,8 +339,7 @@ public interface Sessions {
     ProblemDetails delete(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -372,8 +350,7 @@ public interface Sessions {
     ServiceFuture<ProblemDetails> deleteAsync(String workspaceName, String sessionId, final ServiceCallback<ProblemDetails> serviceCallback);
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -383,8 +360,7 @@ public interface Sessions {
     Observable<ProblemDetails> deleteAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -394,7 +370,6 @@ public interface Sessions {
     Observable<ServiceResponse<ProblemDetails>> deleteWithServiceResponseAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -407,7 +382,6 @@ public interface Sessions {
     Object getMostRecentAction(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -419,7 +393,6 @@ public interface Sessions {
     ServiceFuture<Object> getMostRecentActionAsync(String workspaceName, String sessionId, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -430,7 +403,6 @@ public interface Sessions {
     Observable<Object> getMostRecentActionAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -441,8 +413,9 @@ public interface Sessions {
     Observable<ServiceResponse<Object>> getMostRecentActionWithServiceResponseAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -454,8 +427,9 @@ public interface Sessions {
     Object advance(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -466,8 +440,9 @@ public interface Sessions {
     ServiceFuture<Object> advanceAsync(String workspaceName, String sessionId, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -477,8 +452,9 @@ public interface Sessions {
     Observable<Object> advanceAsync(String workspaceName, String sessionId);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -487,8 +463,9 @@ public interface Sessions {
      */
     Observable<ServiceResponse<Object>> advanceWithServiceResponseAsync(String workspaceName, String sessionId);
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -501,8 +478,9 @@ public interface Sessions {
     Object advance(String workspaceName, String sessionId, SimulatorState body);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -514,8 +492,9 @@ public interface Sessions {
     ServiceFuture<Object> advanceAsync(String workspaceName, String sessionId, SimulatorState body, final ServiceCallback<Object> serviceCallback);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -526,8 +505,9 @@ public interface Sessions {
     Observable<Object> advanceAsync(String workspaceName, String sessionId, SimulatorState body);
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.

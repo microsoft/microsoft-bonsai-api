@@ -87,10 +87,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -112,10 +111,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -136,10 +134,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -164,10 +161,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -205,10 +201,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -234,10 +229,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -262,10 +256,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -294,10 +287,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementaton of the GET /v2/.../simulatorSessions endpoint.
      * Retrieves all of the simulators currently registered with all
      simulator gateways within this workspace.
-     The deployment_mode appears in the query string. It can be one of
+     * The deployment_mode appears in the query string. It can be one of
      Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
      e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
      simulators that are hosted.
@@ -342,8 +334,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -356,8 +347,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -369,8 +359,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -386,8 +375,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -413,8 +401,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -428,8 +415,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -442,8 +428,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -460,8 +445,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions endpoint.
-     * Registers a simulator with the simulator gateway.
+     * Registers a simulator with the Bonsai platform.
      *
      * @param workspaceName The workspace identifier.
      * @param body Information and capabilities about the simulator.
@@ -495,7 +479,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -510,7 +493,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -524,7 +506,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -542,7 +523,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
      * Retrieves a simulator session corresponding to the sessionId.
      *
      * @param workspaceName The workspace identifier.
@@ -580,8 +560,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -595,8 +574,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -609,8 +587,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -627,8 +604,7 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the DELETE /v2/.../simulators endpoint.
-     * Unregisters the simulator with the simulator gateway.
+     * Deletes the Simulator session.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId The session ID generated during registration
@@ -665,7 +641,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -680,7 +655,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -694,7 +668,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -712,7 +685,6 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
      * Gets the most recent action sent to the simulator to process.
      *
      * @param workspaceName The workspace identifier.
@@ -750,8 +722,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -765,8 +738,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -779,8 +753,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -797,8 +772,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -828,8 +804,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -844,8 +821,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -859,8 +837,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.
@@ -878,8 +857,9 @@ public class SessionsImpl implements Sessions {
     }
 
     /**
-     * Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-     endpoint.
+     * Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+     Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+     You can send the same state again, as long as you didn't get a Non-Idle Action back.
      *
      * @param workspaceName The workspace identifier.
      * @param sessionId Unique identifier for the simulator.

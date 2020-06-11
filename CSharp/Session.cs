@@ -47,12 +47,10 @@ namespace Microsoft.Bonsai.SimulatorApi
         public SimulatorAPI Client { get; private set; }
 
         /// <summary>
-        /// Implementaton of the GET /v2/.../simulatorSessions endpoint.
-        /// </summary>
-        /// <remarks>
         /// Retrieves all of the simulators currently registered with all
         /// simulator gateways within this workspace.
-        ///
+        /// </summary>
+        /// <remarks>
         /// The deployment_mode appears in the query string. It can be one of
         /// Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means
         /// "not;"
@@ -258,11 +256,8 @@ namespace Microsoft.Bonsai.SimulatorApi
         }
 
         /// <summary>
-        /// Implementation of the POST /v2/.../simulatorSessions endpoint.
+        /// Registers a simulator with the Bonsai platform.
         /// </summary>
-        /// <remarks>
-        /// Registers a simulator with the simulator gateway.
-        /// </remarks>
         /// <param name='workspaceName'>
         /// The workspace identifier.
         /// </param>
@@ -424,11 +419,8 @@ namespace Microsoft.Bonsai.SimulatorApi
         }
 
         /// <summary>
-        /// Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
-        /// </summary>
-        /// <remarks>
         /// Retrieves a simulator session corresponding to the sessionId
-        /// </remarks>
+        /// </summary>
         /// <param name='workspaceName'>
         /// The workspace identifier.
         /// </param>
@@ -607,11 +599,8 @@ namespace Microsoft.Bonsai.SimulatorApi
         }
 
         /// <summary>
-        /// Implementation of the DELETE /v2/.../simulators endpoint.
+        /// Deletes the Simulator session
         /// </summary>
-        /// <remarks>
-        /// Unregisters the simulator with the simulator gateway.
-        /// </remarks>
         /// <param name='workspaceName'>
         /// The workspace identifier.
         /// </param>
@@ -772,12 +761,8 @@ namespace Microsoft.Bonsai.SimulatorApi
         }
 
         /// <summary>
-        /// Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action
-        /// endpoint.
-        /// </summary>
-        /// <remarks>
         /// Gets the most recent action sent to the simulator to process.
-        /// </remarks>
+        /// </summary>
         /// <param name='workspaceName'>
         /// The workspace identifier.
         /// </param>
@@ -956,8 +941,12 @@ namespace Microsoft.Bonsai.SimulatorApi
         }
 
         /// <summary>
-        /// Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-        /// endpoint.
+        /// Advance the RL agent with the new state of the simulator, and returns an
+        /// action computed by our policy.
+        /// Simulatorsession is supposed to use the returned action for stepping inside
+        /// the sim and thne getting the new state.false
+        /// You can send the same state again, as long as you didn't get a Non-Idle
+        /// Action back.
         /// </summary>
         /// <param name='workspaceName'>
         /// The workspace identifier.

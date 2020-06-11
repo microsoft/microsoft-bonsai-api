@@ -53,6 +53,7 @@ class SimulatorGatewayStub:
         return web.json_response({})
 
     async def register(self, request):
+        self.reset_flags()
         if "badrequest" in request.match_info["workspace"]:
             return web.Response(status=400)
         if "unauthorized" in request.match_info["workspace"]:

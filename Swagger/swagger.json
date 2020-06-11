@@ -15,8 +15,8 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementaton of the GET /v2/.../simulatorSessions endpoint.",
-        "description": "Retrieves all of the simulators currently registered with all\r\nsimulator gateways within this workspace.\r\n            \r\nThe deployment_mode appears in the query string. It can be one of\r\nUnspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means \"not;\"\r\ne.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include\r\nsimulators that are hosted.\r\n            \r\nThe session_status can be one of Attachable, Attached, Detaching, Rejected,\r\nand supports the neq: prefix.\r\n            \r\nThe collection appears in the query string\r\n            \r\nThe package appears in the query string\r\n            \r\nThe filter queries can appear together, like\r\n{.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333}",
+        "summary": "Retrieves all of the simulators currently registered with all\r\nsimulator gateways within this workspace.",
+        "description": "The deployment_mode appears in the query string. It can be one of\r\nUnspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means \"not;\"\r\ne.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include\r\nsimulators that are hosted.\r\n            \r\nThe session_status can be one of Attachable, Attached, Detaching, Rejected,\r\nand supports the neq: prefix.\r\n            \r\nThe collection appears in the query string\r\n            \r\nThe package appears in the query string\r\n            \r\nThe filter queries can appear together, like\r\n{.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333}",
         "operationId": "Session_List",
         "produces": [
           "application/json",
@@ -79,8 +79,7 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementation of the POST /v2/.../simulatorSessions endpoint.",
-        "description": "Registers a simulator with the simulator gateway.",
+        "summary": "Registers a simulator with the Bonsai platform.",
         "operationId": "Session_Create",
         "consumes": [
           "application/json",
@@ -132,8 +131,7 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.",
-        "description": "Retrieves a simulator session corresponding to the sessionId",
+        "summary": "Retrieves a simulator session corresponding to the sessionId",
         "operationId": "Session_Get",
         "produces": [
           "text/plain",
@@ -183,8 +181,7 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementation of the DELETE /v2/.../simulators endpoint.",
-        "description": "Unregisters the simulator with the simulator gateway.",
+        "summary": "Deletes the Simulator session",
         "operationId": "Session_Delete",
         "produces": [
           "text/plain",
@@ -233,8 +230,7 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.",
-        "description": "Gets the most recent action sent to the simulator to process.",
+        "summary": "Gets the most recent action sent to the simulator to process.",
         "operationId": "Session_GetMostRecentAction",
         "produces": [
           "application/json",
@@ -286,7 +282,7 @@
         "tags": [
           "SimulatorSession"
         ],
-        "summary": "Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance\r\nendpoint.",
+        "summary": "Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.\r\nSimulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false\r\nYou can send the same state again, as long as you didn't get a Non-Idle Action back.",
         "operationId": "Session_Advance",
         "consumes": [
           "application/json",

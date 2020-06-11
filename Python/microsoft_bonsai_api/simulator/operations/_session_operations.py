@@ -51,10 +51,7 @@ class SessionOperations(object):
         **kwargs  # type: Any
     ):
         # type: (...) -> List["models.SimulatorSessionSummary"]
-        """Retrieves all of the simulators currently registered with all
-        simulator gateways within this workspace.
-
-        The deployment_mode appears in the query string. It can be one of
+        """The deployment_mode appears in the query string. It can be one of
         Unspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means "not;"
         e.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include
         simulators that are hosted.
@@ -69,7 +66,8 @@ class SessionOperations(object):
         The filter queries can appear together, like
         {.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333}.
 
-        Implementaton of the GET /v2/.../simulatorSessions endpoint.
+        Retrieves all of the simulators currently registered with all
+        simulator gateways within this workspace.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str
@@ -140,9 +138,9 @@ class SessionOperations(object):
         **kwargs  # type: Any
     ):
         # type: (...) -> "models.SimulatorSessionResponse"
-        """Registers a simulator with the simulator gateway.
+        """Registers a simulator with the Bonsai platform.
 
-        Implementation of the POST /v2/.../simulatorSessions endpoint.
+        Registers a simulator with the Bonsai platform.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str
@@ -210,7 +208,7 @@ class SessionOperations(object):
         # type: (...) -> "models.SimulatorSessionResponse"
         """Retrieves a simulator session corresponding to the sessionId.
 
-        Implementation of the GET /v2/.../simulatorSessions/{sessionId} endpoint.
+        Retrieves a simulator session corresponding to the sessionId.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str
@@ -268,9 +266,9 @@ class SessionOperations(object):
         **kwargs  # type: Any
     ):
         # type: (...) -> None
-        """Unregisters the simulator with the simulator gateway.
+        """Deletes the Simulator session.
 
-        Implementation of the DELETE /v2/.../simulators endpoint.
+        Deletes the Simulator session.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str
@@ -326,7 +324,7 @@ class SessionOperations(object):
         # type: (...) -> "models.Event"
         """Gets the most recent action sent to the simulator to process.
 
-        Implementation of the GET /v2/.../simulatorSessions/{sessionId}/action endpoint.
+        Gets the most recent action sent to the simulator to process.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str
@@ -385,11 +383,15 @@ class SessionOperations(object):
         **kwargs  # type: Any
     ):
         # type: (...) -> "models.Event"
-        """Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-        endpoint.
+        """Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
+        Simulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false
+        You can send the same state again, as long as you didn't get a Non-Idle Action back.
 
-        Implementation of the POST /v2/.../simulatorSessions/{sessionId}/advance
-        endpoint.
+        Advance the RL agent with the new state of the simulator, and returns an action computed by our
+        policy.
+        Simulatorsession is supposed to use the returned action for stepping inside the sim and thne
+        getting the new state.false
+        You can send the same state again, as long as you didn't get a Non-Idle Action back.
 
         :param workspace_name: The workspace identifier.
         :type workspace_name: str

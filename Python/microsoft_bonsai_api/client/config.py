@@ -14,6 +14,8 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 
+from .aad import AADClient
+
 # CLI help strings
 _ACCESS_KEY_HELP = \
     """
@@ -50,6 +52,7 @@ class BonsaiClientConfig:
                  access_key: str='',
                  server: str='https://api.bons.ai',
                  enable_logging=False,
+                 use_aad=False,
                  argv: Optional[List[str]]=sys.argv):
         """
         Initialize a config object.
@@ -68,6 +71,10 @@ class BonsaiClientConfig:
         # parse the args last
         if argv:
             self.argparse(argv)
+
+        if use_aad:
+            self._aad_client = AADClient()
+            self.access_key = self._aad_client.get_access_token()
 
 
     def argparse(self, argv: List[str]):

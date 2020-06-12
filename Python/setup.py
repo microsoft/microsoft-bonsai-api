@@ -1,7 +1,12 @@
 from setuptools import setup, find_packages
 
 NAME = "microsoft-bonsai-api"
-REQUIRES = ["msrest>=0.6.0", "azure-core<2.0.0,>=1.2.0"]
+REQUIRES = [
+    "msrest>=0.6.0",
+    "azure-core<2.0.0,>=1.2.0",
+    "msal==1.2.0",
+    "msal_extensions==0.1.3",
+]
 
 version = {}
 with open("./microsoft_bonsai_api/version.py") as fp:

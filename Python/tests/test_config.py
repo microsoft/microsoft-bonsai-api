@@ -3,12 +3,12 @@ Tests for Config class
 Copyright 2020 Microsoft
 """
 
-from microsoft_bonsai_api.client import Config
+from microsoft_bonsai_api.client import BonsaiClientConfig
 from unittest.mock import patch
 
 
 def test_default_config():
-    config = Config()
+    config = BonsaiClientConfig()
     assert config.workspace == ""
     assert config.server == "https://api.bons.ai"
 
@@ -23,14 +23,14 @@ def test_config_reads_env_vars():
             "SIM_CONTEXT": "TRAIN",
         },
     ):
-        config = Config()
+        config = BonsaiClientConfig()
         assert config.access_key == "111"
         assert config.server == "https://bonsai-api.com"
         assert config.workspace == "777"
 
 
 def test_config_reads_args():
-    config = Config(
+    config = BonsaiClientConfig(
         argv=[
             __name__,
             "--accesskey",

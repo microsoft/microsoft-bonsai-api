@@ -1,9 +1,9 @@
 from microsoft_bonsai_api.simulator.aio import SimulatorAPI
-from .config import Config
+from .config import BonsaiClientConfig
 
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClientAsync(SimulatorAPI):
-    def __init__(self, config: Config, **kwargs):
+    def __init__(self, config: BonsaiClientConfig, **kwargs):
         self._headers = {
             "Content-Type": "application/json",
             "Authorization": config.access_key,

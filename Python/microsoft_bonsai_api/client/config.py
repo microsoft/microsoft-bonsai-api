@@ -38,7 +38,7 @@ _SIM_CONTEXT_HELP = \
     This is an opaque string.
     """
 
-class Config:
+class BonsaiClientConfig:
     """Configuration information needed to connect to the service."""
     server = ''  # type: str
     workspace = ''  # type: str

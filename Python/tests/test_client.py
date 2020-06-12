@@ -3,18 +3,18 @@ Tests for BonsaiClient class
 Copyright 2020 Microsoft
 """
 from unittest.mock import Mock, patch
-from microsoft_bonsai_api.client import Config, BonsaiClient
+from microsoft_bonsai_api.client import BonsaiClientConfig, BonsaiClient
 from microsoft_bonsai_api.simulator.models import SimulatorInterface, SimulatorState
 from azure.core.exceptions import HttpResponseError
 
 
 def test_default_client_construction():
-    config = Config()
+    config = BonsaiClientConfig()
     BonsaiClient(config)
 
 
 def test_400_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "badrequest"
     config.access_key = "111"
@@ -29,7 +29,7 @@ def test_400_err_registration():
 
 
 def test_401_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "unauthorized"
     config.access_key = "111"
@@ -44,7 +44,7 @@ def test_401_err_registration():
 
 
 def test_403_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "forbidden"
     config.access_key = "111"
@@ -59,7 +59,7 @@ def test_403_err_registration():
 
 
 def test_404_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "notfound"
     config.access_key = "111"
@@ -74,7 +74,7 @@ def test_404_err_registration():
 
 
 def test_502_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "badgateway"
     config.access_key = "111"
@@ -89,7 +89,7 @@ def test_502_err_registration():
 
 
 def test_503_err_registration():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "unavailable"
     config.access_key = "111"
@@ -104,7 +104,7 @@ def test_503_err_registration():
 
 
 def test_504_err_timeout():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "gatewaytimeout"
     config.access_key = "111"
@@ -119,7 +119,7 @@ def test_504_err_timeout():
 
 
 def test_training():
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "train"
     config.access_key = "111"
@@ -138,7 +138,7 @@ def test_training():
 
 @patch("time.sleep", return_value=None)
 def test_flaky_sim(patched_sleep: Mock):
-    config = Config()
+    config = BonsaiClientConfig()
     config.server = "http://127.0.0.1:9000"
     config.workspace = "flaky"
     config.access_key = "111"

@@ -80,11 +80,7 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType[List["models.SimulatorSessionSummary"]]
-        error_map = {
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
 
         # Construct URL
@@ -116,7 +112,8 @@ class SessionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = self._deserialize('[SimulatorSessionSummary]', pipeline_response)
 
@@ -129,7 +126,7 @@ class SessionOperations:
     async def create(
         self,
         workspace_name: str,
-        body: Optional["models.SimulatorInterface"] = None,
+        body: "models.SimulatorInterface",
         **kwargs
     ) -> "models.SimulatorSessionResponse":
         """Registers a simulator with the Bonsai platform.
@@ -146,13 +143,9 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.SimulatorSessionResponse"]
-        error_map = {
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
-        content_type = kwargs.pop("content_type", "application/json")
+        content_type = kwargs.pop("content_type", "application/json-patch+json")
 
         # Construct URL
         url = self.create.metadata['url']  # type: ignore
@@ -171,10 +164,7 @@ class SessionOperations:
 
         # Construct and send request
         body_content_kwargs = {}  # type: Dict[str, Any]
-        if body is not None:
-            body_content = self._serialize.body(body, 'SimulatorInterface')
-        else:
-            body_content = None
+        body_content = self._serialize.body(body, 'SimulatorInterface')
         body_content_kwargs['content'] = body_content
         request = self._client.post(url, query_parameters, header_parameters, **body_content_kwargs)
 
@@ -183,7 +173,8 @@ class SessionOperations:
 
         if response.status_code not in [201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = self._deserialize('SimulatorSessionResponse', pipeline_response)
 
@@ -213,11 +204,7 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.SimulatorSessionResponse"]
-        error_map = {
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-            404: lambda response: ResourceNotFoundError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
 
         # Construct URL
@@ -242,7 +229,8 @@ class SessionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = self._deserialize('SimulatorSessionResponse', pipeline_response)
 
@@ -272,11 +260,7 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
-        error_map = {
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-            404: lambda response: ResourceNotFoundError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
 
         # Construct URL
@@ -300,7 +284,8 @@ class SessionOperations:
 
         if response.status_code not in [204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         if cls:
             return cls(pipeline_response, None, {})
@@ -327,11 +312,7 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.Event"]
-        error_map = {
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-            404: lambda response: ResourceNotFoundError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
 
         # Construct URL
@@ -356,7 +337,8 @@ class SessionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = self._deserialize('Event', pipeline_response)
 
@@ -370,7 +352,7 @@ class SessionOperations:
         self,
         workspace_name: str,
         session_id: str,
-        body: Optional["models.SimulatorState"] = None,
+        body: "models.SimulatorState",
         **kwargs
     ) -> "models.Event":
         """Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.
@@ -395,13 +377,9 @@ class SessionOperations:
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.Event"]
-        error_map = {
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.ProblemDetails, response)),
-        }
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
         error_map.update(kwargs.pop('error_map', {}))
-        content_type = kwargs.pop("content_type", "application/json")
+        content_type = kwargs.pop("content_type", "application/json-patch+json")
 
         # Construct URL
         url = self.advance.metadata['url']  # type: ignore
@@ -421,10 +399,7 @@ class SessionOperations:
 
         # Construct and send request
         body_content_kwargs = {}  # type: Dict[str, Any]
-        if body is not None:
-            body_content = self._serialize.body(body, 'SimulatorState')
-        else:
-            body_content = None
+        body_content = self._serialize.body(body, 'SimulatorState')
         body_content_kwargs['content'] = body_content
         request = self._client.post(url, query_parameters, header_parameters, **body_content_kwargs)
 
@@ -433,7 +408,8 @@ class SessionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = self._deserialize(models.ProblemDetails, response)
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = self._deserialize('Event', pipeline_response)
 

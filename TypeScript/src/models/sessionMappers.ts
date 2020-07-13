@@ -6,6 +6,7 @@
 export {
   EpisodeFinish,
   EpisodeStart,
+  EpisodeStep,
   Event,
   Idle,
   ProblemDetails,
@@ -18,6 +19,5 @@ export {
   SimulatorSessionResponse,
   SimulatorSessionSummary,
   SimulatorState,
-  Step,
   Unregister
 } from "../models/mappers";

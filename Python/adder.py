@@ -126,7 +126,6 @@ def main():
             advance_time = datetime.datetime.utcnow()
 
             sim_state: SimulatorState = SimulatorState(
-                session_id=session_id,
                 sequence_id=sequence_id,
                 state={"value1": value1, "value2": value2, "_reward": reward},
                 halted=False,

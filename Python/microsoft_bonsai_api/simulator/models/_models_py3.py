@@ -14,11 +14,11 @@ from ._simulator_api_enums import *
 
 
 class EpisodeFinish(msrest.serialization.Model):
-    """EpisodeFinish.
+    """EpisodeFinish event signalling current episode is finished.
 
-    :param reason:  Possible values include: "Invalid", "Unspecified", "LessonChanged", "Terminal",
-     "Interrupted".
-    :type reason: str or ~microsoft_bonsai_api.simulator.models.EpisodeFinishTypesReason
+    :param reason: Reason for episodeFinish. Possible values include: "Invalid", "Unspecified",
+     "LessonChanged", "Terminal", "Interrupted".
+    :type reason: str or ~microsoft_bonsai_api.simulator.models.EpisodeFinishReason
     """
 
     _attribute_map = {
@@ -28,7 +28,7 @@ class EpisodeFinish(msrest.serialization.Model):
     def __init__(
         self,
         *,
-        reason: Optional[Union[str, "EpisodeFinishTypesReason"]] = None,
+        reason: Optional[Union[str, "EpisodeFinishReason"]] = None,
         **kwargs
     ):
         super(EpisodeFinish, self).__init__(**kwargs)
@@ -36,9 +36,9 @@ class EpisodeFinish(msrest.serialization.Model):
 
 
 class EpisodeStart(msrest.serialization.Model):
-    """EpisodeStart.
+    """EpisodeStart event. It's sent when a new episode need to be started.
 
-    :param config: Any object.
+    :param config: Initial configuration of simulation for starting an episode.
     :type config: object
     """
 
@@ -56,73 +56,84 @@ class EpisodeStart(msrest.serialization.Model):
         self.config = config
 
 
-class Event(msrest.serialization.Model):
-    """Event.
+class EpisodeStep(msrest.serialization.Model):
+    """EpisodeStep event for stepping inthe simulation. this is sent when there is an ongoing active episode.
 
-    :param type:  Possible values include: "Unspecified", "EpisodeStart", "EpisodeStep",
-     "EpisodeFinish", "PlaybackStart", "PlaybackStep", "PlaybackFinish", "Idle", "Registered",
-     "Unregister".
-    :type type: str or ~microsoft_bonsai_api.simulator.models.EventTypesEventType
-    :param session_id:
-    :type session_id: str
-    :param sequence_id:
-    :type sequence_id: int
-    :param episode_start:
-    :type episode_start: ~microsoft_bonsai_api.simulator.models.EpisodeStart
-    :param episode_step:
-    :type episode_step: ~microsoft_bonsai_api.simulator.models.Step
-    :param episode_finish:
-    :type episode_finish: ~microsoft_bonsai_api.simulator.models.EpisodeFinish
-    :param playback_start: Any object.
-    :type playback_start: object
-    :param playback_step: Any object.
-    :type playback_step: object
-    :param playback_finish: Any object.
-    :type playback_finish: object
-    :param idle:
-    :type idle: ~microsoft_bonsai_api.simulator.models.Idle
-    :param registered: Any object.
-    :type registered: object
-    :param unregister:
-    :type unregister: ~microsoft_bonsai_api.simulator.models.Unregister
-    :param kind_case:  Possible values include: "None", "EpisodeStart", "EpisodeStep",
-     "EpisodeFinish", "PlaybackStart", "PlaybackStep", "PlaybackFinish", "Idle", "Registered",
-     "Unregister".
-    :type kind_case: str or ~microsoft_bonsai_api.simulator.models.EventKindOneofCase
+    :param action: action decided by RL agent.null use this action to advance from current state of
+     simulator.
+    :type action: object
     """
+
+    _attribute_map = {
+        'action': {'key': 'action', 'type': 'object'},
+    }
+
+    def __init__(
+        self,
+        *,
+        action: Optional[object] = None,
+        **kwargs
+    ):
+        super(EpisodeStep, self).__init__(**kwargs)
+        self.action = action
+
+
+class Event(msrest.serialization.Model):
+    """RL action returned by bonsai platform when it got new state from simulator session.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :param type: Required. Type of Event as response to advance method. Possible values include:
+     "Unspecified", "EpisodeStart", "EpisodeStep", "EpisodeFinish", "Idle", "Unregister".
+    :type type: str or ~microsoft_bonsai_api.simulator.models.EventType
+    :param session_id: Required. unique session id.
+    :type session_id: str
+    :param sequence_id: Required. Always startes with 1, and Bonsai platform increment it at each
+     Step event in advance operation.static
+     Always just return the sequenceId returned by previous advance operation response.
+    :type sequence_id: int
+    :param episode_start: EpisodeStart event. It's sent when a new episode need to be started.
+    :type episode_start: ~microsoft_bonsai_api.simulator.models.EpisodeStart
+    :param episode_step: EpisodeStep event for stepping inthe simulation. this is sent when there
+     is an ongoing active episode.
+    :type episode_step: ~microsoft_bonsai_api.simulator.models.EpisodeStep
+    :param episode_finish: EpisodeFinish event signalling current episode is finished.
+    :type episode_finish: ~microsoft_bonsai_api.simulator.models.EpisodeFinish
+    :param idle: Idle Event.null It means, that no RL action was yet available for this session.
+    :type idle: ~microsoft_bonsai_api.simulator.models.Idle
+    :param unregister: Event asking to unregister/delete simulatorSession.
+     You can create a new session, if you want to continue training with this simulator.
+    :type unregister: ~microsoft_bonsai_api.simulator.models.Unregister
+    """
+
+    _validation = {
+        'type': {'required': True},
+        'session_id': {'required': True},
+        'sequence_id': {'required': True},
+    }
 
     _attribute_map = {
         'type': {'key': 'type', 'type': 'str'},
         'session_id': {'key': 'sessionId', 'type': 'str'},
         'sequence_id': {'key': 'sequenceId', 'type': 'int'},
         'episode_start': {'key': 'episodeStart', 'type': 'EpisodeStart'},
-        'episode_step': {'key': 'episodeStep', 'type': 'Step'},
+        'episode_step': {'key': 'episodeStep', 'type': 'EpisodeStep'},
         'episode_finish': {'key': 'episodeFinish', 'type': 'EpisodeFinish'},
-        'playback_start': {'key': 'playbackStart', 'type': 'object'},
-        'playback_step': {'key': 'playbackStep', 'type': 'object'},
-        'playback_finish': {'key': 'playbackFinish', 'type': 'object'},
         'idle': {'key': 'idle', 'type': 'Idle'},
-        'registered': {'key': 'registered', 'type': 'object'},
         'unregister': {'key': 'unregister', 'type': 'Unregister'},
-        'kind_case': {'key': 'kindCase', 'type': 'str'},
     }
 
     def __init__(
         self,
         *,
-        type: Optional[Union[str, "EventTypesEventType"]] = None,
-        session_id: Optional[str] = None,
-        sequence_id: Optional[int] = None,
+        type: Union[str, "EventType"],
+        session_id: str,
+        sequence_id: int,
         episode_start: Optional["EpisodeStart"] = None,
-        episode_step: Optional["Step"] = None,
+        episode_step: Optional["EpisodeStep"] = None,
         episode_finish: Optional["EpisodeFinish"] = None,
-        playback_start: Optional[object] = None,
-        playback_step: Optional[object] = None,
-        playback_finish: Optional[object] = None,
         idle: Optional["Idle"] = None,
-        registered: Optional[object] = None,
         unregister: Optional["Unregister"] = None,
-        kind_case: Optional[Union[str, "EventKindOneofCase"]] = None,
         **kwargs
     ):
         super(Event, self).__init__(**kwargs)
@@ -132,19 +143,15 @@ class Event(msrest.serialization.Model):
         self.episode_start = episode_start
         self.episode_step = episode_step
         self.episode_finish = episode_finish
-        self.playback_start = playback_start
-        self.playback_step = playback_step
-        self.playback_finish = playback_finish
         self.idle = idle
-        self.registered = registered
         self.unregister = unregister
-        self.kind_case = kind_case
 
 
 class Idle(msrest.serialization.Model):
-    """Idle.
+    """Idle Event.null It means, that no RL action was yet available for this session.
 
-    :param callback_time:
+    :param callback_time: callback time in seconds. this mean,s you should wait for this much time
+     before sending a new advance request.
     :type callback_time: float
     """
 
@@ -323,19 +330,33 @@ class SimulatorContext(msrest.serialization.Model):
 
 
 class SimulatorInterface(msrest.serialization.Model):
-    """SimulatorInterface.
+    """It contains all the registration/creation time properties of a simulator session.
 
-    :param name:
+    All required parameters must be populated in order to send to Azure.
+
+    :param name: Required. Name of the simulator session.
     :type name: str
-    :param timeout:
+    :param timeout: This is the max time in seconds, within which simulator need to send advance
+     request, else it will be timed out and unregistered from Bonsai platform.
+     Set it to (SimulatorComputeTime + RTT network latency + few seconds)
+     Default is 60s.
     :type timeout: float
-    :param capabilities: Any object.
+    :param capabilities: Additional Capabilities for the session.
     :type capabilities: object
-    :param simulator_context:
+    :param simulator_context: Opaque string to the sim authors. It's used to connect simulator
+     sessions to right brain.false
+     For hosted sims, we automatically take care of setting the right environment variable for
+     this.
+     For Local sims, set it to empty string, and use Bonsai CLI's, ``bonsai connect`` command.
     :type simulator_context: str
-    :param description: Any object.
+    :param description: Schema descriptions of the simulator. Contains State, Action and Config
+     schemas.
     :type description: object
     """
+
+    _validation = {
+        'name': {'required': True},
+    }
 
     _attribute_map = {
         'name': {'key': 'name', 'type': 'str'},
@@ -348,7 +369,7 @@ class SimulatorInterface(msrest.serialization.Model):
     def __init__(
         self,
         *,
-        name: Optional[str] = None,
+        name: str,
         timeout: Optional[float] = None,
         capabilities: Optional[object] = None,
         simulator_context: Optional[str] = None,
@@ -422,7 +443,8 @@ class SimulatorSessionResponse(msrest.serialization.Model):
     :type session_status: str or ~microsoft_bonsai_api.simulator.models.SimulatorSessionTypesStatus
     :param session_progress: SimulatorSession progress related to train an actual brain.
     :type session_progress: ~microsoft_bonsai_api.simulator.models.SimulatorSessionProgress
-    :param interface:
+    :param interface: It contains all the registration/creation time properties of a simulator
+     session.
     :type interface: ~microsoft_bonsai_api.simulator.models.SimulatorInterface
     :param simulator_context:
     :type simulator_context: ~microsoft_bonsai_api.simulator.models.SimulatorContext
@@ -520,22 +542,28 @@ class SimulatorSessionSummary(msrest.serialization.Model):
 
 
 class SimulatorState(msrest.serialization.Model):
-    """SimulatorState.
+    """It contains simulator state information needed by bonsai platform in response of an action.
 
-    :param session_id:
-    :type session_id: str
-    :param sequence_id:
+    All required parameters must be populated in order to send to Azure.
+
+    :param sequence_id: Required. Always startes with 1, and Bonsai platform increment it at each
+     Step event in advance operation.static
+     Always just return the sequenceId returned by previous advance operation response.
     :type sequence_id: int
-    :param state: Any object.
+    :param state: State of your simulator model.
     :type state: object
-    :param halted:
+    :param halted: Optional halt parameter to indicate, simulator wants to halt.
+     Implicitly false when not present.
     :type halted: bool
-    :param error:
+    :param error: No error if not defined or empty.
     :type error: str
     """
 
+    _validation = {
+        'sequence_id': {'required': True},
+    }
+
     _attribute_map = {
-        'session_id': {'key': 'sessionId', 'type': 'str'},
         'sequence_id': {'key': 'sequenceId', 'type': 'int'},
         'state': {'key': 'state', 'type': 'object'},
         'halted': {'key': 'halted', 'type': 'bool'},
@@ -545,48 +573,27 @@ class SimulatorState(msrest.serialization.Model):
     def __init__(
         self,
         *,
-        session_id: Optional[str] = None,
-        sequence_id: Optional[int] = None,
+        sequence_id: int,
         state: Optional[object] = None,
         halted: Optional[bool] = None,
         error: Optional[str] = None,
         **kwargs
     ):
         super(SimulatorState, self).__init__(**kwargs)
-        self.session_id = session_id
         self.sequence_id = sequence_id
         self.state = state
         self.halted = halted
         self.error = error
 
 
-class Step(msrest.serialization.Model):
-    """Step.
-
-    :param action: Any object.
-    :type action: object
-    """
-
-    _attribute_map = {
-        'action': {'key': 'action', 'type': 'object'},
-    }
-
-    def __init__(
-        self,
-        *,
-        action: Optional[object] = None,
-        **kwargs
-    ):
-        super(Step, self).__init__(**kwargs)
-        self.action = action
-
-
 class Unregister(msrest.serialization.Model):
-    """Unregister.
+    """Event asking to unregister/delete simulatorSession.
+You can create a new session, if you want to continue training with this simulator.
 
-    :param reason:  Possible values include: "Unspecified", "Finished", "Error", "NotFound".
-    :type reason: str or ~microsoft_bonsai_api.simulator.models.UnregisterTypesReason
-    :param details:
+    :param reason: Reason for unregister event. Possible values include: "Unspecified", "Finished",
+     "Error", "NotFound".
+    :type reason: str or ~microsoft_bonsai_api.simulator.models.UnregisterReason
+    :param details: Detail message for unregister event.
     :type details: str
     """
 
@@ -598,7 +605,7 @@ class Unregister(msrest.serialization.Model):
     def __init__(
         self,
         *,
-        reason: Optional[Union[str, "UnregisterTypesReason"]] = None,
+        reason: Optional[Union[str, "UnregisterReason"]] = None,
         details: Optional[str] = None,
         **kwargs
     ):

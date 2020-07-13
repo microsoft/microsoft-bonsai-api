@@ -222,6 +222,7 @@ export const SimulatorInterface: msRest.CompositeMapper = {
     className: "SimulatorInterface",
     modelProperties: {
       name: {
+        required: true,
         serializedName: "name",
         type: {
           name: "String"
@@ -388,11 +389,11 @@ export const EpisodeStart: msRest.CompositeMapper = {
   }
 };
 
-export const Step: msRest.CompositeMapper = {
-  serializedName: "Step",
+export const EpisodeStep: msRest.CompositeMapper = {
+  serializedName: "EpisodeStep",
   type: {
     name: "Composite",
-    className: "Step",
+    className: "EpisodeStep",
     modelProperties: {
       action: {
         serializedName: "action",
@@ -478,6 +479,7 @@ export const Event: msRest.CompositeMapper = {
     className: "Event",
     modelProperties: {
       type: {
+        required: true,
         serializedName: "type",
         type: {
           name: "Enum",
@@ -486,22 +488,20 @@ export const Event: msRest.CompositeMapper = {
             "EpisodeStart",
             "EpisodeStep",
             "EpisodeFinish",
-            "PlaybackStart",
-            "PlaybackStep",
-            "PlaybackFinish",
             "Idle",
-            "Registered",
             "Unregister"
           ]
         }
       },
       sessionId: {
+        required: true,
         serializedName: "sessionId",
         type: {
           name: "String"
         }
       },
       sequenceId: {
+        required: true,
         serializedName: "sequenceId",
         type: {
           name: "Number"
@@ -518,7 +518,7 @@ export const Event: msRest.CompositeMapper = {
         serializedName: "episodeStep",
         type: {
           name: "Composite",
-          className: "Step"
+          className: "EpisodeStep"
         }
       },
       episodeFinish: {
@@ -528,24 +528,6 @@ export const Event: msRest.CompositeMapper = {
           className: "EpisodeFinish"
         }
       },
-      playbackStart: {
-        serializedName: "playbackStart",
-        type: {
-          name: "Object"
-        }
-      },
-      playbackStep: {
-        serializedName: "playbackStep",
-        type: {
-          name: "Object"
-        }
-      },
-      playbackFinish: {
-        serializedName: "playbackFinish",
-        type: {
-          name: "Object"
-        }
-      },
       idle: {
         serializedName: "idle",
         type: {
@@ -553,35 +535,11 @@ export const Event: msRest.CompositeMapper = {
           className: "Idle"
         }
       },
-      registered: {
-        serializedName: "registered",
-        type: {
-          name: "Object"
-        }
-      },
       unregister: {
         serializedName: "unregister",
         type: {
           name: "Composite",
           className: "Unregister"
-        }
-      },
-      kindCase: {
-        serializedName: "kindCase",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "EpisodeStart",
-            "EpisodeStep",
-            "EpisodeFinish",
-            "PlaybackStart",
-            "PlaybackStep",
-            "PlaybackFinish",
-            "Idle",
-            "Registered",
-            "Unregister"
-          ]
         }
       }
     }
@@ -594,13 +552,8 @@ export const SimulatorState: msRest.CompositeMapper = {
     name: "Composite",
     className: "SimulatorState",
     modelProperties: {
-      sessionId: {
-        serializedName: "sessionId",
-        type: {
-          name: "String"
-        }
-      },
       sequenceId: {
+        required: true,
         serializedName: "sequenceId",
         type: {
           name: "Number"

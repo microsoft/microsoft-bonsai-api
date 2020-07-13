@@ -6,7 +6,9 @@
 
 from enum import Enum
 
-class EpisodeFinishTypesReason(str, Enum):
+class EpisodeFinishReason(str, Enum):
+    """Reason for episodeFinish
+    """
 
     invalid = "Invalid"
     unspecified = "Unspecified"
@@ -14,30 +16,15 @@ class EpisodeFinishTypesReason(str, Enum):
     terminal = "Terminal"
     interrupted = "Interrupted"
 
-class EventKindOneofCase(str, Enum):
-
-    none = "None"
-    episode_start = "EpisodeStart"
-    episode_step = "EpisodeStep"
-    episode_finish = "EpisodeFinish"
-    playback_start = "PlaybackStart"
-    playback_step = "PlaybackStep"
-    playback_finish = "PlaybackFinish"
-    idle = "Idle"
-    registered = "Registered"
-    unregister = "Unregister"
-
-class EventTypesEventType(str, Enum):
+class EventType(str, Enum):
+    """Type of Event as response to advance method.
+    """
 
     unspecified = "Unspecified"
     episode_start = "EpisodeStart"
     episode_step = "EpisodeStep"
     episode_finish = "EpisodeFinish"
-    playback_start = "PlaybackStart"
-    playback_step = "PlaybackStep"
-    playback_finish = "PlaybackFinish"
     idle = "Idle"
-    registered = "Registered"
     unregister = "Unregister"
 
 class PurposeTypesAction(str, Enum):
@@ -61,7 +48,9 @@ class SimulatorSessionTypesStatus(str, Enum):
     detaching = "Detaching"
     rejected = "Rejected"
 
-class UnregisterTypesReason(str, Enum):
+class UnregisterReason(str, Enum):
+    """Reason for unregister event.
+    """
 
     unspecified = "Unspecified"
     finished = "Finished"

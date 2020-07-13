@@ -71,13 +71,34 @@ export interface ProblemDetails {
 }
 
 /**
- * An interface representing SimulatorInterface.
+ * It contains all the registration/creation time properties of a simulator session.
  */
 export interface SimulatorInterface {
-  name?: string;
+  /**
+   * Name of the simulator session.
+   */
+  name: string;
+  /**
+   * This is the max time in seconds, within which simulator need to send advance request, else it
+   * will be timed out and unregistered from Bonsai platform.
+   * Set it to (SimulatorComputeTime + RTT network latency + few seconds)
+   * Default is 60s
+   */
   timeout?: number;
+  /**
+   * Additional Capabilities for the session.
+   */
   capabilities?: any;
+  /**
+   * Opaque string to the sim authors. It's used to connect simulator sessions to right brain.false
+   * For hosted sims, we automatically take care of setting the right environment variable for
+   * this.
+   * For Local sims, set it to empty string, and use Bonsai CLI's, `bonsai connect` command.
+   */
   simulatorContext?: string;
+  /**
+   * Schema descriptions of the simulator. Contains State, Action and Config schemas.
+   */
   description?: any;
 }
 
@@ -133,82 +154,110 @@ export interface SimulatorSessionResponse {
 }
 
 /**
- * An interface representing EpisodeStart.
+ * EpisodeStart event. It's sent when a new episode need to be started.
  */
 export interface EpisodeStart {
+  /**
+   * Initial configuration of simulation for starting an episode.
+   */
   config?: any;
 }
 
 /**
- * An interface representing Step.
+ * EpisodeStep event for stepping inthe simulation. this is sent when there is an ongoing active
+ * episode.
  */
-export interface Step {
+export interface EpisodeStep {
+  /**
+   * action decided by RL agent.null use this action to advance from current state of simulator.
+   */
   action?: any;
 }
 
 /**
- * An interface representing EpisodeFinish.
+ * EpisodeFinish event signalling current episode is finished.
  */
 export interface EpisodeFinish {
   /**
    * Possible values include: 'Invalid', 'Unspecified', 'LessonChanged', 'Terminal', 'Interrupted'
    */
-  reason?: EpisodeFinishTypesReason;
+  reason?: EpisodeFinishReason;
 }
 
 /**
- * An interface representing Idle.
+ * Idle Event.null It means, that no RL action was yet available for this session.
  */
 export interface Idle {
+  /**
+   * callback time in seconds. this mean,s you should wait for this much time before sending a new
+   * advance request.
+   */
   callbackTime?: number;
 }
 
 /**
- * An interface representing Unregister.
+ * Event asking to unregister/delete simulatorSession.
+ * You can create a new session, if you want to continue training with this simulator.
  */
 export interface Unregister {
   /**
    * Possible values include: 'Unspecified', 'Finished', 'Error', 'NotFound'
    */
-  reason?: UnregisterTypesReason;
+  reason?: UnregisterReason;
+  /**
+   * Detail message for unregister event.
+   */
   details?: string;
 }
 
 /**
- * An interface representing Event.
+ * RL action returned by bonsai platform when it got new state from simulator session.
  */
 export interface Event {
   /**
    * Possible values include: 'Unspecified', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
-   * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+   * 'Idle', 'Unregister'
    */
-  type?: EventTypesEventType;
-  sessionId?: string;
-  sequenceId?: number;
-  episodeStart?: EpisodeStart;
-  episodeStep?: Step;
-  episodeFinish?: EpisodeFinish;
-  playbackStart?: any;
-  playbackStep?: any;
-  playbackFinish?: any;
-  idle?: Idle;
-  registered?: any;
-  unregister?: Unregister;
+  type: EventType;
   /**
-   * Possible values include: 'None', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
-   * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+   * unique session id.
    */
-  kindCase?: EventKindOneofCase;
+  sessionId: string;
+  /**
+   * Always startes with 1, and Bonsai platform increment it at each Step event in advance
+   * operation.static
+   * Always just return the sequenceId returned by previous advance operation response.
+   */
+  sequenceId: number;
+  episodeStart?: EpisodeStart;
+  episodeStep?: EpisodeStep;
+  episodeFinish?: EpisodeFinish;
+  idle?: Idle;
+  unregister?: Unregister;
 }
 
 /**
- * An interface representing SimulatorState.
+ * It contains simulator state information needed by bonsai platform in response of an action.
  */
 export interface SimulatorState {
-  sessionId?: string;
-  sequenceId?: number;
+  /**
+   * Always startes with 1, and Bonsai platform increment it at each Step event in advance
+   * operation.static
+   * Always just return the sequenceId returned by previous advance operation response.
+   */
+  sequenceId: number;
+  /**
+   * State of your simulator model.
+   */
   state?: any;
+  /**
+   * Optional halt parameter to indicate, simulator wants to halt.
+   * Implicitly false when not present.
+   */
   halted?: boolean;
+  /**
+   * No error if not defined or empty
+   */
   error?: string;
 }
 
@@ -242,26 +291,6 @@ export interface SessionListOptionalParams extends msRest.RequestOptionsBase {
 }
 
 /**
- * Optional Parameters.
- */
-export interface SessionCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Information and capabilities about the simulator.
-   */
-  body?: SimulatorInterface;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SessionAdvanceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The new state of the simulator.
-   */
-  body?: SimulatorState;
-}
-
-/**
  * Defines values for SimulatorSessionTypesStatus.
  * Possible values include: 'Deregistered', 'Attachable', 'Attached', 'Detaching', 'Rejected'
  * @readonly
@@ -286,38 +315,29 @@ export type SimulatorContextTypesDeploymentMode = 'Unspecified' | 'Hosted' | 'Te
 export type PurposeTypesAction = 'Inactive' | 'Debug' | 'Train' | 'Assess';
 
 /**
- * Defines values for EventTypesEventType.
- * Possible values include: 'Unspecified', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
- * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
+ * Defines values for EventType.
+ * Possible values include: 'Unspecified', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish', 'Idle',
+ * 'Unregister'
  * @readonly
  * @enum {string}
  */
-export type EventTypesEventType = 'Unspecified' | 'EpisodeStart' | 'EpisodeStep' | 'EpisodeFinish' | 'PlaybackStart' | 'PlaybackStep' | 'PlaybackFinish' | 'Idle' | 'Registered' | 'Unregister';
+export type EventType = 'Unspecified' | 'EpisodeStart' | 'EpisodeStep' | 'EpisodeFinish' | 'Idle' | 'Unregister';
 
 /**
- * Defines values for EpisodeFinishTypesReason.
+ * Defines values for EpisodeFinishReason.
  * Possible values include: 'Invalid', 'Unspecified', 'LessonChanged', 'Terminal', 'Interrupted'
  * @readonly
  * @enum {string}
  */
-export type EpisodeFinishTypesReason = 'Invalid' | 'Unspecified' | 'LessonChanged' | 'Terminal' | 'Interrupted';
+export type EpisodeFinishReason = 'Invalid' | 'Unspecified' | 'LessonChanged' | 'Terminal' | 'Interrupted';
 
 /**
- * Defines values for UnregisterTypesReason.
+ * Defines values for UnregisterReason.
  * Possible values include: 'Unspecified', 'Finished', 'Error', 'NotFound'
  * @readonly
  * @enum {string}
  */
-export type UnregisterTypesReason = 'Unspecified' | 'Finished' | 'Error' | 'NotFound';
-
-/**
- * Defines values for EventKindOneofCase.
- * Possible values include: 'None', 'EpisodeStart', 'EpisodeStep', 'EpisodeFinish',
- * 'PlaybackStart', 'PlaybackStep', 'PlaybackFinish', 'Idle', 'Registered', 'Unregister'
- * @readonly
- * @enum {string}
- */
-export type EventKindOneofCase = 'None' | 'EpisodeStart' | 'EpisodeStep' | 'EpisodeFinish' | 'PlaybackStart' | 'PlaybackStep' | 'PlaybackFinish' | 'Idle' | 'Registered' | 'Unregister';
+export type UnregisterReason = 'Unspecified' | 'Finished' | 'Error' | 'NotFound';
 
 /**
  * Contains response data for the list operation.

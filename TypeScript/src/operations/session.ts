@@ -68,25 +68,29 @@ export class Session {
   /**
    * @summary Registers a simulator with the Bonsai platform.
    * @param workspaceName The workspace identifier.
+   * @param body Information and capabilities about the simulator.
    * @param [options] The optional parameters
    * @returns Promise<Models.SessionCreateResponse>
    */
-  create(workspaceName: string, options?: Models.SessionCreateOptionalParams): Promise<Models.SessionCreateResponse>;
+  create(workspaceName: string, body: Models.SimulatorInterface, options?: msRest.RequestOptionsBase): Promise<Models.SessionCreateResponse>;
   /**
    * @param workspaceName The workspace identifier.
+   * @param body Information and capabilities about the simulator.
    * @param callback The callback
    */
-  create(workspaceName: string, callback: msRest.ServiceCallback<Models.SimulatorSessionResponse>): void;
+  create(workspaceName: string, body: Models.SimulatorInterface, callback: msRest.ServiceCallback<Models.SimulatorSessionResponse>): void;
   /**
    * @param workspaceName The workspace identifier.
+   * @param body Information and capabilities about the simulator.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(workspaceName: string, options: Models.SessionCreateOptionalParams, callback: msRest.ServiceCallback<Models.SimulatorSessionResponse>): void;
-  create(workspaceName: string, options?: Models.SessionCreateOptionalParams | msRest.ServiceCallback<Models.SimulatorSessionResponse>, callback?: msRest.ServiceCallback<Models.SimulatorSessionResponse>): Promise<Models.SessionCreateResponse> {
+  create(workspaceName: string, body: Models.SimulatorInterface, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SimulatorSessionResponse>): void;
+  create(workspaceName: string, body: Models.SimulatorInterface, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SimulatorSessionResponse>, callback?: msRest.ServiceCallback<Models.SimulatorSessionResponse>): Promise<Models.SessionCreateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
+        body,
         options
       },
       createOperationSpec,
@@ -197,28 +201,32 @@ export class Session {
    * You can send the same state again, as long as you didn't get a Non-Idle Action back.
    * @param workspaceName The workspace identifier.
    * @param sessionId Unique identifier for the simulator.
+   * @param body The new state of the simulator.
    * @param [options] The optional parameters
    * @returns Promise<Models.SessionAdvanceResponse>
    */
-  advance(workspaceName: string, sessionId: string, options?: Models.SessionAdvanceOptionalParams): Promise<Models.SessionAdvanceResponse>;
+  advance(workspaceName: string, sessionId: string, body: Models.SimulatorState, options?: msRest.RequestOptionsBase): Promise<Models.SessionAdvanceResponse>;
   /**
    * @param workspaceName The workspace identifier.
    * @param sessionId Unique identifier for the simulator.
+   * @param body The new state of the simulator.
    * @param callback The callback
    */
-  advance(workspaceName: string, sessionId: string, callback: msRest.ServiceCallback<Models.Event>): void;
+  advance(workspaceName: string, sessionId: string, body: Models.SimulatorState, callback: msRest.ServiceCallback<Models.Event>): void;
   /**
    * @param workspaceName The workspace identifier.
    * @param sessionId Unique identifier for the simulator.
+   * @param body The new state of the simulator.
    * @param options The optional parameters
    * @param callback The callback
    */
-  advance(workspaceName: string, sessionId: string, options: Models.SessionAdvanceOptionalParams, callback: msRest.ServiceCallback<Models.Event>): void;
-  advance(workspaceName: string, sessionId: string, options?: Models.SessionAdvanceOptionalParams | msRest.ServiceCallback<Models.Event>, callback?: msRest.ServiceCallback<Models.Event>): Promise<Models.SessionAdvanceResponse> {
+  advance(workspaceName: string, sessionId: string, body: Models.SimulatorState, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Event>): void;
+  advance(workspaceName: string, sessionId: string, body: Models.SimulatorState, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Event>, callback?: msRest.ServiceCallback<Models.Event>): Promise<Models.SessionAdvanceResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
         sessionId,
+        body,
         options
       },
       advanceOperationSpec,
@@ -255,10 +263,9 @@ const listOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -270,20 +277,20 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
-    mapper: Mappers.SimulatorInterface
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.SimulatorInterface,
+      required: true
+    }
   },
+  contentType: "application/json-patch+json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: Mappers.SimulatorSessionResponse
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -299,13 +306,9 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.SimulatorSessionResponse
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    404: {
-      bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -319,13 +322,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    404: {
-      bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -341,13 +340,9 @@ const getMostRecentActionOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Event
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    404: {
-      bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -360,20 +355,20 @@ const advanceOperationSpec: msRest.OperationSpec = {
     Parameters.sessionId
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
-    mapper: Mappers.SimulatorState
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.SimulatorState,
+      required: true
+    }
   },
+  contentType: "application/json-patch+json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.Event
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ProblemDetails
-    },
-    default: {}
+    }
   },
   serializer
 };

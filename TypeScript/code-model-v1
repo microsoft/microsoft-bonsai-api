@@ -1,0 +1,4918 @@
+{
+ "$id": "1",
+ "modelTypes": [
+  {
+   "$id": "2",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "3",
+     "isReadOnly": false,
+     "realPath": [
+      "workspaceName"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "4",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "5",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "6",
+      "fixed": false,
+      "raw": "workspaceName"
+     },
+     "serializedName": "workspaceName",
+     "modelType": {
+      "$id": "7",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "8",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "9",
+     "isReadOnly": false,
+     "realPath": [
+      "brainName"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "10",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "11",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "12",
+      "fixed": false,
+      "raw": "brainName"
+     },
+     "serializedName": "brainName",
+     "modelType": {
+      "$id": "13",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "14",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "15",
+     "isReadOnly": false,
+     "realPath": [
+      "brainVersion"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "16",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "17",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "18",
+      "fixed": false,
+      "raw": "brainVersion"
+     },
+     "serializedName": "brainVersion",
+     "modelType": {
+      "$id": "19",
+      "$type": "PrimaryType",
+      "format": "int32",
+      "knownPrimaryType": "int",
+      "name": {
+       "$id": "20",
+       "fixed": false,
+       "raw": "Int"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "21",
+     "isReadOnly": false,
+     "realPath": [
+      "conceptName"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "22",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "23",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "24",
+      "fixed": false,
+      "raw": "conceptName"
+     },
+     "serializedName": "conceptName",
+     "modelType": {
+      "$id": "25",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "26",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "PurposeTarget",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "27",
+    "fixed": false,
+    "raw": "PurposeTarget"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "PurposeTarget",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/PurposeTarget"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "28",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "29",
+     "isReadOnly": false,
+     "realPath": [
+      "action"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "30",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "31",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "Purpose+Types+Action",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Purpose+Types+Action"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "Purpose+Types+Action"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "32",
+      "fixed": false,
+      "raw": "action"
+     },
+     "serializedName": "action",
+     "modelType": {
+      "$id": "33",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "34",
+        "name": "Inactive",
+        "serializedName": "Inactive"
+       },
+       {
+        "$id": "35",
+        "name": "Debug",
+        "serializedName": "Debug"
+       },
+       {
+        "$id": "36",
+        "name": "Train",
+        "serializedName": "Train"
+       },
+       {
+        "$id": "37",
+        "name": "Assess",
+        "serializedName": "Assess"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "38",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "39",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "40",
+       "fixed": false,
+       "raw": "Purpose+Types+Action"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "41",
+     "isReadOnly": false,
+     "realPath": [
+      "target"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "42",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "43",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "44",
+      "fixed": false,
+      "raw": "target"
+     },
+     "serializedName": "target",
+     "modelType": {
+      "$ref": "2"
+     }
+    }
+   ],
+   "serializedName": "Purpose",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "45",
+    "fixed": false,
+    "raw": "Purpose"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "Purpose",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Purpose"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "46",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "47",
+     "isReadOnly": false,
+     "realPath": [
+      "deploymentMode"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "48",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "49",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "SimulatorContext+Types+DeploymentMode",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorContext+Types+DeploymentMode"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "SimulatorContext+Types+DeploymentMode"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "50",
+      "fixed": false,
+      "raw": "deploymentMode"
+     },
+     "serializedName": "deploymentMode",
+     "modelType": {
+      "$id": "51",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "52",
+        "name": "Unspecified",
+        "serializedName": "Unspecified"
+       },
+       {
+        "$id": "53",
+        "name": "Hosted",
+        "serializedName": "Hosted"
+       },
+       {
+        "$id": "54",
+        "name": "Testing",
+        "serializedName": "Testing"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "55",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "56",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "57",
+       "fixed": false,
+       "raw": "SimulatorContext+Types+DeploymentMode"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "58",
+     "isReadOnly": false,
+     "realPath": [
+      "deploymentDetails"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "59",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "60",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "61",
+      "fixed": false,
+      "raw": "deploymentDetails"
+     },
+     "serializedName": "deploymentDetails",
+     "modelType": {
+      "$id": "62",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "63",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "64",
+     "isReadOnly": false,
+     "realPath": [
+      "simulatorClientId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "65",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "66",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "67",
+      "fixed": false,
+      "raw": "simulatorClientId"
+     },
+     "serializedName": "simulatorClientId",
+     "modelType": {
+      "$id": "68",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "69",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "70",
+     "isReadOnly": false,
+     "realPath": [
+      "collection"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "71",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "72",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "73",
+      "fixed": false,
+      "raw": "collection"
+     },
+     "serializedName": "collection",
+     "modelType": {
+      "$id": "74",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "75",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "76",
+     "isReadOnly": false,
+     "realPath": [
+      "package"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "77",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "78",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "79",
+      "fixed": false,
+      "raw": "package"
+     },
+     "serializedName": "package",
+     "modelType": {
+      "$id": "80",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "81",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "82",
+     "isReadOnly": false,
+     "realPath": [
+      "purpose"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "83",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "84",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "85",
+      "fixed": false,
+      "raw": "purpose"
+     },
+     "serializedName": "purpose",
+     "modelType": {
+      "$ref": "28"
+     }
+    }
+   ],
+   "serializedName": "SimulatorContext",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "86",
+    "fixed": false,
+    "raw": "SimulatorContext"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorContext",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorContext"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "87",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "88",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "89",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "90",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "91",
+      "fixed": false,
+      "raw": "sessionId"
+     },
+     "serializedName": "sessionId",
+     "modelType": {
+      "$id": "92",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "93",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "94",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionStatus"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "95",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "96",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "SimulatorSession+Types+Status",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSession+Types+Status"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "SimulatorSession+Types+Status"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "97",
+      "fixed": false,
+      "raw": "sessionStatus"
+     },
+     "serializedName": "sessionStatus",
+     "modelType": {
+      "$id": "98",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "99",
+        "name": "Deregistered",
+        "serializedName": "Deregistered"
+       },
+       {
+        "$id": "100",
+        "name": "Attachable",
+        "serializedName": "Attachable"
+       },
+       {
+        "$id": "101",
+        "name": "Attached",
+        "serializedName": "Attached"
+       },
+       {
+        "$id": "102",
+        "name": "Detaching",
+        "serializedName": "Detaching"
+       },
+       {
+        "$id": "103",
+        "name": "Rejected",
+        "serializedName": "Rejected"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "104",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "105",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "106",
+       "fixed": false,
+       "raw": "SimulatorSession+Types+Status"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "107",
+     "isReadOnly": false,
+     "realPath": [
+      "simulatorName"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "108",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "109",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "110",
+      "fixed": false,
+      "raw": "simulatorName"
+     },
+     "serializedName": "simulatorName",
+     "modelType": {
+      "$id": "111",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "112",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "113",
+     "isReadOnly": false,
+     "realPath": [
+      "simulatorContext"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "114",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "115",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "116",
+      "fixed": false,
+      "raw": "simulatorContext"
+     },
+     "serializedName": "simulatorContext",
+     "modelType": {
+      "$ref": "46"
+     }
+    }
+   ],
+   "serializedName": "SimulatorSessionSummary",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "117",
+    "fixed": false,
+    "raw": "SimulatorSessionSummary"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorSessionSummary",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSessionSummary"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "118",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "119",
+     "isReadOnly": false,
+     "realPath": [
+      "type"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "120",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "121",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "122",
+      "fixed": false,
+      "raw": "type"
+     },
+     "serializedName": "type",
+     "modelType": {
+      "$id": "123",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "124",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "125",
+     "isReadOnly": false,
+     "realPath": [
+      "title"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "126",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "127",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "128",
+      "fixed": false,
+      "raw": "title"
+     },
+     "serializedName": "title",
+     "modelType": {
+      "$id": "129",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "130",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "131",
+     "isReadOnly": false,
+     "realPath": [
+      "status"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "132",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "133",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "134",
+      "fixed": false,
+      "raw": "status"
+     },
+     "serializedName": "status",
+     "modelType": {
+      "$id": "135",
+      "$type": "PrimaryType",
+      "format": "int32",
+      "knownPrimaryType": "int",
+      "name": {
+       "$id": "136",
+       "fixed": false,
+       "raw": "Int"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "137",
+     "isReadOnly": false,
+     "realPath": [
+      "detail"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "138",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "139",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "140",
+      "fixed": false,
+      "raw": "detail"
+     },
+     "serializedName": "detail",
+     "modelType": {
+      "$id": "141",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "142",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "143",
+     "isReadOnly": false,
+     "realPath": [
+      "instance"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "144",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "145",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "146",
+      "fixed": false,
+      "raw": "instance"
+     },
+     "serializedName": "instance",
+     "modelType": {
+      "$id": "147",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "148",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "149",
+     "isReadOnly": true,
+     "realPath": [
+      "extensions"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "150",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "151",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "152",
+      "fixed": false,
+      "raw": "extensions"
+     },
+     "serializedName": "extensions",
+     "modelType": {
+      "$id": "153",
+      "$type": "DictionaryType",
+      "valueType": {
+       "$id": "154",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "object",
+       "name": {
+        "$id": "155",
+        "fixed": false,
+        "raw": "Object"
+       },
+       "deprecated": false
+      },
+      "supportsAdditionalProperties": false,
+      "name": {
+       "$id": "156",
+       "fixed": false
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "ProblemDetails",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "157",
+    "fixed": false,
+    "raw": "ProblemDetails"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "ProblemDetails",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/ProblemDetails"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "158",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "159",
+     "isReadOnly": false,
+     "realPath": [
+      "name"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "160",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "161",
+      "fixed": false,
+      "raw": "Name of the simulator session."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "162",
+      "fixed": false,
+      "raw": "name"
+     },
+     "serializedName": "name",
+     "modelType": {
+      "$id": "163",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "164",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "165",
+     "isReadOnly": false,
+     "realPath": [
+      "timeout"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "166",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "167",
+      "fixed": false,
+      "raw": "This is the max time in seconds, within which simulator need to send advance request, else it will be timed out and unregistered from Bonsai platform.\r\nSet it to (SimulatorComputeTime + RTT network latency + few seconds)\r\nDefault is 60s"
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "168",
+      "fixed": false,
+      "raw": "timeout"
+     },
+     "serializedName": "timeout",
+     "modelType": {
+      "$id": "169",
+      "$type": "PrimaryType",
+      "format": "float",
+      "knownPrimaryType": "double",
+      "name": {
+       "$id": "170",
+       "fixed": false,
+       "raw": "Double"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "171",
+     "isReadOnly": false,
+     "realPath": [
+      "capabilities"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "172",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "173",
+      "fixed": false,
+      "raw": "Additional Capabilities for the session."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "174",
+      "fixed": false,
+      "raw": "capabilities"
+     },
+     "serializedName": "capabilities",
+     "modelType": {
+      "$id": "175",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "object",
+      "name": {
+       "$id": "176",
+       "fixed": false,
+       "raw": "Object"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "177",
+     "isReadOnly": false,
+     "realPath": [
+      "simulatorContext"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "178",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "179",
+      "fixed": false,
+      "raw": "Opaque string to the sim authors. It's used to connect simulator sessions to right brain.false\r\nFor hosted sims, we automatically take care of setting the right environment variable for this. \r\nFor Local sims, set it to empty string, and use Bonsai CLI's, `bonsai connect` command."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "180",
+      "fixed": false,
+      "raw": "simulatorContext"
+     },
+     "serializedName": "simulatorContext",
+     "modelType": {
+      "$id": "181",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "182",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "183",
+     "isReadOnly": false,
+     "realPath": [
+      "description"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "184",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "185",
+      "fixed": false,
+      "raw": "Schema descriptions of the simulator. Contains State, Action and Config schemas."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "186",
+      "fixed": false,
+      "raw": "description"
+     },
+     "serializedName": "description",
+     "modelType": {
+      "$id": "187",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "object",
+      "name": {
+       "$id": "188",
+       "fixed": false,
+       "raw": "Object"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "SimulatorInterface",
+   "documentation": "It contains all the registration/creation time properties of a simulator session.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "189",
+    "fixed": false,
+    "raw": "SimulatorInterface"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorInterface",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorInterface"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "190",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "191",
+     "isReadOnly": false,
+     "realPath": [
+      "firstTime"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "192",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "193",
+      "fixed": false,
+      "raw": "First time, this session made the specified progress."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "194",
+      "fixed": false,
+      "raw": "firstTime"
+     },
+     "serializedName": "firstTime",
+     "modelType": {
+      "$id": "195",
+      "$type": "PrimaryType",
+      "format": "date-time",
+      "knownPrimaryType": "dateTime",
+      "name": {
+       "$id": "196",
+       "fixed": false,
+       "raw": "DateTime"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "SimulatorSessionMilestone",
+   "documentation": "SimulatorSession progress milestone.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "197",
+    "fixed": false,
+    "raw": "SimulatorSessionMilestone"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorSessionMilestone",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSessionMilestone"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "198",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "199",
+     "isReadOnly": false,
+     "realPath": [
+      "attached"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "200",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "201",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "202",
+      "fixed": false,
+      "raw": "attached"
+     },
+     "serializedName": "attached",
+     "modelType": {
+      "$ref": "190"
+     }
+    },
+    {
+     "$id": "203",
+     "isReadOnly": false,
+     "realPath": [
+      "iterated"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "204",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "205",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "206",
+      "fixed": false,
+      "raw": "iterated"
+     },
+     "serializedName": "iterated",
+     "modelType": {
+      "$ref": "190"
+     }
+    }
+   ],
+   "serializedName": "SimulatorSessionProgress",
+   "documentation": "SimulatorSession progress related to train an actual brain.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "207",
+    "fixed": false,
+    "raw": "SimulatorSessionProgress"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorSessionProgress",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSessionProgress"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "208",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "209",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "210",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "211",
+      "fixed": false,
+      "raw": "Unique sessionId for this session."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "212",
+      "fixed": false,
+      "raw": "sessionId"
+     },
+     "serializedName": "sessionId",
+     "modelType": {
+      "$id": "213",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "214",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "215",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionStatus"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "216",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "217",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "SimulatorSession+Types+Status",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSession+Types+Status"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "SimulatorSession+Types+Status"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "218",
+      "fixed": false,
+      "raw": "sessionStatus"
+     },
+     "serializedName": "sessionStatus",
+     "modelType": {
+      "$ref": "98"
+     }
+    },
+    {
+     "$id": "219",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionProgress"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "220",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "221",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "222",
+      "fixed": false,
+      "raw": "sessionProgress"
+     },
+     "serializedName": "sessionProgress",
+     "modelType": {
+      "$ref": "198"
+     }
+    },
+    {
+     "$id": "223",
+     "isReadOnly": false,
+     "realPath": [
+      "interface"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "224",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "225",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "226",
+      "fixed": false,
+      "raw": "interface"
+     },
+     "serializedName": "interface",
+     "modelType": {
+      "$ref": "158"
+     }
+    },
+    {
+     "$id": "227",
+     "isReadOnly": false,
+     "realPath": [
+      "simulatorContext"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "228",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "229",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "230",
+      "fixed": false,
+      "raw": "simulatorContext"
+     },
+     "serializedName": "simulatorContext",
+     "modelType": {
+      "$ref": "46"
+     }
+    },
+    {
+     "$id": "231",
+     "isReadOnly": false,
+     "realPath": [
+      "registrationTime"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "232",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "233",
+      "fixed": false,
+      "raw": "Time, when this session was registered with Bonsai platform."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "234",
+      "fixed": false,
+      "raw": "registrationTime"
+     },
+     "serializedName": "registrationTime",
+     "modelType": {
+      "$id": "235",
+      "$type": "PrimaryType",
+      "format": "date-time",
+      "knownPrimaryType": "dateTime",
+      "name": {
+       "$id": "236",
+       "fixed": false,
+       "raw": "DateTime"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "237",
+     "isReadOnly": false,
+     "realPath": [
+      "lastSeenTime"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "238",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "239",
+      "fixed": false,
+      "raw": "Last time, when any request for this session was seen."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "240",
+      "fixed": false,
+      "raw": "lastSeenTime"
+     },
+     "serializedName": "lastSeenTime",
+     "modelType": {
+      "$id": "241",
+      "$type": "PrimaryType",
+      "format": "date-time",
+      "knownPrimaryType": "dateTime",
+      "name": {
+       "$id": "242",
+       "fixed": false,
+       "raw": "DateTime"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "243",
+     "isReadOnly": false,
+     "realPath": [
+      "iterationRate"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "244",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "245",
+      "fixed": false,
+      "raw": "Current IterationRate, 1 state-action loop is roughly maps to 1 iteration."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "246",
+      "fixed": false,
+      "raw": "iterationRate"
+     },
+     "serializedName": "iterationRate",
+     "modelType": {
+      "$id": "247",
+      "$type": "PrimaryType",
+      "format": "double",
+      "knownPrimaryType": "double",
+      "name": {
+       "$id": "248",
+       "fixed": false,
+       "raw": "Double"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "249",
+     "isReadOnly": false,
+     "realPath": [
+      "details"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "250",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "251",
+      "fixed": false,
+      "raw": "Additional Details for this session provided by bonsai platform."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "252",
+      "fixed": false,
+      "raw": "details"
+     },
+     "serializedName": "details",
+     "modelType": {
+      "$id": "253",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "254",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "SimulatorSessionResponse",
+   "documentation": "SimulatorSession model, having details of one active simulator session.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "255",
+    "fixed": false,
+    "raw": "SimulatorSessionResponse"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorSessionResponse",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorSessionResponse"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "256",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "257",
+     "isReadOnly": false,
+     "realPath": [
+      "config"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "258",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "259",
+      "fixed": false,
+      "raw": "Initial configuration of simulation for starting an episode."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "260",
+      "fixed": false,
+      "raw": "config"
+     },
+     "serializedName": "config",
+     "modelType": {
+      "$id": "261",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "object",
+      "name": {
+       "$id": "262",
+       "fixed": false,
+       "raw": "Object"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "EpisodeStart",
+   "documentation": "EpisodeStart event. It's sent when a new episode need to be started.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "263",
+    "fixed": false,
+    "raw": "EpisodeStart"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "EpisodeStart",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/EpisodeStart"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "264",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "265",
+     "isReadOnly": false,
+     "realPath": [
+      "action"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "266",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "267",
+      "fixed": false,
+      "raw": "action decided by RL agent.null use this action to advance from current state of simulator."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "268",
+      "fixed": false,
+      "raw": "action"
+     },
+     "serializedName": "action",
+     "modelType": {
+      "$id": "269",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "object",
+      "name": {
+       "$id": "270",
+       "fixed": false,
+       "raw": "Object"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "EpisodeStep",
+   "documentation": "EpisodeStep event for stepping inthe simulation. this is sent when there is an ongoing active episode.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "271",
+    "fixed": false,
+    "raw": "EpisodeStep"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "EpisodeStep",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/EpisodeStep"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "272",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "273",
+     "isReadOnly": false,
+     "realPath": [
+      "reason"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "274",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "275",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "EpisodeFinish+Reason",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/EpisodeFinish+Reason"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "EpisodeFinish+Reason"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "276",
+      "fixed": false,
+      "raw": "reason"
+     },
+     "serializedName": "reason",
+     "modelType": {
+      "$id": "277",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "278",
+        "name": "Invalid",
+        "serializedName": "Invalid"
+       },
+       {
+        "$id": "279",
+        "name": "Unspecified",
+        "serializedName": "Unspecified"
+       },
+       {
+        "$id": "280",
+        "name": "LessonChanged",
+        "serializedName": "LessonChanged"
+       },
+       {
+        "$id": "281",
+        "name": "Terminal",
+        "serializedName": "Terminal"
+       },
+       {
+        "$id": "282",
+        "name": "Interrupted",
+        "serializedName": "Interrupted"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "283",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "284",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "285",
+       "fixed": false,
+       "raw": "EpisodeFinish+Reason"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "EpisodeFinish",
+   "documentation": "EpisodeFinish event signalling current episode is finished.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "286",
+    "fixed": false,
+    "raw": "EpisodeFinish"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "EpisodeFinish",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/EpisodeFinish"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "287",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "288",
+     "isReadOnly": false,
+     "realPath": [
+      "callbackTime"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "289",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "290",
+      "fixed": false,
+      "raw": "callback time in seconds. this mean,s you should wait for this much time before sending a new advance request."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "291",
+      "fixed": false,
+      "raw": "callbackTime"
+     },
+     "serializedName": "callbackTime",
+     "modelType": {
+      "$id": "292",
+      "$type": "PrimaryType",
+      "format": "float",
+      "knownPrimaryType": "double",
+      "name": {
+       "$id": "293",
+       "fixed": false,
+       "raw": "Double"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "Idle",
+   "documentation": "Idle Event.null It means, that no RL action was yet available for this session.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "294",
+    "fixed": false,
+    "raw": "Idle"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "Idle",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Idle"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "295",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "296",
+     "isReadOnly": false,
+     "realPath": [
+      "reason"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "297",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "298",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "Unregister+Reason",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Unregister+Reason"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "Unregister+Reason"
+      }
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "299",
+      "fixed": false,
+      "raw": "reason"
+     },
+     "serializedName": "reason",
+     "modelType": {
+      "$id": "300",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "301",
+        "name": "Unspecified",
+        "serializedName": "Unspecified"
+       },
+       {
+        "$id": "302",
+        "name": "Finished",
+        "serializedName": "Finished"
+       },
+       {
+        "$id": "303",
+        "name": "Error",
+        "serializedName": "Error"
+       },
+       {
+        "$id": "304",
+        "name": "NotFound",
+        "serializedName": "NotFound"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "305",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "306",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "307",
+       "fixed": false,
+       "raw": "Unregister+Reason"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "308",
+     "isReadOnly": false,
+     "realPath": [
+      "details"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "309",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "310",
+      "fixed": false,
+      "raw": "Detail message for unregister event."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "311",
+      "fixed": false,
+      "raw": "details"
+     },
+     "serializedName": "details",
+     "modelType": {
+      "$id": "312",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "313",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "Unregister",
+   "documentation": "Event asking to unregister/delete simulatorSession.\r\nYou can create a new session, if you want to continue training with this simulator.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "314",
+    "fixed": false,
+    "raw": "Unregister"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "Unregister",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Unregister"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "315",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "316",
+     "isReadOnly": false,
+     "realPath": [
+      "type"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "317",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "318",
+      "fixed": false
+     },
+     "extensions": {
+      "x-ms-metadata": {
+       "apiVersions": [
+        "v1"
+       ],
+       "filename": [
+        "mem:///117?oai3.shaken.json"
+       ],
+       "name": "EventType",
+       "originalLocations": [
+        "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/EventType"
+       ]
+      },
+      "x-ms-enum": {
+       "modelAsString": false,
+       "name": "EventType"
+      }
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "319",
+      "fixed": false,
+      "raw": "type"
+     },
+     "serializedName": "type",
+     "modelType": {
+      "$id": "320",
+      "$type": "EnumType",
+      "values": [
+       {
+        "$id": "321",
+        "name": "Unspecified",
+        "serializedName": "Unspecified"
+       },
+       {
+        "$id": "322",
+        "name": "EpisodeStart",
+        "serializedName": "EpisodeStart"
+       },
+       {
+        "$id": "323",
+        "name": "EpisodeStep",
+        "serializedName": "EpisodeStep"
+       },
+       {
+        "$id": "324",
+        "name": "EpisodeFinish",
+        "serializedName": "EpisodeFinish"
+       },
+       {
+        "$id": "325",
+        "name": "Idle",
+        "serializedName": "Idle"
+       },
+       {
+        "$id": "326",
+        "name": "Unregister",
+        "serializedName": "Unregister"
+       }
+      ],
+      "oldModelAsString": false,
+      "modelAsString": false,
+      "underlyingType": {
+       "$id": "327",
+       "$type": "PrimaryType",
+       "knownPrimaryType": "string",
+       "name": {
+        "$id": "328",
+        "fixed": false,
+        "raw": "String"
+       },
+       "deprecated": false
+      },
+      "name": {
+       "$id": "329",
+       "fixed": false,
+       "raw": "EventType"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "330",
+     "isReadOnly": false,
+     "realPath": [
+      "sessionId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "331",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "332",
+      "fixed": false,
+      "raw": "unique session id."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "333",
+      "fixed": false,
+      "raw": "sessionId"
+     },
+     "serializedName": "sessionId",
+     "modelType": {
+      "$id": "334",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "335",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "336",
+     "isReadOnly": false,
+     "realPath": [
+      "sequenceId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "337",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "338",
+      "fixed": false,
+      "raw": "Always startes with 1, and Bonsai platform increment it at each Step event in advance operation.static\r\nAlways just return the sequenceId returned by previous advance operation response."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "339",
+      "fixed": false,
+      "raw": "sequenceId"
+     },
+     "serializedName": "sequenceId",
+     "modelType": {
+      "$id": "340",
+      "$type": "PrimaryType",
+      "format": "int32",
+      "knownPrimaryType": "int",
+      "name": {
+       "$id": "341",
+       "fixed": false,
+       "raw": "Int"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "342",
+     "isReadOnly": false,
+     "realPath": [
+      "episodeStart"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "343",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "344",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "345",
+      "fixed": false,
+      "raw": "episodeStart"
+     },
+     "serializedName": "episodeStart",
+     "modelType": {
+      "$ref": "256"
+     }
+    },
+    {
+     "$id": "346",
+     "isReadOnly": false,
+     "realPath": [
+      "episodeStep"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "347",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "348",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "349",
+      "fixed": false,
+      "raw": "episodeStep"
+     },
+     "serializedName": "episodeStep",
+     "modelType": {
+      "$ref": "264"
+     }
+    },
+    {
+     "$id": "350",
+     "isReadOnly": false,
+     "realPath": [
+      "episodeFinish"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "351",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "352",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "353",
+      "fixed": false,
+      "raw": "episodeFinish"
+     },
+     "serializedName": "episodeFinish",
+     "modelType": {
+      "$ref": "272"
+     }
+    },
+    {
+     "$id": "354",
+     "isReadOnly": false,
+     "realPath": [
+      "idle"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "355",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "356",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "357",
+      "fixed": false,
+      "raw": "idle"
+     },
+     "serializedName": "idle",
+     "modelType": {
+      "$ref": "287"
+     }
+    },
+    {
+     "$id": "358",
+     "isReadOnly": false,
+     "realPath": [
+      "unregister"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "359",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "360",
+      "fixed": false
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "361",
+      "fixed": false,
+      "raw": "unregister"
+     },
+     "serializedName": "unregister",
+     "modelType": {
+      "$ref": "295"
+     }
+    }
+   ],
+   "serializedName": "Event",
+   "documentation": "RL action returned by bonsai platform when it got new state from simulator session.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "362",
+    "fixed": false,
+    "raw": "Event"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "Event",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/Event"
+     ]
+    }
+   },
+   "deprecated": false
+  },
+  {
+   "$id": "363",
+   "$type": "CompositeType",
+   "properties": [
+    {
+     "$id": "364",
+     "isReadOnly": false,
+     "realPath": [
+      "sequenceId"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "365",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "366",
+      "fixed": false,
+      "raw": "Always startes with 1, and Bonsai platform increment it at each Step event in advance operation.static\r\nAlways just return the sequenceId returned by previous advance operation response."
+     },
+     "isRequired": true,
+     "isConstant": false,
+     "name": {
+      "$id": "367",
+      "fixed": false,
+      "raw": "sequenceId"
+     },
+     "serializedName": "sequenceId",
+     "modelType": {
+      "$id": "368",
+      "$type": "PrimaryType",
+      "format": "int32",
+      "knownPrimaryType": "int",
+      "name": {
+       "$id": "369",
+       "fixed": false,
+       "raw": "Int"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "370",
+     "isReadOnly": false,
+     "realPath": [
+      "state"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "371",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "372",
+      "fixed": false,
+      "raw": "State of your simulator model."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "373",
+      "fixed": false,
+      "raw": "state"
+     },
+     "serializedName": "state",
+     "modelType": {
+      "$id": "374",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "object",
+      "name": {
+       "$id": "375",
+       "fixed": false,
+       "raw": "Object"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "376",
+     "isReadOnly": false,
+     "realPath": [
+      "halted"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "377",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "378",
+      "fixed": false,
+      "raw": "Optional halt parameter to indicate, simulator wants to halt.\r\nImplicitly false when not present."
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "379",
+      "fixed": false,
+      "raw": "halted"
+     },
+     "serializedName": "halted",
+     "modelType": {
+      "$id": "380",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "boolean",
+      "name": {
+       "$id": "381",
+       "fixed": false,
+       "raw": "Boolean"
+      },
+      "deprecated": false
+     }
+    },
+    {
+     "$id": "382",
+     "isReadOnly": false,
+     "realPath": [
+      "error"
+     ],
+     "collectionFormat": "none",
+     "defaultValue": {
+      "$id": "383",
+      "fixed": false
+     },
+     "deprecated": false,
+     "documentation": {
+      "$id": "384",
+      "fixed": false,
+      "raw": "No error if not defined or empty"
+     },
+     "isRequired": false,
+     "isConstant": false,
+     "name": {
+      "$id": "385",
+      "fixed": false,
+      "raw": "error"
+     },
+     "serializedName": "error",
+     "modelType": {
+      "$id": "386",
+      "$type": "PrimaryType",
+      "knownPrimaryType": "string",
+      "name": {
+       "$id": "387",
+       "fixed": false,
+       "raw": "String"
+      },
+      "deprecated": false
+     }
+    }
+   ],
+   "serializedName": "SimulatorState",
+   "documentation": "It contains simulator state information needed by bonsai platform in response of an action.",
+   "containsConstantProperties": false,
+   "name": {
+    "$id": "388",
+    "fixed": false,
+    "raw": "SimulatorState"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "SimulatorState",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/schemas/SimulatorState"
+     ]
+    }
+   },
+   "deprecated": false
+  }
+ ],
+ "errorTypes": [
+  {
+   "$ref": "118"
+  }
+ ],
+ "enumTypes": [
+  {
+   "$ref": "98"
+  },
+  {
+   "$ref": "51"
+  },
+  {
+   "$ref": "33"
+  },
+  {
+   "$ref": "320"
+  },
+  {
+   "$ref": "277"
+  },
+  {
+   "$ref": "300"
+  }
+ ],
+ "name": "SimulatorAPI",
+ "namespace": "Microsoft.Bonsai.SimulatorApi",
+ "modelsName": "Models",
+ "apiVersion": "v1",
+ "baseUrl": "https://api.bons.ai",
+ "documentation": "This API allows simulators to provide states and receive commands from the platform.",
+ "properties": [
+  {
+   "$id": "389",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "390",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "391",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·x8olj8·v2-workspaces-workspacename-simulatorsessions·get·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·x8olj8·v2-workspaces-workspacename-simulatorsessions·get·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "392",
+    "fixed": false,
+    "raw": "workspaceName"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "393",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "394",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "395",
+   "isReadOnly": false,
+   "realPath": [
+    "deployment_mode"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "396",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "397",
+    "fixed": false,
+    "raw": "A specifier to filter on deployment mode"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·7atgts·v2-workspaces-workspacename-simulatorsessions·get·parameters·1",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·7atgts·v2-workspaces-workspacename-simulatorsessions·get·parameters·1"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": false,
+   "isConstant": false,
+   "name": {
+    "$id": "398",
+    "fixed": false,
+    "raw": "deployment_mode"
+   },
+   "serializedName": "deployment_mode",
+   "modelType": {
+    "$id": "399",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "400",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "401",
+   "isReadOnly": false,
+   "realPath": [
+    "session_status"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "402",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "403",
+    "fixed": false,
+    "raw": "A specifier to filter on session status"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·11ol2j9·v2-workspaces-workspacename-simulatorsessions·get·parameters·2",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·11ol2j9·v2-workspaces-workspacename-simulatorsessions·get·parameters·2"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": false,
+   "isConstant": false,
+   "name": {
+    "$id": "404",
+    "fixed": false,
+    "raw": "session_status"
+   },
+   "serializedName": "session_status",
+   "modelType": {
+    "$id": "405",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "406",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "407",
+   "isReadOnly": false,
+   "realPath": [
+    "collection"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "408",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "409",
+    "fixed": false,
+    "raw": "If present, only sessions in this collection"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·iour2x·v2-workspaces-workspacename-simulatorsessions·get·parameters·3",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·iour2x·v2-workspaces-workspacename-simulatorsessions·get·parameters·3"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": false,
+   "isConstant": false,
+   "name": {
+    "$id": "410",
+    "fixed": false,
+    "raw": "collection"
+   },
+   "serializedName": "collection",
+   "modelType": {
+    "$id": "411",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "412",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "413",
+   "isReadOnly": false,
+   "realPath": [
+    "package"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "414",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "415",
+    "fixed": false,
+    "raw": "If present, only sessions in this package"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1qkssj5·v2-workspaces-workspacename-simulatorsessions·get·parameters·4",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1qkssj5·v2-workspaces-workspacename-simulatorsessions·get·parameters·4"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": false,
+   "isConstant": false,
+   "name": {
+    "$id": "416",
+    "fixed": false,
+    "raw": "package"
+   },
+   "serializedName": "package",
+   "modelType": {
+    "$id": "417",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "418",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "419",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "420",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "421",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·872q8e·v2-workspaces-workspacename-simulatorsessions·post·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·872q8e·v2-workspaces-workspacename-simulatorsessions·post·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "422",
+    "fixed": false,
+    "raw": "WorkspaceName1"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "423",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "424",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "425",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "426",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "427",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1qs37k·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1qs37k·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "428",
+    "fixed": false,
+    "raw": "WorkspaceName2"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "429",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "430",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "431",
+   "isReadOnly": false,
+   "realPath": [
+    "sessionId"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "432",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "433",
+    "fixed": false,
+    "raw": "The sessionId of the simulator session to fetch"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·dlx170·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·1",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·dlx170·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·1"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "434",
+    "fixed": false,
+    "raw": "sessionId"
+   },
+   "serializedName": "sessionId",
+   "modelType": {
+    "$id": "435",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "436",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "437",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "438",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "439",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·171blj3·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·171blj3·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "440",
+    "fixed": false,
+    "raw": "WorkspaceName3"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "441",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "442",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "443",
+   "isReadOnly": false,
+   "realPath": [
+    "sessionId"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "444",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "445",
+    "fixed": false,
+    "raw": "The session ID generated during registration"
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1ul635q·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·1",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1ul635q·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·1"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "446",
+    "fixed": false,
+    "raw": "SessionId1"
+   },
+   "serializedName": "sessionId",
+   "modelType": {
+    "$id": "447",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "448",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "449",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "450",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "451",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1a7skss·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1a7skss·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "452",
+    "fixed": false,
+    "raw": "WorkspaceName4"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "453",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "454",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "455",
+   "isReadOnly": false,
+   "realPath": [
+    "sessionId"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "456",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "457",
+    "fixed": false,
+    "raw": "Unique identification of the simulator."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1n1d50q·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·1",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1n1d50q·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·1"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "458",
+    "fixed": false,
+    "raw": "SessionId2"
+   },
+   "serializedName": "sessionId",
+   "modelType": {
+    "$id": "459",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "460",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "461",
+   "isReadOnly": false,
+   "realPath": [
+    "workspaceName"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "462",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "463",
+    "fixed": false,
+    "raw": "The workspace identifier."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·1imfiq0·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·0",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1imfiq0·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·0"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "464",
+    "fixed": false,
+    "raw": "WorkspaceName5"
+   },
+   "serializedName": "workspaceName",
+   "modelType": {
+    "$id": "465",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "466",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  },
+  {
+   "$id": "467",
+   "isReadOnly": false,
+   "realPath": [
+    "sessionId"
+   ],
+   "collectionFormat": "none",
+   "defaultValue": {
+    "$id": "468",
+    "fixed": false
+   },
+   "deprecated": false,
+   "documentation": {
+    "$id": "469",
+    "fixed": false,
+    "raw": "Unique identifier for the simulator."
+   },
+   "extensions": {
+    "x-ms-metadata": {
+     "apiVersions": [
+      "v1"
+     ],
+     "filename": [
+      "mem:///117?oai3.shaken.json"
+     ],
+     "name": "paths·78dcv6·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·1",
+     "originalLocations": [
+      "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·78dcv6·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·1"
+     ]
+    },
+    "x-ms-parameter-location": "method"
+   },
+   "isRequired": true,
+   "isConstant": false,
+   "name": {
+    "$id": "470",
+    "fixed": false,
+    "raw": "SessionId3"
+   },
+   "serializedName": "sessionId",
+   "modelType": {
+    "$id": "471",
+    "$type": "PrimaryType",
+    "knownPrimaryType": "string",
+    "name": {
+     "$id": "472",
+     "fixed": false,
+     "raw": "String"
+    },
+    "deprecated": false
+   }
+  }
+ ],
+ "operations": [
+  {
+   "$id": "473",
+   "methods": [
+    {
+     "$id": "474",
+     "parameters": [
+      {
+       "$id": "475",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "476",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "477",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·x8olj8·v2-workspaces-workspacename-simulatorsessions·get·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·x8olj8·v2-workspaces-workspacename-simulatorsessions·get·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "478",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "479",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "480",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "481",
+       "clientProperty": {
+        "$ref": "395"
+       },
+       "location": "query",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "482",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "483",
+        "fixed": false,
+        "raw": "A specifier to filter on deployment mode"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·7atgts·v2-workspaces-workspacename-simulatorsessions·get·parameters·1",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·7atgts·v2-workspaces-workspacename-simulatorsessions·get·parameters·1"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": false,
+       "isConstant": false,
+       "name": {
+        "$id": "484",
+        "fixed": false,
+        "raw": "deployment_mode"
+       },
+       "serializedName": "deployment_mode",
+       "modelType": {
+        "$id": "485",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "486",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "487",
+       "clientProperty": {
+        "$ref": "401"
+       },
+       "location": "query",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "488",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "489",
+        "fixed": false,
+        "raw": "A specifier to filter on session status"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·11ol2j9·v2-workspaces-workspacename-simulatorsessions·get·parameters·2",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·11ol2j9·v2-workspaces-workspacename-simulatorsessions·get·parameters·2"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": false,
+       "isConstant": false,
+       "name": {
+        "$id": "490",
+        "fixed": false,
+        "raw": "session_status"
+       },
+       "serializedName": "session_status",
+       "modelType": {
+        "$id": "491",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "492",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "493",
+       "clientProperty": {
+        "$ref": "407"
+       },
+       "location": "query",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "494",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "495",
+        "fixed": false,
+        "raw": "If present, only sessions in this collection"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·iour2x·v2-workspaces-workspacename-simulatorsessions·get·parameters·3",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·iour2x·v2-workspaces-workspacename-simulatorsessions·get·parameters·3"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": false,
+       "isConstant": false,
+       "name": {
+        "$id": "496",
+        "fixed": false,
+        "raw": "collection"
+       },
+       "serializedName": "collection",
+       "modelType": {
+        "$id": "497",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "498",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "499",
+       "clientProperty": {
+        "$ref": "413"
+       },
+       "location": "query",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "500",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "501",
+        "fixed": false,
+        "raw": "If present, only sessions in this package"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1qkssj5·v2-workspaces-workspacename-simulatorsessions·get·parameters·4",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1qkssj5·v2-workspaces-workspacename-simulatorsessions·get·parameters·4"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": false,
+       "isConstant": false,
+       "name": {
+        "$id": "502",
+        "fixed": false,
+        "raw": "package"
+       },
+       "serializedName": "package",
+       "modelType": {
+        "$id": "503",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "504",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      }
+     ],
+     "name": {
+      "$id": "505",
+      "fixed": false,
+      "raw": "List"
+     },
+     "group": {
+      "$id": "506",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_List",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions",
+     "isAbsoluteUrl": false,
+     "httpMethod": "get",
+     "responses": {
+      "OK": {
+       "$id": "507",
+       "body": {
+        "$id": "508",
+        "$type": "SequenceType",
+        "elementType": {
+         "$ref": "87"
+        },
+        "name": {
+         "$id": "509",
+         "fixed": false
+        },
+        "deprecated": false
+       },
+       "extensions": {
+        "$id": "510",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·5wsc3j·v2-workspaces-workspacename-simulatorsessions·get·responses·200",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·5wsc3j·v2-workspaces-workspacename-simulatorsessions·get·responses·200"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "511",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "512",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·14so8mz·v2-workspaces-workspacename-simulatorsessions·get·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·14so8mz·v2-workspaces-workspacename-simulatorsessions·get·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "513",
+      "body": {
+       "$ref": "508"
+      },
+      "isNullable": true
+     },
+     "description": "The deployment_mode appears in the query string. It can be one of\r\nUnspecified, Testing, or Hosted. If it has a 'neq:' prefix, that means \"not;\"\r\ne.g., {.../simulatorSessions?deployment_mode=neq:Hosted} means the response should not include\r\nsimulators that are hosted.\r\n            \r\nThe session_status can be one of Attachable, Attached, Detaching, Rejected,\r\nand supports the neq: prefix.\r\n            \r\nThe collection appears in the query string\r\n            \r\nThe package appears in the query string\r\n            \r\nThe filter queries can appear together, like\r\n{.../simulatorSessions?deployment_mode=Hosted&collection=1234-455-33333}",
+     "summary": "Retrieves all of the simulators currently registered with all\r\nsimulator gateways within this workspace.",
+     "requestContentType": "application/json; charset=utf-8",
+     "responseContentTypes": [
+      "application/json",
+      "text/plain",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ]
+     },
+     "deprecated": false,
+     "hidden": false
+    },
+    {
+     "$id": "514",
+     "parameters": [
+      {
+       "$id": "515",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "516",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "517",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·872q8e·v2-workspaces-workspacename-simulatorsessions·post·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·872q8e·v2-workspaces-workspacename-simulatorsessions·post·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "518",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "519",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "520",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "521",
+       "location": "body",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "522",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "523",
+        "fixed": false,
+        "raw": "Information and capabilities about the simulator."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·10i5s0j·v2-workspaces-workspacename-simulatorsessions·post·requestbody",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/requestBodies/paths·10i5s0j·v2-workspaces-workspacename-simulatorsessions·post·requestbody"
+         ]
+        },
+        "x-ms-requestBody-name": "body"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "524",
+        "fixed": false,
+        "raw": "body"
+       },
+       "serializedName": "body",
+       "modelType": {
+        "$ref": "158"
+       }
+      }
+     ],
+     "name": {
+      "$id": "525",
+      "fixed": false,
+      "raw": "Create"
+     },
+     "group": {
+      "$id": "526",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_Create",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions",
+     "isAbsoluteUrl": false,
+     "httpMethod": "post",
+     "responses": {
+      "Created": {
+       "$id": "527",
+       "body": {
+        "$ref": "208"
+       },
+       "extensions": {
+        "$id": "528",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·jsjwx·v2-workspaces-workspacename-simulatorsessions·post·responses·201",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·jsjwx·v2-workspaces-workspacename-simulatorsessions·post·responses·201"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "529",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "530",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·14gnma1·v2-workspaces-workspacename-simulatorsessions·post·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·14gnma1·v2-workspaces-workspacename-simulatorsessions·post·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "531",
+      "body": {
+       "$ref": "208"
+      },
+      "isNullable": true
+     },
+     "summary": "Registers a simulator with the Bonsai platform.",
+     "requestContentType": "application/json-patch+json; charset=utf-8",
+     "responseContentTypes": [
+      "text/plain",
+      "application/json",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ],
+      "x-ms-requestBody-index": "1"
+     },
+     "deprecated": false,
+     "hidden": false
+    },
+    {
+     "$id": "532",
+     "parameters": [
+      {
+       "$id": "533",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "534",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "535",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1qs37k·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1qs37k·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "536",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "537",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "538",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "539",
+       "clientProperty": {
+        "$ref": "431"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "540",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "541",
+        "fixed": false,
+        "raw": "The sessionId of the simulator session to fetch"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·dlx170·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·1",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·dlx170·v2-workspaces-workspacename-simulatorsessions-sessionid·get·parameters·1"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "542",
+        "fixed": false,
+        "raw": "sessionId"
+       },
+       "serializedName": "sessionId",
+       "modelType": {
+        "$id": "543",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "544",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      }
+     ],
+     "name": {
+      "$id": "545",
+      "fixed": false,
+      "raw": "Get"
+     },
+     "group": {
+      "$id": "546",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_Get",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}",
+     "isAbsoluteUrl": false,
+     "httpMethod": "get",
+     "responses": {
+      "OK": {
+       "$id": "547",
+       "body": {
+        "$ref": "208"
+       },
+       "extensions": {
+        "$id": "548",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·jwv25q·v2-workspaces-workspacename-simulatorsessions-sessionid·get·responses·200",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·jwv25q·v2-workspaces-workspacename-simulatorsessions-sessionid·get·responses·200"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "549",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "550",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·3tckwz·v2-workspaces-workspacename-simulatorsessions-sessionid·get·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·3tckwz·v2-workspaces-workspacename-simulatorsessions-sessionid·get·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "551",
+      "body": {
+       "$ref": "208"
+      },
+      "isNullable": true
+     },
+     "summary": "Retrieves a simulator session corresponding to the sessionId",
+     "requestContentType": "application/json; charset=utf-8",
+     "responseContentTypes": [
+      "text/plain",
+      "application/json",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ]
+     },
+     "deprecated": false,
+     "hidden": false
+    },
+    {
+     "$id": "552",
+     "parameters": [
+      {
+       "$id": "553",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "554",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "555",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·171blj3·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·171blj3·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "556",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "557",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "558",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "559",
+       "clientProperty": {
+        "$ref": "431"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "560",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "561",
+        "fixed": false,
+        "raw": "The session ID generated during registration"
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1ul635q·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·1",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1ul635q·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·parameters·1"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "562",
+        "fixed": false,
+        "raw": "sessionId"
+       },
+       "serializedName": "sessionId",
+       "modelType": {
+        "$id": "563",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "564",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      }
+     ],
+     "name": {
+      "$id": "565",
+      "fixed": false,
+      "raw": "Delete"
+     },
+     "group": {
+      "$id": "566",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_Delete",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}",
+     "isAbsoluteUrl": false,
+     "httpMethod": "delete",
+     "responses": {
+      "NoContent": {
+       "$id": "567",
+       "extensions": {
+        "$id": "568",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·oggfhm·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·responses·204",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·oggfhm·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·responses·204"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "569",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "570",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·kvyzmh·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·kvyzmh·v2-workspaces-workspacename-simulatorsessions-sessionid·delete·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "571",
+      "isNullable": true
+     },
+     "summary": "Deletes the Simulator session",
+     "requestContentType": "application/json; charset=utf-8",
+     "responseContentTypes": [
+      "text/plain",
+      "application/json",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ]
+     },
+     "deprecated": false,
+     "hidden": false
+    },
+    {
+     "$id": "572",
+     "parameters": [
+      {
+       "$id": "573",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "574",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "575",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1a7skss·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1a7skss·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "576",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "577",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "578",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "579",
+       "clientProperty": {
+        "$ref": "431"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "580",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "581",
+        "fixed": false,
+        "raw": "Unique identification of the simulator."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1n1d50q·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·1",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1n1d50q·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·parameters·1"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "582",
+        "fixed": false,
+        "raw": "sessionId"
+       },
+       "serializedName": "sessionId",
+       "modelType": {
+        "$id": "583",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "584",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      }
+     ],
+     "name": {
+      "$id": "585",
+      "fixed": false,
+      "raw": "GetMostRecentAction"
+     },
+     "group": {
+      "$id": "586",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_GetMostRecentAction",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/action",
+     "isAbsoluteUrl": false,
+     "httpMethod": "get",
+     "responses": {
+      "OK": {
+       "$id": "587",
+       "body": {
+        "$ref": "315"
+       },
+       "extensions": {
+        "$id": "588",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·imob0i·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·responses·200",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·imob0i·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·responses·200"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "589",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "590",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·jk36pd·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·jk36pd·v2-workspaces-workspacename-simulatorsessions-sessionid-action·get·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "591",
+      "body": {
+       "$ref": "315"
+      },
+      "isNullable": true
+     },
+     "summary": "Gets the most recent action sent to the simulator to process.",
+     "requestContentType": "application/json; charset=utf-8",
+     "responseContentTypes": [
+      "text/plain",
+      "application/json",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ]
+     },
+     "deprecated": false,
+     "hidden": false
+    },
+    {
+     "$id": "592",
+     "parameters": [
+      {
+       "$id": "593",
+       "clientProperty": {
+        "$ref": "389"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "594",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "595",
+        "fixed": false,
+        "raw": "The workspace identifier."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1imfiq0·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·0",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·1imfiq0·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·0"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "596",
+        "fixed": false,
+        "raw": "workspaceName"
+       },
+       "serializedName": "workspaceName",
+       "modelType": {
+        "$id": "597",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "598",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "599",
+       "clientProperty": {
+        "$ref": "431"
+       },
+       "location": "path",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "600",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "601",
+        "fixed": false,
+        "raw": "Unique identifier for the simulator."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·78dcv6·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·1",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/parameters/paths·78dcv6·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·parameters·1"
+         ]
+        },
+        "x-ms-parameter-location": "method"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "602",
+        "fixed": false,
+        "raw": "sessionId"
+       },
+       "serializedName": "sessionId",
+       "modelType": {
+        "$id": "603",
+        "$type": "PrimaryType",
+        "knownPrimaryType": "string",
+        "name": {
+         "$id": "604",
+         "fixed": false,
+         "raw": "String"
+        },
+        "deprecated": false
+       }
+      },
+      {
+       "$id": "605",
+       "location": "body",
+       "collectionFormat": "none",
+       "defaultValue": {
+        "$id": "606",
+        "fixed": false
+       },
+       "deprecated": false,
+       "documentation": {
+        "$id": "607",
+        "fixed": false,
+        "raw": "The new state of the simulator."
+       },
+       "extensions": {
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·kz6dv3·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·requestbody",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/requestBodies/paths·kz6dv3·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·requestbody"
+         ]
+        },
+        "x-ms-requestBody-name": "body"
+       },
+       "isRequired": true,
+       "isConstant": false,
+       "name": {
+        "$id": "608",
+        "fixed": false,
+        "raw": "body"
+       },
+       "serializedName": "body",
+       "modelType": {
+        "$ref": "363"
+       }
+      }
+     ],
+     "name": {
+      "$id": "609",
+      "fixed": false,
+      "raw": "Advance"
+     },
+     "group": {
+      "$id": "610",
+      "fixed": false,
+      "raw": "Session"
+     },
+     "serializedName": "Session_Advance",
+     "url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/advance",
+     "isAbsoluteUrl": false,
+     "httpMethod": "post",
+     "responses": {
+      "OK": {
+       "$id": "611",
+       "body": {
+        "$ref": "315"
+       },
+       "extensions": {
+        "$id": "612",
+        "x-ms-metadata": {
+         "apiVersions": [
+          "v1"
+         ],
+         "filename": [
+          "mem:///117?oai3.shaken.json"
+         ],
+         "name": "paths·1939bng·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·responses·200",
+         "originalLocations": [
+          "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·1939bng·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·responses·200"
+         ]
+        }
+       },
+       "isNullable": true
+      }
+     },
+     "defaultResponse": {
+      "$id": "613",
+      "body": {
+       "$ref": "118"
+      },
+      "extensions": {
+       "$id": "614",
+       "x-ms-metadata": {
+        "apiVersions": [
+         "v1"
+        ],
+        "filename": [
+         "mem:///117?oai3.shaken.json"
+        ],
+        "name": "paths·1xpki8j·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·responses·default",
+        "originalLocations": [
+         "file:///Users/mayankgupta/brain/src/Services/SDK/SimulatorGateway/V3/Swagger/swagger.json#/components/responses/paths·1xpki8j·v2-workspaces-workspacename-simulatorsessions-sessionid-advance·post·responses·default"
+        ]
+       },
+       "x-ms-error-response": true
+      },
+      "isNullable": true
+     },
+     "returnType": {
+      "$id": "615",
+      "body": {
+       "$ref": "315"
+      },
+      "isNullable": true
+     },
+     "summary": "Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.\r\nSimulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false\r\nYou can send the same state again, as long as you didn't get a Non-Idle Action back.",
+     "requestContentType": "application/json-patch+json; charset=utf-8",
+     "responseContentTypes": [
+      "text/plain",
+      "application/json",
+      "text/json"
+     ],
+     "extensions": {
+      "servers": [
+       {
+        "url": "https://api.bons.ai/"
+       }
+      ],
+      "x-ms-requestBody-index": "2"
+     },
+     "deprecated": false,
+     "hidden": false
+    }
+   ],
+   "name": {
+    "$id": "616",
+    "fixed": false,
+    "raw": "Session"
+   },
+   "typeName": {
+    "$id": "617",
+    "fixed": false
+   },
+   "nameForProperty": "Session"
+  }
+ ]
+}

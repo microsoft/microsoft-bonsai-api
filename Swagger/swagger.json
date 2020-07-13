@@ -66,8 +66,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -82,8 +82,8 @@
         "summary": "Registers a simulator with the Bonsai platform.",
         "operationId": "Session_Create",
         "consumes": [
-          "application/json",
           "application/json-patch+json",
+          "application/json",
           "text/json",
           "application/*+json"
         ],
@@ -104,6 +104,7 @@
             "in": "body",
             "name": "body",
             "description": "Information and capabilities about the simulator.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/SimulatorInterface"
             }
@@ -116,8 +117,8 @@
               "$ref": "#/definitions/SimulatorSessionResponse"
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -161,15 +162,8 @@
               "$ref": "#/definitions/SimulatorSessionResponse"
             }
           },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/ProblemDetails"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -208,15 +202,8 @@
           "204": {
             "description": "Success"
           },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/ProblemDetails"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -233,8 +220,8 @@
         "summary": "Gets the most recent action sent to the simulator to process.",
         "operationId": "Session_GetMostRecentAction",
         "produces": [
-          "application/json",
           "text/plain",
+          "application/json",
           "text/json"
         ],
         "parameters": [
@@ -260,15 +247,8 @@
               "$ref": "#/definitions/Event"
             }
           },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/ProblemDetails"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -285,14 +265,14 @@
         "summary": "Advance the RL agent with the new state of the simulator, and returns an action computed by our policy.\r\nSimulatorsession is supposed to use the returned action for stepping inside the sim and thne getting the new state.false\r\nYou can send the same state again, as long as you didn't get a Non-Idle Action back.",
         "operationId": "Session_Advance",
         "consumes": [
-          "application/json",
           "application/json-patch+json",
+          "application/json",
           "text/json",
           "application/*+json"
         ],
         "produces": [
-          "application/json",
           "text/plain",
+          "application/json",
           "text/json"
         ],
         "parameters": [
@@ -314,6 +294,7 @@
             "in": "body",
             "name": "body",
             "description": "The new state of the simulator.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/SimulatorState"
             }
@@ -326,8 +307,8 @@
               "$ref": "#/definitions/Event"
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "default": {
+            "description": "Error response",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
             },
@@ -475,24 +456,33 @@
       }
     },
     "SimulatorInterface": {
+      "description": "It contains all the registration/creation time properties of a simulator session.",
+      "required": [
+        "name"
+      ],
       "type": "object",
       "properties": {
         "name": {
+          "description": "Name of the simulator session.",
           "type": "string"
         },
         "timeout": {
           "format": "float",
+          "description": "This is the max time in seconds, within which simulator need to send advance request, else it will be timed out and unregistered from Bonsai platform.\r\nSet it to (SimulatorComputeTime + RTT network latency + few seconds)\r\nDefault is 60s",
           "type": "number"
         },
         "capabilities": {
           "format": "object",
+          "description": "Additional Capabilities for the session.",
           "type": "object"
         },
         "simulatorContext": {
+          "description": "Opaque string to the sim authors. It's used to connect simulator sessions to right brain.false\r\nFor hosted sims, we automatically take care of setting the right environment variable for this. \r\nFor Local sims, set it to empty string, and use Bonsai CLI's, `bonsai connect` command.",
           "type": "string"
         },
         "description": {
           "format": "object",
+          "description": "Schema descriptions of the simulator. Contains State, Action and Config schemas.",
           "type": "object"
         }
       }
@@ -566,44 +556,46 @@
         }
       }
     },
-    "Event+Types+EventType": {
+    "EventType": {
+      "description": "Type of Event as response to advance method.",
       "enum": [
         "Unspecified",
         "EpisodeStart",
         "EpisodeStep",
         "EpisodeFinish",
-        "PlaybackStart",
-        "PlaybackStep",
-        "PlaybackFinish",
         "Idle",
-        "Registered",
         "Unregister"
       ],
       "type": "string",
       "x-ms-enum": {
         "modelAsString": false,
-        "name": "Event+Types+EventType"
+        "name": "EventType"
       }
     },
     "EpisodeStart": {
+      "description": "EpisodeStart event. It's sent when a new episode need to be started.",
       "type": "object",
       "properties": {
         "config": {
           "format": "object",
+          "description": "Initial configuration of simulation for starting an episode.",
           "type": "object"
         }
       }
     },
-    "Step": {
+    "EpisodeStep": {
+      "description": "EpisodeStep event for stepping inthe simulation. this is sent when there is an ongoing active episode.",
       "type": "object",
       "properties": {
         "action": {
           "format": "object",
+          "description": "action decided by RL agent.null use this action to advance from current state of simulator.",
           "type": "object"
         }
       }
     },
-    "EpisodeFinish+Types+Reason": {
+    "EpisodeFinish+Reason": {
+      "description": "Reason for episodeFinish",
       "enum": [
         "Invalid",
         "Unspecified",
@@ -614,39 +606,31 @@
       "type": "string",
       "x-ms-enum": {
         "modelAsString": false,
-        "name": "EpisodeFinish+Types+Reason"
+        "name": "EpisodeFinish+Reason"
       }
     },
     "EpisodeFinish": {
+      "description": "EpisodeFinish event signalling current episode is finished.",
       "type": "object",
       "properties": {
         "reason": {
-          "$ref": "#/definitions/EpisodeFinish+Types+Reason"
+          "$ref": "#/definitions/EpisodeFinish+Reason"
         }
       }
     },
-    "PlaybackStart": {
-      "type": "object"
-    },
-    "PlaybackStep": {
-      "type": "object"
-    },
-    "PlaybackFinish": {
-      "type": "object"
-    },
     "Idle": {
+      "description": "Idle Event.null It means, that no RL action was yet available for this session.",
       "type": "object",
       "properties": {
         "callbackTime": {
           "format": "float",
+          "description": "callback time in seconds. this mean,s you should wait for this much time before sending a new advance request.",
           "type": "number"
         }
       }
     },
-    "Registered": {
-      "type": "object"
-    },
-    "Unregister+Types+Reason": {
+    "Unregister+Reason": {
+      "description": "Reason for unregister event.",
       "enum": [
         "Unspecified",
         "Finished",
@@ -656,102 +640,83 @@
       "type": "string",
       "x-ms-enum": {
         "modelAsString": false,
-        "name": "Unregister+Types+Reason"
+        "name": "Unregister+Reason"
       }
     },
     "Unregister": {
+      "description": "Event asking to unregister/delete simulatorSession.\r\nYou can create a new session, if you want to continue training with this simulator.",
       "type": "object",
       "properties": {
         "reason": {
-          "$ref": "#/definitions/Unregister+Types+Reason"
+          "$ref": "#/definitions/Unregister+Reason"
         },
         "details": {
+          "description": "Detail message for unregister event.",
           "type": "string"
         }
       }
     },
-    "Event+KindOneofCase": {
-      "enum": [
-        "None",
-        "EpisodeStart",
-        "EpisodeStep",
-        "EpisodeFinish",
-        "PlaybackStart",
-        "PlaybackStep",
-        "PlaybackFinish",
-        "Idle",
-        "Registered",
-        "Unregister"
-      ],
-      "type": "string",
-      "x-ms-enum": {
-        "modelAsString": false,
-        "name": "Event+KindOneofCase"
-      }
-    },
     "Event": {
+      "description": "RL action returned by bonsai platform when it got new state from simulator session.",
+      "required": [
+        "sequenceId",
+        "sessionId",
+        "type"
+      ],
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/Event+Types+EventType"
+          "$ref": "#/definitions/EventType"
         },
         "sessionId": {
+          "description": "unique session id.",
           "type": "string"
         },
         "sequenceId": {
           "format": "int32",
+          "description": "Always startes with 1, and Bonsai platform increment it at each Step event in advance operation.static\r\nAlways just return the sequenceId returned by previous advance operation response.",
           "type": "integer"
         },
         "episodeStart": {
           "$ref": "#/definitions/EpisodeStart"
         },
         "episodeStep": {
-          "$ref": "#/definitions/Step"
+          "$ref": "#/definitions/EpisodeStep"
         },
         "episodeFinish": {
           "$ref": "#/definitions/EpisodeFinish"
         },
-        "playbackStart": {
-          "$ref": "#/definitions/PlaybackStart"
-        },
-        "playbackStep": {
-          "$ref": "#/definitions/PlaybackStep"
-        },
-        "playbackFinish": {
-          "$ref": "#/definitions/PlaybackFinish"
-        },
         "idle": {
           "$ref": "#/definitions/Idle"
         },
-        "registered": {
-          "$ref": "#/definitions/Registered"
-        },
         "unregister": {
           "$ref": "#/definitions/Unregister"
-        },
-        "kindCase": {
-          "$ref": "#/definitions/Event+KindOneofCase"
         }
       }
     },
     "SimulatorState": {
+      "description": "It contains simulator state information needed by bonsai platform in response of an action.",
+      "required": [
+        "sequenceId"
+      ],
       "type": "object",
       "properties": {
-        "sessionId": {
-          "type": "string"
-        },
         "sequenceId": {
           "format": "int32",
+          "description": "Always startes with 1, and Bonsai platform increment it at each Step event in advance operation.static\r\nAlways just return the sequenceId returned by previous advance operation response.",
           "type": "integer"
         },
         "state": {
           "format": "object",
+          "description": "State of your simulator model.",
           "type": "object"
         },
         "halted": {
+          "description": "Optional halt parameter to indicate, simulator wants to halt.\r\nImplicitly false when not present.",
           "type": "boolean"
         },
         "error": {
+          "description": "No error if not defined or empty",
           "type": "string"
         }
       }

@@ -1,4 +1,3 @@
-
 """
 Protocol definitions for bonsai3 library
 """
@@ -14,46 +13,38 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 
-from .aad import AADClient
 
 # CLI help strings
-_ACCESS_KEY_HELP = \
-    """
+_ACCESS_KEY_HELP = """
     The access key to use when connecting to the BRAIN server. If
     specified, it will be used instead of any access key
     information stored in a bonsai config file.
     """
 
-_API_HOST_HELP = \
-    """
-    The api host is the host to which the simulator will connect.
-    It has the form http[s]://<hostname>[:<port>]
-    """
-
-_WORKSPACE_HELP = \
-    """
+_WORKSPACE_HELP = """
     This is the value of the workspace.
     """
 
-_SIM_CONTEXT_HELP = \
-    """
+_SIM_CONTEXT_HELP = """
     This is an opaque string.
     """
 
+
 class BonsaiClientConfig:
     """Configuration information needed to connect to the service."""
-    server = ''  # type: str
-    workspace = ''  # type: str
-    access_key = ''  # type: str
-    simulator_context = ''  # type: str
 
-    def __init__(self,
-                 workspace: str='',
-                 access_key: str='',
-                 server: str='https://api.bons.ai',
-                 enable_logging=False,
-                 use_aad=False,
-                 argv: Optional[List[str]]=sys.argv):
+    server = ""  # type: str
+    workspace = ""  # type: str
+    access_key = ""  # type: str
+    simulator_context = ""  # type: str
+
+    def __init__(
+        self,
+        workspace: str = "",
+        access_key: str = "",
+        enable_logging=False,
+        argv: Optional[List[str]] = sys.argv,
+    ):
         """
         Initialize a config object.
         
@@ -62,29 +53,23 @@ class BonsaiClientConfig:
         """
 
         # defaults
-        self.server = os.getenv('SIM_API_HOST', server)
-        self.workspace = os.getenv('SIM_WORKSPACE', workspace)
-        self.access_key = os.getenv('SIM_ACCESS_KEY', access_key)
-        self.simulator_context = os.getenv('SIM_CONTEXT', '')
+        self.server = os.getenv("SIM_API_HOST", "https://api.bons.ai")
+        self.workspace = os.getenv("SIM_WORKSPACE", workspace)
+        self.access_key = os.getenv("SIM_ACCESS_KEY", access_key)
+        self.simulator_context = os.getenv("SIM_CONTEXT", "")
         self.enable_logging = enable_logging
 
         # parse the args last
         if argv:
             self.argparse(argv)
 
-        if use_aad:
-            self._aad_client = AADClient()
-            self.access_key = self._aad_client.get_access_token()
-
-
     def argparse(self, argv: List[str]):
-        ''' parser command line arguments '''
+        """ parser command line arguments """
         parser = ArgumentParser(allow_abbrev=False)
 
-        parser.add_argument('--accesskey', '--access-key', help=_ACCESS_KEY_HELP)
-        parser.add_argument('--api-host', help=_API_HOST_HELP)
-        parser.add_argument('--workspace', help=_WORKSPACE_HELP)
-        parser.add_argument('--sim-context', help=_SIM_CONTEXT_HELP)
+        parser.add_argument("--accesskey", "--access-key", help=_ACCESS_KEY_HELP)
+        parser.add_argument("--workspace", help=_WORKSPACE_HELP)
+        parser.add_argument("--sim-context", help=_SIM_CONTEXT_HELP)
 
         args, remainder = parser.parse_known_args(argv[1:])
 
@@ -95,9 +80,6 @@ class BonsaiClientConfig:
         # unpack arguments
         if args.accesskey:
             self.access_key = args.accesskey
-
-        if args.api_host:
-            self.server = args.api_host
 
         if args.workspace:
             self.workspace = args.workspace

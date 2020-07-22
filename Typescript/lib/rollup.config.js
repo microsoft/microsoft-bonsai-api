@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/simulatorAPI.js",
+  input: "./esm/index.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/bundle.js",
+    file: "./dist/microsoft-bonsai-api.js",
     format: "umd",
-    name: "Bundle",
+    name: "MicrosoftBonsaiApi",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",

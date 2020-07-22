@@ -7,8 +7,8 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
-const packageName = "";
-const packageVersion = "";
+const packageName = "microsoft-bonsai-api";
+const packageVersion = "0.0.1";
 
 export class SimulatorAPIContext extends msRest.ServiceClient {
 

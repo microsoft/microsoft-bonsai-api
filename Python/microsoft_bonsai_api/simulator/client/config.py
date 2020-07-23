@@ -7,6 +7,7 @@ __copyright__ = "Copyright 2020, Microsoft Corp."
 
 from argparse import ArgumentParser
 from datetime import datetime
+import logging
 from enum import Enum
 import json
 import os
@@ -59,6 +60,9 @@ class BonsaiClientConfig:
         self.simulator_context = os.getenv("SIM_CONTEXT", "")
         self.enable_logging = enable_logging
 
+        if enable_logging:
+            logging.basicConfig(level=logging.DEBUG)
+
         # parse the args last
         if argv:
             self.argparse(argv)
@@ -86,3 +90,18 @@ class BonsaiClientConfig:
 
         if args.sim_context:
             self.simulator_context = args.sim_context
+
+
+def validate_config(config: BonsaiClientConfig):
+    if not config.workspace:
+        raise RuntimeError(
+            "Workspace has not been set. Please set env variable SIM_WORKSPACE, "
+            "pass in workspace in config constructor, or set the workspace property "
+            "on the config object."
+        )
+    if not config.access_key:
+        raise RuntimeError(
+            "Access Key has not been set. Please set env variable SIM_ACCESSKEY, "
+            "pass in access_key in config constructor, or set the access_key property "
+            "on the config object."
+        )

@@ -4,7 +4,7 @@ Copyright 2020 Microsoft
 """
 
 from aiohttp import web
-from microsoft_bonsai_api.simulator.models import ProblemDetails
+from microsoft_bonsai_api.simulator.generated.models import ProblemDetails
 from .mock_responses import *
 
 

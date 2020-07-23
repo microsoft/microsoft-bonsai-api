@@ -3,14 +3,39 @@ Tests for BonsaiClient class
 Copyright 2020 Microsoft
 """
 from unittest.mock import Mock, patch
-from microsoft_bonsai_api.client import BonsaiClientConfig, BonsaiClient
-from microsoft_bonsai_api.simulator.models import SimulatorInterface, SimulatorState
+from microsoft_bonsai_api.simulator.client import BonsaiClientConfig, BonsaiClient
+from microsoft_bonsai_api.simulator.generated.models import (
+    SimulatorInterface,
+    SimulatorState,
+)
 from azure.core.exceptions import HttpResponseError
 
 
 def test_default_client_construction():
     config = BonsaiClientConfig()
+    config.access_key = "1"
+    config.workspace = "2"
     BonsaiClient(config)
+
+
+def test_no_access_key_throws_error():
+    config = BonsaiClientConfig()
+    config.workspace = "1"
+    try:
+        BonsaiClient(config)
+        assert False
+    except RuntimeError:
+        pass
+
+
+def test_no_workspace_throws_error():
+    config = BonsaiClientConfig()
+    config.access_key = "1"
+    try:
+        BonsaiClient(config)
+        assert False
+    except RuntimeError:
+        pass
 
 
 def test_400_err_registration():

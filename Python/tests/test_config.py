@@ -3,7 +3,7 @@ Tests for Config class
 Copyright 2020 Microsoft
 """
 
-from microsoft_bonsai_api.client import BonsaiClientConfig
+from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from unittest.mock import patch
 
 

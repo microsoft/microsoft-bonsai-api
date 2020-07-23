@@ -25,13 +25,13 @@ import time
 import datetime
 import json
 import logging
-from microsoft_bonsai_api.simulator.models import (
+from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
     SimulatorInterface,
     SimulatorSessionResponse,
     Event,
 )
-from microsoft_bonsai_api.client import BonsaiClient, BonsaiClientConfig
+from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from azure.core.exceptions import HttpResponseError
 
 
@@ -70,8 +70,6 @@ def main():
 
         # build the api handler
         config = BonsaiClientConfig(argv=sys.argv, enable_logging=True)
-        # config.simulator_context = CreateSimContext("Train", "00a5e6686af84f1f", "AdderSdk3", 4, "addition")
-        logging.basicConfig(level=logging.WARNING)
         rest_api = BonsaiClient(config)
 
         capabilities = {

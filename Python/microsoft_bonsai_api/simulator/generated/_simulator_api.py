@@ -4,34 +4,39 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING
 
-from azure.core import AsyncPipelineClient
+from azure.core import PipelineClient
 from msrest import Deserializer, Serializer
 
-from ._configuration_async import SimulatorAPIConfiguration
-from .operations_async import SessionOperations
-from .. import models
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from typing import Any, Optional
+
+from ._configuration import SimulatorAPIConfiguration
+from .operations import SessionOperations
+from . import models
 
 
 class SimulatorAPI(object):
     """This API allows simulators to provide states and receive commands from the platform.
 
     :ivar session: SessionOperations operations
-    :vartype session: microsoft_bonsai_api.simulator.aio.operations_async.SessionOperations
+    :vartype session: microsoft_bonsai_api.simulator.generated.operations.SessionOperations
     :param str base_url: Service URL
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
     def __init__(
         self,
-        base_url: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
+        base_url=None,  # type: Optional[str]
+        **kwargs  # type: Any
+    ):
+        # type: (...) -> None
         if not base_url:
             base_url = 'https://api.bons.ai'
         self._config = SimulatorAPIConfiguration(**kwargs)
-        self._client = AsyncPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client = PipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -40,12 +45,15 @@ class SimulatorAPI(object):
         self.session = SessionOperations(
             self._client, self._config, self._serialize, self._deserialize)
 
-    async def close(self) -> None:
-        await self._client.close()
+    def close(self):
+        # type: () -> None
+        self._client.close()
 
-    async def __aenter__(self) -> "SimulatorAPI":
-        await self._client.__aenter__()
+    def __enter__(self):
+        # type: () -> SimulatorAPI
+        self._client.__enter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
-        await self._client.__aexit__(*exc_details)
+    def __exit__(self, *exc_details):
+        # type: (Any) -> None
+        self._client.__exit__(*exc_details)

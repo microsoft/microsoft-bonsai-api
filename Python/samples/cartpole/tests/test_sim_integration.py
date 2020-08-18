@@ -39,6 +39,14 @@ def test_random_action(sim):
     next_sim_state = sim.get_state()
     assert next_sim_state is not None
 
+def test_sim_states(sim):
+
+    sim_state = sim.get_state()
+    assert type(sim_state) == dict
+    assert len(sim_state) == 4
+
+    for k, v in sim_state.items():
+        assert type(v) == float
 
 def test_logging():
 

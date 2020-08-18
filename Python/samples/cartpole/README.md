@@ -35,6 +35,34 @@ Starting with the pendulum upright, prevent the system from falling down by movi
 - `viewer`
     - `update()`
 
+## Testing Simulator Locally
+
+You can test the simulator integration by running:
+
+```bash
+pytest tests/
+```
+
+or by testing the function `test_random_policy` in `main.py`.
+
+## Running the Simulator Locally
+
+Run the simulator locally by:
+
+```bash
+python main.py
+```
+
+and then attach to your brain:
+
+```
+bonsai simulator unmanaged connect \                          
+    -b <brain_name> \
+    -a Train \
+    -c BalancePole \
+    --simulator-name Cartpole 
+```
+
 ## Building Simulator Packages
 
 Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:

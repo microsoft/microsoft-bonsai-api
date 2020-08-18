@@ -10,21 +10,23 @@ Usage:
     Then connect your registered simulator to a Brain via UI, or using the CLI: `bonsai simulator unmanaged connect -b <brain-name> -a <train-or-assess> -c BalancePole --simulator-name Cartpole
 """
 
+import datetime
+import json
 import os
 import pathlib
 import sys
-from dotenv import load_dotenv, set_key
 import time
-import datetime
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
+from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
-    SimulatorState,
     SimulatorInterface,
+    SimulatorState,
 )
 
+from policies import coast, random_policy
 from sim import cartpole
-from policies import random_policy, coast
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 default_config = {"length": 0.5, "masspole": 0.1}
@@ -263,8 +265,8 @@ def main(
     client = BonsaiClient(config_client)
 
     # # Load json file as simulator integration config type file
-    # with open("interface.json") as file:
-    # interface = json.load(file)
+    with open("cartpole_description.json") as file:
+        interface = json.load(file)
 
     # Create simulator session and init sequence id
     registration_info = SimulatorInterface(

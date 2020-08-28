@@ -1,4 +1,4 @@
-cd ../com.microsoft.bonsai.api/simulator
+cd ../bonsaisdk
 cmd /c mvn install
-cd ../../tests
+cd ../tests
 cmd /c mvn package

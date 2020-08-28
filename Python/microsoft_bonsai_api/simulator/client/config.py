@@ -101,7 +101,7 @@ def validate_config(config: BonsaiClientConfig):
         )
     if not config.access_key:
         raise RuntimeError(
-            "Access Key has not been set. Please set env variable SIM_ACCESS_KEY, "
+            "Access Key has not been set. Please set env variable SIM_ACCESSKEY, "
             "pass in access_key in config constructor, or set the access_key property "
             "on the config object."
         )

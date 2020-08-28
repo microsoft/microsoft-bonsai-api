@@ -6,7 +6,7 @@
  * Copyright: (c) Microsoft. All rights reserved.
  */
 
-import { Simulator } from 'microsoft-bonsai-api';
+import { BonsaiClient, BonsaiClientConfig, SimulatorAPIModels } from 'microsoft-bonsai-api';
 
 interface AdderState {
     value1: number;
@@ -15,10 +15,10 @@ interface AdderState {
 }
 
 function main() {
-    const config = new Simulator.Client.BonsaiClientConfig();
-    const client = new Simulator.Client.BonsaiClient(config);
+    const config = new BonsaiClientConfig();
+    const client = new BonsaiClient(config);
 
-    const simInterface: Simulator.Generated.SimulatorAPIModels.SimulatorInterface = {
+    const simInterface: SimulatorAPIModels.SimulatorInterface = {
         name: 'adder',
     };
 
@@ -27,7 +27,7 @@ function main() {
         log('Received Registration Response');
         if (resp._response.status == 201) {
             const sequenceId = 1;
-            const simState: Simulator.Generated.SimulatorAPIModels.SimulatorState = {
+            const simState: SimulatorAPIModels.SimulatorState = {
                 sequenceId,
                 state: resetState(),
             };
@@ -37,10 +37,10 @@ function main() {
 }
 
 function advance(
-    client: Simulator.Client.BonsaiClient,
+    client: BonsaiClient,
     workspace: string,
     sessionId: string,
-    simState: Simulator.Generated.SimulatorAPIModels.SimulatorState
+    simState: SimulatorAPIModels.SimulatorState
 ) {
     log('Attempting to advance simulator');
     client.session.advance(workspace, sessionId, simState).then((resp) => {
@@ -86,7 +86,7 @@ function advance(
             }
 
             log('Advancing with following state: ' + JSON.stringify(state));
-            const newState: Simulator.Generated.SimulatorAPIModels.SimulatorState = {
+            const newState: SimulatorAPIModels.SimulatorState = {
                 sequenceId: resp.sequenceId,
                 state,
             };

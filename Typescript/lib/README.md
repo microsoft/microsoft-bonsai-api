@@ -16,12 +16,12 @@ npm install microsoft-bonsai-api
 ##### Sample code
 
 ```typescript
-import { Simulator } from 'microsoft-bonsai-api'
+import { BonsaiClient, BonsaiClientConfig, SimulatorAPIModels } from 'microsoft-bonsai-api'
 
-const config = new Simulator.Client.BonsaiClientConfig();
-const client = new Simulator.Client.BonsaiClient(config);
+const config = new BonsaiClientConfig();
+const client = new BonsaiClient(config);
 
-const simInterface: Simulator.Generated.SimulatorAPIModels.SimulatorInterface = {
+const simInterface: SimulatorAPIModels.SimulatorInterface = {
     name: 'mySim',
 };
 

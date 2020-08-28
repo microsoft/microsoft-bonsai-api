@@ -8,8 +8,8 @@ SHORT_DESCRIPTION = ""
 CLIENT_REQUIREMENT = [
     "msrest>=0.6.0",
     "azure-core<2.0.0,>=1.2.0",
-    "msal==1.2.0",
-    "msal_extensions==0.1.3",
+    "msal>=1.2.0,<=1.4.3",
+    "msal_extensions>=0.1.3,<=0.2.2",
 ]
 TESTING_PLATFORM = "pytest"
 TESTING_REQUIREMENT = ["pytest>=5.4.2"]

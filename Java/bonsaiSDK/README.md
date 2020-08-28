@@ -1,1 +1,0 @@
-# Bonsai client for Java

@@ -1,3 +1,4 @@
 dist
 esm
+code-model-v1
 !rollup.config.js

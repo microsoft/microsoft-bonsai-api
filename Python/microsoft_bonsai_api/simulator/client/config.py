@@ -5,7 +5,7 @@ __copyright__ = "Copyright 2020, Microsoft Corp."
 
 # pyright: strict
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, SUPPRESS
 from datetime import datetime
 import logging
 from enum import Enum
@@ -61,7 +61,9 @@ class BonsaiClientConfig:
         self.enable_logging = enable_logging
 
         if enable_logging:
-            logging.basicConfig(level=logging.DEBUG)
+            logging.basicConfig()
+            logger = logging.getLogger("azure")
+            logger.setLevel(logging.DEBUG)
 
         # parse the args last
         if argv:
@@ -74,6 +76,7 @@ class BonsaiClientConfig:
         parser.add_argument("--accesskey", "--access-key", help=_ACCESS_KEY_HELP)
         parser.add_argument("--workspace", help=_WORKSPACE_HELP)
         parser.add_argument("--sim-context", help=_SIM_CONTEXT_HELP)
+        parser.add_argument("--api-host", help=SUPPRESS)
 
         args, remainder = parser.parse_known_args(argv[1:])
 
@@ -90,6 +93,9 @@ class BonsaiClientConfig:
 
         if args.sim_context:
             self.simulator_context = args.sim_context
+
+        if args.api_host:
+            self.server = args.api_host
 
 
 def validate_config(config: BonsaiClientConfig):

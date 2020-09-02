@@ -39,8 +39,11 @@ def test_config_reads_args():
             "test",
             "--sim-context",
             "context",
+            "--api-host",
+            "host",
         ]
     )
     assert config.access_key == "111"
     assert config.workspace == "test"
     assert config.simulator_context == "context"
+    assert config.server == "host"

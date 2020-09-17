@@ -28,20 +28,12 @@ python setup.py install --user
 
 ## Usage
 
-TBD
-
-## Tests
-
-TBD
-
-## Learn more
-
-TBD
+https://docs.microsoft.com/en-us/python/api/microsoft-bonsai-api/
 
 ## Ask the community
 
 Please join us in our [community forums] if you have any questions!
 
 [//]: # "Link anchor definitions"
-[Bonsai API GitHub repo]: https://github.com
+[bonsai api github repo]: https://github.com
 [community forums]: https://aka.ms/as/forums

@@ -85,6 +85,12 @@ bonsai simulator unmanaged connect \
     --simulator-name qube-py-v0
 ```
 
+Optionally, run the simulator locally with a visualization:
+
+```bash
+python main.py --render
+```
+
 ## Building Simulator Packages
 
 Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:

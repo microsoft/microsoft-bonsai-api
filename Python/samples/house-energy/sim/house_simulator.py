@@ -137,6 +137,6 @@ if __name__ == '__main__':
         for i in range(288):
             house.update_hvacON(random.randint(0, 1))
             house.update_Tin()
-            #print(house.Tin)
+            print('Tin : {}'.format(house.Tin))
             house.show()
 

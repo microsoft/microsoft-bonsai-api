@@ -1,0 +1,270 @@
+{
+  "name": "qube-py-v0",
+  "timeout": 60,
+  "description": {
+    "config": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "initial_theta",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -1.5707963267948966,
+            "stop": 1.5707963267948966,
+            "comment": "Starting angle of the rotary arm in radians"
+          }
+        },
+        {
+          "name": "initial_alpha",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -3.141592653589793,
+            "stop": 3.141592653589793,
+            "comment": "Starting angle of pendulum in radians"
+          }
+        },
+        {
+          "name": "initial_theta_dot",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -30,
+            "stop": 30,
+            "comment": "Starting anglular velocity of the rotary arm in radians per second"
+          }
+        },
+        {
+          "name": "initial_alpha_dot",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -30,
+            "stop": 30,
+            "comment": "Starting anglular velocity of pendulum in radians per second"
+          }
+        },
+        {
+          "name": "target_theta",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -1.5707963267948966,
+            "stop": 1.5707963267948966,
+            "comment": "Target angle of rotary arm in meters"
+          }
+        },
+        {
+          "name": "target_alpha",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -3.141592653589793,
+            "stop": 3.141592653589793,
+            "comment": "Target angle of pendulum in meters"
+          }
+        },
+        {
+          "name": "target_theta_dot",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -30,
+            "stop": 30,
+            "comment": "Target anglular velocity of the rotary arm in radians per second"
+          }
+        },
+        {
+          "name": "target_alpha_dot",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": -30,
+            "stop": 30,
+            "comment": "Target anglular velocity of pendulum in radians per second"
+          }
+        },
+        {
+          "name": "dt",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.04,
+            "comment": "Delay between simulation steps (s)"
+          }
+        },
+        {
+          "name": "Rm",
+          "type": {
+            "category": "Number",
+            "defaultValue": 8.4,
+            "comment": "Resistance"
+          }
+        },
+        {
+          "name": "kt",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.042,
+            "comment": "Current-torque (N-m/A)"
+          }
+        },
+        {
+          "name": "km",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.042,
+            "comment": "Back-emf constant (V-s/rad)"
+          }
+        },
+        {
+          "name": "mr",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.095,
+            "comment": "Rotary arm mass (kg)"
+          }
+        },
+        {
+          "name": "Lr",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.085,
+            "comment": "Rotary arm total length (m)"
+          }
+        },
+        {
+          "name": "Dr",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.00027,
+            "comment": "Rotary arm equivalent viscous damping coefficient (N-m-s/rad)"
+          }
+        },
+        {
+          "name": "mp",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.024,
+            "comment": "Pendulum mass (kg)"
+          }
+        },
+        {
+          "name": "Lp",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.129,
+            "comment": "Pendulum total length (m)"
+          }
+        },
+        {
+          "name": "Dp",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.00005,
+            "comment": "Pendulum equivalent viscous damping coefficient (N-m-s/rad)"
+          }
+        },
+        {
+          "name": "g",
+          "type": {
+            "category": "Number",
+            "defaultValue": 9.81,
+            "comment": "Gravity constant"
+          }
+        }
+      ]
+    },
+    "action": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "Vm",
+          "type": {
+            "category": "Number",
+            "start": -3,
+            "stop": 3,
+            "comment": "Voltage applied to the motor driving the rotary arm"
+          }
+        }
+      ]
+    },
+    "state": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "theta",
+          "type": {
+            "category": "Number",
+            "start": -1.5707963267948966,
+            "stop": 1.5707963267948966,
+            "comment": "Current angle of the rotary arm in radians"
+          }
+        },
+        {
+          "name": "alpha",
+          "type": {
+            "category": "Number",
+            "start": -3.141592653589793,
+            "stop": 3.141592653589793,
+            "comment": "Current angle of pendulum in radians"
+          }
+        },
+        {
+          "name": "theta_dot",
+          "type": {
+            "category": "Number",
+            "start": -30,
+            "stop": 30,
+            "comment": "Current anglular velocity of the rotary arm in radians per second"
+          }
+        },
+        {
+          "name": "alpha_dot",
+          "type": {
+            "category": "Number",
+            "start": -30,
+            "stop": 30,
+            "comment": "Current anglular velocity of pendulum in radians per second"
+          }
+        },
+        {
+          "name": "target_theta",
+          "type": {
+            "category": "Number",
+            "start": -1.5707963267948966,
+            "stop": 1.5707963267948966,
+            "comment": "Target angle of rotary arm in meters"
+          }
+        },
+        {
+          "name": "target_alpha",
+          "type": {
+            "category": "Number",
+            "start": -3.141592653589793,
+            "stop": 3.141592653589793,
+            "comment": "Target angle of pendulum in meters"
+          }
+        },
+        {
+          "name": "target_theta_dot",
+          "type": {
+            "category": "Number",
+            "start": -30,
+            "stop": 30,
+            "comment": "Target anglular velocity of the rotary arm in radians per second"
+          }
+        },
+        {
+          "name": "target_alpha_dot",
+          "type": {
+            "category": "Number",
+            "start": -30,
+            "stop": 30,
+            "comment": "Target anglular velocity of pendulum in radians per second"
+          }
+        }
+      ]
+    }
+  }
+}

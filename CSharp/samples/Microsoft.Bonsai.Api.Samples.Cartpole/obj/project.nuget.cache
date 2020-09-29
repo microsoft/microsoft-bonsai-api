@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "XwXVxfAM+elzCC399fYQmEsMEuuplcRQJXgzVD1zGFEyA74fEu8CfJb3/QDNcF3uyMf7+JjTlqP1vicwyif5bA==",
+  "success": true,
+  "projectFilePath": "C:\\github_open\\microsoft-bonsai-api\\CSharp\\samples\\Microsoft.Bonsai.Api.Samples.Cartpole\\Microsoft.Bonsai.Api.Samples.Cartpole.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\azure.core\\1.1.0\\azure.core.1.1.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.0.0\\microsoft.bcl.asyncinterfaces.1.0.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\microsoft.rest.clientruntime\\2.3.21\\microsoft.rest.clientruntime.2.3.21.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\newtonsoft.json.schema\\3.0.13\\newtonsoft.json.schema.3.0.13.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.6.0\\system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512",
+    "C:\\Users\\davidhcoe\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.2\\system.threading.tasks.extensions.4.5.2.nupkg.sha512"
+  ],
+  "logs": []
+}

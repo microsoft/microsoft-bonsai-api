@@ -6,9 +6,9 @@
 
 from enum import Enum
 
+
 class EpisodeFinishReason(str, Enum):
-    """Reason for episodeFinish
-    """
+    """Reason for episodeFinish"""
 
     invalid = "Invalid"
     unspecified = "Unspecified"
@@ -16,9 +16,9 @@ class EpisodeFinishReason(str, Enum):
     terminal = "Terminal"
     interrupted = "Interrupted"
 
+
 class EventType(str, Enum):
-    """Type of Event as response to advance method.
-    """
+    """Type of Event as response to advance method."""
 
     unspecified = "Unspecified"
     episode_start = "EpisodeStart"
@@ -27,6 +27,7 @@ class EventType(str, Enum):
     idle = "Idle"
     unregister = "Unregister"
 
+
 class PurposeTypesAction(str, Enum):
 
     inactive = "Inactive"
@@ -34,11 +35,13 @@ class PurposeTypesAction(str, Enum):
     train = "Train"
     assess = "Assess"
 
+
 class SimulatorContextTypesDeploymentMode(str, Enum):
 
     unspecified = "Unspecified"
     hosted = "Hosted"
     testing = "Testing"
+
 
 class SimulatorSessionTypesStatus(str, Enum):
 
@@ -48,9 +51,9 @@ class SimulatorSessionTypesStatus(str, Enum):
     detaching = "Detaching"
     rejected = "Rejected"
 
+
 class UnregisterReason(str, Enum):
-    """Reason for unregister event.
-    """
+    """Reason for unregister event."""
 
     unspecified = "Unspecified"
     finished = "Finished"

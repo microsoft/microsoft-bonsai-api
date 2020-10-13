@@ -9,7 +9,8 @@ package com.microsoft.bonsai.simulatorapi.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The PurposeTarget model.
+ * This structure describes the "target" of the simulator;
+ * i.e., what trainable construct(s) it exists to service.
  */
 public class PurposeTarget {
     /**
@@ -19,7 +20,7 @@ public class PurposeTarget {
     private String workspaceName;
 
     /**
-     * The brainName property.
+     * This is the brain _short_ name!.
      */
     @JsonProperty(value = "brainName")
     private String brainName;
@@ -57,7 +58,7 @@ public class PurposeTarget {
     }
 
     /**
-     * Get the brainName value.
+     * Get this is the brain _short_ name!.
      *
      * @return the brainName value
      */
@@ -66,7 +67,7 @@ public class PurposeTarget {
     }
 
     /**
-     * Set the brainName value.
+     * Set this is the brain _short_ name!.
      *
      * @param brainName the brainName value to set
      * @return the PurposeTarget object itself.

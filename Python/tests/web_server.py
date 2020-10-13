@@ -9,8 +9,7 @@ from .mock_responses import *
 
 
 def count_me(fnc):
-    """ decorator to count function calls in a class variable
-    """
+    """decorator to count function calls in a class variable"""
 
     def increment(self, *args, **kwargs):
         self._count += 1

@@ -43,5 +43,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "firstTime")]
         public System.DateTime? FirstTime { get; set; }
+
     }
 }

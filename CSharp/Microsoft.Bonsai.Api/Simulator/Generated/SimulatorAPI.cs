@@ -97,7 +97,6 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new System.ArgumentNullException("baseUri");
             }
-
             BaseUri = baseUri;
         }
 
@@ -122,7 +121,6 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new System.ArgumentNullException("baseUri");
             }
-
             BaseUri = baseUri;
         }
 

@@ -86,9 +86,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </exception>
         public virtual void Validate()
         {
-            //
             //Nothing to validate
-            //
         }
     }
 }

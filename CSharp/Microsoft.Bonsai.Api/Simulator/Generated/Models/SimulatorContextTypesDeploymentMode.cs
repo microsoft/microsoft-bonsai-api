@@ -24,7 +24,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "Testing")]
         Testing
     }
-
     internal static class SimulatorContextTypesDeploymentModeEnumExtension
     {
         internal static string ToSerializedValue(this SimulatorContextTypesDeploymentMode? value)
@@ -43,7 +42,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case SimulatorContextTypesDeploymentMode.Testing:
                     return "Testing";
             }
-
             return null;
         }
 
@@ -58,7 +56,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "Testing":
                     return SimulatorContextTypesDeploymentMode.Testing;
             }
-
             return null;
         }
     }

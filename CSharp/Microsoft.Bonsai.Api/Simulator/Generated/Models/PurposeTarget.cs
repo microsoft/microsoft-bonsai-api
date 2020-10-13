@@ -9,6 +9,10 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// This structure describes the "target" of the simulator;
+    /// i.e., what trainable construct(s) it exists to service.
+    /// </summary>
     public partial class PurposeTarget
     {
         /// <summary>
@@ -22,6 +26,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// <summary>
         /// Initializes a new instance of the PurposeTarget class.
         /// </summary>
+        /// <param name="brainName">This is the brain _short_ name!</param>
         public PurposeTarget(string workspaceName = default(string), string brainName = default(string), int? brainVersion = default(int?), string conceptName = default(string))
         {
             WorkspaceName = workspaceName;
@@ -42,6 +47,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         public string WorkspaceName { get; set; }
 
         /// <summary>
+        /// Gets or sets this is the brain _short_ name!
         /// </summary>
         [JsonProperty(PropertyName = "brainName")]
         public string BrainName { get; set; }
@@ -55,5 +61,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "conceptName")]
         public string ConceptName { get; set; }
+
     }
 }

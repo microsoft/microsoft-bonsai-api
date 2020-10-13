@@ -69,5 +69,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "extensions")]
         public IDictionary<string, object> Extensions { get; private set; }
+
     }
 }

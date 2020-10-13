@@ -5,4 +5,5 @@
 # --------------------------------------------------------------------------
 
 from ._simulator_api_async import SimulatorAPI
-__all__ = ['SimulatorAPI']
+
+__all__ = ["SimulatorAPI"]

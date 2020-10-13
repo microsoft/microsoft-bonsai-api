@@ -9,7 +9,8 @@ package com.microsoft.bonsai.simulatorapi.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Purpose model.
+ * The purpose for existing, from the standpoint of a simulator instance or
+ * brain version.
  */
 public class Purpose {
     /**

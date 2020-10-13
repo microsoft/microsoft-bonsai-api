@@ -10,7 +10,12 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
     using System.Linq;
 
     /// <summary>
-    /// SimulatorSession progress related to train an actual brain.
+    /// SimulatorSession progress:
+    /// Has the simulator ever attached to a Scholar;
+    /// Has the simulator ever iterated (i.e., sent a state and received an
+    /// action);
+    /// Has the simulator ever completed an episode (i.e., received an
+    /// EpisodeFinish message).
     /// </summary>
     public partial class SimulatorSessionProgress
     {
@@ -25,10 +30,11 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionProgress class.
         /// </summary>
-        public SimulatorSessionProgress(SimulatorSessionMilestone attached = default(SimulatorSessionMilestone), SimulatorSessionMilestone iterated = default(SimulatorSessionMilestone))
+        public SimulatorSessionProgress(SimulatorSessionMilestone attached = default(SimulatorSessionMilestone), SimulatorSessionMilestone iterated = default(SimulatorSessionMilestone), SimulatorSessionMilestone finishedEpisode = default(SimulatorSessionMilestone))
         {
             Attached = attached;
             Iterated = iterated;
+            FinishedEpisode = finishedEpisode;
             CustomInit();
         }
 
@@ -46,5 +52,11 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "iterated")]
         public SimulatorSessionMilestone Iterated { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "finishedEpisode")]
+        public SimulatorSessionMilestone FinishedEpisode { get; set; }
+
     }
 }

@@ -12,6 +12,13 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
 
     /// <summary>
     /// SimulatorSession model, having details of one active simulator session.
+    /// When a simulator registers, it creates and starts active simulator
+    /// session.
+    /// When that simulator deregisters itself, it ends and removes its
+    /// simulator session.
+    /// If the Bonsai platform deregisters a simulator due to that simulator's
+    /// "misbehavior,"
+    /// that also ends and removes that simulator's session.
     /// </summary>
     public partial class SimulatorSessionResponse
     {
@@ -26,19 +33,26 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// <summary>
         /// Initializes a new instance of the SimulatorSessionResponse class.
         /// </summary>
-        /// <param name="sessionId">Unique sessionId for this session.</param>
-        /// <param name="registrationTime">Time, when this session was
+        /// <param name="sessionId">Unique sessionId for this simulator
+        /// session.</param>
+        /// <param name="registrationTime">Time when this session was
         /// registered with Bonsai platform.</param>
-        /// <param name="lastSeenTime">Last time, when any request for this
-        /// session was seen.</param>
+        /// <param name="lastSeenTime">A recent time that this simulator
+        /// communicated with the Bonsai platform.
+        /// This value is updated at a regular interval, so it may not be the
+        /// most recent communication time.</param>
+        /// <param name="lastIteratedTime">A recent time that this simulator
+        /// received an EpisodeStep from the Scholar.
+        /// This value is updated at a regular interval, so it may not be the
+        /// most recent communication time.</param>
         /// <param name="sessionStatus">Possible values include:
         /// 'Deregistered', 'Attachable', 'Attached', 'Detaching',
         /// 'Rejected'</param>
         /// <param name="iterationRate">Current IterationRate, 1 state-action
         /// loop is roughly maps to 1 iteration.</param>
         /// <param name="details">Additional Details for this session provided
-        /// by bonsai platform.</param>
-        public SimulatorSessionResponse(string sessionId, System.DateTime registrationTime, System.DateTime lastSeenTime, SimulatorSessionTypesStatus? sessionStatus = default(SimulatorSessionTypesStatus?), SimulatorSessionProgress sessionProgress = default(SimulatorSessionProgress), SimulatorInterface interfaceProperty = default(SimulatorInterface), SimulatorContext simulatorContext = default(SimulatorContext), double? iterationRate = default(double?), string details = default(string))
+        /// by Bonsai platform.</param>
+        public SimulatorSessionResponse(string sessionId, System.DateTime registrationTime, System.DateTime lastSeenTime, System.DateTime lastIteratedTime, SimulatorSessionTypesStatus? sessionStatus = default(SimulatorSessionTypesStatus?), SimulatorSessionProgress sessionProgress = default(SimulatorSessionProgress), SimulatorInterface interfaceProperty = default(SimulatorInterface), SimulatorContext simulatorContext = default(SimulatorContext), double? iterationRate = default(double?), string details = default(string))
         {
             SessionId = sessionId;
             SessionStatus = sessionStatus;
@@ -47,6 +61,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
             SimulatorContext = simulatorContext;
             RegistrationTime = registrationTime;
             LastSeenTime = lastSeenTime;
+            LastIteratedTime = lastIteratedTime;
             IterationRate = iterationRate;
             Details = details;
             CustomInit();
@@ -58,7 +73,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets unique sessionId for this session.
+        /// Gets or sets unique sessionId for this simulator session.
         /// </summary>
         [JsonProperty(PropertyName = "sessionId")]
         public string SessionId { get; set; }
@@ -86,17 +101,29 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         public SimulatorContext SimulatorContext { get; set; }
 
         /// <summary>
-        /// Gets or sets time, when this session was registered with Bonsai
+        /// Gets or sets time when this session was registered with Bonsai
         /// platform.
         /// </summary>
         [JsonProperty(PropertyName = "registrationTime")]
         public System.DateTime RegistrationTime { get; set; }
 
         /// <summary>
-        /// Gets or sets last time, when any request for this session was seen.
+        /// Gets or sets a recent time that this simulator communicated with
+        /// the Bonsai platform.
+        /// This value is updated at a regular interval, so it may not be the
+        /// most recent communication time.
         /// </summary>
         [JsonProperty(PropertyName = "lastSeenTime")]
         public System.DateTime LastSeenTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets a recent time that this simulator received an
+        /// EpisodeStep from the Scholar.
+        /// This value is updated at a regular interval, so it may not be the
+        /// most recent communication time.
+        /// </summary>
+        [JsonProperty(PropertyName = "lastIteratedTime")]
+        public System.DateTime LastIteratedTime { get; set; }
 
         /// <summary>
         /// Gets or sets current IterationRate, 1 state-action loop is roughly
@@ -106,7 +133,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         public double? IterationRate { get; set; }
 
         /// <summary>
-        /// Gets or sets additional Details for this session provided by bonsai
+        /// Gets or sets additional Details for this session provided by Bonsai
         /// platform.
         /// </summary>
         [JsonProperty(PropertyName = "details")]
@@ -124,7 +151,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "SessionId");
             }
-
             if (InterfaceProperty != null)
             {
                 InterfaceProperty.Validate();

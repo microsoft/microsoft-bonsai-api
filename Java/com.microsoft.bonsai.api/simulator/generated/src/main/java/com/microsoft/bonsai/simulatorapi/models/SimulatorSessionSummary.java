@@ -9,7 +9,7 @@ package com.microsoft.bonsai.simulatorapi.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The SimulatorSessionSummary model.
+ * A summary of a SimulatorSession, returned from ListSessions.
  */
 public class SimulatorSessionSummary {
     /**
@@ -26,7 +26,7 @@ public class SimulatorSessionSummary {
     private SimulatorSessionTypesStatus sessionStatus;
 
     /**
-     * The simulatorName property.
+     * From the registration's SimulatorInterface.
      */
     @JsonProperty(value = "simulatorName")
     private String simulatorName;
@@ -78,7 +78,7 @@ public class SimulatorSessionSummary {
     }
 
     /**
-     * Get the simulatorName value.
+     * Get from the registration's SimulatorInterface.
      *
      * @return the simulatorName value
      */
@@ -87,7 +87,7 @@ public class SimulatorSessionSummary {
     }
 
     /**
-     * Set the simulatorName value.
+     * Set from the registration's SimulatorInterface.
      *
      * @param simulatorName the simulatorName value to set
      * @return the SimulatorSessionSummary object itself.

@@ -35,5 +35,6 @@ namespace Microsoft.Bonsai.SimulatorApi
         /// Gets the ISession.
         /// </summary>
         ISession Session { get; }
+
     }
 }

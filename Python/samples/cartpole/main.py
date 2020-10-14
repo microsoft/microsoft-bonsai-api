@@ -23,7 +23,9 @@ from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConf
 from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorInterface,
     SimulatorState,
+    SimulatorSessionResponse
 )
+from azure.core.exceptions import HttpResponseError
 
 from policies import coast, random_policy
 from sim import cartpole
@@ -274,11 +276,27 @@ def main(
         timeout=60,
         simulator_context=config_client.simulator_context,
     )
-    registered_session = client.session.create(
-        workspace_name=config_client.workspace, body=registration_info
-    )
-    print("Registered simulator.")
-    sequence_id = 1
+
+    def CreateSession(registration_info: SimulatorInterface, config_client: BonsaiClientConfig):
+        """Creates a new Simulator Session and returns new sessoin, sequenceId
+        """
+
+        try:
+            print("config: {}, {}".format(config_client.server, config_client.workspace))
+            registered_session: SimulatorSessionResponse = client.session.create(
+                workspace_name=config_client.workspace, body=registration_info
+            )
+            print("Registered simulator. {}".format(registered_session.session_id))
+
+            return registered_session, 1
+        except HttpResponseError as ex:
+            print("HttpResponseError in Registering session: StatusCode: {}, Error: {}, Exception: {}".format(ex.status_code, ex.error.message, ex))
+            raise ex
+        except Exception as ex:
+            print("UnExpected error: {}, Most likely, It's some network connectivity issue, make sure, you are able to reach bonsai platform from your PC.".format(ex))
+            raise ex
+    
+    registered_session, sequence_id = CreateSession(registration_info, config_client)
     episode = 0
     iteration = 0
 
@@ -288,13 +306,27 @@ def main(
             sim_state = SimulatorState(
                 sequence_id=sequence_id, state=sim.get_state(), halted=sim.halted(),
             )
-            event = client.session.advance(
-                workspace_name=config_client.workspace,
-                session_id=registered_session.session_id,
-                body=sim_state,
-            )
-            sequence_id = event.sequence_id
-            print("[{}] Last Event: {}".format(time.strftime("%H:%M:%S"), event.type))
+            try:
+                event = client.session.advance(
+                    workspace_name=config_client.workspace,
+                    session_id=registered_session.session_id,
+                    body=sim_state,
+                )
+                sequence_id = event.sequence_id
+                print("[{}] Last Event: {}".format(time.strftime("%H:%M:%S"), event.type))
+            except HttpResponseError as ex:
+                print("HttpResponseError in Advance: StatusCode: {}, Error: {}, Exception: {}".format(ex.status_code, ex.error.message, ex))
+                # This can happen in network connectivity issue, though SDK has retry logic, but even after that request may fail, 
+                # if your network has some issue, or sim session at platform is going away..
+                # So let's re-register sim-session and get a new session and continue iterating. :-) 
+                registered_session, sequence_id = CreateSession(registration_info, config_client)
+                continue
+            except Exception as err:
+                print("Unexpected error in Advance: {}".format(err))
+                # Ideally this shouldn't happen, but for very long-running sims It can happen with various reasons, let's re-register sim & Move on.
+                # If possible try to notify Bonsai team to see, if this is platform issue and can be fixed.
+                registered_session, sequence_id = CreateSession(registration_info, config_client)
+                continue
 
             # Event loop
             if event.type == "Idle":
@@ -318,11 +350,9 @@ def main(
                 print("Episode Finishing...")
                 iteration = 0
             elif event.type == "Unregister":
-                client.session.delete(
-                    workspace_name=config_client.workspace,
-                    session_id=registered_session.session_id,
-                )
-                print("Unregistered simulator.")
+                print("Simulator Session unregistered by platform, Registering again!")
+                registered_session, sequence_id = CreateSession(registration_info, config_client)
+                continue
             else:
                 pass
     except KeyboardInterrupt:
@@ -370,3 +400,4 @@ if __name__ == "__main__":
         log_iterations=args.log_iterations,
     )
     # test_random_policy(render=args.render, log_iterations=args.log_iterations)
+    

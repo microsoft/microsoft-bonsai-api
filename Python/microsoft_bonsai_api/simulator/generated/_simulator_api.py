@@ -34,16 +34,19 @@ class SimulatorAPI(object):
     ):
         # type: (...) -> None
         if not base_url:
-            base_url = 'https://api.bons.ai'
+            base_url = "https://api.bons.ai"
         self._config = SimulatorAPIConfiguration(**kwargs)
         self._client = PipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {
+            k: v for k, v in models.__dict__.items() if isinstance(v, type)
+        }
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
 
         self.session = SessionOperations(
-            self._client, self._config, self._serialize, self._deserialize)
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def close(self):
         # type: () -> None

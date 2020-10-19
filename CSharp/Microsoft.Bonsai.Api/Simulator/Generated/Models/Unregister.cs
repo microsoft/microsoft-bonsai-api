@@ -54,5 +54,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "details")]
         public string Details { get; set; }
+
     }
 }

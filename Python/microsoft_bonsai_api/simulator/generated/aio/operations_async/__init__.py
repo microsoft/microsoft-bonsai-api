@@ -7,5 +7,5 @@
 from ._session_operations_async import SessionOperations
 
 __all__ = [
-    'SessionOperations',
+    "SessionOperations",
 ]

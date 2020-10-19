@@ -44,5 +44,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "reason")]
         public EpisodeFinishReason? Reason { get; set; }
+
     }
 }

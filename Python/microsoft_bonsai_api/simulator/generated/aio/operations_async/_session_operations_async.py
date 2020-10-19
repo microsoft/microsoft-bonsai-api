@@ -6,14 +6,22 @@
 from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar
 import warnings
 
-from azure.core.exceptions import HttpResponseError, ResourceExistsError, ResourceNotFoundError, map_error
+from azure.core.exceptions import (
+    HttpResponseError,
+    ResourceExistsError,
+    ResourceNotFoundError,
+    map_error,
+)
 from azure.core.pipeline import PipelineResponse
 from azure.core.pipeline.transport import AsyncHttpResponse, HttpRequest
 
 from ... import models
 
-T = TypeVar('T')
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+T = TypeVar("T")
+ClsType = Optional[
+    Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]
+]
+
 
 class SessionOperations:
     """SessionOperations async operations.
@@ -79,55 +87,69 @@ class SessionOperations:
         :rtype: list[~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionSummary]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[List["models.SimulatorSessionSummary"]]
+        cls = kwargs.pop(
+            "cls", None
+        )  # type: ClsType[List["models.SimulatorSessionSummary"]]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
 
         # Construct URL
-        url = self.list.metadata['url']  # type: ignore
+        url = self.list.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}  # type: Dict[str, Any]
         if deployment_mode is not None:
-            query_parameters['deployment_mode'] = self._serialize.query("deployment_mode", deployment_mode, 'str')
+            query_parameters["deployment_mode"] = self._serialize.query(
+                "deployment_mode", deployment_mode, "str"
+            )
         if session_status is not None:
-            query_parameters['session_status'] = self._serialize.query("session_status", session_status, 'str')
+            query_parameters["session_status"] = self._serialize.query(
+                "session_status", session_status, "str"
+            )
         if collection is not None:
-            query_parameters['collection'] = self._serialize.query("collection", collection, 'str')
+            query_parameters["collection"] = self._serialize.query(
+                "collection", collection, "str"
+            )
         if package is not None:
-            query_parameters['package'] = self._serialize.query("package", package, 'str')
+            query_parameters["package"] = self._serialize.query(
+                "package", package, "str"
+            )
 
         # Construct headers
         header_parameters = {}  # type: Dict[str, Any]
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize('[SimulatorSessionSummary]', pipeline_response)
+        deserialized = self._deserialize("[SimulatorSessionSummary]", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    list.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions'}  # type: ignore
+
+    list.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions"}  # type: ignore
 
     async def create(
-        self,
-        workspace_name: str,
-        body: "models.SimulatorInterface",
-        **kwargs
+        self, workspace_name: str, body: "models.SimulatorInterface", **kwargs
     ) -> "models.SimulatorSessionResponse":
         """Registers a simulator with the Bonsai platform.
 
@@ -142,15 +164,19 @@ class SessionOperations:
         :rtype: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType["models.SimulatorSessionResponse"]
+        cls = kwargs.pop(
+            "cls", None
+        )  # type: ClsType["models.SimulatorSessionResponse"]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
         content_type = kwargs.pop("content_type", "application/json-patch+json")
 
         # Construct URL
-        url = self.create.metadata['url']  # type: ignore
+        url = self.create.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -159,36 +185,42 @@ class SessionOperations:
 
         # Construct headers
         header_parameters = {}  # type: Dict[str, Any]
-        header_parameters['Content-Type'] = self._serialize.header("content_type", content_type, 'str')
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Content-Type"] = self._serialize.header(
+            "content_type", content_type, "str"
+        )
+        header_parameters["Accept"] = "application/json"
 
         # Construct and send request
         body_content_kwargs = {}  # type: Dict[str, Any]
-        body_content = self._serialize.body(body, 'SimulatorInterface')
-        body_content_kwargs['content'] = body_content
-        request = self._client.post(url, query_parameters, header_parameters, **body_content_kwargs)
+        body_content = self._serialize.body(body, "SimulatorInterface")
+        body_content_kwargs["content"] = body_content
+        request = self._client.post(
+            url, query_parameters, header_parameters, **body_content_kwargs
+        )
 
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize('SimulatorSessionResponse', pipeline_response)
+        deserialized = self._deserialize("SimulatorSessionResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    create.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions'}  # type: ignore
+
+    create.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions"}  # type: ignore
 
     async def get(
-        self,
-        workspace_name: str,
-        session_id: str,
-        **kwargs
+        self, workspace_name: str, session_id: str, **kwargs
     ) -> "models.SimulatorSessionResponse":
         """Retrieves a simulator session corresponding to the sessionId.
 
@@ -203,15 +235,19 @@ class SessionOperations:
         :rtype: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType["models.SimulatorSessionResponse"]
+        cls = kwargs.pop(
+            "cls", None
+        )  # type: ClsType["models.SimulatorSessionResponse"]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
 
         # Construct URL
-        url = self.get.metadata['url']  # type: ignore
+        url = self.get.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
-            'sessionId': self._serialize.url("session_id", session_id, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
+            "sessionId": self._serialize.url("session_id", session_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -220,32 +256,32 @@ class SessionOperations:
 
         # Construct headers
         header_parameters = {}  # type: Dict[str, Any]
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize('SimulatorSessionResponse', pipeline_response)
+        deserialized = self._deserialize("SimulatorSessionResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}'}  # type: ignore
 
-    async def delete(
-        self,
-        workspace_name: str,
-        session_id: str,
-        **kwargs
-    ) -> None:
+    get.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}"}  # type: ignore
+
+    async def delete(self, workspace_name: str, session_id: str, **kwargs) -> None:
         """Deletes the Simulator session.
 
         Deletes the Simulator session.
@@ -259,15 +295,17 @@ class SessionOperations:
         :rtype: None
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[None]
+        cls = kwargs.pop("cls", None)  # type: ClsType[None]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
 
         # Construct URL
-        url = self.delete.metadata['url']  # type: ignore
+        url = self.delete.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
-            'sessionId': self._serialize.url("session_id", session_id, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
+            "sessionId": self._serialize.url("session_id", session_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -279,24 +317,25 @@ class SessionOperations:
 
         # Construct and send request
         request = self._client.delete(url, query_parameters, header_parameters)
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
         if cls:
             return cls(pipeline_response, None, {})
 
-    delete.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}'}  # type: ignore
+    delete.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}"}  # type: ignore
 
     async def get_most_recent_action(
-        self,
-        workspace_name: str,
-        session_id: str,
-        **kwargs
+        self, workspace_name: str, session_id: str, **kwargs
     ) -> "models.Event":
         """Gets the most recent action sent to the simulator to process.
 
@@ -311,15 +350,17 @@ class SessionOperations:
         :rtype: ~microsoft_bonsai_api.simulator.generated.models.Event
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType["models.Event"]
+        cls = kwargs.pop("cls", None)  # type: ClsType["models.Event"]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
 
         # Construct URL
-        url = self.get_most_recent_action.metadata['url']  # type: ignore
+        url = self.get_most_recent_action.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
-            'sessionId': self._serialize.url("session_id", session_id, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
+            "sessionId": self._serialize.url("session_id", session_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -328,25 +369,30 @@ class SessionOperations:
 
         # Construct headers
         header_parameters = {}  # type: Dict[str, Any]
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize('Event', pipeline_response)
+        deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get_most_recent_action.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/action'}  # type: ignore
+
+    get_most_recent_action.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/action"}  # type: ignore
 
     async def advance(
         self,
@@ -376,16 +422,18 @@ class SessionOperations:
         :rtype: ~microsoft_bonsai_api.simulator.generated.models.Event
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType["models.Event"]
+        cls = kwargs.pop("cls", None)  # type: ClsType["models.Event"]
         error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
-        error_map.update(kwargs.pop('error_map', {}))
+        error_map.update(kwargs.pop("error_map", {}))
         content_type = kwargs.pop("content_type", "application/json-patch+json")
 
         # Construct URL
-        url = self.advance.metadata['url']  # type: ignore
+        url = self.advance.metadata["url"]  # type: ignore
         path_format_arguments = {
-            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
-            'sessionId': self._serialize.url("session_id", session_id, 'str'),
+            "workspaceName": self._serialize.url(
+                "workspace_name", workspace_name, "str"
+            ),
+            "sessionId": self._serialize.url("session_id", session_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
@@ -394,27 +442,36 @@ class SessionOperations:
 
         # Construct headers
         header_parameters = {}  # type: Dict[str, Any]
-        header_parameters['Content-Type'] = self._serialize.header("content_type", content_type, 'str')
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Content-Type"] = self._serialize.header(
+            "content_type", content_type, "str"
+        )
+        header_parameters["Accept"] = "application/json"
 
         # Construct and send request
         body_content_kwargs = {}  # type: Dict[str, Any]
-        body_content = self._serialize.body(body, 'SimulatorState')
-        body_content_kwargs['content'] = body_content
-        request = self._client.post(url, query_parameters, header_parameters, **body_content_kwargs)
+        body_content = self._serialize.body(body, "SimulatorState")
+        body_content_kwargs["content"] = body_content
+        request = self._client.post(
+            url, query_parameters, header_parameters, **body_content_kwargs
+        )
 
-        pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
+        pipeline_response = await self._client._pipeline.run(
+            request, stream=False, **kwargs
+        )
         response = pipeline_response.http_response
 
         if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            map_error(
+                status_code=response.status_code, response=response, error_map=error_map
+            )
             error = self._deserialize(models.ProblemDetails, response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize('Event', pipeline_response)
+        deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    advance.metadata = {'url': '/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/advance'}  # type: ignore
+
+    advance.metadata = {"url": "/v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/advance"}  # type: ignore

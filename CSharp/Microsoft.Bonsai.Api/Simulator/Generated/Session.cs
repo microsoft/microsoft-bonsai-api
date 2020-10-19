@@ -38,8 +38,7 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new System.ArgumentNullException("client");
             }
-
-            Clent = client;
+            Client = client;
         }
 
         /// <summary>
@@ -111,13 +110,9 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
-            //
             // Tracing
-            //
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -130,51 +125,37 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "List", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
             List<string> _queryParameters = new List<string>();
-
             if (deploymentMode != null)
             {
                 _queryParameters.Add(string.Format("deployment_mode={0}", System.Uri.EscapeDataString(deploymentMode)));
             }
-
-            if(sessionStatus != null)
+            if (sessionStatus != null)
             {
                 _queryParameters.Add(string.Format("session_status={0}", System.Uri.EscapeDataString(sessionStatus)));
             }
-
-            if(collection != null)
+            if (collection != null)
             {
                 _queryParameters.Add(string.Format("collection={0}", System.Uri.EscapeDataString(collection)));
             }
-
-            if(package != null)
+            if (package != null)
             {
                 _queryParameters.Add(string.Format("package={0}", System.Uri.EscapeDataString(package)));
             }
-
-            if(_queryParameters.Count > 0)
+            if (_queryParameters.Count > 0)
             {
                 _url += "?" + string.Join("&", _queryParameters);
             }
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("GET");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -189,40 +170,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
-            cacellationToken.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
-            HttpStatusCode_statusCode = _httpResponse.StatusCode;
+            HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 200)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -230,42 +200,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
-                exRequest = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
+                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse<IList<SimulatorSessionSummary>>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
-            //
             // Deserialize Response
-            //
             if ((int)_statusCode == 200)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                 try
                 {
                     _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<IList<SimulatorSessionSummary>>(_responseContent, Client.DeserializationSettings);
@@ -273,21 +230,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 catch (JsonException ex)
                 {
                     _httpRequest.Dispose();
-
                     if (_httpResponse != null)
                     {
                         _httpResponse.Dispose();
                     }
-
                     throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
                 }
             }
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
 
@@ -327,20 +280,17 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
             if (body == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "body");
             }
-
             if (body != null)
             {
                 body.Validate();
             }
-
+            // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -350,25 +300,16 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Create", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("POST");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -383,47 +324,35 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
             if(body != null)
             {
                 _requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(body, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
             cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 201)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -431,42 +360,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
                 ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse<SimulatorSessionResponse>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
-            //
             // Deserialize Response
-            //
             if ((int)_statusCode == 201)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                 try
                 {
                     _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<SimulatorSessionResponse>(_responseContent, Client.DeserializationSettings);
@@ -474,21 +390,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 catch (JsonException ex)
                 {
                     _httpRequest.Dispose();
-
                     if (_httpResponse != null)
                     {
                         _httpResponse.Dispose();
                     }
-
                     throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
                 }
             }
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
 
@@ -528,18 +440,13 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
             if (sessionId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "sessionId");
             }
-
-            //
             // Tracing
-            //
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -549,26 +456,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Get", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
             _url = _url.Replace("{sessionId}", System.Uri.EscapeDataString(sessionId));
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("GET");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -583,40 +481,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
             cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 200)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -624,42 +511,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
                 ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse<SimulatorSessionResponse>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
-            //
             // Deserialize Response
-            //
             if ((int)_statusCode == 200)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                 try
                 {
                     _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<SimulatorSessionResponse>(_responseContent, Client.DeserializationSettings);
@@ -667,21 +541,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 catch (JsonException ex)
                 {
                     _httpRequest.Dispose();
-
                     if (_httpResponse != null)
                     {
                         _httpResponse.Dispose();
                     }
-
                     throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
                 }
             }
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
 
@@ -718,18 +588,13 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
             if (sessionId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "sessionId");
             }
-
-            //
             // Tracing
-            //
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -739,26 +604,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Delete", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
             _url = _url.Replace("{sessionId}", System.Uri.EscapeDataString(sessionId));
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("DELETE");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -773,40 +629,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
             cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 204)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -814,40 +659,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
                 ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
 
@@ -887,18 +721,13 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
             if (sessionId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "sessionId");
             }
-
-            //
             // Tracing
-            //
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -908,26 +737,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetMostRecentAction", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/action").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
             _url = _url.Replace("{sessionId}", System.Uri.EscapeDataString(sessionId));
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("GET");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -942,40 +762,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
             cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 200)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -983,42 +792,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
                 ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse<EventModel>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
-            //
             // Deserialize Response
-            //
             if ((int)_statusCode == 200)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                 try
                 {
                     _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<EventModel>(_responseContent, Client.DeserializationSettings);
@@ -1026,21 +822,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 catch (JsonException ex)
                 {
                     _httpRequest.Dispose();
-
                     if (_httpResponse != null)
                     {
                         _httpResponse.Dispose();
                     }
-
                     throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
                 }
             }
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
 
@@ -1088,28 +880,21 @@ namespace Microsoft.Bonsai.SimulatorApi
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "workspaceName");
             }
-
             if (sessionId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "sessionId");
             }
-
             if (body == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "body");
             }
-
             if (body != null)
             {
                 body.Validate();
             }
-
-            //
             // Tracing
-            //
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
-
             if (_shouldTrace)
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
@@ -1120,26 +905,17 @@ namespace Microsoft.Bonsai.SimulatorApi
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Advance", tracingParameters);
             }
-
-            //
             // Construct URL
-            //
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v2/workspaces/{workspaceName}/simulatorSessions/{sessionId}/advance").ToString();
             _url = _url.Replace("{workspaceName}", System.Uri.EscapeDataString(workspaceName));
             _url = _url.Replace("{sessionId}", System.Uri.EscapeDataString(sessionId));
-
-            //
             // Create HTTP transport objects
-            //
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
             _httpRequest.Method = new HttpMethod("POST");
             _httpRequest.RequestUri = new System.Uri(_url);
-
-            //
             // Set Headers
-            //
 
 
             if (customHeaders != null)
@@ -1154,47 +930,35 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
             }
 
-            //
             // Serialize Request
-            //
             string _requestContent = null;
-
             if(body != null)
             {
                 _requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(body, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
-
-            //
             // Send Request
-            //
             if (_shouldTrace)
             {
                 ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
             }
-
             cancellationToken.ThrowIfCancellationRequested();
             _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
             }
-
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-
             if ((int)_statusCode != 200)
             {
                 var ex = new ProblemDetailsException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-
                 try
                 {
                     _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     ProblemDetails _errorBody =  Rest.Serialization.SafeJsonConvert.DeserializeObject<ProblemDetails>(_responseContent, Client.DeserializationSettings);
-
                     if (_errorBody != null)
                     {
                         ex.Body = _errorBody;
@@ -1202,42 +966,29 @@ namespace Microsoft.Bonsai.SimulatorApi
                 }
                 catch (JsonException)
                 {
-                    //
                     // Ignore the exception
-                    //
                 }
-
                 ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
                 ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-
                 if (_shouldTrace)
                 {
                     ServiceClientTracing.Error(_invocationId, ex);
                 }
                 _httpRequest.Dispose();
-
                 if (_httpResponse != null)
                 {
                     _httpResponse.Dispose();
                 }
-
                 throw ex;
             }
-
-            //
             // Create Result
-            //
             var _result = new HttpOperationResponse<EventModel>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-
-            //
             // Deserialize Response
-            //
             if ((int)_statusCode == 200)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                 try
                 {
                     _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<EventModel>(_responseContent, Client.DeserializationSettings);
@@ -1245,22 +996,19 @@ namespace Microsoft.Bonsai.SimulatorApi
                 catch (JsonException ex)
                 {
                     _httpRequest.Dispose();
-
                     if (_httpResponse != null)
                     {
                         _httpResponse.Dispose();
                     }
-
                     throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
                 }
             }
-
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
             }
-
             return _result;
         }
+
     }
 }

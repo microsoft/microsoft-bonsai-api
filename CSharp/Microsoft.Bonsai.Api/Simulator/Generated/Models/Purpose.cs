@@ -9,6 +9,11 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// The purpose for existing, from the standpoint of a simulator instance
+    /// or
+    /// brain version.
+    /// </summary>
     public partial class Purpose
     {
         /// <summary>
@@ -47,5 +52,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "target")]
         public PurposeTarget Target { get; set; }
+
     }
 }

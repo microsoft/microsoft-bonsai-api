@@ -17,15 +17,12 @@ class EpisodeFinish(msrest.serialization.Model):
     """
 
     _attribute_map = {
-        'reason': {'key': 'reason', 'type': 'str'},
+        "reason": {"key": "reason", "type": "str"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(EpisodeFinish, self).__init__(**kwargs)
-        self.reason = kwargs.get('reason', None)
+        self.reason = kwargs.get("reason", None)
 
 
 class EpisodeStart(msrest.serialization.Model):
@@ -36,15 +33,12 @@ class EpisodeStart(msrest.serialization.Model):
     """
 
     _attribute_map = {
-        'config': {'key': 'config', 'type': 'object'},
+        "config": {"key": "config", "type": "object"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(EpisodeStart, self).__init__(**kwargs)
-        self.config = kwargs.get('config', None)
+        self.config = kwargs.get("config", None)
 
 
 class EpisodeStep(msrest.serialization.Model):
@@ -56,15 +50,12 @@ class EpisodeStep(msrest.serialization.Model):
     """
 
     _attribute_map = {
-        'action': {'key': 'action', 'type': 'object'},
+        "action": {"key": "action", "type": "object"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(EpisodeStep, self).__init__(**kwargs)
-        self.action = kwargs.get('action', None)
+        self.action = kwargs.get("action", None)
 
 
 class Event(msrest.serialization.Model):
@@ -96,35 +87,32 @@ class Event(msrest.serialization.Model):
     """
 
     _validation = {
-        'type': {'required': True},
-        'session_id': {'required': True},
-        'sequence_id': {'required': True},
+        "type": {"required": True},
+        "session_id": {"required": True},
+        "sequence_id": {"required": True},
     }
 
     _attribute_map = {
-        'type': {'key': 'type', 'type': 'str'},
-        'session_id': {'key': 'sessionId', 'type': 'str'},
-        'sequence_id': {'key': 'sequenceId', 'type': 'int'},
-        'episode_start': {'key': 'episodeStart', 'type': 'EpisodeStart'},
-        'episode_step': {'key': 'episodeStep', 'type': 'EpisodeStep'},
-        'episode_finish': {'key': 'episodeFinish', 'type': 'EpisodeFinish'},
-        'idle': {'key': 'idle', 'type': 'Idle'},
-        'unregister': {'key': 'unregister', 'type': 'Unregister'},
+        "type": {"key": "type", "type": "str"},
+        "session_id": {"key": "sessionId", "type": "str"},
+        "sequence_id": {"key": "sequenceId", "type": "int"},
+        "episode_start": {"key": "episodeStart", "type": "EpisodeStart"},
+        "episode_step": {"key": "episodeStep", "type": "EpisodeStep"},
+        "episode_finish": {"key": "episodeFinish", "type": "EpisodeFinish"},
+        "idle": {"key": "idle", "type": "Idle"},
+        "unregister": {"key": "unregister", "type": "Unregister"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(Event, self).__init__(**kwargs)
-        self.type = kwargs['type']
-        self.session_id = kwargs['session_id']
-        self.sequence_id = kwargs['sequence_id']
-        self.episode_start = kwargs.get('episode_start', None)
-        self.episode_step = kwargs.get('episode_step', None)
-        self.episode_finish = kwargs.get('episode_finish', None)
-        self.idle = kwargs.get('idle', None)
-        self.unregister = kwargs.get('unregister', None)
+        self.type = kwargs["type"]
+        self.session_id = kwargs["session_id"]
+        self.sequence_id = kwargs["sequence_id"]
+        self.episode_start = kwargs.get("episode_start", None)
+        self.episode_step = kwargs.get("episode_step", None)
+        self.episode_finish = kwargs.get("episode_finish", None)
+        self.idle = kwargs.get("idle", None)
+        self.unregister = kwargs.get("unregister", None)
 
 
 class Idle(msrest.serialization.Model):
@@ -136,15 +124,12 @@ class Idle(msrest.serialization.Model):
     """
 
     _attribute_map = {
-        'callback_time': {'key': 'callbackTime', 'type': 'float'},
+        "callback_time": {"key": "callbackTime", "type": "float"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(Idle, self).__init__(**kwargs)
-        self.callback_time = kwargs.get('callback_time', None)
+        self.callback_time = kwargs.get("callback_time", None)
 
 
 class ProblemDetails(msrest.serialization.Model):
@@ -167,123 +152,116 @@ class ProblemDetails(msrest.serialization.Model):
     """
 
     _validation = {
-        'extensions': {'readonly': True},
+        "extensions": {"readonly": True},
     }
 
     _attribute_map = {
-        'type': {'key': 'type', 'type': 'str'},
-        'title': {'key': 'title', 'type': 'str'},
-        'status': {'key': 'status', 'type': 'int'},
-        'detail': {'key': 'detail', 'type': 'str'},
-        'instance': {'key': 'instance', 'type': 'str'},
-        'extensions': {'key': 'extensions', 'type': '{object}'},
+        "type": {"key": "type", "type": "str"},
+        "title": {"key": "title", "type": "str"},
+        "status": {"key": "status", "type": "int"},
+        "detail": {"key": "detail", "type": "str"},
+        "instance": {"key": "instance", "type": "str"},
+        "extensions": {"key": "extensions", "type": "{object}"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(ProblemDetails, self).__init__(**kwargs)
-        self.type = kwargs.get('type', None)
-        self.title = kwargs.get('title', None)
-        self.status = kwargs.get('status', None)
-        self.detail = kwargs.get('detail', None)
-        self.instance = kwargs.get('instance', None)
+        self.type = kwargs.get("type", None)
+        self.title = kwargs.get("title", None)
+        self.status = kwargs.get("status", None)
+        self.detail = kwargs.get("detail", None)
+        self.instance = kwargs.get("instance", None)
         self.extensions = None
 
 
 class Purpose(msrest.serialization.Model):
-    """Purpose.
+    """The purpose for existing, from the standpoint of a simulator instance or
+    brain version.
 
-    :param action:  Possible values include: "Inactive", "Debug", "Train", "Assess".
-    :type action: str or ~microsoft_bonsai_api.simulator.generated.models.PurposeTypesAction
-    :param target:
-    :type target: ~microsoft_bonsai_api.simulator.generated.models.PurposeTarget
+        :param action:  Possible values include: "Inactive", "Debug", "Train", "Assess".
+        :type action: str or ~microsoft_bonsai_api.simulator.generated.models.PurposeTypesAction
+        :param target: This structure describes the "target" of the simulator;
+         i.e., what trainable construct(s) it exists to service.
+        :type target: ~microsoft_bonsai_api.simulator.generated.models.PurposeTarget
     """
 
     _attribute_map = {
-        'action': {'key': 'action', 'type': 'str'},
-        'target': {'key': 'target', 'type': 'PurposeTarget'},
+        "action": {"key": "action", "type": "str"},
+        "target": {"key": "target", "type": "PurposeTarget"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(Purpose, self).__init__(**kwargs)
-        self.action = kwargs.get('action', None)
-        self.target = kwargs.get('target', None)
+        self.action = kwargs.get("action", None)
+        self.target = kwargs.get("target", None)
 
 
 class PurposeTarget(msrest.serialization.Model):
-    """PurposeTarget.
+    """This structure describes the "target" of the simulator;
+    i.e., what trainable construct(s) it exists to service.
 
-    :param workspace_name:
-    :type workspace_name: str
-    :param brain_name:
-    :type brain_name: str
-    :param brain_version:
-    :type brain_version: int
-    :param concept_name:
-    :type concept_name: str
+        :param workspace_name:
+        :type workspace_name: str
+        :param brain_name: This is the brain *short* name!.
+        :type brain_name: str
+        :param brain_version:
+        :type brain_version: int
+        :param concept_name:
+        :type concept_name: str
     """
 
     _attribute_map = {
-        'workspace_name': {'key': 'workspaceName', 'type': 'str'},
-        'brain_name': {'key': 'brainName', 'type': 'str'},
-        'brain_version': {'key': 'brainVersion', 'type': 'int'},
-        'concept_name': {'key': 'conceptName', 'type': 'str'},
+        "workspace_name": {"key": "workspaceName", "type": "str"},
+        "brain_name": {"key": "brainName", "type": "str"},
+        "brain_version": {"key": "brainVersion", "type": "int"},
+        "concept_name": {"key": "conceptName", "type": "str"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(PurposeTarget, self).__init__(**kwargs)
-        self.workspace_name = kwargs.get('workspace_name', None)
-        self.brain_name = kwargs.get('brain_name', None)
-        self.brain_version = kwargs.get('brain_version', None)
-        self.concept_name = kwargs.get('concept_name', None)
+        self.workspace_name = kwargs.get("workspace_name", None)
+        self.brain_name = kwargs.get("brain_name", None)
+        self.brain_version = kwargs.get("brain_version", None)
+        self.concept_name = kwargs.get("concept_name", None)
 
 
 class SimulatorContext(msrest.serialization.Model):
-    """SimulatorContext.
+    """This structure is passed (as a string) to a simulator running
+    when launched by the Socrates backend.
 
-    :param deployment_mode:  Possible values include: "Unspecified", "Hosted", "Testing".
-    :type deployment_mode: str or
-     ~microsoft_bonsai_api.simulator.generated.models.SimulatorContextTypesDeploymentMode
-    :param deployment_details:
-    :type deployment_details: str
-    :param simulator_client_id:
-    :type simulator_client_id: str
-    :param collection:
-    :type collection: str
-    :param package:
-    :type package: str
-    :param purpose:
-    :type purpose: ~microsoft_bonsai_api.simulator.generated.models.Purpose
+        :param deployment_mode:  Possible values include: "Unspecified", "Hosted", "Testing".
+        :type deployment_mode: str or
+         ~microsoft_bonsai_api.simulator.generated.models.SimulatorContextTypesDeploymentMode
+        :param deployment_details: Where is this simulator deployed.
+        :type deployment_details: str
+        :param simulator_client_id: A simulator id generated by the client.
+        :type simulator_client_id: str
+        :param collection: The id of the collection.
+        :type collection: str
+        :param package: The id of the package.
+        :type package: str
+        :param purpose: The purpose for existing, from the standpoint of a simulator instance or
+         brain version.
+        :type purpose: ~microsoft_bonsai_api.simulator.generated.models.Purpose
     """
 
     _attribute_map = {
-        'deployment_mode': {'key': 'deploymentMode', 'type': 'str'},
-        'deployment_details': {'key': 'deploymentDetails', 'type': 'str'},
-        'simulator_client_id': {'key': 'simulatorClientId', 'type': 'str'},
-        'collection': {'key': 'collection', 'type': 'str'},
-        'package': {'key': 'package', 'type': 'str'},
-        'purpose': {'key': 'purpose', 'type': 'Purpose'},
+        "deployment_mode": {"key": "deploymentMode", "type": "str"},
+        "deployment_details": {"key": "deploymentDetails", "type": "str"},
+        "simulator_client_id": {"key": "simulatorClientId", "type": "str"},
+        "collection": {"key": "collection", "type": "str"},
+        "package": {"key": "package", "type": "str"},
+        "purpose": {"key": "purpose", "type": "Purpose"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorContext, self).__init__(**kwargs)
-        self.deployment_mode = kwargs.get('deployment_mode', None)
-        self.deployment_details = kwargs.get('deployment_details', None)
-        self.simulator_client_id = kwargs.get('simulator_client_id', None)
-        self.collection = kwargs.get('collection', None)
-        self.package = kwargs.get('package', None)
-        self.purpose = kwargs.get('purpose', None)
+        self.deployment_mode = kwargs.get("deployment_mode", None)
+        self.deployment_details = kwargs.get("deployment_details", None)
+        self.simulator_client_id = kwargs.get("simulator_client_id", None)
+        self.collection = kwargs.get("collection", None)
+        self.package = kwargs.get("package", None)
+        self.purpose = kwargs.get("purpose", None)
 
 
 class SimulatorInterface(msrest.serialization.Model):
@@ -312,27 +290,24 @@ class SimulatorInterface(msrest.serialization.Model):
     """
 
     _validation = {
-        'name': {'required': True},
+        "name": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'timeout': {'key': 'timeout', 'type': 'float'},
-        'capabilities': {'key': 'capabilities', 'type': 'object'},
-        'simulator_context': {'key': 'simulatorContext', 'type': 'str'},
-        'description': {'key': 'description', 'type': 'object'},
+        "name": {"key": "name", "type": "str"},
+        "timeout": {"key": "timeout", "type": "float"},
+        "capabilities": {"key": "capabilities", "type": "object"},
+        "simulator_context": {"key": "simulatorContext", "type": "str"},
+        "description": {"key": "description", "type": "object"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorInterface, self).__init__(**kwargs)
-        self.name = kwargs['name']
-        self.timeout = kwargs.get('timeout', None)
-        self.capabilities = kwargs.get('capabilities', None)
-        self.simulator_context = kwargs.get('simulator_context', None)
-        self.description = kwargs.get('description', None)
+        self.name = kwargs["name"]
+        self.timeout = kwargs.get("timeout", None)
+        self.capabilities = kwargs.get("capabilities", None)
+        self.simulator_context = kwargs.get("simulator_context", None)
+        self.description = kwargs.get("description", None)
 
 
 class SimulatorSessionMilestone(msrest.serialization.Model):
@@ -343,107 +318,130 @@ class SimulatorSessionMilestone(msrest.serialization.Model):
     """
 
     _attribute_map = {
-        'first_time': {'key': 'firstTime', 'type': 'iso-8601'},
+        "first_time": {"key": "firstTime", "type": "iso-8601"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorSessionMilestone, self).__init__(**kwargs)
-        self.first_time = kwargs.get('first_time', None)
+        self.first_time = kwargs.get("first_time", None)
 
 
 class SimulatorSessionProgress(msrest.serialization.Model):
-    """SimulatorSession progress related to train an actual brain.
+    """SimulatorSession progress:
+    Has the simulator ever attached to a Scholar;
+    Has the simulator ever iterated (i.e., sent a state and received an action);
+    Has the simulator ever completed an episode (i.e., received an EpisodeFinish message).
 
-    :param attached: SimulatorSession progress milestone.
-    :type attached: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionMilestone
-    :param iterated: SimulatorSession progress milestone.
-    :type iterated: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionMilestone
+      :param attached: SimulatorSession progress milestone.
+      :type attached: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionMilestone
+      :param iterated: SimulatorSession progress milestone.
+      :type iterated: ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionMilestone
+      :param finished_episode: SimulatorSession progress milestone.
+      :type finished_episode:
+       ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionMilestone
     """
 
     _attribute_map = {
-        'attached': {'key': 'attached', 'type': 'SimulatorSessionMilestone'},
-        'iterated': {'key': 'iterated', 'type': 'SimulatorSessionMilestone'},
+        "attached": {"key": "attached", "type": "SimulatorSessionMilestone"},
+        "iterated": {"key": "iterated", "type": "SimulatorSessionMilestone"},
+        "finished_episode": {
+            "key": "finishedEpisode",
+            "type": "SimulatorSessionMilestone",
+        },
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorSessionProgress, self).__init__(**kwargs)
-        self.attached = kwargs.get('attached', None)
-        self.iterated = kwargs.get('iterated', None)
+        self.attached = kwargs.get("attached", None)
+        self.iterated = kwargs.get("iterated", None)
+        self.finished_episode = kwargs.get("finished_episode", None)
 
 
 class SimulatorSessionResponse(msrest.serialization.Model):
     """SimulatorSession model, having details of one active simulator session.
+    When a simulator registers, it creates and starts active simulator session.
+    When that simulator deregisters itself, it ends and removes its simulator session.
+    If the Bonsai platform deregisters a simulator due to that simulator's "misbehavior,"
+    that also ends and removes that simulator's session.
 
-    All required parameters must be populated in order to send to Azure.
+        All required parameters must be populated in order to send to Azure.
 
-    :param session_id: Required. Unique sessionId for this session.
-    :type session_id: str
-    :param session_status:  Possible values include: "Deregistered", "Attachable", "Attached",
-     "Detaching", "Rejected".
-    :type session_status: str or
-     ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionTypesStatus
-    :param session_progress: SimulatorSession progress related to train an actual brain.
-    :type session_progress:
-     ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionProgress
-    :param interface: It contains all the registration/creation time properties of a simulator
-     session.
-    :type interface: ~microsoft_bonsai_api.simulator.generated.models.SimulatorInterface
-    :param simulator_context:
-    :type simulator_context: ~microsoft_bonsai_api.simulator.generated.models.SimulatorContext
-    :param registration_time: Required. Time, when this session was registered with Bonsai
-     platform.
-    :type registration_time: ~datetime.datetime
-    :param last_seen_time: Required. Last time, when any request for this session was seen.
-    :type last_seen_time: ~datetime.datetime
-    :param iteration_rate: Current IterationRate, 1 state-action loop is roughly maps to 1
-     iteration.
-    :type iteration_rate: float
-    :param details: Additional Details for this session provided by bonsai platform.
-    :type details: str
+        :param session_id: Required. Unique sessionId for this simulator session.
+        :type session_id: str
+        :param session_status:  Possible values include: "Deregistered", "Attachable", "Attached",
+         "Detaching", "Rejected".
+        :type session_status: str or
+         ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionTypesStatus
+        :param session_progress: SimulatorSession progress:
+           Has the simulator ever attached to a Scholar;
+           Has the simulator ever iterated (i.e., sent a state and received an action);
+           Has the simulator ever completed an episode (i.e., received an EpisodeFinish message).
+        :type session_progress:
+         ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionProgress
+        :param interface: It contains all the registration/creation time properties of a simulator
+         session.
+        :type interface: ~microsoft_bonsai_api.simulator.generated.models.SimulatorInterface
+        :param simulator_context: This structure is passed (as a string) to a simulator running
+         when launched by the Socrates backend.
+        :type simulator_context: ~microsoft_bonsai_api.simulator.generated.models.SimulatorContext
+        :param registration_time: Required. Time when this session was registered with Bonsai platform.
+        :type registration_time: ~datetime.datetime
+        :param last_seen_time: Required. A recent time that this simulator communicated with the Bonsai
+         platform.
+         This value is updated at a regular interval, so it may not be the most recent communication
+         time.
+        :type last_seen_time: ~datetime.datetime
+        :param last_iterated_time: Required. A recent time that this simulator received an EpisodeStep
+         from the Scholar.
+         This value is updated at a regular interval, so it may not be the most recent communication
+         time.
+        :type last_iterated_time: ~datetime.datetime
+        :param iteration_rate: Current IterationRate, 1 state-action loop is roughly maps to 1
+         iteration.
+        :type iteration_rate: float
+        :param details: Additional Details for this session provided by Bonsai platform.
+        :type details: str
     """
 
     _validation = {
-        'session_id': {'required': True},
-        'registration_time': {'required': True},
-        'last_seen_time': {'required': True},
+        "session_id": {"required": True},
+        "registration_time": {"required": True},
+        "last_seen_time": {"required": True},
+        "last_iterated_time": {"required": True},
     }
 
     _attribute_map = {
-        'session_id': {'key': 'sessionId', 'type': 'str'},
-        'session_status': {'key': 'sessionStatus', 'type': 'str'},
-        'session_progress': {'key': 'sessionProgress', 'type': 'SimulatorSessionProgress'},
-        'interface': {'key': 'interface', 'type': 'SimulatorInterface'},
-        'simulator_context': {'key': 'simulatorContext', 'type': 'SimulatorContext'},
-        'registration_time': {'key': 'registrationTime', 'type': 'iso-8601'},
-        'last_seen_time': {'key': 'lastSeenTime', 'type': 'iso-8601'},
-        'iteration_rate': {'key': 'iterationRate', 'type': 'float'},
-        'details': {'key': 'details', 'type': 'str'},
+        "session_id": {"key": "sessionId", "type": "str"},
+        "session_status": {"key": "sessionStatus", "type": "str"},
+        "session_progress": {
+            "key": "sessionProgress",
+            "type": "SimulatorSessionProgress",
+        },
+        "interface": {"key": "interface", "type": "SimulatorInterface"},
+        "simulator_context": {"key": "simulatorContext", "type": "SimulatorContext"},
+        "registration_time": {"key": "registrationTime", "type": "iso-8601"},
+        "last_seen_time": {"key": "lastSeenTime", "type": "iso-8601"},
+        "last_iterated_time": {"key": "lastIteratedTime", "type": "iso-8601"},
+        "iteration_rate": {"key": "iterationRate", "type": "float"},
+        "details": {"key": "details", "type": "str"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorSessionResponse, self).__init__(**kwargs)
-        self.session_id = kwargs['session_id']
-        self.session_status = kwargs.get('session_status', None)
-        self.session_progress = kwargs.get('session_progress', None)
-        self.interface = kwargs.get('interface', None)
-        self.simulator_context = kwargs.get('simulator_context', None)
-        self.registration_time = kwargs['registration_time']
-        self.last_seen_time = kwargs['last_seen_time']
-        self.iteration_rate = kwargs.get('iteration_rate', None)
-        self.details = kwargs.get('details', None)
+        self.session_id = kwargs["session_id"]
+        self.session_status = kwargs.get("session_status", None)
+        self.session_progress = kwargs.get("session_progress", None)
+        self.interface = kwargs.get("interface", None)
+        self.simulator_context = kwargs.get("simulator_context", None)
+        self.registration_time = kwargs["registration_time"]
+        self.last_seen_time = kwargs["last_seen_time"]
+        self.last_iterated_time = kwargs["last_iterated_time"]
+        self.iteration_rate = kwargs.get("iteration_rate", None)
+        self.details = kwargs.get("details", None)
 
 
 class SimulatorSessionSummary(msrest.serialization.Model):
-    """SimulatorSessionSummary.
+    """A summary of a SimulatorSession, returned from ListSessions.
 
     :param session_id:
     :type session_id: str
@@ -451,28 +449,26 @@ class SimulatorSessionSummary(msrest.serialization.Model):
      "Detaching", "Rejected".
     :type session_status: str or
      ~microsoft_bonsai_api.simulator.generated.models.SimulatorSessionTypesStatus
-    :param simulator_name:
+    :param simulator_name: From the registration's SimulatorInterface.
     :type simulator_name: str
-    :param simulator_context:
+    :param simulator_context: This structure is passed (as a string) to a simulator running
+     when launched by the Socrates backend.
     :type simulator_context: ~microsoft_bonsai_api.simulator.generated.models.SimulatorContext
     """
 
     _attribute_map = {
-        'session_id': {'key': 'sessionId', 'type': 'str'},
-        'session_status': {'key': 'sessionStatus', 'type': 'str'},
-        'simulator_name': {'key': 'simulatorName', 'type': 'str'},
-        'simulator_context': {'key': 'simulatorContext', 'type': 'SimulatorContext'},
+        "session_id": {"key": "sessionId", "type": "str"},
+        "session_status": {"key": "sessionStatus", "type": "str"},
+        "simulator_name": {"key": "simulatorName", "type": "str"},
+        "simulator_context": {"key": "simulatorContext", "type": "SimulatorContext"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorSessionSummary, self).__init__(**kwargs)
-        self.session_id = kwargs.get('session_id', None)
-        self.session_status = kwargs.get('session_status', None)
-        self.simulator_name = kwargs.get('simulator_name', None)
-        self.simulator_context = kwargs.get('simulator_context', None)
+        self.session_id = kwargs.get("session_id", None)
+        self.session_status = kwargs.get("session_status", None)
+        self.simulator_name = kwargs.get("simulator_name", None)
+        self.simulator_context = kwargs.get("simulator_context", None)
 
 
 class SimulatorState(msrest.serialization.Model):
@@ -494,47 +490,41 @@ class SimulatorState(msrest.serialization.Model):
     """
 
     _validation = {
-        'sequence_id': {'required': True},
+        "sequence_id": {"required": True},
     }
 
     _attribute_map = {
-        'sequence_id': {'key': 'sequenceId', 'type': 'int'},
-        'state': {'key': 'state', 'type': 'object'},
-        'halted': {'key': 'halted', 'type': 'bool'},
-        'error': {'key': 'error', 'type': 'str'},
+        "sequence_id": {"key": "sequenceId", "type": "int"},
+        "state": {"key": "state", "type": "object"},
+        "halted": {"key": "halted", "type": "bool"},
+        "error": {"key": "error", "type": "str"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(SimulatorState, self).__init__(**kwargs)
-        self.sequence_id = kwargs['sequence_id']
-        self.state = kwargs.get('state', None)
-        self.halted = kwargs.get('halted', None)
-        self.error = kwargs.get('error', None)
+        self.sequence_id = kwargs["sequence_id"]
+        self.state = kwargs.get("state", None)
+        self.halted = kwargs.get("halted", None)
+        self.error = kwargs.get("error", None)
 
 
 class Unregister(msrest.serialization.Model):
     """Event asking to unregister/delete simulatorSession.
-You can create a new session, if you want to continue training with this simulator.
+    You can create a new session, if you want to continue training with this simulator.
 
-    :param reason: Reason for unregister event. Possible values include: "Unspecified", "Finished",
-     "Error", "NotFound".
-    :type reason: str or ~microsoft_bonsai_api.simulator.generated.models.UnregisterReason
-    :param details: Detail message for unregister event.
-    :type details: str
+        :param reason: Reason for unregister event. Possible values include: "Unspecified", "Finished",
+         "Error", "NotFound".
+        :type reason: str or ~microsoft_bonsai_api.simulator.generated.models.UnregisterReason
+        :param details: Detail message for unregister event.
+        :type details: str
     """
 
     _attribute_map = {
-        'reason': {'key': 'reason', 'type': 'str'},
-        'details': {'key': 'details', 'type': 'str'},
+        "reason": {"key": "reason", "type": "str"},
+        "details": {"key": "details", "type": "str"},
     }
 
-    def __init__(
-        self,
-        **kwargs
-    ):
+    def __init__(self, **kwargs):
         super(Unregister, self).__init__(**kwargs)
-        self.reason = kwargs.get('reason', None)
-        self.details = kwargs.get('details', None)
+        self.reason = kwargs.get("reason", None)
+        self.details = kwargs.get("details", None)

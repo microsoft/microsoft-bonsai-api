@@ -6,13 +6,10 @@ __copyright__ = "Copyright 2020, Microsoft Corp."
 # pyright: strict
 
 from argparse import ArgumentParser, SUPPRESS
-from datetime import datetime
 import logging
-from enum import Enum
-import json
 import os
 import sys
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 
 # CLI help strings
@@ -43,12 +40,12 @@ class BonsaiClientConfig:
         self,
         workspace: str = "",
         access_key: str = "",
-        enable_logging=False,
+        enable_logging: bool = False,
         argv: Optional[List[str]] = sys.argv,
     ):
         """
         Initialize a config object.
-        
+
         Command line argument switches will take priority over environment variables.
         Environment variables will take priority over initializer parameters.
         """
@@ -78,11 +75,7 @@ class BonsaiClientConfig:
         parser.add_argument("--sim-context", help=_SIM_CONTEXT_HELP)
         parser.add_argument("--api-host", help=SUPPRESS)
 
-        args, remainder = parser.parse_known_args(argv[1:])
-
-        # quiet pyright
-        if remainder:
-            pass
+        args, _ = parser.parse_known_args(argv[1:])
 
         # unpack arguments
         if args.accesskey:

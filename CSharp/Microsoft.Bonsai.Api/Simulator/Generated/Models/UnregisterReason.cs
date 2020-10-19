@@ -26,7 +26,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "NotFound")]
         NotFound
     }
-
     internal static class UnregisterReasonEnumExtension
     {
         internal static string ToSerializedValue(this UnregisterReason? value)
@@ -47,7 +46,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case UnregisterReason.NotFound:
                     return "NotFound";
             }
-
             return null;
         }
 
@@ -64,7 +62,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "NotFound":
                     return UnregisterReason.NotFound;
             }
-
             return null;
         }
     }

@@ -30,7 +30,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "Unregister")]
         Unregister
     }
-
     internal static class EventTypeEnumExtension
     {
         internal static string ToSerializedValue(this EventType? value)
@@ -55,7 +54,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case EventType.Unregister:
                     return "Unregister";
             }
-
             return null;
         }
 
@@ -76,7 +74,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "Unregister":
                     return EventType.Unregister;
             }
-
             return null;
         }
     }

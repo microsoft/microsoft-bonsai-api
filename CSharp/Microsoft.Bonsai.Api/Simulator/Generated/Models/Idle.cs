@@ -46,5 +46,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "callbackTime")]
         public double? CallbackTime { get; set; }
+
     }
 }

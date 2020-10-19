@@ -11,10 +11,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * SimulatorSession model, having details of one active simulator session.
+ * When a simulator registers, it creates and starts active simulator session.
+ * When that simulator deregisters itself, it ends and removes its simulator
+ * session.
+ * If the Bonsai platform deregisters a simulator due to that simulator's
+ * "misbehavior,"
+ * that also ends and removes that simulator's session.
  */
 public class SimulatorSessionResponse {
     /**
-     * Unique sessionId for this session.
+     * Unique sessionId for this simulator session.
      */
     @JsonProperty(value = "sessionId", required = true)
     private String sessionId;
@@ -45,16 +51,27 @@ public class SimulatorSessionResponse {
     private SimulatorContext simulatorContext;
 
     /**
-     * Time, when this session was registered with Bonsai platform.
+     * Time when this session was registered with Bonsai platform.
      */
     @JsonProperty(value = "registrationTime", required = true)
     private DateTime registrationTime;
 
     /**
-     * Last time, when any request for this session was seen.
+     * A recent time that this simulator communicated with the Bonsai platform.
+     * This value is updated at a regular interval, so it may not be the most
+     * recent communication time.
      */
     @JsonProperty(value = "lastSeenTime", required = true)
     private DateTime lastSeenTime;
+
+    /**
+     * A recent time that this simulator received an EpisodeStep from the
+     * Scholar.
+     * This value is updated at a regular interval, so it may not be the most
+     * recent communication time.
+     */
+    @JsonProperty(value = "lastIteratedTime", required = true)
+    private DateTime lastIteratedTime;
 
     /**
      * Current IterationRate, 1 state-action loop is roughly maps to 1
@@ -64,13 +81,13 @@ public class SimulatorSessionResponse {
     private Double iterationRate;
 
     /**
-     * Additional Details for this session provided by bonsai platform.
+     * Additional Details for this session provided by Bonsai platform.
      */
     @JsonProperty(value = "details")
     private String details;
 
     /**
-     * Get unique sessionId for this session.
+     * Get unique sessionId for this simulator session.
      *
      * @return the sessionId value
      */
@@ -79,7 +96,7 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Set unique sessionId for this session.
+     * Set unique sessionId for this simulator session.
      *
      * @param sessionId the sessionId value to set
      * @return the SimulatorSessionResponse object itself.
@@ -170,7 +187,7 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Get time, when this session was registered with Bonsai platform.
+     * Get time when this session was registered with Bonsai platform.
      *
      * @return the registrationTime value
      */
@@ -179,7 +196,7 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Set time, when this session was registered with Bonsai platform.
+     * Set time when this session was registered with Bonsai platform.
      *
      * @param registrationTime the registrationTime value to set
      * @return the SimulatorSessionResponse object itself.
@@ -190,7 +207,8 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Get last time, when any request for this session was seen.
+     * Get a recent time that this simulator communicated with the Bonsai platform.
+     This value is updated at a regular interval, so it may not be the most recent communication time.
      *
      * @return the lastSeenTime value
      */
@@ -199,13 +217,36 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Set last time, when any request for this session was seen.
+     * Set a recent time that this simulator communicated with the Bonsai platform.
+     This value is updated at a regular interval, so it may not be the most recent communication time.
      *
      * @param lastSeenTime the lastSeenTime value to set
      * @return the SimulatorSessionResponse object itself.
      */
     public SimulatorSessionResponse withLastSeenTime(DateTime lastSeenTime) {
         this.lastSeenTime = lastSeenTime;
+        return this;
+    }
+
+    /**
+     * Get a recent time that this simulator received an EpisodeStep from the Scholar.
+     This value is updated at a regular interval, so it may not be the most recent communication time.
+     *
+     * @return the lastIteratedTime value
+     */
+    public DateTime lastIteratedTime() {
+        return this.lastIteratedTime;
+    }
+
+    /**
+     * Set a recent time that this simulator received an EpisodeStep from the Scholar.
+     This value is updated at a regular interval, so it may not be the most recent communication time.
+     *
+     * @param lastIteratedTime the lastIteratedTime value to set
+     * @return the SimulatorSessionResponse object itself.
+     */
+    public SimulatorSessionResponse withLastIteratedTime(DateTime lastIteratedTime) {
+        this.lastIteratedTime = lastIteratedTime;
         return this;
     }
 
@@ -230,7 +271,7 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Get additional Details for this session provided by bonsai platform.
+     * Get additional Details for this session provided by Bonsai platform.
      *
      * @return the details value
      */
@@ -239,7 +280,7 @@ public class SimulatorSessionResponse {
     }
 
     /**
-     * Set additional Details for this session provided by bonsai platform.
+     * Set additional Details for this session provided by Bonsai platform.
      *
      * @param details the details value to set
      * @return the SimulatorSessionResponse object itself.

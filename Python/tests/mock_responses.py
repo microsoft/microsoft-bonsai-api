@@ -32,19 +32,25 @@ MOCK_EPISODE_START_RESPONSE = {
     "type": "EpisodeStart",
     "sessionId": "0123",
     "sequenceId": "1",
-    "episodeStart": {"config": {},},
+    "episodeStart": {
+        "config": {},
+    },
 }
 
 MOCK_EPISODE_STEP_RESPONSE = {
     "type": "EpisodeStep",
     "sessionId": "0123",
     "sequenceId": "1",
-    "episodeStep": {"action": {},},
+    "episodeStep": {
+        "action": {},
+    },
 }
 
 MOCK_EPISODE_FINISH_RESPONSE = {
     "type": "EpisodeFinish",
     "sessionId": "0123",
     "sequenceId": "1",
-    "episodeFinish": {"reason": "Unspecified",},
+    "episodeFinish": {
+        "reason": "Unspecified",
+    },
 }

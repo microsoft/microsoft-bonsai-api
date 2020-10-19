@@ -26,7 +26,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "Assess")]
         Assess
     }
-
     internal static class PurposeTypesActionEnumExtension
     {
         internal static string ToSerializedValue(this PurposeTypesAction? value)
@@ -47,7 +46,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case PurposeTypesAction.Assess:
                     return "Assess";
             }
-
             return null;
         }
 
@@ -64,7 +62,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "Assess":
                     return PurposeTypesAction.Assess;
             }
-
             return null;
         }
     }

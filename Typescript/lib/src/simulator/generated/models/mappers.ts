@@ -291,6 +291,13 @@ export const SimulatorSessionProgress: msRest.CompositeMapper = {
           name: "Composite",
           className: "SimulatorSessionMilestone"
         }
+      },
+      finishedEpisode: {
+        serializedName: "finishedEpisode",
+        type: {
+          name: "Composite",
+          className: "SimulatorSessionMilestone"
+        }
       }
     }
   }
@@ -353,6 +360,13 @@ export const SimulatorSessionResponse: msRest.CompositeMapper = {
       lastSeenTime: {
         required: true,
         serializedName: "lastSeenTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastIteratedTime: {
+        required: true,
+        serializedName: "lastIteratedTime",
         type: {
           name: "DateTime"
         }

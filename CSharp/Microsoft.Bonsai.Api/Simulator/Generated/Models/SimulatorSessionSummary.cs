@@ -9,6 +9,9 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
     using Newtonsoft.Json;
     using System.Linq;
 
+    /// <summary>
+    /// A summary of a SimulatorSession, returned from ListSessions
+    /// </summary>
     public partial class SimulatorSessionSummary
     {
         /// <summary>
@@ -25,6 +28,8 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// <param name="sessionStatus">Possible values include:
         /// 'Deregistered', 'Attachable', 'Attached', 'Detaching',
         /// 'Rejected'</param>
+        /// <param name="simulatorName">From the registration's
+        /// SimulatorInterface</param>
         public SimulatorSessionSummary(string sessionId = default(string), SimulatorSessionTypesStatus? sessionStatus = default(SimulatorSessionTypesStatus?), string simulatorName = default(string), SimulatorContext simulatorContext = default(SimulatorContext))
         {
             SessionId = sessionId;
@@ -52,6 +57,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         public SimulatorSessionTypesStatus? SessionStatus { get; set; }
 
         /// <summary>
+        /// Gets or sets from the registration's SimulatorInterface
         /// </summary>
         [JsonProperty(PropertyName = "simulatorName")]
         public string SimulatorName { get; set; }
@@ -60,5 +66,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "simulatorContext")]
         public SimulatorContext SimulatorContext { get; set; }
+
     }
 }

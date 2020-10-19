@@ -28,7 +28,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "Interrupted")]
         Interrupted
     }
-
     internal static class EpisodeFinishReasonEnumExtension
     {
         internal static string ToSerializedValue(this EpisodeFinishReason? value)
@@ -51,7 +50,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case EpisodeFinishReason.Interrupted:
                     return "Interrupted";
             }
-
             return null;
         }
 
@@ -70,7 +68,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "Interrupted":
                     return EpisodeFinishReason.Interrupted;
             }
-
             return null;
         }
     }

@@ -9,7 +9,11 @@ package com.microsoft.bonsai.simulatorapi.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * SimulatorSession progress related to train an actual brain.
+ * SimulatorSession progress:
+ * Has the simulator ever attached to a Scholar;
+ * Has the simulator ever iterated (i.e., sent a state and received an action);
+ * Has the simulator ever completed an episode (i.e., received an EpisodeFinish
+ * message).
  */
 public class SimulatorSessionProgress {
     /**
@@ -23,6 +27,12 @@ public class SimulatorSessionProgress {
      */
     @JsonProperty(value = "iterated")
     private SimulatorSessionMilestone iterated;
+
+    /**
+     * The finishedEpisode property.
+     */
+    @JsonProperty(value = "finishedEpisode")
+    private SimulatorSessionMilestone finishedEpisode;
 
     /**
      * Get the attached value.
@@ -61,6 +71,26 @@ public class SimulatorSessionProgress {
      */
     public SimulatorSessionProgress withIterated(SimulatorSessionMilestone iterated) {
         this.iterated = iterated;
+        return this;
+    }
+
+    /**
+     * Get the finishedEpisode value.
+     *
+     * @return the finishedEpisode value
+     */
+    public SimulatorSessionMilestone finishedEpisode() {
+        return this.finishedEpisode;
+    }
+
+    /**
+     * Set the finishedEpisode value.
+     *
+     * @param finishedEpisode the finishedEpisode value to set
+     * @return the SimulatorSessionProgress object itself.
+     */
+    public SimulatorSessionProgress withFinishedEpisode(SimulatorSessionMilestone finishedEpisode) {
+        this.finishedEpisode = finishedEpisode;
         return this;
     }
 

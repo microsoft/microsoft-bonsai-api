@@ -28,7 +28,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
         [EnumMember(Value = "Rejected")]
         Rejected
     }
-
     internal static class SimulatorSessionTypesStatusEnumExtension
     {
         internal static string ToSerializedValue(this SimulatorSessionTypesStatus? value)
@@ -51,7 +50,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case SimulatorSessionTypesStatus.Rejected:
                     return "Rejected";
             }
-
             return null;
         }
 
@@ -70,7 +68,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Models
                 case "Rejected":
                     return SimulatorSessionTypesStatus.Rejected;
             }
-
             return null;
         }
     }

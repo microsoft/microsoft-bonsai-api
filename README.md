@@ -22,8 +22,6 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/cartpole) - Classic CartPole simulator in Python. Balancing an inverted pendulum on a moving cart.
 
-[quanser-qube](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/quanser-qube) - A real-world Inverted Pendulum called the Quanser Qube Servo 2, a teaching platform for controls and mechatronics. Swingup and balance a pendulum connected to a rotary arm actuated by a motor. 
-
 [adder](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/adder) - Simple simulator that adds numbers and computes a reward based on the result.
 
 ### C#

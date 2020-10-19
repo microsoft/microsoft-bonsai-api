@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Microsoft.Bonsai.Api.Samples.Cartpole": {
+      "commandName": "Project"
+    }
+  }
+}

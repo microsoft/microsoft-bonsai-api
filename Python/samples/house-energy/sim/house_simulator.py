@@ -8,10 +8,9 @@ class House():
         self.Tin = Tin_initial # Inside Temperature 
         self.Qhvac = Qhvac # Cooling capacity
         self.hvacON = hvacON # control action = 0 (OFF) or 1 (ON)
-
         self.occupancy = occupancy # 0 (no one in the room) or 1 (somebody in the room)
         self.Phvac = Qhvac # Electric power capacity 
-
+        self.setup_schedule() # setup defalut Tset schedule
         plt.close()
         self.fig, self.ax = plt.subplots(1, 1)
 

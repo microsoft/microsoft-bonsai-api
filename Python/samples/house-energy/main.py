@@ -283,13 +283,6 @@ def main(render: bool = False):
             elif event.type == "EpisodeStep":
                 iteration += 1
                 sim.episode_step(event.episode_step.action)
-                if sim.log_data:
-                    sim.log_iterations(
-                        episode=episode,
-                        iteration=iteration,
-                        state=sim.get_state(),
-                        action=event.episode_step.action,
-                    )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
                 iteration = 0

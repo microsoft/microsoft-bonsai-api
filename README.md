@@ -35,3 +35,8 @@ Coming soon!
 ### Typescript
 
 [adder](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Typescript/samples/adder) - Simple simulator that adds numbers and computes a reward based on the result.
+
+## Simulator Integration Checklist
+- [ ] Make sure workspace is registered & correct.
+- [ ] **Error handling**: Any cloud service can have transient errors and our SDK have Retry policy in place, but not all errors can be retried, so a good error handling logic will make your sim sessions more robust.
+- [ ] **Enable logging**: If you are hitting issues. Enable logging in BonsaiClientConfig. And set the right LogLevel to get more information.

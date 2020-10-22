@@ -149,10 +149,6 @@ def main(render=False):
                 print('Episode Finishing...')
             elif event.type == 'Unregister':
                 print("Simulator Session unregistered by platform, Registering again!")
-                client.session.delete(
-                    workspace_name=config_client.workspace, 
-                    session_id=registered_session.session_id
-                )
                 registered_session, sequence_id = CreateSession(registration_info, config_client)
                 continue
             else:

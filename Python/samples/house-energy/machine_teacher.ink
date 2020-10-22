@@ -1,14 +1,13 @@
 inkling "2.0"
-using Number
 using Goal
 using Math
 
 const MaxDeviation = 2
 
 type ObservableState {
-    Tset: Number.Float32,
-    Tin: Number.Float32,
-    Tout: Number.Float32,
+    Tset: number,
+    Tin: number,
+    Tout: number,
 }
 
 type SimAction {
@@ -16,11 +15,11 @@ type SimAction {
 }
 
 type SimConfig {
-    K: Number.Float32,
-    C: Number.Float32,
-    Qhvac: Number.Float32,
+    K: number,
+    C: number,
+    Qhvac: number,
     Tin_initial: number,
-    schedule_index: Number.Int8,
+    schedule_index: number,
     number_of_days: number,
     timestep: number,
     max_iterations: number,

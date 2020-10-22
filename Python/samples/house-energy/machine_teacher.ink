@@ -11,7 +11,7 @@ type ObservableState {
 }
 
 type SimAction {
-    hvacON: Number.Int8 <0,1,>
+    hvacON: number <0,1,>
 }
 
 type SimConfig {
@@ -28,7 +28,6 @@ type SimConfig {
 function TempDiff(Tin:number, Tset:number) {
     return Math.Abs(Tin - Tset)
 }
-
 
 graph (input: ObservableState): SimAction {
     concept SmartHouse(input): SimAction {

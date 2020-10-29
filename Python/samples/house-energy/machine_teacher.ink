@@ -1,5 +1,4 @@
 inkling "2.0"
-using Number
 using Goal
 using Math
 
@@ -29,7 +28,6 @@ type SimConfig {
 function TempDiff(Tin:number, Tset:number) {
     return Math.Abs(Tin - Tset)
 }
-
 
 graph (input: ObservableState): SimAction {
     concept SmartHouse(input): SimAction {

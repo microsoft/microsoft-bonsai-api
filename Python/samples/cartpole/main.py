@@ -298,7 +298,7 @@ def main(
             print("UnExpected error: {}, Most likely, It's some network connectivity issue, make sure, you are able to reach bonsai platform from your PC.".format(ex))
             raise ex
     
-    def ReconnectSession(session_id: str, brain_name: str, brain_version: str, concept_name: str, action: str = 'Train'):
+    def ConnectSession(session_id: str, brain_name: str, brain_version: str, concept_name: str, action: str = 'Train'):
         """ Reconnect session_id to brain
         """
         connect_cmd = 'bonsai simulator unmanaged connect \
@@ -311,6 +311,9 @@ def main(
         run_it = subprocess.check_output(connect_cmd.split())
 
     registered_session, sequence_id = CreateSession(registration_info, config_client)
+    if reconnect:
+        ConnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
+
     episode = 0
     iteration = 0
 
@@ -333,16 +336,18 @@ def main(
                 # This can happen in network connectivity issue, though SDK has retry logic, but even after that request may fail, 
                 # if your network has some issue, or sim session at platform is going away..
                 # So let's re-register sim-session and get a new session and continue iterating. :-) 
-                registered_session, sequence_id = CreateSession(registration_info, config_client)
-                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
-                continue
+                if reconnect:
+                    registered_session, sequence_id = CreateSession(registration_info, config_client)
+                    ConnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
+                    continue
             except Exception as err:
                 print("Unexpected error in Advance: {}".format(err))
                 # Ideally this shouldn't happen, but for very long-running sims It can happen with various reasons, let's re-register sim & Move on.
                 # If possible try to notify Bonsai team to see, if this is platform issue and can be fixed.
-                registered_session, sequence_id = CreateSession(registration_info, config_client)
-                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
-                continue
+                if reconnect:
+                    registered_session, sequence_id = CreateSession(registration_info, config_client)
+                    ConnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
+                    continue
 
             # Event loop
             if event.type == "Idle":
@@ -367,9 +372,10 @@ def main(
                 iteration = 0
             elif event.type == "Unregister":
                 print("Simulator Session unregistered by platform, Registering again!")
-                registered_session, sequence_id = CreateSession(registration_info, config_client)
-                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
-                continue
+                if reconnect:
+                    registered_session, sequence_id = CreateSession(registration_info, config_client)
+                    ConnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
+                    continue
             else:
                 pass
     except KeyboardInterrupt:

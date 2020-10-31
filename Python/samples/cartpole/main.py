@@ -16,6 +16,7 @@ import os
 import pathlib
 import sys
 import time
+import subprocess
 from typing import Any, Dict, List
 
 from dotenv import load_dotenv, set_key
@@ -242,7 +243,8 @@ def test_random_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False
+    render: bool = False, log_iterations: bool = False, config_setup: bool = False, \
+    reconnect: bool= False, brain_name: str = None, brain_version: str = None, concept_name: str = None, action: str = 'Train'
 ):
     """Main entrypoint for running simulator connections
 
@@ -278,7 +280,7 @@ def main(
     )
 
     def CreateSession(registration_info: SimulatorInterface, config_client: BonsaiClientConfig):
-        """Creates a new Simulator Session and returns new sessoin, sequenceId
+        """Creates a new Simulator Session and returns new session_id, sequenceId
         """
 
         try:
@@ -296,6 +298,18 @@ def main(
             print("UnExpected error: {}, Most likely, It's some network connectivity issue, make sure, you are able to reach bonsai platform from your PC.".format(ex))
             raise ex
     
+    def ReconnectSession(session_id: str, brain_name: str, brain_version: str, concept_name: str, action: str = 'Train'):
+        """ Reconnect session_id to brain
+        """
+        connect_cmd = 'bonsai simulator unmanaged connect \
+            --session-id {} \
+            --brain-name {} \
+            --brain-version {} \
+            --concept-name {} \
+            --action {}'.format(session_id, brain_name, brain_version, concept_name, action)
+        print(connect_cmd)
+        run_it = subprocess.check_output(connect_cmd.split())
+
     registered_session, sequence_id = CreateSession(registration_info, config_client)
     episode = 0
     iteration = 0
@@ -320,12 +334,14 @@ def main(
                 # if your network has some issue, or sim session at platform is going away..
                 # So let's re-register sim-session and get a new session and continue iterating. :-) 
                 registered_session, sequence_id = CreateSession(registration_info, config_client)
+                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
                 continue
             except Exception as err:
                 print("Unexpected error in Advance: {}".format(err))
                 # Ideally this shouldn't happen, but for very long-running sims It can happen with various reasons, let's re-register sim & Move on.
                 # If possible try to notify Bonsai team to see, if this is platform issue and can be fixed.
                 registered_session, sequence_id = CreateSession(registration_info, config_client)
+                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
                 continue
 
             # Event loop
@@ -352,6 +368,7 @@ def main(
             elif event.type == "Unregister":
                 print("Simulator Session unregistered by platform, Registering again!")
                 registered_session, sequence_id = CreateSession(registration_info, config_client)
+                ReconnectSession(session_id = registered_session.session_id, brain_name = brain_name, brain_version = brain_version, concept_name = concept_name)
                 continue
             else:
                 pass
@@ -369,6 +386,7 @@ def main(
             session_id=registered_session.session_id,
         )
         print("Unregistered simulator because: {}".format(err))
+
 
 
 if __name__ == "__main__":
@@ -391,13 +409,50 @@ if __name__ == "__main__":
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
+    parser.add_argument(
+        "--reconnect",
+        type=bool,
+        default=False,
+        nargs='?',
+        const=True,
+        help="automatically reconnect to brain and continue iterating (needs --brain-name, --brain-version, --concept-name)",
+    )
+
+    parser.add_argument(
+        "--brain-name",
+        type=str,
+        default=None,
+        help="brain name for sim to connect to",
+    )
+
+    parser.add_argument(
+        "--brain-version",
+        type=str,
+        default=None,
+        help="brain version for sim to connect to",
+    )
+
+    parser.add_argument(
+        "--concept-name",
+        type=str,
+        default=None,
+        help="concept name for sim to connect to",
+    )
 
     args = parser.parse_args()
+    print(args)
+    if args.reconnect==True and (args.brain_name is None or args.brain_version is None or args.concept_name is None):
+        parser.error("--reconnect requires --brain-name, --brain-version and --concept-name")
+
 
     main(
         config_setup=args.config_setup,
         render=args.render,
         log_iterations=args.log_iterations,
+        reconnect=args.reconnect,
+        brain_name=args.brain_name,
+        brain_version=args.brain_version,
+        concept_name=args.concept_name
     )
     # test_random_policy(render=args.render, log_iterations=args.log_iterations)
     

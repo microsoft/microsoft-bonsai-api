@@ -63,6 +63,17 @@ bonsai simulator unmanaged connect \
     --simulator-name Cartpole 
 ```
 
+## Running the  Simulator Locally with automatic reconnect to brain
+
+In case of connection loss, the simulator will attempt to reconnect to the brain and continue iterating:
+
+```
+python main.py --reconnect \
+ --brain-name <brain-name> \
+ --brain-version <brain-version> \
+ --concept-name <concept-name>
+```
+
 ## Building Simulator Packages
 
 Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:

@@ -6,6 +6,8 @@ Microsoft-Bonsai-API integration with House Energy Simulator
 import os
 from dotenv import load_dotenv, set_key
 from datetime import datetime
+import numpy as np
+import random as rd
 import time
 from typing import Dict, Any, List
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
@@ -58,14 +60,58 @@ class TemplateSimulatorSession:
 
 		sim_state = {
 			"Tset": float(self.simulator.Tset),
-			"Tset1": float(self.simulator.Tset1),  # forecast at +1 iteration
-			"Tset2": float(self.simulator.Tset2),  # forecast at +2 iterations
-			"Tset3": float(self.simulator.Tset3),  # forecast at +3 iterations
+			#"Tset1": float(self.simulator.Tset1),  # forecast at +1 iteration
+			#"Tset2": float(self.simulator.Tset2),  # forecast at +2 iterations
+			#"Tset3": float(self.simulator.Tset3),  # forecast at +3 iterations
 			"Tin": float(self.simulator.Tin),
 			"Tout": float(self.simulator.Tout),
-			"power": float(self.simulator.get_Power()),
+			"Tout2": (np.full(6,rd.random())).tolist(),
+			"Tout": (np.full(153,rd.random())).tolist(),
+			#"power": float(self.simulator.get_Power()),
 		}
+		'''
+		Segment = {
+			'numCranes': float(rd.random()),
+			'placeUnitUrgency': float(rd.random()),
+			'placeChassisUrgency': float(rd.random()),
+			'clearingActivitiesUrgency': float(rd.random()),
+		}
+		#Striptrack with 5 segments
+		StripTrackA = {
+        	'numHostlers': float(rd.random()),
+        	'segments': (np.full(5,Segment)).tolist(),
+		} #dim = 21
 
+		StripTrackB = {
+        	'numHostlers': float(rd.random()),
+        	'segments': (np.full(3,Segment)).tolist(),
+		} #dim = 13
+
+		sim_state = {
+			'numHostlers':float(rd.random()),
+   		 	'stripTrack1': StripTrackB, 
+    		'stripTrack2': StripTrackB,
+    		'stripTrack3': StripTrackB,
+    		'stripTrack4': StripTrackB, 
+    		'stripTrack5': StripTrackB,
+			'stripTrack6': StripTrackA,
+			'stripTrack7': StripTrackA,
+			'stripTrack8': StripTrackA,
+			'stripTrack9': StripTrackA,
+			'otr': float(rd.random()),
+			'otp': float(rd.random()),
+			'time': float(rd.random()),
+			'lpch': float(rd.random()), 
+			'mphh': float(rd.random()),
+			'lpch_cummulative': float(rd.random()),
+			'mphh_cummulative': float(rd.random()),
+			'otr_enabler':float(rd.random()),
+			'otp_enabler':float(rd.random()),
+			'clearing_bonus':float(rd.random()),
+			'delay_flag': float(rd.randint(0,1)),
+		} # dim = 12 + 5*13 + 4*21 = 161
+		'''
+ 
 		return sim_state
 
 	def _reset(self, config: dict = None):
@@ -116,6 +162,8 @@ class TemplateSimulatorSession:
 			BrainAction chosen from the Bonsai Service, prediction or exploration
 		"""
 
+		time.sleep(1) #emulating a slow sim 1s/it
+		action["hvacON"] = rd.random()
 		self.simulator.update_hvacON(action["hvacON"])
 		self.simulator.update_Tin()
 

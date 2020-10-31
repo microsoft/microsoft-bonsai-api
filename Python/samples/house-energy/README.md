@@ -21,7 +21,7 @@ Follow these [instructions](https://docs.microsoft.com/en-us/bonsai/guides/add-s
 Step 1: Register your sim
 
 ```bash
-python __main__.py --brain $brain_name --api-host https://api.bons.ai --workspace <insert_workspace> --accesskey <insert_acceskey>
+python main.py --brain $brain_name --api-host https://api.bons.ai --workspace <insert_workspace> --accesskey <insert_acceskey>
 ```
 Step 2: connect your registered sim to a brain
 

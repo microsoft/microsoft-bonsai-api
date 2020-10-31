@@ -7,7 +7,7 @@ const MaxDeviation = 2
 type ObservableState {
     Tset: number,
     Tin: number,
-    Tout: number,
+    Tout: number[100],
 }
 
 type SimAction {
@@ -33,8 +33,11 @@ graph (input: ObservableState): SimAction {
     concept SmartHouse(input): SimAction {
         curriculum {
             source simulator (Action: SimAction, Config: SimConfig): ObservableState {
-
             }
+            algorithm {
+                Algorithm: "SAC",
+            }
+            
             goal (State: ObservableState) {
                 minimize `Temp Deviation`:
                     TempDiff(State.Tin, State.Tset) in Goal.RangeBelow(MaxDeviation)

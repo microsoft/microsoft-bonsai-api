@@ -4,17 +4,19 @@ Microsoft-Bonsai-API integration with House Energy Simulator
 """
 
 import os
-from dotenv import load_dotenv, set_key
 import time
-from typing import Dict, Any, List
+from distutils.util import strtobool
+from typing import Any, Dict, List
+
+from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
-    SimulatorState,
     SimulatorInterface,
+    SimulatorState,
 )
 
-from sim import house_simulator
 from policies import random_policy
+from sim import house_simulator
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -185,7 +187,7 @@ def test_random_policy(num_episodes: int = 10):
             iteration += 1
 
 
-def main(render: bool = False):
+def main(render: bool = False, config_setup: bool = False):
     """Main entrypoint for running simulator connections
 
     Parameters
@@ -195,8 +197,9 @@ def main(render: bool = False):
     """
 
     # workspace environment variables
-    # env_setup()
-    # load_dotenv(verbose=True, override=True)
+    if config_setup:
+        env_setup()
+        load_dotenv(verbose=True, override=True)
 
     # Grab standardized way to interact with sim API
     sim = TemplateSimulatorSession(render=render)
@@ -270,5 +273,39 @@ def main(render: bool = False):
 
 
 if __name__ == "__main__":
-    main(render=False)
-    # test_random_policy()
+
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
+    parser.add_argument(
+        "--render",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Render training episodes",
+    )
+    parser.add_argument(
+        "--log-iterations",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Log iterations during training",
+    )
+    parser.add_argument(
+        "--config-setup",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Use a local environment file to setup access keys and workspace ids",
+    )
+    parser.add_argument(
+        "--test-local",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Run simulator locally without connecting to platform",
+    )
+
+    args = parser.parse_args()
+
+    if args.test_local:
+        test_random_policy()
+    else:
+        main(config_setup=args.config_setup)
+

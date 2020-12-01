@@ -52,6 +52,7 @@ class TemplateSimulatorSession:
         }
         self._reset()
         self.terminal = False
+        self.render = render
 
     def get_state(self) -> Dict[str, float]:
         """ Called to retreive the current state of the simulator. """
@@ -118,6 +119,8 @@ class TemplateSimulatorSession:
 
         self.simulator.update_hvacON(action["hvacON"])
         self.simulator.update_Tin()
+        if self.render:
+            self.sim_render()
 
     def sim_render(self):
 
@@ -164,7 +167,7 @@ def env_setup():
     return workspace, access_key
 
 
-def test_random_policy(num_episodes: int = 10):
+def test_random_policy(num_episodes: int = 10, render: bool = False):
     """Test a policy using random actions over a fixed number of episodes
 
     Parameters
@@ -173,7 +176,7 @@ def test_random_policy(num_episodes: int = 10):
         number of iterations to run, by default 10
     """
 
-    sim = TemplateSimulatorSession()
+    sim = TemplateSimulatorSession(render=render)
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
@@ -305,7 +308,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.test_local:
-        test_random_policy()
+        test_random_policy(render=args.render, num_episodes=1)
     else:
-        main(config_setup=args.config_setup)
+        main(config_setup=args.config_setup, render=args.render)
 

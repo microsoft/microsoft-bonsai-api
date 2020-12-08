@@ -15,14 +15,14 @@ const alpha_balance_threshold = 12
 const theta_rotation_threshold = 90
 
 type ObservableState {
-    theta: number, # radians, motor angle
-    alpha: number, # radians, pendulum angle
-    theta_dot: number, # radians / s, motor angular velocity
-    alpha_dot: number, # radians / s, pendulum angular velocity
+    state_theta: number, # radians, motor angle
+    state_alpha: number, # radians, pendulum angle
+    state_theta_dot: number, # radians / s, motor angular velocity
+    state_alpha_dot: number, # radians / s, pendulum angular velocity
 }
 
 type BrainAction {
-    Vm: Number.Float32<-3 .. 3>
+    action_Vm: Number.Float32<-3 .. 3>
 }
 
 # simulator configuration 
@@ -53,7 +53,7 @@ function TerminalSwingUp (State: ObservableState) {
     terminal = false
     
     # Passed the rotation limit for rotation of the motor
-    if Math.Abs(State.theta) > DegreesToRadians(theta_rotation_threshold) {
+    if Math.Abs(State.state_theta) > DegreesToRadians(theta_rotation_threshold) {
         terminal = true
     }
 
@@ -62,7 +62,7 @@ function TerminalSwingUp (State: ObservableState) {
 
 # Reward function that is evaluated after each iteration
 function RewardSwingUp (State: ObservableState) {
-    var r = 1 - ((0.8 * Math.Abs(State.alpha) + 0.2 * Math.Abs(0 - State.theta)) / Math.Pi)
+    var r = 1 - ((0.8 * Math.Abs(State.state_alpha) + 0.2 * Math.Abs(0 - State.state_theta)) / Math.Pi)
     var t = TerminalSwingUp(State)
     if t == true {
         return r - 100
@@ -87,28 +87,9 @@ graph (input: ObservableState) {
             # goal for swing up 
             goal (State: ObservableState) {
                 reach Swing:
-                    Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
+                    Math.Abs(State.state_alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
                 avoid `Hit Motor Limit`:
-                    Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
-            }
-
-            lesson `Start At Rest` {
-                scenario {
-                    Lp: 0.129,
-                    mp: 0.024,
-                    Rm: 8.4,
-                    kt: 0.042,
-                    km: 0.042,
-                    mr: 0.095,
-                    Lr: 0.085,
-                    Dr: 0.00027,
-                    Dp: 0.00005,
-                    frequency: 80,
-                    inital_theta: number<-1.4 .. 1.4>,
-                    initial_alpha: number<Math.Pi-0.05 .. Math.Pi+0.05>,  # reset at rest
-                    initial_theta_dot: number <-0.05 .. 0.05>,
-                    initial_alpha_dot: number<-0.05 .. 0.05>,
-                }
+                    Math.Abs(State.state_theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
             }
         }
     }

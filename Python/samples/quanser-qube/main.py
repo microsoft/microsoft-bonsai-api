@@ -45,10 +45,45 @@ default_config = {
     "Dp": 0.00005,
     "frequency": 80,
     "inital_theta": 1.4,
-    "initial_alpha": 3.14,  # reset at rest
+    "initial_alpha": 0,  # range of alpha if (0, \pi), \pi starts the pendulum at the bottom, zero starts at it at the top
     "initial_theta_dot": 0.0,
     "initial_alpha_dot": 0.0,
 }
+
+balance_config = {
+    "Lp": 0.129,
+    "mp": 0.024,
+    "Rm": 8.4,
+    "kt": 0.042,
+    "km": 0.042,
+    "mr": 0.095,
+    "Lr": 0.085,
+    "Dr": 0.00027,
+    "Dp": 0.00005,
+    "frequency": 80,
+    "inital_theta": 1.4,
+    "initial_alpha": 0,  # range of alpha if (0, \pi), \pi starts the pendulum at the bottom, zero starts at it at the top
+    "initial_theta_dot": 0.0,
+    "initial_alpha_dot": 0.0,
+}
+
+swingup_config = {
+    "Lp": 0.129,
+    "mp": 0.024,
+    "Rm": 8.4,
+    "kt": 0.042,
+    "km": 0.042,
+    "mr": 0.095,
+    "Lr": 0.085,
+    "Dr": 0.00027,
+    "Dp": 0.00005,
+    "frequency": 80,
+    "inital_theta": 1.4,
+    "initial_alpha": 3.14,  # range of alpha if (0, \pi), \pi starts the pendulum at the bottom, zero starts at it at the top
+    "initial_theta_dot": 0.0,
+    "initial_alpha_dot": 0.0,
+}
+
 
 
 class TemplateSimulatorSession:
@@ -179,6 +214,8 @@ def test_random_policy(
     render: bool = True,
     num_iterations: int = 50,
     policy=random_policy,
+    mixing_percentage: float = 0.5,
+    config: Dict[str, float] = balance_config,
     log_iterations: bool = False,
 ):
     """Test a policy using random actions over a fixed number of episodes
@@ -194,9 +231,10 @@ def test_random_policy(
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
-        sim.episode_start(config=default_config)
+        sim.episode_start(config=config)
         sim_state = sim.get_state()
         while not terminal:
+            # hybrid policy would mix random_policy with lqr policy
             action = policy(sim_state)
             sim.episode_step(action)
             sim_state = sim.get_state()

@@ -21,6 +21,7 @@ from microsoft_bonsai_api.simulator.client import BonsaiClientConfig, BonsaiClie
 from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
     SimulatorInterface,
+    SimulatorSessionResponse,
 )
 from azure.core.exceptions import HttpResponseError
 import argparse

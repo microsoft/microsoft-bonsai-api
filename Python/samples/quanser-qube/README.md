@@ -9,21 +9,25 @@ For more information about the Qube click [here](https://www.quanser.com/product
 Train brain for two different concepts, either swing up or balance
 
 ### SwingUp - starting near rest (machine_teach_swingup.ink)
+
 - Reset starts the pendulum from the bottom (at rest).
 - The task is to flip up the pendulum angle (alpha) from rest.
 - Episode ends once the motor angle (theta) is greater than 90 degrees.
 
 ### Balance - starting near vertical (machine_teach_balance.ink)
+
 - Reset starts the pendulum from the top (flipped up/inverted).
 - The task is to hold the pendulum angle (alpha) upright and center in between motor limits.
 - Episode ends once the pendulum angle (alpha) is greater than 12 degrees or motor angle (theta) is greater than 90 degrees.
 
 ## Action
+
 | Action | Continuous Value | Units |
 |----------------------------|-------------------------------|-------------------------------|
 | Vm | [-3, 3] | [Volts]
 
 ## States
+
 | State | Units |
 |----------------------------|-------------------------------|
 | theta | [rad] |
@@ -32,11 +36,13 @@ Train brain for two different concepts, either swing up or balance
 | alpha_dot | [rad / s] |
 
 ## Terminal Conditions
+
 - Pendulum exceeds ±12° from vertical
 - Motor limits of ±90°
 - Episode length greater than 8 s
 
 ## Configuration Parameters
+
 - Rm - Motor Resistance [Ohm]
 - kt - Motor Current-torque [N-m/A]
 - km - Motor Back-emf constant [V-s/rad]
@@ -53,6 +59,7 @@ Train brain for two different concepts, either swing up or balance
 - alpha_dot - initial alpha_dot [rad / s]
 
 ## Simulator API - Python
+
 - reset()
 - step()
 - view()
@@ -69,7 +76,7 @@ Train brain for two different concepts, either swing up or balance
 
 ## Running the Simulator Locally
 
-Run the simulator locally by:
+Run the simulator locally by the following command and setting environment variables for SIM_WORKSPACE and SIM_ACCESS_KEY.
 
 ```bash
 python main.py
@@ -77,7 +84,7 @@ python main.py
 
 and then attach to your brain:
 
-```
+```bash
 bonsai simulator unmanaged connect \                          
     -b <brain_name> \
     -a Train \
@@ -101,8 +108,8 @@ az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <
 
 ## Useful Resources
 
-- [Bonsai Docs](https://docs.bons.ai/)
-- [Bonsai Blog](https://www.bons.ai/blog)
+- [Bonsai Docs](https://docs.microsoft.com/en-us/bonsai/)
 
 ## Acknowledgements
+
 The sample has been inspired and adapted from [BlueRiverTech/quanser-openai-driver](https://github.com/BlueRiverTech/quanser-openai-driver) by Kirill Polzounov.

@@ -22,7 +22,7 @@ from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
     SimulatorInterface,
 )
-
+from azure.core.exceptions import HttpResponseError
 import argparse
 from sim.qube_simulator import QubeSimulator
 

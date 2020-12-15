@@ -76,7 +76,7 @@ if __name__ == "__main__":
     import random
     import sys
 
-    model = CartPole(length=1)
+    model = CartPole()
     viewer = create_viewer(model)
     number_episodes = 100
     for i in range(number_episodes):

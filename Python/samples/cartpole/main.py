@@ -32,6 +32,7 @@ from policies import coast, random_policy
 from sim import cartpole
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+log_path = "logs"
 default_config = {"length": 0.5, "masspole": 0.1}
 
 
@@ -62,9 +63,9 @@ class TemplateSimulatorSession:
         self.render = render
         self.log_data = log_data
         if not log_file:
-            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             log_file = current_time + "_" + env_name + "_log.csv"
-            log_file = os.path.join("log", log_file)
+            log_file = os.path.join(log_path, log_file)
             logs_directory = pathlib.Path(log_file).parent.absolute()
             if not pathlib.Path(logs_directory).exists():
                 print(
@@ -73,7 +74,7 @@ class TemplateSimulatorSession:
                     )
                 )
                 logs_directory.mkdir(parents=True, exist_ok=True)
-        self.log_file = log_file
+        self.log_file = os.path.join(log_path, log_file)
 
     def get_state(self) -> Dict[str, float]:
         """Extract current states from the simulator
@@ -210,7 +211,7 @@ def env_setup():
 
 
 def test_random_policy(
-    num_episodes: int = 10,
+    num_episodes: int = 100,
     render: bool = True,
     num_iterations: int = 50,
     log_iterations: bool = False,
@@ -223,20 +224,23 @@ def test_random_policy(
         number of iterations to run, by default 10
     """
 
-    sim = TemplateSimulatorSession(render=render, log_data=log_iterations)
+    sim = TemplateSimulatorSession(
+        render=render, log_data=log_iterations, log_file="cartpole_at_st.csv"
+    )
     # test_config = {"length": 1.5}
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
         sim_state = sim.episode_start(config=default_config)
+        sim_state = sim.get_state()
         while not terminal:
             action = sim.random_policy(sim_state)
             sim.episode_step(action)
             sim_state = sim.get_state()
-            print(f"Running iteration #{iteration} for episode #{episode}")
-            print(f"Observations: {sim_state}")
             if log_iterations:
                 sim.log_iterations(sim_state, action, episode, iteration)
+            print(f"Running iteration #{iteration} for episode #{episode}")
+            print(f"Observations: {sim_state}")
             iteration += 1
             terminal = iteration >= num_iterations
 

@@ -75,7 +75,7 @@ def test_logging():
             terminal = iteration >= 10
     assert sim.render == False
     assert os.path.exists(sim.log_file)
-    os.remove("tmp.csv")
+    os.remove("logs/tmp.csv")
 
 
 def test_direction(sim, render: bool = False):

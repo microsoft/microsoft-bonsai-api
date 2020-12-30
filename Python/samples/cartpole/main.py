@@ -375,7 +375,7 @@ def main(
                 print("Episode Finishing...")
                 iteration = 0
             elif event.type == "Unregister":
-                print("Simulator Session unregistered by platform, Registering again!")
+                print("Simulator Session unregistered by platform because '{}', Registering again!".format(event.unregister.details))
                 registered_session, sequence_id = CreateSession(
                     registration_info, config_client
                 )

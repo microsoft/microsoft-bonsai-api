@@ -117,6 +117,7 @@ def main(render = False):
             elif event.type == 'EpisodeFinish':
                 print('Episode Finishing...')
             elif event.type == 'Unregister':
+                print("Simulator Session unregistered by platform because '{}', Registering again!".format(event.unregister.details))
                 client.session.delete(
                     workspace_name=config_client.workspace, 
                     session_id=registered_session.session_id

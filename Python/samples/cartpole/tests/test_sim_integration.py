@@ -3,6 +3,7 @@ import pytest
 import policies
 
 new_config = {"masspole": 0.5, "length": 0.9}
+large_config = {"masspole": 1.5, "length": 0.9}
 
 
 @pytest.fixture
@@ -40,6 +41,28 @@ def test_random_action(sim):
 
     next_sim_state = sim.get_state()
     assert next_sim_state is not None
+
+
+def test_pole_displacement(sim):
+
+    sim_state = sim.get_state()
+    random_action = policies.random_policy(sim_state)
+
+    sim.episode_step(random_action)
+    next_state = sim.get_state()
+
+    default_displacement = next_state["x_position"] - sim_state["x_position"]
+
+    sim.episode_start(large_config)
+    sim_state = sim.get_state()
+    random_action = policies.random_policy(sim_state)
+
+    sim.episode_step(random_action)
+    next_state = sim.get_state()
+
+    smaller_displacement = next_state["x_position"] - sim_state["x_position"]
+
+    assert abs(smaller_displacement) < abs(default_displacement)
 
 
 def test_sim_states(sim):

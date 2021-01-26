@@ -24,6 +24,10 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [adder](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/adder) - Simple simulator that adds numbers and computes a reward based on the result.
 
+[quanser-qube](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/quanser-qube) - Simulation of the real hardware, academic learning tool: Quanser Qube. Balancing an inverted pendulum with a rotary base. 
+
+[house-energy](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/house-energy) - Simulator for controlling the temperature inside of a house to a desired temperatures, just like a thermostat.
+
 ### C#
 
 [cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/CSharp/samples/Microsoft.Bonsai.Api.Samples.Cartpole) - Classic CartPole simulator in C#. Balancing an inverted pendulum on a moving cart.

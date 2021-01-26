@@ -4,24 +4,33 @@ Microsoft-Bonsai-API integration with House Energy Simulator
 """
 
 import os
-from dotenv import load_dotenv, set_key
+import pathlib
 import time
-from typing import Dict, Any, List
+import datetime
+from distutils.util import strtobool
+from typing import Any, Dict, List, Union
+
+from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
-    SimulatorState,
     SimulatorInterface,
+    SimulatorState,
 )
 
-from sim import house_simulator
 from policies import random_policy
+from sim import house_simulator
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+log_path = "logs"
 
 
 class TemplateSimulatorSession:
     def __init__(
-        self, modeldir: str = "sim", render: bool = False, env_name: str = "HouseEnergy"
+        self,
+        modeldir: str = "sim",
+        render: bool = False,
+        env_name: str = "HouseEnergy",
+        log_file: Union[str, None] = None,
     ):
         """Template for simulating sessions with microsoft_bonsai_api
 
@@ -50,6 +59,20 @@ class TemplateSimulatorSession:
         }
         self._reset()
         self.terminal = False
+        self.render = render
+        if not log_file:
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            log_file = current_time + "_" + env_name + "_log.csv"
+            log_file = os.path.join(log_path, log_file)
+            logs_directory = pathlib.Path(log_file).parent.absolute()
+            if not pathlib.Path(logs_directory).exists():
+                print(
+                    "Directory does not exist at {0}, creating now...".format(
+                        str(logs_directory)
+                    )
+                )
+                logs_directory.mkdir(parents=True, exist_ok=True)
+        self.log_file = os.path.join(log_path, log_file)
 
     def get_state(self) -> Dict[str, float]:
         """ Called to retreive the current state of the simulator. """
@@ -116,6 +139,8 @@ class TemplateSimulatorSession:
 
         self.simulator.update_hvacON(action["hvacON"])
         self.simulator.update_Tin()
+        if self.render:
+            self.sim_render()
 
     def sim_render(self):
 
@@ -129,6 +154,37 @@ class TemplateSimulatorSession:
     def random_policy(self, state: Dict = None) -> Dict:
 
         return random_policy()
+
+    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
+        """Log iterations during training to a CSV.
+
+        Parameters
+        ----------
+        state : Dict
+        action : Dict
+        episode : int, optional
+        iteration : int, optional
+        """
+
+        import pandas as pd
+
+        def add_prefixes(d, prefix: str):
+            return {f"{prefix}_{k}": v for k, v in d.items()}
+
+        state = add_prefixes(state, "state")
+        action = add_prefixes(action, "action")
+        config = add_prefixes(self.default_config, "config")
+        data = {**state, **action, **config}
+        data["episode"] = episode
+        data["iteration"] = iteration
+        log_df = pd.DataFrame(data, index=[0])
+
+        if os.path.exists(self.log_file):
+            log_df.to_csv(
+                path_or_buf=self.log_file, mode="a", header=False, index=False
+            )
+        else:
+            log_df.to_csv(path_or_buf=self.log_file, mode="w", header=True, index=False)
 
 
 def env_setup():
@@ -162,7 +218,12 @@ def env_setup():
     return workspace, access_key
 
 
-def test_random_policy(num_episodes: int = 10):
+def test_random_policy(
+    num_episodes: int = 10,
+    render: bool = False,
+    log_iterations: bool = False,
+    max_iterations: int = 288,
+):
     """Test a policy using random actions over a fixed number of episodes
 
     Parameters
@@ -171,7 +232,7 @@ def test_random_policy(num_episodes: int = 10):
         number of iterations to run, by default 10
     """
 
-    sim = TemplateSimulatorSession()
+    sim = TemplateSimulatorSession(render=render, log_file="house-energy.csv")
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
@@ -180,12 +241,17 @@ def test_random_policy(num_episodes: int = 10):
             action = sim.random_policy()
             sim.episode_step(action)
             sim_state = sim.get_state()
-            print(f"Running iteration #{iteration} for episode ${episode}")
+            if log_iterations:
+                sim.log_iterations(
+                    state=sim_state, action=action, episode=episode, iteration=iteration
+                )
+            print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
             iteration += 1
+            terminal = iteration > max_iterations
 
 
-def main(render: bool = False):
+def main(render: bool = False, config_setup: bool = False):
     """Main entrypoint for running simulator connections
 
     Parameters
@@ -195,8 +261,9 @@ def main(render: bool = False):
     """
 
     # workspace environment variables
-    # env_setup()
-    # load_dotenv(verbose=True, override=True)
+    if config_setup:
+        env_setup()
+        load_dotenv(verbose=True, override=True)
 
     # Grab standardized way to interact with sim API
     sim = TemplateSimulatorSession(render=render)
@@ -246,6 +313,7 @@ def main(render: bool = False):
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
             elif event.type == "Unregister":
+                print("Simulator Session unregistered by platform because '{}', Registering again!".format(event.unregister.details))
                 client.session.delete(
                     workspace_name=config_client.workspace,
                     session_id=registered_session.session_id,
@@ -270,5 +338,41 @@ def main(render: bool = False):
 
 
 if __name__ == "__main__":
-    main(render=False)
-    # test_random_policy()
+
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
+    parser.add_argument(
+        "--render",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Render training episodes",
+    )
+    parser.add_argument(
+        "--log-iterations",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Log iterations during training",
+    )
+    parser.add_argument(
+        "--config-setup",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Use a local environment file to setup access keys and workspace ids",
+    )
+    parser.add_argument(
+        "--test-local",
+        type=lambda x: bool(strtobool(x)),
+        default=False,
+        help="Run simulator locally without connecting to platform",
+    )
+
+    args = parser.parse_args()
+
+    if args.test_local:
+        test_random_policy(
+            render=args.render, num_episodes=1000, log_iterations=args.log_iterations
+        )
+    else:
+        main(config_setup=args.config_setup, render=args.render)
+

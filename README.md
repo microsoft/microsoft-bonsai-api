@@ -30,7 +30,7 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 ### C#
 
-[cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/CSharp/samples/Microsoft.Bonsai.Api.Samples.Cartpole) - Classic CartPole simulator in Python. Balancing an inverted pendulum on a moving cart.
+[cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/CSharp/samples/Microsoft.Bonsai.Api.Samples.Cartpole) - Classic CartPole simulator in C#. Balancing an inverted pendulum on a moving cart.
 
 ### Java
 

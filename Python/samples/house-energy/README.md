@@ -2,6 +2,7 @@ House Energy with MSFT Bonsai
 ========================================
 
 ## Objective
+
 Control the temperature inside of a house according to the desired set temperatures just like a thermostat.
 
 ![](img/house-energy.PNG)
@@ -21,7 +22,7 @@ Follow these [instructions](https://docs.microsoft.com/en-us/bonsai/guides/add-s
 Step 1: Register your sim
 
 ```bash
-python __main__.py --brain $brain_name --api-host https://api.bons.ai --workspace <insert_workspace> --accesskey <insert_acceskey>
+python main.py --config-setup True
 ```
 Step 2: connect your registered sim to a brain
 
@@ -40,16 +41,18 @@ bonsai simulator unmanaged connect -b $brain_name --action Train --concept-name 
 
 ## Actions
 
-| Action   | Discrete Value |
-| -------- | -------------- |
-| hvacON  | 0 (ON)    or 1 (OFF)          |
+| Action | Discrete Value       |
+| ------ | -------------------- |
+| hvacON | 0 (ON)    or 1 (OFF) |
 
 
 ## Terminal Conditions
+
 - Exceed 288 iterations in an episode
 - Exceed > 10°C of desired temperature
 
 ## Configuration Parameters
+
 - K
 - C
 - Qhvac
@@ -59,14 +62,16 @@ bonsai simulator unmanaged connect -b $brain_name --action Train --concept-name 
 - Tin_initial
 - max_iterations
 
-Initial conditions
+### Initial conditions
+
 - Tin
 - Tset
 - Tout
 - hvacON
 
 ## Simulator API - Python
-- setup_schedule()
-- update_hvacON()
-- update_Tin()
-- show()
+
+- `setup_schedule()`
+- `update_hvacON()`
+- `update_Tin()`
+- `show()`

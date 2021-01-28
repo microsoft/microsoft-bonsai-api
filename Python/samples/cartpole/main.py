@@ -27,13 +27,16 @@ from microsoft_bonsai_api.simulator.generated.models import (
 )
 from azure.core.exceptions import HttpResponseError
 from distutils.util import strtobool
+from functools import partial
 
-from policies import coast, random_policy
+from policies import coast, random_policy, brain_policy
 from sim import cartpole
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = "logs"
 default_config = {"length": 0.5, "masspole": 0.1}
+
+trained_brain_policy = partial(brain_policy, exported_brain_url="http://localhost:5000")
 
 
 class TemplateSimulatorSession:
@@ -210,11 +213,12 @@ def env_setup():
     return workspace, access_key
 
 
-def test_random_policy(
+def test_policy(
     num_episodes: int = 100,
     render: bool = True,
     num_iterations: int = 50,
     log_iterations: bool = False,
+    policy=trained_brain_policy,
 ):
     """Test a policy using random actions over a fixed number of episodes
 
@@ -234,7 +238,7 @@ def test_random_policy(
         sim_state = sim.episode_start(config=default_config)
         sim_state = sim.get_state()
         while not terminal:
-            action = sim.random_policy(sim_state)
+            action = policy(sim_state)
             sim.episode_step(action)
             sim_state = sim.get_state()
             if log_iterations:
@@ -435,7 +439,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.test_local:
-        test_random_policy(render=args.render, log_iterations=args.log_iterations)
+        test_policy(render=args.render, log_iterations=args.log_iterations)
     else:
         main(
             config_setup=args.config_setup,

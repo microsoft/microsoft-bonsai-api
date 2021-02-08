@@ -1,3 +1,4 @@
+
 [submodule "Java/samples/cartpole-java"]
 	path = Java/samples/cartpole-java
-	url = git@github.com:BonsaiAI/cartpole-java.git
+	url = https://github.com/microsoft/cartpole-java.git

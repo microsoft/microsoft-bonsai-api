@@ -5,7 +5,6 @@ Brain states and return Brain actions.
 
 import random
 from typing import Dict
-from exported_brain_interface import ExportedBrainPredictor
 import requests
 
 

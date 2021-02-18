@@ -11,5 +11,5 @@ dependencies:
 - numpy=1.16.4
 - pip:
   - microsoft-bonsai-api==0.1.2
-  - bonsai-cli==1.0.1
+  - bonsai-cli==1.0.5
   - vpython==7.6.0

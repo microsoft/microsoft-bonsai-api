@@ -6,26 +6,9 @@ Starting with the pendulum upright, prevent the system from falling down by movi
 
 ![](https://docs.bons.ai/images/cart-pole-balance.gif)
 
-## States
+# States, Actions, and available Configuration
 
-| State                    | Range         |
-| ------------------------ | ------------- |
-| cart position            | [-2.4..2.4]   |
-| cart velocity            | [-Inf..Inf]   |
-| pendulum angle           | [-41.8..41.8] |
-| pendulum velocity at tip | [-Inf..Inf]   |
-
-## Actions
-
-| Action          | Discrete Value |
-| --------------- | -------------- |
-| Push Cart Left  | 0              |
-| Push Cart Right | 1              |
-
-## Configuration Parameters
-
-- masspole
-- length of pole
+See `machine_teacher.ink`.
 
 ## Simulator API - Python
 
@@ -43,9 +26,13 @@ You can test the simulator integration by running:
 pytest tests/
 ```
 
-or by testing the function `test_random_policy` in `main.py`.
+You can run the simulator with random actions (without connecting to a brain):
 
-## Running the Simulator Locally
+```bash
+python main.py --test-random --render
+```
+
+## Connecting a local instance of the simulator to a brain
 
 Run the simulator locally by:
 
@@ -63,10 +50,43 @@ bonsai simulator unmanaged connect \
     --simulator-name Cartpole 
 ```
 
+Use `python main.py -h` to see more options.
+
+## Running the simulator with an exported brain
+
+Export a trained brain and run it locally using docker. Then, run the following:
+
+```bash
+python main.py --test-exported
+```
+
+or
+
+```bash
+python main.py --test-exported 5001
+```
+
+if your exported brain isn't running on the default port of 5000.
+
+
 ## Building Simulator Packages
 
 Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:
 
-```
+```azurecli
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .
+```
+
+`<IMAGE_NAME>:<IMAGE_VERSION>` could be e.g. `carts_and_poles:v1`. You can look up `<ACR_REGISTRY>` in the workspace info in the Bonsai UI.
+
+If you get an error like this:
+
+```
+The resource with name <ACR_REGISTRY_NAME> and type 'Microsoft.ContainerRegistry/registries' could not be found in subscription '<something>'
+```
+
+look up your subscription id in the workspace info in the Bonsai UI, and run 
+
+```azurecli
+az account set --subscription <SUBSCRIPTION_ID>
 ```

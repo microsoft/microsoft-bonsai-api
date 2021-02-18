@@ -6,20 +6,63 @@
       "category": "Struct",
       "fields": [
         {
-          "name": "masspole",
+          "name": "cart_mass",
           "type": {
             "category": "Number",
-            "comment": "Pole mass"
+            "comment": "Mass of cart in kg (default is 0.31)"
           }
         },
         {
-          "name": "length",
-          "type": {
-            "category": "Number",
-            "comment": "Pole length"
-          }
+            "name": "pole_mass",
+            "type": {
+              "category": "Number",
+              "comment": "Mass of pole in kg (default is 0.055)"
+            }
+        },
+        {
+            "name": "pole_length",
+            "type": {
+              "category": "Number",
+              "comment": "Length of the pole in m (default is 0.4)"
+            }
+        },
+        {
+            "name": "initial_cart_position",
+            "type": {
+              "category": "Number",
+              "comment": "Initial position of cart on the x axis in meters (0 is center)"
+            }
+        },
+        {
+            "name": "initial_cart_velocity",
+            "type": {
+              "category": "Number",
+              "comment": "Initial velocity of cart in meters/sec"
+            }
+        },
+        {
+            "name": "initial_pole_angle",
+            "type": {
+              "category": "Number",
+              "comment": "Initial angle of pole in radians"
+            }
+        },
+        {
+            "name": "initial_angular_velocity",
+            "type": {
+              "category": "Number",
+              "comment": "Initial angular velocity of pole in radians/sec"
+            }
+        },
+        {
+            "name": "target_pole_position",
+            "type": {
+              "category": "Number",
+              "comment": "Where we want the pole to be in m"
+            }
         }
-      ]
+    
+    ]
     },
     "action": {
       "category": "Struct",
@@ -28,17 +71,10 @@
           "name": "command",
           "type": {
             "category": "Number",
-            "namedValue": [
-              {
-                "name": "Left",
-                "value": -1
-              },
-              {
-                "name": "Right",
-                "value": 1
-              }
-            ]
-          }
+            "start": -1,
+            "stop": 1,
+            "comment": "The force with which to push the cart. -1 is left, 1 is right."
+           }
         }
       ]
     },
@@ -46,32 +82,74 @@
       "category": "Struct",
       "fields": [
         {
-          "name": "x_position",
+          "name": "cart_position",
           "type": {
             "category": "Number",
             "comment": "Position of cart in meters"
           }
         },
         {
-          "name": "x_velocity",
+          "name": "cart_velocity",
           "type": {
             "category": "Number",
             "comment": "Velocity of cart in x direction in meters/sec"
           }
         },
         {
-          "name": "angle_position",
+          "name": "pole_angle",
           "type": {
             "category": "Number",
             "comment": "Angle of pole in radians"
           }
         },
         {
-          "name": "angle_velocity",
+          "name": "pole_angular_velocity",
           "type": {
             "category": "Number",
-            "comment": "Angular velocity of pole in radians/sec"
+            "comment": "(rad/s)"
           }
+        },
+        {
+            "name": "pole_center_position",
+            "type": {
+              "category": "Number",
+              "comment": "(m)"
+            }
+        },
+        {
+            "name": "pole_center_velocity",
+            "type": {
+              "category": "Number",
+              "comment": "(m/s)"
+            }
+        },
+        {
+            "name": "target_pole_position",
+            "type": {
+              "category": "Number",
+              "comment": "(m)"
+            }
+        },
+        {
+            "name": "cart_mass",
+            "type": {
+              "category": "Number",
+              "comment": "(kg)"
+            }
+        },
+        {
+            "name": "pole_mass",
+            "type": {
+              "category": "Number",
+              "comment": "(kg)"
+            }
+        },
+        {
+            "name": "pole_length",
+            "type": {
+              "category": "Number",
+              "comment": "(m)"
+            }
         }
       ]
     }

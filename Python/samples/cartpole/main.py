@@ -32,12 +32,24 @@ from functools import partial
 from policies import coast, random_policy, brain_policy
 from sim import cartpole
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-log_path = "logs"
-default_config = {"length": 0.5, "masspole": 0.1}
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+LOG_PATH = "logs"
+default_config = {}
 
-trained_brain_policy = partial(brain_policy, exported_brain_url="http://localhost:5000")
-
+def ensure_log_dir(log_full_path):
+    """
+    Ensure the directory for logs exists — create if needed.
+    """
+    print(f"logfile: {log_full_path}")
+    logs_directory = pathlib.Path(log_full_path).parent.absolute()
+    print(f"Checking {logs_directory}")
+    if not pathlib.Path(logs_directory).exists():
+        print(
+            "Directory does not exist at {0}, creating now...".format(
+                str(logs_directory)
+            )
+        )
+        logs_directory.mkdir(parents=True, exist_ok=True)
 
 class TemplateSimulatorSession:
     def __init__(
@@ -45,7 +57,7 @@ class TemplateSimulatorSession:
         render: bool = False,
         env_name: str = "Cartpole",
         log_data: bool = False,
-        log_file: str = None,
+        log_file_name: str = None,
     ):
         """Simulator Interface with the Bonsai Platform
 
@@ -57,27 +69,21 @@ class TemplateSimulatorSession:
             Name of simulator interface, by default "Cartpole"
         log_data: bool, optional
             Whether to log data, by default False
-        log_file : str, optional
-            where to log data, by default None
+        log_file_name : str, optional
+            where to log data, by default None. If not specified, will generate a name.
         """
         self.simulator = cartpole.CartPole()
         self.count_view = False
         self.env_name = env_name
         self.render = render
         self.log_data = log_data
-        if not log_file:
+        if not log_file_name:
             current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-            log_file = current_time + "_" + env_name + "_log.csv"
-            log_file = os.path.join(log_path, log_file)
-            logs_directory = pathlib.Path(log_file).parent.absolute()
-            if not pathlib.Path(logs_directory).exists():
-                print(
-                    "Directory does not exist at {0}, creating now...".format(
-                        str(logs_directory)
-                    )
-                )
-                logs_directory.mkdir(parents=True, exist_ok=True)
-        self.log_file = os.path.join(log_path, log_file)
+            log_file_name = current_time + "_" + env_name + "_log.csv"
+
+        self.log_full_path = os.path.join(LOG_PATH, log_file_name)
+        ensure_log_dir(self.log_full_path)
+
 
     def get_state(self) -> Dict[str, float]:
         """Extract current states from the simulator
@@ -87,15 +93,10 @@ class TemplateSimulatorSession:
         Dict[str, float]
             Returns float of current values from the simulator
         """
-        return {
-            "x_position": self.simulator.x,
-            "x_velocity": self.simulator.x_dot,
-            "angle_position": self.simulator.theta,
-            "angle_velocity": self.simulator.theta_dot,
-        }
+        return self.simulator.state
 
     def halted(self) -> bool:
-        """Halt current episode. Note, this should only be called if the simulator has reached an unexpected state.
+        """Halt current episode. Note, this should only return True if the simulator has reached an unexpected state.
 
         Returns
         -------
@@ -109,18 +110,24 @@ class TemplateSimulatorSession:
 
         Parameters
         ----------
-        config : Dict, optional
-            masspole and length parameters to initialize, by default None
+        config : Dict, optional. The following keys are supported:
+            - cart_mass   # (kg)
+            - pole_mass   # (kg)
+            - pole_length  # (m)
+            - initial_cart_position  # (m)
+            - initial_cart_velocity  # (m/s)
+            - initial_pole_angle  # (rad)
+            - initial_angular_velocity  # (rad/s)
+            - target_pole_position  # (m)
         """
-
-        if "length" in config.keys():
-            self.simulator.length = config["length"]
-        if "masspole" in config.keys():
-            self.simulator.masspole = config["masspole"]
-        self.simulator.reset()
+        # Reset the sim, passing fields from config
         if config is None:
             config = default_config
+        # Keep the config around so we can log it later
         self.config = config
+
+        self.simulator.reset(**config)
+
 
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
         """Log iterations during training to a CSV.
@@ -146,12 +153,12 @@ class TemplateSimulatorSession:
         data["iteration"] = iteration
         log_df = pd.DataFrame(data, index=[0])
 
-        if os.path.exists(self.log_file):
+        if os.path.exists(self.log_full_path):
             log_df.to_csv(
-                path_or_buf=self.log_file, mode="a", header=False, index=False
+                path_or_buf=self.log_full_path, mode="a", header=False, index=False
             )
         else:
-            log_df.to_csv(path_or_buf=self.log_file, mode="w", header=True, index=False)
+            log_df.to_csv(path_or_buf=self.log_full_path, mode="w", header=True, index=False)
 
     def episode_step(self, action: Dict):
         """Step through the environment for a single iteration.
@@ -176,10 +183,6 @@ class TemplateSimulatorSession:
         self.viewer.update()
         if self.viewer.has_exit:
             sys.exit(0)
-
-    def random_policy(self, state: Dict = None) -> Dict:
-
-        return random_policy(state)
 
 
 def env_setup():
@@ -213,12 +216,34 @@ def env_setup():
     return workspace, access_key
 
 
+def transform_state(sim_state):
+    """
+    Convert
+    {'x_position': 0.008984250082219904, 'x_velocity': -0.026317885259067864, 'angle_position': -0.007198829694026056, 'angle_velocity': -0.03567818795116845}
+    from the sim into what my brain expects
+    ['cart_position', 'cart_velocity', 'pole_angle', 'pole_angular_velocity'] 
+    """
+    s = sim_state
+    return {'cart_position': s['x_position'],
+            'cart_velocity': s['x_velocity'],
+            'pole_angle': s['angle_position'],
+            'pole_angular_velocity': s['angle_velocity']}
+
+def transform_action(action):
+    """
+    Implementing the selector logic here...
+
+    expecting action to have fields command_left and command_right, for the two subconcepts
+    """
+    # Let's try command left for now
+    return {'command': action['command_right']}
+
 def test_policy(
-    num_episodes: int = 100,
+    num_episodes: int = 10,
     render: bool = True,
-    num_iterations: int = 50,
+    num_iterations: int = 200,
     log_iterations: bool = False,
-    policy=trained_brain_policy,
+    policy=random_policy,
 ):
     """Test a policy using random actions over a fixed number of episodes
 
@@ -228,8 +253,11 @@ def test_policy(
         number of iterations to run, by default 10
     """
 
+    policy_name = "random" # TODO
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    log_file_name = current_time + "_" + policy_name + "_log.csv"
     sim = TemplateSimulatorSession(
-        render=render, log_data=log_iterations, log_file="cartpole_at_st.csv"
+        render=render, log_data=log_iterations, log_file_name=log_file_name
     )
     # test_config = {"length": 1.5}
     for episode in range(num_episodes):
@@ -283,8 +311,9 @@ def main(
     # Create simulator session and init sequence id
     registration_info = SimulatorInterface(
         name=sim.env_name,
-        timeout=60,
+        timeout=interface["timeout"],
         simulator_context=config_client.simulator_context,
+        description=interface["description"],
     )
 
     def CreateSession(
@@ -413,33 +442,49 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
     parser.add_argument(
         "--render",
-        type=lambda x: bool(strtobool(x)),
+        action='store_true',
         default=False,
         help="Render training episodes",
     )
     parser.add_argument(
         "--log-iterations",
-        type=lambda x: bool(strtobool(x)),
+        action='store_true',
         default=False,
         help="Log iterations during training",
     )
     parser.add_argument(
         "--config-setup",
-        type=lambda x: bool(strtobool(x)),
+        action='store_true',
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
-    parser.add_argument(
-        "--test-local",
-        type=lambda x: bool(strtobool(x)),
-        default=False,
-        help="Run simulator locally without connecting to platform",
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--test-random",
+        action='store_true',
+        help="Run simulator locally with a random policy, without connecting to platform",
+    )
+
+    group.add_argument(
+        "--test-exported",
+        type=int,
+        const=5000,   # if arg is passed with no PORT, use this
+        nargs='?',
+        metavar="PORT",
+        help="Run simulator with an exported brain running on localhost:PORT (default 5000)",
     )
 
     args = parser.parse_args()
 
-    if args.test_local:
-        test_policy(render=args.render, log_iterations=args.log_iterations)
+    if args.test_random:
+        test_policy(render=args.render, log_iterations=args.log_iterations, policy=random_policy)
+    elif args.test_exported:
+        port = args.test_exported
+        url = f"http://localhost:{port}"
+        print(f"Connecting to exported brain running at {url}...")
+        trained_brain_policy = partial(brain_policy, exported_brain_url=url)
+        test_policy(render=args.render, log_iterations=args.log_iterations, policy=trained_brain_policy)
     else:
         main(
             config_setup=args.config_setup,

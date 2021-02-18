@@ -15,12 +15,14 @@ import six
 
 RAD2DEG = 57.29577951308232
 
-def draw_cartpole(cartpole, screen_width):
+def draw_cartpole(cartpole, screen_width, screen_height):
     world_width = cartpole.x_threshold*2
     scale = screen_width/world_width
     carty = 100  # TOP OF CART
     polewidth = 10.0
-    polelen = scale * 1.0 * (cartpole.length / 0.5)
+    polelen = scale * cartpole._pole_length
+    # target pole position is relative to the center of the screen
+    targetpos = scale * (cartpole._target_pole_position + world_width/2)
     cartwidth = 50.0
     cartheight = 30.0
     
@@ -32,9 +34,19 @@ def draw_cartpole(cartpole, screen_width):
     glVertex2f(screen_width, carty)
     glEnd()
 
+    # Draw target position
+    gray = 0.4
+    glColor4f(gray,gray,gray,1.0)
+    glLineWidth(1.0)
+    glBegin(gl.GL_LINES)
+    glVertex2f(targetpos, 0)
+    glVertex2f(targetpos, screen_height)
+    glEnd()
+
+
     # Draw Cart
     l, r, t, b = -cartwidth/2, cartwidth/2, cartheight/2, -cartheight/2
-    cartx = cartpole.x*scale+screen_width/2.0  # MIDDLE OF CART
+    cartx = cartpole._cart_position*scale+screen_width/2.0  # MIDDLE OF CART
     
     glColor4f(0.,0.,0.,1.0)
     glPushMatrix()  # Push Translation
@@ -55,7 +67,7 @@ def draw_cartpole(cartpole, screen_width):
     
     glColor4f(.8, .6, .4, 1.0)
     glPushMatrix()  # Push Rotation
-    glRotatef(RAD2DEG * -cartpole.theta, 0, 0, 1.0)
+    glRotatef(RAD2DEG * -cartpole._pole_angle, 0, 0, 1.0)
     glBegin(gl.GL_QUADS)
     glVertex3f(l, b, 0)
     glVertex3f(l, t, 0)
@@ -114,5 +126,5 @@ class Viewer(pyglet.window.Window):
         glClearColor(1, 1, 1, 1)
         self.clear()
         
-        draw_cartpole(self.model, self.width)
+        draw_cartpole(self.model, self.width, self.height)
 

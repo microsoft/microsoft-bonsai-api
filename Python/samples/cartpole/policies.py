@@ -12,13 +12,13 @@ def random_policy(state):
     """
     Ignore the state, move randomly.
     """
-    action = {"command": random.randint(0, 1)}
+    action = {"command": random.choice([-1, 1])}
     return action
 
 
 def coast(state):
     """
-    Ignore the state, go straight.
+    Ignore the state, go right.
     """
     action = {"command": 1}
     return action

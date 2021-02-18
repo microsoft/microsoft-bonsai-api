@@ -66,6 +66,9 @@ graph (input: ObservedState): Action {
         curriculum {
             source simulator (Action: Action, Config: SimConfig): SimState {
             }
+            training {
+                EpisodeIterationLimit: 200,
+            }
             goal (SimState: SimState) {
                 avoid FallOver:
                     Math.Abs(SimState.pole_angle) in Goal.RangeAbove(MaxPoleAngle)

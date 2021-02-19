@@ -151,6 +151,7 @@ if __name__ == "__main__":
     viewer = create_viewer(model)
     number_iterations = 300
     for i in range(number_iterations):
+        print(", ".join([f"{k}: {v:.3f}" for k,v in model.state.items()]))
         actions = [-1, 1]
         action = random.sample(actions, 1)[0]
         state = viewer.model.step(action)

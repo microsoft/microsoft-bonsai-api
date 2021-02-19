@@ -497,6 +497,7 @@ if __name__ == "__main__":
             render=args.render,
             log_iterations=args.log_iterations,
             policy=trained_brain_policy,
+            policy_name="exported"
         )
     else:
         main(

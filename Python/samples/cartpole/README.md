@@ -68,10 +68,9 @@ python main.py --test-exported 5001
 
 if your exported brain isn't running on the default port of 5000.
 
-
 ## Building Simulator Packages
 
-Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:
+Using the `azure-cli`, you can build the provided dockerfile to create a simulator package (note the trailing period!):
 
 ```azurecli
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .
@@ -90,3 +89,5 @@ look up your subscription id in the workspace info in the Bonsai UI, and run
 ```azurecli
 az account set --subscription <SUBSCRIPTION_ID>
 ```
+
+Once you've built the simulator package, you can use the Bonsai Web UI to import the simulator (look for the `+ Add sim` button) or use the [`bonsai-cli`](https://pypi.org/project/bonsai-cli/)'s [bonsai simulator package add](https://docs.microsoft.com/en-us/bonsai/cli/simulator/package/add) command.

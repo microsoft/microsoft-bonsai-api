@@ -36,6 +36,7 @@ DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 LOG_PATH = "logs"
 default_config = {}
 
+
 def ensure_log_dir(log_full_path):
     """
     Ensure the directory for logs exists — create if needed.
@@ -50,6 +51,7 @@ def ensure_log_dir(log_full_path):
             )
         )
         logs_directory.mkdir(parents=True, exist_ok=True)
+
 
 class TemplateSimulatorSession:
     def __init__(
@@ -83,7 +85,6 @@ class TemplateSimulatorSession:
 
         self.log_full_path = os.path.join(LOG_PATH, log_file_name)
         ensure_log_dir(self.log_full_path)
-
 
     def get_state(self) -> Dict[str, float]:
         """Extract current states from the simulator
@@ -128,7 +129,6 @@ class TemplateSimulatorSession:
 
         self.simulator.reset(**config)
 
-
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
         """Log iterations during training to a CSV.
 
@@ -158,7 +158,9 @@ class TemplateSimulatorSession:
                 path_or_buf=self.log_full_path, mode="a", header=False, index=False
             )
         else:
-            log_df.to_csv(path_or_buf=self.log_full_path, mode="w", header=True, index=False)
+            log_df.to_csv(
+                path_or_buf=self.log_full_path, mode="w", header=True, index=False
+            )
 
     def episode_step(self, action: Dict):
         """Step through the environment for a single iteration.
@@ -224,10 +226,13 @@ def transform_state(sim_state):
     ['cart_position', 'cart_velocity', 'pole_angle', 'pole_angular_velocity'] 
     """
     s = sim_state
-    return {'cart_position': s['x_position'],
-            'cart_velocity': s['x_velocity'],
-            'pole_angle': s['angle_position'],
-            'pole_angular_velocity': s['angle_velocity']}
+    return {
+        "cart_position": s["x_position"],
+        "cart_velocity": s["x_velocity"],
+        "pole_angle": s["angle_position"],
+        "pole_angular_velocity": s["angle_velocity"],
+    }
+
 
 def transform_action(action):
     """
@@ -236,7 +241,8 @@ def transform_action(action):
     expecting action to have fields command_left and command_right, for the two subconcepts
     """
     # Let's try command left for now
-    return {'command': action['command_right']}
+    return {"command": action["command_right"]}
+
 
 def test_policy(
     num_episodes: int = 10,
@@ -244,6 +250,7 @@ def test_policy(
     num_iterations: int = 200,
     log_iterations: bool = False,
     policy=random_policy,
+    policy_name:str = "random"
 ):
     """Test a policy using random actions over a fixed number of episodes
 
@@ -253,7 +260,6 @@ def test_policy(
         number of iterations to run, by default 10
     """
 
-    policy_name = "random" # TODO
     current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     log_file_name = current_time + "_" + policy_name + "_log.csv"
     sim = TemplateSimulatorSession(
@@ -412,7 +418,11 @@ def main(
                 print("Episode Finishing...")
                 iteration = 0
             elif event.type == "Unregister":
-                print("Simulator Session unregistered by platform because '{}', Registering again!".format(event.unregister.details))
+                print(
+                    "Simulator Session unregistered by platform because '{}', Registering again!".format(
+                        event.unregister.details
+                    )
+                )
                 registered_session, sequence_id = CreateSession(
                     registration_info, config_client
                 )
@@ -441,20 +451,17 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
     parser.add_argument(
-        "--render",
-        action='store_true',
-        default=False,
-        help="Render training episodes",
+        "--render", action="store_true", default=False, help="Render training episodes",
     )
     parser.add_argument(
         "--log-iterations",
-        action='store_true',
+        action="store_true",
         default=False,
         help="Log iterations during training",
     )
     parser.add_argument(
         "--config-setup",
-        action='store_true',
+        action="store_true",
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
@@ -462,15 +469,15 @@ if __name__ == "__main__":
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "--test-random",
-        action='store_true',
+        action="store_true",
         help="Run simulator locally with a random policy, without connecting to platform",
     )
 
     group.add_argument(
         "--test-exported",
         type=int,
-        const=5000,   # if arg is passed with no PORT, use this
-        nargs='?',
+        const=5000,  # if arg is passed with no PORT, use this
+        nargs="?",
         metavar="PORT",
         help="Run simulator with an exported brain running on localhost:PORT (default 5000)",
     )
@@ -478,17 +485,22 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.test_random:
-        test_policy(render=args.render, log_iterations=args.log_iterations, policy=random_policy)
+        test_policy(
+            render=args.render, log_iterations=args.log_iterations, policy=random_policy
+        )
     elif args.test_exported:
         port = args.test_exported
         url = f"http://localhost:{port}"
         print(f"Connecting to exported brain running at {url}...")
         trained_brain_policy = partial(brain_policy, exported_brain_url=url)
-        test_policy(render=args.render, log_iterations=args.log_iterations, policy=trained_brain_policy)
+        test_policy(
+            render=args.render,
+            log_iterations=args.log_iterations,
+            policy=trained_brain_policy,
+        )
     else:
         main(
             config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
         )
-

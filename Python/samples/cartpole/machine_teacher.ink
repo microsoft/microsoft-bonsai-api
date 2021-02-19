@@ -1,6 +1,5 @@
 # https://docs.bons.ai/references/inkling2-reference.html
 inkling "2.0"
-using Number
 using Math
 using Goal
 

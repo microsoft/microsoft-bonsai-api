@@ -24,7 +24,6 @@ FORCE_NOISE = 0.02  # % of FORCE_MAG
 CartPoleState = namedtuple("CartPoleState", "x x_dot y y_dot")
 
 
-
 class CartPole:
     """
     Model for the dynamics of an inverted pendulum
@@ -34,24 +33,24 @@ class CartPole:
         # Set a constants needed by renderer
         self.x_threshold = TRACK_WIDTH / 2
 
-        self.reset(initial_pole_angle=random.uniform(-0.05, 0.05),
-                   initial_angular_velocity=random.uniform(-0.05, 0.05))
-
+        self.reset(
+            initial_pole_angle=random.uniform(-0.05, 0.05),
+            initial_angular_velocity=random.uniform(-0.05, 0.05),
+        )
 
     def reset(
         self,
         cart_mass: float = DEFAULT_CART_MASS,
-        pole_mass: float=DEFAULT_POLE_MASS,
+        pole_mass: float = DEFAULT_POLE_MASS,
         pole_length: float = DEFAULT_POLE_LENGTH,
         initial_cart_position: float = 0,
         initial_cart_velocity: float = 0,
         initial_pole_angle: float = 0,
         initial_angular_velocity: float = 0,
         target_pole_position: float = 0,
-
     ):
-        self._cart_mass = cart_mass   # (kg)
-        self._pole_mass = pole_mass   # (kg)
+        self._cart_mass = cart_mass  # (kg)
+        self._pole_mass = pole_mass  # (kg)
         self._pole_length = pole_length  # (m)
         self._cart_position = initial_cart_position  # (m)
         self._cart_velocity = initial_cart_velocity  # (m/s)
@@ -60,14 +59,13 @@ class CartPole:
         self._target_pole_position = target_pole_position  # (m)
         self._update_pole_center_state()
 
-
     def _update_pole_center_state(self):
         """
         Update _pole_center_position and _pole_center_velocity.
         """
         # Use the pole center, not the cart center, for tracking
         # pole center velocity.
-        pole_half_length = self._pole_length / 2  
+        pole_half_length = self._pole_length / 2
         self._pole_center_position = (
             self._cart_position + math.sin(self._pole_angle) * pole_half_length
         )
@@ -92,7 +90,7 @@ class CartPole:
 
         # Precompute some helpful quantities
         total_mass = self._cart_mass + self._pole_mass
-        pole_half_length = self._pole_length / 2  
+        pole_half_length = self._pole_length / 2
         pole_mass_length = self._pole_mass * pole_half_length
 
         cosTheta = math.cos(self._pole_angle)
@@ -102,7 +100,8 @@ class CartPole:
             force + pole_mass_length * self._pole_angular_velocity ** 2 * sinTheta
         ) / total_mass
         angularAccel = (GRAVITY * sinTheta - cosTheta * temp) / (
-            pole_half_length * (4.0 / 3.0 - (self._pole_mass * cosTheta ** 2) / total_mass)
+            pole_half_length
+            * (4.0 / 3.0 - (self._pole_mass * cosTheta ** 2) / total_mass)
         )
         linearAccel = temp - (pole_mass_length * angularAccel * cosTheta) / total_mass
 
@@ -118,7 +117,6 @@ class CartPole:
 
         self._update_pole_center_state()
 
-        
     @property
     def state(self):
         return {
@@ -134,6 +132,7 @@ class CartPole:
             "pole_mass": self._pole_mass,
             "pole_length": self._pole_length,
         }
+
 
 def create_viewer(model):
     from render import Viewer

@@ -2,3 +2,6 @@
 [submodule "Java/samples/cartpole-java"]
 	path = Java/samples/cartpole-java
 	url = https://github.com/microsoft/cartpole-java.git
+[submodule "Python/samples/moabsim-py"]
+	path = Python/samples/moabsim-py
+	url = git@github.com:microsoft/moabsim-py.git

@@ -3,5 +3,5 @@ numpy>=1.15.1
 python-dotenv==0.13.0
 bonsai-cli==1.0.0
 microsoft-bonsai-api==0.1.1
-pyglet==1.5.0
+pyglet==1.5.15
 pandas==0.25.1

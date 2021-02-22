@@ -42,22 +42,14 @@ type Action {
 
 # Configuration variables for the simulator
 type SimConfig {
-    # Mass of cart in kg (default is 0.31)
-    cart_mass: number,
-    # Mass of pole in kg (default is 0.055)
-    pole_mass: number,
-    # Length of the pole in m (default is 0.4)
-    pole_length: number,
-    # Initial position of cart on the x axis in meters (0 is center)
-    initial_cart_position: number<-MaxPosition .. MaxPosition>,
-    # Initial velocity of cart in meters/sec
-    initial_cart_velocity: number,
-    # Initial angle of pole in radians
-    initial_pole_angle: number,
-    # Initial angular velocity of pole in radians/sec
-    initial_angular_velocity: number,
-    # Where we want the pole to be in m
-    target_pole_position: number<-MaxPosition .. MaxPosition>,
+    cart_mass: number,  # (kg), default 0.31
+    pole_mass: number,  # (kg), default 0.055
+    pole_length: number,  # (m), default 0.4
+    initial_cart_position: number<-MaxPosition .. MaxPosition>,  # (m), default 0 (center)
+    initial_cart_velocity: number,   # (m/s), default 0
+    initial_pole_angle: number,  # (rad), default 0
+    initial_angular_velocity: number,  # (rad/s), default 0
+    target_pole_position: number<-MaxPosition .. MaxPosition>,  # (m), default 0
 }
 
 graph (input: ObservedState): Action {

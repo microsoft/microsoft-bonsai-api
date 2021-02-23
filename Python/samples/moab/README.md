@@ -1,4 +1,4 @@
-# Cartpole with Project Bonsai
+# Project Moab: Balancing a ball on a plate using Project Bonsai
 
 ## Objective
 

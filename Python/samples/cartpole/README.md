@@ -8,7 +8,7 @@ Starting with the pendulum upright, prevent the system from falling down by movi
 
 # States, Actions, and available Configuration
 
-See `machine_teacher.ink`.
+See [machine_teacher.ink](machine_teacher.ink).
 
 ## Simulator API - Python
 

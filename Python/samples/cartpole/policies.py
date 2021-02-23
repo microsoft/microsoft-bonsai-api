@@ -32,7 +32,3 @@ def brain_policy(
     response = requests.get(prediction_endpoint, json=state)
 
     return response.json()
-
-
-POLICIES = {"random": random_policy, "coast": coast}
-

@@ -217,33 +217,6 @@ def env_setup():
 
     return workspace, access_key
 
-
-def transform_state(sim_state):
-    """
-    Convert
-    {'x_position': 0.008984250082219904, 'x_velocity': -0.026317885259067864, 'angle_position': -0.007198829694026056, 'angle_velocity': -0.03567818795116845}
-    from the sim into what my brain expects
-    ['cart_position', 'cart_velocity', 'pole_angle', 'pole_angular_velocity'] 
-    """
-    s = sim_state
-    return {
-        "cart_position": s["x_position"],
-        "cart_velocity": s["x_velocity"],
-        "pole_angle": s["angle_position"],
-        "pole_angular_velocity": s["angle_velocity"],
-    }
-
-
-def transform_action(action):
-    """
-    Implementing the selector logic here...
-
-    expecting action to have fields command_left and command_right, for the two subconcepts
-    """
-    # Let's try command left for now
-    return {"command": action["command_right"]}
-
-
 def test_policy(
     num_episodes: int = 10,
     render: bool = True,

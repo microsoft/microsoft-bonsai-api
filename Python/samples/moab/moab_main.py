@@ -33,7 +33,7 @@ from azure.core.exceptions import HttpResponseError
 from distutils.util import strtobool
 
 from policies import coast, random_policy
-from moab_model import MoabModel, clamp 
+from sim.moab_model import MoabModel, clamp 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = "logs"

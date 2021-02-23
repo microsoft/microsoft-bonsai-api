@@ -2,45 +2,46 @@
 
 ## Objective
 
-Starting with the pendulum upright, prevent the system from falling down by moving the cart left or right. 
+Starting with the horizontal plate and ball in some random positions and velocities with some initial roll and pitch of the actuator within bounds prevents the system from terminating. 
 
-![](https://docs.bons.ai/images/cart-pole-balance.gif)
+![](https://microsoft.github.io/moab/img/tutorials/1/moab-photo.png)
 
 ## States
 
 | State                    | Range         |
 | ------------------------ | ------------- |
-| cart position            | [-2.4..2.4]   |
-| cart velocity            | [-Inf..Inf]   |
-| pendulum angle           | [-41.8..41.8] |
-| pendulum velocity at tip | [-Inf..Inf]   |
+| ball_x           | [-Radius_of_plate..Radius_of_plate]   |
+| ball_vel_x       | [-1.0..1.0]   |
+| ball_y           | [-Radius_of_plate..Radius_of_plate]  |
+| ball_vel_y       | [-1.0..1.0]   |
 
 ## Actions
 
 | Action          | Discrete Value |
 | --------------- | -------------- |
-| Push Cart Left  | 0              |
-| Push Cart Right | 1              |
+| input_roll      | [-1.0..1.0]    |
+| input_pitch     | [-1.0..1.0]    |
 
 ## Configuration Parameters
 
-- masspole
-- length of pole
+- initial_x, initial_y
+- initial_vel_x, initial_vel_y
+- initial_pitch, initial_roll
 
 ## Simulator API - Python
 
-- `cartpole`
+- `moab_model`
     - `reset()`
     - `step()`
-- `viewer`
-    - `update()`
 
 ## Testing Simulator Locally
 
 You can test the simulator integration by running:
 
 ```bash
-pytest tests/
+test_moab_model.py
+test_moab_perf.py
+test_moab_sim.py
 ```
 
 or by testing the function `test_random_policy` in `main.py`.
@@ -50,7 +51,7 @@ or by testing the function `test_random_policy` in `main.py`.
 Run the simulator locally by:
 
 ```bash
-python main.py
+python moab_main.py
 ```
 
 and then attach to your brain:

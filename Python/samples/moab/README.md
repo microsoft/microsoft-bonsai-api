@@ -60,7 +60,7 @@ and then attach to your brain:
 bonsai simulator unmanaged connect \                          
     -b <brain_name> \
     -a Train \
-    -c BalancePole \
+    -c MoveToCenter \
     --simulator-name Cartpole 
 ```
 

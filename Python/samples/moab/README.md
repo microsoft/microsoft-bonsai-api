@@ -1,4 +1,4 @@
-# Cartpole with Project Bonsai
+# Project Moab: Balancing a plate using AI agent trained with Project Bonsai
 
 ## Objective
 
@@ -44,8 +44,6 @@ test_moab_perf.py
 test_moab_sim.py
 ```
 
-or by testing the function `test_random_policy` in `main.py`.
-
 ## Running the Simulator Locally
 
 Run the simulator locally by:
@@ -61,7 +59,7 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c BalancePole \
-    --simulator-name Cartpole 
+    --simulator-name Moab
 ```
 
 ## Building Simulator Packages

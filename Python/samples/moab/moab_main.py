@@ -38,7 +38,7 @@ from sim.moab_model import MoabModel, clamp
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = "logs"
 default_config = {"initial_x":np.random.uniform(-1,1),"initial_y":np.random.uniform(-1,1),"initial_vel_x":np.random.uniform(-1,1), 
-        "initial_vel_y":np.random.uniform(-1,1),"initial_roll": 0.5, "initial_pitch": np.random.uniform(-1,1)}
+        "initial_vel_y":np.random.uniform(-1,1),"initial_roll": np.random.uniform(-1,1), "initial_pitch": np.random.uniform(-1,1)}
 
 
 class TemplateSimulatorSession:
@@ -333,7 +333,6 @@ def test_random_policy(
         terminal = False
         sim.episode_start(config=default_config)
         sim_state = sim.get_state()
-        print(sim_state["roll"])
         # it is important to know initial actions for evolution of the dynamics
         action = {"input_roll":sim_state["roll"],"input_pitch":sim_state["pitch"]}
         if log_iterations:

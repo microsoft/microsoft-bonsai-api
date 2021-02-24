@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# Project Moab: Balancing a plate using AI agent trained with Project Bonsai
-=======
 # Project Moab: Balancing a ball on a plate using Project Bonsai
->>>>>>> 76741ad16d021582ab73417021ed68babf5e468e
 
 ## Objective
 

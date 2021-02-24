@@ -3,14 +3,15 @@ Fixed policies to test our sim integration with. These are intended to take
 Brain states and return Brain actions.
 """
 
-import random
+import numpy as np
 
 def random_policy(state):
     """
     Ignore the state, move randomly.
     """
     action = {
-        'command': random.randint(0, 1)
+        'input_roll': np.random.uniform(-1, 1),
+        'input_pitch': np.random.uniform(-1,1)
     }
     return action
 
@@ -19,7 +20,8 @@ def coast(state):
     Ignore the state, go straight.
     """
     action = {
-        'command': 1
+        'input_roll': 0,
+        'input_pitch': 0
     }
     return action
 

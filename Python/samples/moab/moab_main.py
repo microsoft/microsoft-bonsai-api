@@ -38,7 +38,7 @@ from sim.moab_model import MoabModel, clamp
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = "logs"
 default_config = {"initial_x":np.random.uniform(-1,1),"initial_y":np.random.uniform(-1,1),"initial_vel_x":np.random.uniform(-1,1), 
-        "initial_vel_y":np.random.uniform(-1,1),"initial_roll": np.random.uniform(-1,1), "initial_pitch": np.random.uniform(-1,1)}
+        "initial_vel_y":np.random.uniform(-1,1),"initial_roll": 0.5, "initial_pitch": np.random.uniform(-1,1)}
 
 
 class TemplateSimulatorSession:
@@ -212,6 +212,8 @@ class TemplateSimulatorSession:
         initial_direction = config.get("initial_direction", None)
         if initial_speed is not None and initial_direction is not None:
             self._set_velocity_for_speed_and_direction(initial_speed, initial_direction)
+        self.model.roll = config.get("initial_roll", self.model.roll)
+        self.model.pitch = config.get("initial_pitch", self.model.pitch)
 
 
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
@@ -326,21 +328,26 @@ def test_random_policy(
     sim = TemplateSimulatorSession(
         render=render, log_data=log_iterations, log_file="moab_at_st.csv"
     )
-    # test_config = {"length": 1.5}
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
-        sim_state = sim.episode_start(config=default_config)
+        sim.episode_start(config=default_config)
         sim_state = sim.get_state()
+        print(sim_state["roll"])
+        # it is important to know initial actions for evolution of the dynamics
+        action = {"input_roll":sim_state["roll"],"input_pitch":sim_state["pitch"]}
+        if log_iterations:
+            sim.log_iterations(sim_state, action, episode, iteration)
         while not terminal:
             action = sim.random_policy(sim_state)
+            # sim iteration
             sim.episode_step(action)
             sim_state = sim.get_state()
+            iteration += 1
             if log_iterations:
                 sim.log_iterations(sim_state, action, episode, iteration)
             print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
-            iteration += 1
             terminal = iteration >= num_iterations
 
     return sim

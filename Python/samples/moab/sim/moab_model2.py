@@ -65,7 +65,7 @@ Z_AXIS = np.array([0.0, 0.0, 1.0])
 # Sensor Actuator Noises
 DEFAULT_PLATE_NOISE = 0.0  # noise added to plate_theta_* (rad)
 DEFAULT_BALL_NOISE = 0.0  # noise added to estimated_* ball location (m)
-DEFAULT_JITTER = 0.0  # jitter added to step_time (s)
+DEFAULT_JITTER = 0.01  # jitter added to step_time (s)
 
 
 def clamp(val: float, min_val: float, max_val: float):

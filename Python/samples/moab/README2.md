@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Project Moab: Balancing a plate using AI agent trained with Project Bonsai
+=======
+# Project Moab: Balancing a ball on a plate using Project Bonsai
+>>>>>>> 76741ad16d021582ab73417021ed68babf5e468e
 
 ## Objective
 
@@ -64,8 +68,9 @@ bonsai simulator unmanaged connect \
 
 ## Building Simulator Packages
 
-Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:
-
+Using the `azure-cli`, you can build the provided dockerfile to create a simulator package. First log into azure cli using following steps:
+`az login` then a default browser should open that would allow user login and password. For security reasons or IT settings, you can copy hyperlink to a private browser or in incognito mode, and login from there.
+Then log into the acr: `az acr login`. Upon successful loging, you can build the image directly using azure cli. This is much faster than building locally and then pushing
 ```
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .
 ```

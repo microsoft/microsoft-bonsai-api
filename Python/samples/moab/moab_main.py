@@ -275,11 +275,6 @@ class TemplateSimulatorSession:
     def sim_render(self):
         pass
 
-    def random_policy(self, state: Dict = None) -> Dict:
-
-        return random_policy(state)
-
-
 def env_setup():
     """Helper function to setup connection with Project Bonsai
 
@@ -326,7 +321,7 @@ def test_random_policy(
     """
 
     sim = TemplateSimulatorSession(
-        render=render, log_data=log_iterations, log_file="moab_at_st.csv"
+        render=render, log_data=log_iterations, log_file="moab_sim_100epi.csv"
     )
     for episode in range(num_episodes):
         iteration = 0
@@ -340,7 +335,7 @@ def test_random_policy(
         if log_iterations:
             sim.log_iterations(sim_state, action, episode, iteration)
         while not terminal:
-            action = sim.random_policy(sim_state)
+            action = random_policy(sim_state)
             # sim iteration
             sim.episode_step(action)
             sim_state = sim.get_state()
@@ -474,6 +469,14 @@ def main(
                 # print(event.episode_start.config)
                 sim.episode_start(event.episode_start.config)
                 episode += 1
+                # Note: episode iteration starts at 1 for matching Telescope
+                if sim.log_data:
+                    sim.log_iterations(
+                        episode=episode,
+                        iteration=iteration,
+                        state=sim.get_state(),
+                        action=event.episode_step.action,
+                    )
             elif event.type == "EpisodeStep":
                 iteration += 1
                 sim.episode_step(event.episode_step.action)

@@ -4,8 +4,9 @@ Brain states and return Brain actions.
 """
 
 import numpy as np
+from typing import Any, Dict, List
 
-def random_policy(state):
+def random_policy(state: Dict = None) -> Dict:
     """
     Ignore the state, move randomly.
     """
@@ -15,7 +16,7 @@ def random_policy(state):
     }
     return action
 
-def coast(state):
+def coast(state: Dict = None) -> Dict:
     """
     Ignore the state, go straight.
     """
@@ -24,6 +25,15 @@ def coast(state):
         'input_pitch': 0
     }
     return action
+
+# 
+def benchmark(state: Dict = None) -> Dict:
+    """
+    TO DO: Add benchmark control policies such as PID, LQR, LQG, MPC
+    These benchmark policies can be use-case specific. If benchmark is not accessible,
+    you can also replay pre-recorded datasets of actions corresponding states.
+    """
+    pass
 
 POLICIES = {"random": random_policy,
             "coast": coast}

@@ -28,7 +28,7 @@ def normalize_angle(x):
     """
     convert an angle to [-pi, pi]
     """
-    return (x % (2*math.pi)) - math.pi
+    return (x+math.pi) % (2*math.pi) - math.pi
 
 
 class CartPole:

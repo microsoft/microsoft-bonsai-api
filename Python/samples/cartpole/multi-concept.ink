@@ -91,14 +91,17 @@ simulator CartpoleSim (Action: Action, Config: SimConfig): SimState {
     # package "MyCartpole"
 }
 
+function SimplifyState(obs: ObservedState): LearningState {
+    # Replace target position and cart position with the difference
+    return {distance_to_target: obs.target_pole_position - obs.cart_position,
+            cart_velocity: obs.cart_velocity,
+            pole_angle: obs.pole_angle,
+            pole_angular_velocity: obs.pole_angular_velocity,}
+}
+
 graph (input: ObservedState): Action {
     concept ComputeDelta(input): LearningState {
-        programmed function(obs: ObservedState): LearningState {
-            return {distance_to_target: obs.target_pole_position - obs.cart_position,
-                    cart_velocity: obs.cart_velocity,
-                    pole_angle: obs.pole_angle,
-                    pole_angular_velocity: obs.pole_angular_velocity,}
-        }
+        programmed SimplifyState
     }
 
     concept GoLeft(ComputeDelta): Action {

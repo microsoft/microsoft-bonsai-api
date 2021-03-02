@@ -32,7 +32,7 @@ An initial solution to avoid overfitting to perfect state measurament is adding 
 in our case, added to each input state, is used to force the agent to look into soft-response dynamics.
 It prevents it from taking rough changes based on each single measurement.
 
-Check 'machine_teaching_1.ink' to see how the Inkling file is configured. Key differences from common Cartpole:
+Check 'machine_teacher_1.ink' to see how the Inkling file is configured. Key differences from common Cartpole:
 - Definition of Observable vs Sim State.
 - Using non-noisy states to reward the agent. (further explained bellow, on 'Rewarding Approach' section).
 
@@ -45,7 +45,7 @@ see patterns that extend beyond the specifics of any given scenario.
 If the brain successfully learns how to operate during different environment configurations,
 it will be more robust to real-world dynamic differences from simulation to deployment.
 
-Check 'machine_teaching_2.ink' to see how the Inkling file is configured. Key differences from common Cartpole:
+Check 'machine_teacher_2.ink' to see how the Inkling file is configured. Key differences from common Cartpole:
 - Definition of a lesson with ranges for desired configuration parameters.
 
 ## States
@@ -86,7 +86,7 @@ Actions do not change from common Cartpole example.
 
 The configuration parameters are the same as in common Cartpole.
 
-## Rewarding Approach
+## Rewarding Approach (added noise)
 
 The objectives are the same as in common Cartpole:
 - Avoid moving the cart out of range.

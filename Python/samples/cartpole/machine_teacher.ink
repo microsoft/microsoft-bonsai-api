@@ -1,4 +1,4 @@
-# https://docs.bons.ai/references/inkling2-reference.html
+# https://docs.microsoft.com/en-us/bonsai/inkling/basics
 inkling "2.0"
 using Math
 using Goal

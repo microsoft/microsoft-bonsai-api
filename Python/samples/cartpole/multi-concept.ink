@@ -1,7 +1,20 @@
-# https://docs.bons.ai/references/inkling2-reference.html
+# An example of using multiple concepts to solve a variant of the cartpole task:
+# keeping the pole balanced on the cart while moving the cart to a specified point.
+# 
+# This example breaks that task into 4 concepts:
+#   - ComputeDelta: transform the state to compute the difference between the 
+#     current and target positions. This makes the policy independent of the 
+#     specific position of the cart, so it is easier and faster to learn.
+#   - GoLeft: this applies when the cart is to the right of the target position, and learns 
+#     how to move the cart left without dropping the pole.
+#   - GoRight: this applies when the cart is to the left of the target position, and learns 
+#     how to move the cart right without dropping the pole.
+#   - PickOne: a programmed rule that passes through the action output by GoLeft or GoRight, 
+#     as appropriate for the current state.
+# 
+# https://docs.microsoft.com/en-us/bonsai/inkling/basics
 inkling "2.0"
 
-using Number
 using Math
 using Goal
 
@@ -72,6 +85,12 @@ type SimConfig {
     target_pole_position: number<-MaxPosition .. MaxPosition>,
 }
 
+simulator CartpoleSim (Action: Action, Config: SimConfig): SimState {
+    # To use managed simulators to train, upload the sim
+    # (see README.md) and specify the package name here.
+    # package "MyCartpole"
+}
+
 graph (input: ObservedState): Action {
     concept ComputeDelta(input): LearningState {
         programmed function(obs: ObservedState): LearningState {
@@ -84,18 +103,18 @@ graph (input: ObservedState): Action {
 
     concept GoLeft(ComputeDelta): Action {
         curriculum {
-            source simulator (Action: Action, Config: SimConfig): SimState {
-                package "RefactoredCartpole"
-            }
+            source CartpoleSim
             goal (state: SimState) {
                 avoid FallOver:
                     Math.Abs(state.pole_angle) in Goal.RangeAbove(MaxPoleAngle)
+
+                # There isn't a specific "close enough" threshold, so using 
+                # Goal.RangeBelow(0) to encourage the system to minimize as well as it can
                 minimize DistToTarget:
                     Math.Abs(state.target_pole_position - state.cart_position) in Goal.RangeBelow(0)
             }
             training {
                 EpisodeIterationLimit: 200,
-                NoProgressIterationLimit: 500000,
             }
             lesson One {
                 # Because we're using relative positions, just need to randomize initial position to be far and close to the target
@@ -109,18 +128,18 @@ graph (input: ObservedState): Action {
 
     concept GoRight(ComputeDelta): Action {
         curriculum {
-            source simulator (Action: Action, Config: SimConfig): SimState {
-                package "RefactoredCartpole"
-            }
+            source CartpoleSim
             goal (state: SimState) {
                 avoid FallOver:
                     Math.Abs(state.pole_angle) in Goal.RangeAbove(MaxPoleAngle)
+
+                # There isn't a specific "close enough" threshold, so using 
+                # Goal.RangeBelow(0) to encourage the system to minimize as well as it can
                 minimize DistToTarget:
                     Math.Abs(state.target_pole_position - state.cart_position) in Goal.RangeBelow(0)
             }
             training {
                 EpisodeIterationLimit: 200,
-                NoProgressIterationLimit: 500000,
             }
             lesson One {
                 # Because we're using relative positions, just need to randomize initial position to be far and close to the target

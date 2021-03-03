@@ -14,6 +14,7 @@ import datetime
 import json
 import os
 import pathlib
+import random
 import sys
 import time
 from typing import Any, Dict, List
@@ -94,7 +95,10 @@ class TemplateSimulatorSession:
         Dict[str, float]
             Returns float of current values from the simulator
         """
-        return self.simulator.state
+        state = self.simulator.state.copy()
+        # Add an extra field needed for go-to-point experiments
+        state['distance_to_target'] = state['target_pole_position'] - state['cart_position']
+        return state
 
     def halted(self) -> bool:
         """Halt current episode. Note, this should only return True if the simulator has reached an unexpected state.
@@ -242,7 +246,9 @@ def test_policy(
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
-        sim_state = sim.episode_start(config=default_config)
+        # When testing, initialize throughout the range.
+        config = {"initial_cart_position": random.uniform(-0.9, 0.9)}
+        sim_state = sim.episode_start(config=config)
         sim_state = sim.get_state()
         while not terminal:
             action = policy(sim_state)
@@ -455,6 +461,14 @@ if __name__ == "__main__":
         help="Run simulator with an exported brain running on localhost:PORT (default 5000)",
     )
 
+    parser.add_argument(
+        "--iteration-limit",
+        type=int,
+        metavar="EPISODE_ITERATIONS",
+        help="Episode iteration limit when running local test.",
+        default=200,
+    )
+
     args = parser.parse_args()
 
     if args.test_random:
@@ -470,7 +484,8 @@ if __name__ == "__main__":
             render=args.render,
             log_iterations=args.log_iterations,
             policy=trained_brain_policy,
-            policy_name="exported"
+            policy_name="exported",
+            num_iterations=args.iteration_limit,
         )
     else:
         main(

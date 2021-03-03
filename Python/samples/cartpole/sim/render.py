@@ -128,3 +128,8 @@ class Viewer(pyglet.window.Window):
         
         draw_cartpole(self.model, self.width, self.height)
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        world_width = self.model.x_threshold*2
+        scale = world_width / self.width
+        click_position = x * scale - self.model.x_threshold
+        self.model._target_pole_position = click_position

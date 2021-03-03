@@ -24,6 +24,13 @@ FORCE_NOISE = 0.02  # % of FORCE_MAG
 CartPoleState = namedtuple("CartPoleState", "x x_dot y y_dot")
 
 
+def normalize_angle(x):
+    """
+    convert an angle to [-pi, pi]
+    """
+    return (x+math.pi) % (2*math.pi) - math.pi
+
+
 class CartPole:
     """
     Model for the dynamics of an inverted pendulum
@@ -54,7 +61,7 @@ class CartPole:
         self._pole_length = pole_length  # (m)
         self._cart_position = initial_cart_position  # (m)
         self._cart_velocity = initial_cart_velocity  # (m/s)
-        self._pole_angle = initial_pole_angle  # (rad)
+        self._pole_angle = normalize_angle(initial_pole_angle)  # (rad)
         self._pole_angular_velocity = initial_angular_velocity  # (rad/s)
         self._target_pole_position = target_pole_position  # (m)
         self._update_pole_center_state()
@@ -111,6 +118,8 @@ class CartPole:
         self._pole_angle = (
             self._pole_angle + STEP_DURATION * self._pole_angular_velocity
         )
+        self._pole_angle = normalize_angle(self._pole_angle)
+
         self._pole_angular_velocity = (
             self._pole_angular_velocity + STEP_DURATION * angularAccel
         )

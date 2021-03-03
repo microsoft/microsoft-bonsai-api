@@ -91,3 +91,19 @@ az account set --subscription <SUBSCRIPTION_ID>
 ```
 
 Once you've built the simulator package, you can use the Bonsai Web UI to import the simulator (look for the `+ Add sim` button) or use the [`bonsai-cli`](https://pypi.org/project/bonsai-cli/)'s [bonsai simulator package add](https://docs.microsoft.com/en-us/bonsai/cli/simulator/package/add) command.
+
+# Additional examples
+
+## Go-to-point with multiple concepts
+
+![GitHub Logo](cartpole-to-point.gif)
+
+[multi-concept.ink](multi-concept.ink) shows an example with multiple concepts, to solve the go-to-point problem: moving the cart to a particular location without dropping the pole. 
+
+After training with this Inkling, you can test with an exported brain. Export and run the container as usual, then run the following (adding a port number after `--test-exported` if not using the default of 5000):
+
+```bash
+python main.py --test-exported --render --iteration-limit 10000
+```
+
+Click on different locations in the visualization and watch the cart move to that point.

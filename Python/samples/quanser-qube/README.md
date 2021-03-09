@@ -97,7 +97,7 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c <concept_name> \
-    --simulator-name Quanser-Qube
+    --simulator-name QuanserQube
 ```
 
 ## Building Simulator Packages

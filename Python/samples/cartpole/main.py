@@ -17,7 +17,7 @@ import pathlib
 import random
 import sys
 import time
-from typing import Any, Dict, List
+from typing import Dict
 
 from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
@@ -27,10 +27,9 @@ from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorSessionResponse,
 )
 from azure.core.exceptions import HttpResponseError
-from distutils.util import strtobool
 from functools import partial
 
-from policies import coast, random_policy, brain_policy
+from policies import random_policy, brain_policy
 from sim import cartpole
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -97,7 +96,9 @@ class TemplateSimulatorSession:
         """
         state = self.simulator.state.copy()
         # Add an extra field needed for go-to-point experiments
-        state['distance_to_target'] = state['target_pole_position'] - state['cart_position']
+        state["distance_to_target"] = (
+            state["target_pole_position"] - state["cart_position"]
+        )
         return state
 
     def halted(self) -> bool:
@@ -221,13 +222,14 @@ def env_setup():
 
     return workspace, access_key
 
+
 def test_policy(
     num_episodes: int = 10,
     render: bool = True,
     num_iterations: int = 200,
     log_iterations: bool = False,
     policy=random_policy,
-    policy_name:str = "random"
+    policy_name: str = "random",
 ):
     """Test a policy using random actions over a fixed number of episodes
 

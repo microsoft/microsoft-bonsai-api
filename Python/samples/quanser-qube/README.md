@@ -1,11 +1,11 @@
-Quanser Qube - Servo2 with Project Bonsai 
-========================================
+# Quanser Qube - Servo2 with Project Bonsai 
 
 For more information about the Qube click [here](https://www.quanser.com/products/qube-servo-2/)
 
 <img src="img/QUBE-Servo_2_angled_pendulum.jpg" alt="drawing" width="300"/>
 
 ## Objective
+
 Train brain for two different concepts, either swing up or balance
 
 ### SwingUp - starting near rest (machine_teach_swingup.ink)
@@ -22,16 +22,16 @@ Train brain for two different concepts, either swing up or balance
 
 ## Action
 
-| Action | Continuous Value | Units |
-|----------------------------|-------------------------------|-------------------------------|
-| Vm | [-3, 3] | [Volts]
+| Action | Continuous Value | Units   |
+| ------ | ---------------- | ------- |
+| Vm     | [-3, 3]          | [Volts] |
 
 ## States
 
-| State | Units |
-|----------------------------|-------------------------------|
-| theta | [rad] |
-| alpha | [rad] |
+| State     | Units     |
+| --------- | --------- |
+| theta     | [rad]     |
+| alpha     | [rad]     |
 | theta_dot | [rad / s] |
 | alpha_dot | [rad / s] |
 
@@ -64,22 +64,30 @@ Train brain for two different concepts, either swing up or balance
 - step()
 - view()
 
-## Set Up for Local Workflow
+## Install Requirements
 
 1. Download **either** [miniconda](https://conda.io/miniconda.html) or [Anaconda](https://www.anaconda.com/download/)
 2. Open Anaconda / miniconda command prompt
-3. Change directory to this sample
+3. Change directory to the parent directory
     ```cmd
     conda env update -f environment.yml
     conda activate bonsai-preview
+    cd Python/samples/quanser-qube
+    pip install -r requirements.txt
     ```
 
 ## Running the Simulator Locally
 
-Run the simulator locally by the following command and setting environment variables for SIM_WORKSPACE and SIM_ACCESS_KEY.
+Run the simulator locally without connecting to the platform to test the API.
 
 ```bash
-python main.py
+python main.py --test-local --render
+```
+
+Once you are satisfied, you can run the simulator again and connect to the Bonsai platform (note you can still use the `render` argument to visualize the simulator while training):
+
+```bash
+python main.py --config-setup
 ```
 
 and then attach to your brain:
@@ -89,13 +97,7 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c <concept_name> \
-    --simulator-name qube-py-v0
-```
-
-Optionally, run the simulator locally with a visualization:
-
-```bash
-python main.py --render
+    --simulator-name Quanser-Qube
 ```
 
 ## Building Simulator Packages

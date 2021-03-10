@@ -28,12 +28,12 @@ Train brain for two different concepts, either swing up or balance
 
 ## States
 
-| State     | Units     |
-| --------- | --------- |
-| theta     | [rad]     |
-| alpha     | [rad]     |
-| theta_dot | [rad / s] |
-| alpha_dot | [rad / s] |
+| State     | Units     | Description                                             |
+| --------- | --------- | ------------------------------------------------------- |
+| theta     | [rad]     | angle of arm from centered at the front                 |
+| alpha     | [rad]     | angle of pendulum from upright                          |
+| theta_dot | [rad / s] | angular velocity of arm from centered at the front      |
+| alpha_dot | [rad / s] | angular velocity of pendulum from centered at the front |
 
 ## Terminal Conditions
 

@@ -17,6 +17,7 @@ Usage:
 from functools import partial
 import json
 import random
+import math
 import time
 import os
 import pathlib
@@ -193,7 +194,10 @@ def test_policy(
         iteration = 0
         terminal = False
         # When testing, initialize throughout the range.
-        config = {"initial_cart_position": random.uniform(-0.9, 0.9)}
+        config = {
+            "initial_alpha": random.uniform(0, math.pi),
+            "initial_theta": random.uniform(0, 2 * math.pi),
+        }
         sim_state = sim.episode_start(config=config)
         sim_state = sim.get_state()
         while not terminal:

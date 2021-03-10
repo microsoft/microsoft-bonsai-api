@@ -5,3 +5,4 @@ scipy==1.3.0
 vpython==7.6.0
 microsoft-bonsai-api==0.1.2
 bonsai-cli==1.0.5
+python-dotenv==0.13.0

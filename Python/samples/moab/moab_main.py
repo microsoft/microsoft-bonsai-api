@@ -37,7 +37,9 @@ from sim.moab_model import MoabModel, clamp
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = "logs"
-default_config = {"initial_x":np.random.uniform(-1,1),"initial_y":np.random.uniform(-1,1),"initial_vel_x":np.random.uniform(-1,1), 
+R = 0.1125
+max_vel = 2
+default_config = {"initial_x":np.random.uniform(-R,R),"initial_y":np.random.uniform(-R,R),"initial_vel_x":np.random.uniform(-1,1), 
         "initial_vel_y":np.random.uniform(-1,1),"initial_roll": np.random.uniform(-1,1), "initial_pitch": np.random.uniform(-1,1)}
 
 
@@ -307,7 +309,7 @@ def env_setup():
 
 
 def test_random_policy(
-    num_episodes: int = 100,
+    num_episodes: int = 50000,
     render: bool = True,
     num_iterations: int = 250,
     log_iterations: bool = False,
@@ -326,7 +328,7 @@ def test_random_policy(
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
-        episode_config = {"initial_x":np.random.uniform(-1,1),"initial_y":np.random.uniform(-1,1),"initial_vel_x":np.random.uniform(-1,1), 
+        episode_config = {"initial_x":np.random.uniform(-R,R),"initial_y":np.random.uniform(-R,R),"initial_vel_x":np.random.uniform(-1,1), 
         "initial_vel_y":np.random.uniform(-1,1),"initial_roll": np.random.uniform(-1,1), "initial_pitch": np.random.uniform(-1,1)}
         sim.episode_start(config=episode_config)
         sim_state = sim.get_state()
@@ -345,6 +347,14 @@ def test_random_policy(
             print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
             terminal = iteration >= num_iterations
+            if sim.model.plate_radius<abs(sim_state["ball_x"]) or \
+                sim.model.plate_radius<abs(sim_state["ball_y"]) or \
+                max_vel < abs(sim_state["ball_vel_x"]) or \
+                max_vel < abs(sim_state["ball_vel_y"]):
+                print("ball_x is {} and ball_y is {}".format(sim_state["ball_x"],sim_state["ball_y"]))
+                print("episode # is {}",episode)
+                terminal = True
+
 
     return sim
 

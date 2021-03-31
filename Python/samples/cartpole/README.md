@@ -107,3 +107,17 @@ python main.py --test-exported --render --iteration-limit 10000
 ```
 
 Click on different locations in the visualization and watch the cart move to that point.
+
+## Emulating a slow simulator
+
+For testing purposes, one may want to emulate a slow simulator. The arguments:
+- `--sim-speed` adds a delay in seconds before stepping through an iteration (emulating sim speed)
+- `--sim-speed-variance` adds stochasticity to the sim speed. The sim delay is uniformely distributed between [sim-speed - sim-speed-variance, sim-speed + sim-speed-variance]. Note: if sim-speed-sim-speed-variance < 0, lower bound = 0
+
+Below is an example to run a sim emulating a sim speed of 3s and randomly varying between [2,4]s
+
+```shell
+python main.py --sim-speed 3 --sim-speed-variance 1
+```
+
+Note: to build the sim container for sim scaling, replace the command to run the simulator with user defined arguments (see commented out line in Dockerfile)

@@ -17,6 +17,7 @@ import pathlib
 import random
 import sys
 import time
+import numpy as np
 from typing import Dict
 
 from dotenv import load_dotenv, set_key
@@ -267,7 +268,7 @@ def test_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False
+    render: bool = False, log_iterations: bool = False, config_setup: bool = False, sim_speed: int = 0, sim_speed_variance: int = 0,
 ):
     """Main entrypoint for running simulator connections
 
@@ -387,6 +388,18 @@ def main(
                 episode += 1
             elif event.type == "EpisodeStep":
                 iteration += 1
+                if sim_speed > 0:
+                    if sim_speed_variance > 0:
+                        delay = np.random.uniform(
+                            low = np.max([0,sim_speed - sim_speed_variance]),
+                            high = sim_speed + sim_speed_variance
+                            )
+                        print('stochastic delay: {}s'.format(delay))
+                        time.sleep(delay)
+                    else:
+                        delay = sim_speed
+                        print('delay: {}s'.format(delay))
+                        time.sleep(delay) 
                 sim.episode_step(event.episode_step.action)
                 if sim.log_data:
                     sim.log_iterations(
@@ -471,6 +484,22 @@ if __name__ == "__main__":
         default=200,
     )
 
+    parser.add_argument(
+        "--sim-speed",
+        type=int,
+        metavar="SIM_SPEED",
+        help="additional emulated sim speed wait in seconds, default: adds 0s",
+        default=0,
+    )
+
+    parser.add_argument(
+        "--sim-speed-variance",
+        type=int,
+        metavar="SIM_SPEED_VARIANCE",
+        help="emulates stochastic sim speed, adds uniform variance to --sim-speed",
+        default=0,
+    )
+
     args = parser.parse_args()
 
     if args.test_random:
@@ -494,4 +523,6 @@ if __name__ == "__main__":
             config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
+            sim_speed = args.sim_speed,
+            sim_speed_variance = args.sim_speed_variance,
         )

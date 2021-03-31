@@ -135,7 +135,7 @@ class TemplateSimulatorSession:
 
         self.simulator.reset(**config)
 
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
+    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1, sim_speed_delay: float = 0.0):
         """Log iterations during training to a CSV.
 
         Parameters
@@ -144,6 +144,7 @@ class TemplateSimulatorSession:
         action : Dict
         episode : int, optional
         iteration : int, optional
+        sim_speed_delay : float, optional
         """
 
         import pandas as pd
@@ -157,6 +158,7 @@ class TemplateSimulatorSession:
         data = {**state, **action, **config}
         data["episode"] = episode
         data["iteration"] = iteration
+        data["sim_speed_delay"] = sim_speed_delay
         log_df = pd.DataFrame(data, index=[0])
 
         if os.path.exists(self.log_full_path):
@@ -388,17 +390,18 @@ def main(
                 episode += 1
             elif event.type == "EpisodeStep":
                 iteration += 1
+                delay = 0.0
                 if sim_speed > 0:
                     if sim_speed_variance > 0:
                         delay = np.random.uniform(
                             low = np.max([0,sim_speed - sim_speed_variance]),
                             high = sim_speed + sim_speed_variance
                             )
-                        print('stochastic delay: {}s'.format(delay))
+                        print('stochastic sim delay: {}s'.format(delay))
                         time.sleep(delay)
                     else:
                         delay = sim_speed
-                        print('delay: {}s'.format(delay))
+                        print('sim delay: {}s'.format(delay))
                         time.sleep(delay) 
                 sim.episode_step(event.episode_step.action)
                 if sim.log_data:
@@ -407,6 +410,7 @@ def main(
                         iteration=iteration,
                         state=sim.get_state(),
                         action=event.episode_step.action,
+                        sim_speed_delay=delay
                     )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")

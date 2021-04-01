@@ -271,7 +271,7 @@ def test_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False, sim_speed: int = 0, sim_speed_variance: int = 0,
+    render: bool = False, log_iterations: bool = False, config_setup: bool = False, sim_speed: int = 0, sim_speed_variance: float = 0.0,
 ):
     """Main entrypoint for running simulator connections
 

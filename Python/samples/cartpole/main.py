@@ -17,7 +17,9 @@ import pathlib
 import random
 import sys
 import time
+import numpy as np
 from typing import Dict
+from scipy.stats import truncnorm
 
 from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
@@ -134,7 +136,7 @@ class TemplateSimulatorSession:
 
         self.simulator.reset(**config)
 
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
+    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1, sim_speed_delay: float = 0.0):
         """Log iterations during training to a CSV.
 
         Parameters
@@ -143,6 +145,7 @@ class TemplateSimulatorSession:
         action : Dict
         episode : int, optional
         iteration : int, optional
+        sim_speed_delay : float, optional
         """
 
         import pandas as pd
@@ -156,6 +159,7 @@ class TemplateSimulatorSession:
         data = {**state, **action, **config}
         data["episode"] = episode
         data["iteration"] = iteration
+        data["sim_speed_delay"] = sim_speed_delay
         log_df = pd.DataFrame(data, index=[0])
 
         if os.path.exists(self.log_full_path):
@@ -267,7 +271,7 @@ def test_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False
+    render: bool = False, log_iterations: bool = False, config_setup: bool = False, sim_speed: int = 0, sim_speed_variance: int = 0,
 ):
     """Main entrypoint for running simulator connections
 
@@ -387,6 +391,20 @@ def main(
                 episode += 1
             elif event.type == "EpisodeStep":
                 iteration += 1
+                delay = 0.0
+                if sim_speed > 0:
+                    if sim_speed_variance > 0: #stochastic delay, truncated normal distribution
+                        mu = sim_speed
+                        sigma = sim_speed_variance
+                        lower = np.max([0,sim_speed - 3*sim_speed_variance]) #truncating at min +/- 3*variance
+                        upper = sim_speed + 3*sim_speed_variance
+                        delay = truncnorm.rvs((lower-mu)/sigma, (upper-mu)/sigma, loc=mu, scale=sigma)
+                        print('stochastic sim delay: {}s'.format(delay))
+                        time.sleep(delay)
+                    else: # fixed delay
+                        delay = sim_speed
+                        print('sim delay: {}s'.format(delay))
+                        time.sleep(delay) 
                 sim.episode_step(event.episode_step.action)
                 if sim.log_data:
                     sim.log_iterations(
@@ -394,6 +412,7 @@ def main(
                         iteration=iteration,
                         state=sim.get_state(),
                         action=event.episode_step.action,
+                        sim_speed_delay=delay
                     )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
@@ -471,6 +490,22 @@ if __name__ == "__main__":
         default=200,
     )
 
+    parser.add_argument(
+        "--sim-speed",
+        type=int,
+        metavar="SIM_SPEED",
+        help="additional emulated sim speed wait in seconds, default: adds 0s",
+        default=0,
+    )
+
+    parser.add_argument(
+        "--sim-speed-variance",
+        type=int,
+        metavar="SIM_SPEED_VARIANCE",
+        help="emulates stochastic sim speed, adds uniform variance to --sim-speed",
+        default=0,
+    )
+
     args = parser.parse_args()
 
     if args.test_random:
@@ -494,4 +529,6 @@ if __name__ == "__main__":
             config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
+            sim_speed = args.sim_speed,
+            sim_speed_variance = args.sim_speed_variance,
         )

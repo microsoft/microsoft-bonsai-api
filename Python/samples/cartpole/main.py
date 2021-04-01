@@ -136,7 +136,14 @@ class TemplateSimulatorSession:
 
         self.simulator.reset(**config)
 
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1, sim_speed_delay: float = 0.0):
+    def log_iterations(
+        self,
+        state,
+        action,
+        episode: int = 0,
+        iteration: int = 1,
+        sim_speed_delay: float = 0.0,
+    ):
         """Log iterations during training to a CSV.
 
         Parameters
@@ -196,7 +203,7 @@ class TemplateSimulatorSession:
             sys.exit(0)
 
 
-def env_setup():
+def env_setup(env_file: str = ".env"):
     """Helper function to setup connection with Project Bonsai
 
     Returns
@@ -205,20 +212,20 @@ def env_setup():
         workspace, and access_key
     """
 
-    load_dotenv(verbose=True)
+    load_dotenv(verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
 
-    env_file_exists = os.path.exists(".env")
+    env_file_exists = os.path.exists(env_file)
     if not env_file_exists:
-        open(".env", "a").close()
+        open(env_file, "a").close()
 
     if not all([env_file_exists, workspace]):
         workspace = input("Please enter your workspace id: ")
-        set_key(".env", "SIM_WORKSPACE", workspace)
+        set_key(env_file, "SIM_WORKSPACE", workspace)
     if not all([env_file_exists, access_key]):
         access_key = input("Please enter your access key: ")
-        set_key(".env", "SIM_ACCESS_KEY", access_key)
+        set_key(env_file, "SIM_ACCESS_KEY", access_key)
 
     load_dotenv(verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
@@ -271,7 +278,14 @@ def test_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False, sim_speed: int = 0, sim_speed_variance: int = 0,
+    render: bool = False,
+    log_iterations: bool = False,
+    config_setup: bool = False,
+    sim_speed: int = 0,
+    sim_speed_variance: int = 0,
+    env_file: str = ".env",
+    workspace: str = None,
+    accesskey: str = None,
 ):
     """Main entrypoint for running simulator connections
 
@@ -281,11 +295,33 @@ def main(
         visualize steps in environment, by default True, by default False
     log_iterations: bool, optional
         log iterations during training to a CSV file
+    config_setup: bool, optional
+        if enabled then uses a local `.env` file to find sim workspace id and access_key
+    sim_speed: int, optional
+        the average delay to use, default = 0
+    sim_speed_variance: int, optional
+        the variance for sim delay
+    env_file, str, optional
+        if config_setup True, then where the environment variable for lookup exists
     """
 
+    # check if workspace or access-key passed in CLI
+    use_cli_args = all([workspace, accesskey])
+
+    # check for accesskey and workspace id in system variables
+    if all(
+        [
+            not use_cli_args,
+            "SIM_WORKSPACE" in os.environ,
+            "SIM_ACCESS_KEY" in os.environ,
+        ]
+    ):
+        workspace = os.environ["SIM_WORKSPACE"]
+        accesskey = os.environ["SIM_ACCESS_KEY"]
+
     # workspace environment variables
-    if config_setup:
-        env_setup()
+    if config_setup or env_file:
+        workspace, accesskey = env_setup(env_file)
         load_dotenv(verbose=True, override=True)
 
     # Grab standardized way to interact with sim API
@@ -393,18 +429,27 @@ def main(
                 iteration += 1
                 delay = 0.0
                 if sim_speed > 0:
-                    if sim_speed_variance > 0: #stochastic delay, truncated normal distribution
+                    if (
+                        sim_speed_variance > 0
+                    ):  # stochastic delay, truncated normal distribution
                         mu = sim_speed
                         sigma = sim_speed_variance
-                        lower = np.max([0,sim_speed - 3*sim_speed_variance]) #truncating at min +/- 3*variance
-                        upper = sim_speed + 3*sim_speed_variance
-                        delay = truncnorm.rvs((lower-mu)/sigma, (upper-mu)/sigma, loc=mu, scale=sigma)
-                        print('stochastic sim delay: {}s'.format(delay))
+                        lower = np.max(
+                            [0, sim_speed - 3 * sim_speed_variance]
+                        )  # truncating at min +/- 3*variance
+                        upper = sim_speed + 3 * sim_speed_variance
+                        delay = truncnorm.rvs(
+                            (lower - mu) / sigma,
+                            (upper - mu) / sigma,
+                            loc=mu,
+                            scale=sigma,
+                        )
+                        print("stochastic sim delay: {}s".format(delay))
                         time.sleep(delay)
-                    else: # fixed delay
+                    else:  # fixed delay
                         delay = sim_speed
-                        print('sim delay: {}s'.format(delay))
-                        time.sleep(delay) 
+                        print("sim delay: {}s".format(delay))
+                        time.sleep(delay)
                 sim.episode_step(event.episode_step.action)
                 if sim.log_data:
                     sim.log_iterations(
@@ -412,7 +457,7 @@ def main(
                         iteration=iteration,
                         state=sim.get_state(),
                         action=event.episode_step.action,
-                        sim_speed_delay=delay
+                        sim_speed_delay=delay,
                     )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
@@ -465,12 +510,31 @@ if __name__ == "__main__":
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
+    parser.add_argument(
+        "--env-file",
+        type=str,
+        metavar="ENVIRONMENT FILE",
+        help="path to your environment file",
+        default=None,
+    )
+    parser.add_argument(
+        "--workspace",
+        type=str,
+        metavar="WORKSPACE ID",
+        help="your workspace id",
+        default=None,
+    )
+    parser.add_argument(
+        "--accesskey",
+        type=str,
+        metavar="Your Bonsai workspace access-key",
+        help="your bonsai workspace access key",
+        default=None,
+    )
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "--test-random",
-        action="store_true",
-        help="Run simulator locally with a random policy, without connecting to platform",
+        "--test-random", action="store_true",
     )
 
     group.add_argument(
@@ -529,6 +593,10 @@ if __name__ == "__main__":
             config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
-            sim_speed = args.sim_speed,
-            sim_speed_variance = args.sim_speed_variance,
+            sim_speed=args.sim_speed,
+            sim_speed_variance=args.sim_speed_variance,
+            env_file=args.env_file,
+            workspace=args.workspace,
+            accesskey=args.accesskey,
         )
+

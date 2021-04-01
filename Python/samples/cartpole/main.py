@@ -18,7 +18,7 @@ import random
 import sys
 import time
 import numpy as np
-from typing import Dict
+from typing import Dict, Union
 from scipy.stats import truncnorm
 
 from dotenv import load_dotenv, set_key
@@ -283,7 +283,7 @@ def main(
     config_setup: bool = False,
     sim_speed: int = 0,
     sim_speed_variance: int = 0,
-    env_file: str = ".env",
+    env_file: Union[str, bool] = ".env",
     workspace: str = None,
     accesskey: str = None,
 ):
@@ -318,9 +318,7 @@ def main(
     ):
         workspace = os.environ["SIM_WORKSPACE"]
         accesskey = os.environ["SIM_ACCESS_KEY"]
-
-    # workspace environment variables
-    if config_setup or env_file:
+    elif config_setup or env_file:
         workspace, accesskey = env_setup(env_file)
         load_dotenv(verbose=True, override=True)
 
@@ -515,7 +513,7 @@ if __name__ == "__main__":
         type=str,
         metavar="ENVIRONMENT FILE",
         help="path to your environment file",
-        default=None,
+        default=".env",
     )
     parser.add_argument(
         "--workspace",

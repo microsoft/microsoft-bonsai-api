@@ -19,6 +19,7 @@ import sys
 import time
 import numpy as np
 from typing import Dict
+from scipy.stats import truncnorm
 
 from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
@@ -392,14 +393,15 @@ def main(
                 iteration += 1
                 delay = 0.0
                 if sim_speed > 0:
-                    if sim_speed_variance > 0:
-                        delay = np.random.uniform(
-                            low = np.max([0,sim_speed - sim_speed_variance]),
-                            high = sim_speed + sim_speed_variance
-                            )
+                    if sim_speed_variance > 0: #stochastic delay, truncated normal distribution
+                        mu = sim_speed
+                        sigma = sim_speed_variance
+                        lower = np.max([0,sim_speed - 3*sim_speed_variance]) #truncating at min +/- 3*variance
+                        upper = sim_speed + 3*sim_speed_variance
+                        delay = truncnorm.rvs((lower-mu)/sigma, (upper-mu)/sigma, loc=mu, scale=sigma)
                         print('stochastic sim delay: {}s'.format(delay))
                         time.sleep(delay)
-                    else:
+                    else: # fixed delay
                         delay = sim_speed
                         print('sim delay: {}s'.format(delay))
                         time.sleep(delay) 

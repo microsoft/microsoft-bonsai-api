@@ -112,12 +112,13 @@ Click on different locations in the visualization and watch the cart move to tha
 
 For testing purposes, one may want to emulate a slow simulator. The arguments:
 - `--sim-speed` adds a delay in seconds before stepping through an iteration (emulating sim speed)
-- `--sim-speed-variance` adds stochasticity to the sim speed. The sim delay is uniformely distributed between [sim-speed - sim-speed-variance, sim-speed + sim-speed-variance]. Note: if sim-speed-sim-speed-variance < 0, lower bound = 0
+- `--sim-speed-variance` adds stochasticity to the sim speed (optional). The sim delay is  normal-distributed, centered around `mean = sim-speed` with a variance for `sigma = sim-speed-variance` and truncated between `[sim-speed - 3*sim-speed-variance, sim-speed + 3*sim-speed-variance]`. Note: if `sim-speed - 3*sim-speed-variance < 0`, lower bound = 0
 
-Below is an example to run a sim emulating a sim speed of 3s and randomly varying between [2,4]s
+The example below emulates a sim speed centered around 3s, with a variance of 1s, within bounds of [0,6]s
 
 ```shell
 python main.py --sim-speed 3 --sim-speed-variance 1
 ```
+![sim-speed-delay-distribution](./img/sim-speed-delay-dist.png)
 
 Note: to build the sim container for sim scaling, replace the command to run the simulator with user defined arguments (see commented out line in Dockerfile)

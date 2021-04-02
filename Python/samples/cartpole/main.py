@@ -212,7 +212,7 @@ def env_setup(env_file: str = ".env"):
         workspace, and access_key
     """
 
-    load_dotenv(verbose=True, override=True)
+    load_dotenv(dotenv_path=env_file, verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
 
@@ -227,7 +227,7 @@ def env_setup(env_file: str = ".env"):
         access_key = input("Please enter your access key: ")
         set_key(env_file, "SIM_ACCESS_KEY", access_key)
 
-    load_dotenv(verbose=True, override=True)
+    load_dotenv(dotenv_path=env_file, verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
 
@@ -312,27 +312,36 @@ def main(
     # check if workspace or access-key passed in CLI
     use_cli_args = all([workspace, accesskey])
 
+    # use dotenv file if provided
+    use_dotenv = env_file or config_setup
+
     # check for accesskey and workspace id in system variables
-    if all(
-        [
-            not use_cli_args,
-            "SIM_WORKSPACE" in os.environ,
-            "SIM_ACCESS_KEY" in os.environ,
-        ]
-    ):
-        workspace = os.environ["SIM_WORKSPACE"]
-        accesskey = os.environ["SIM_ACCESS_KEY"]
-    elif use_cli_args:
-        # Use workspace and access key from CLI args passed into main
-        pass
-    elif config_setup or env_file:
+    # Three scenarios
+    # 1. workspace and accesskey provided by CLI args
+    # 2. dotenv provided
+    # 3. system variables
+    # do 1 if provided, use 2 if provided; ow use 3; if no sys vars or dotenv, fail
+
+    if use_cli_args:
+        # BonsaiClientConfig will retrieve as environment variables
+        os.environ["SIM_WORKSPACE"] = workspace
+        os.environ["SIM_ACCESS_KEY"] = accesskey
+    elif use_dotenv:
+        if not env_file:
+            env_file = ".env"
         print(
-            f"No system variables for workspace-id or access-key found, checking in env-file (.env by default)"
+            f"No system variables for workspace-id or access-key found, checking in env-file at {env_file}"
         )
         workspace, accesskey = env_setup(env_file)
-        load_dotenv(verbose=True, override=True)
+        load_dotenv(env_file, verbose=True, override=True)
     else:
-        pass
+        try:
+            workspace = os.environ["SIM_WORKSPACE"]
+            accesskey = os.environ["SIM_ACCESS_KEY"]
+        except:
+            raise IndexError(
+                f"Workspace or access key not set or found. Use --config-setup for help setting up."
+            )
 
     # Grab standardized way to interact with sim API
     sim = TemplateSimulatorSession(render=render, log_data=log_iterations)
@@ -525,7 +534,7 @@ if __name__ == "__main__":
         type=str,
         metavar="ENVIRONMENT FILE",
         help="path to your environment file",
-        default=".env",
+        default=None,
     )
     parser.add_argument(
         "--workspace",

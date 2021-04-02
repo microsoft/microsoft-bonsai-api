@@ -301,8 +301,12 @@ def main(
         the average delay to use, default = 0
     sim_speed_variance: int, optional
         the variance for sim delay
-    env_file, str, optional
+    env_file: str, optional
         if config_setup True, then where the environment variable for lookup exists
+    workspace: str, optional
+        optional flag from CLI for workspace to override
+    accesskey: str, optional
+        optional flag from CLI for accesskey to override
     """
 
     # check if workspace or access-key passed in CLI
@@ -318,12 +322,17 @@ def main(
     ):
         workspace = os.environ["SIM_WORKSPACE"]
         accesskey = os.environ["SIM_ACCESS_KEY"]
+    elif use_cli_args:
+        # Use workspace and access key from CLI args passed into main
+        pass
     elif config_setup or env_file:
         print(
             f"No system variables for workspace-id or access-key found, checking in env-file (.env by default)"
         )
         workspace, accesskey = env_setup(env_file)
         load_dotenv(verbose=True, override=True)
+    else:
+        pass
 
     # Grab standardized way to interact with sim API
     sim = TemplateSimulatorSession(render=render, log_data=log_iterations)

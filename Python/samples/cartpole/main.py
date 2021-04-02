@@ -319,6 +319,9 @@ def main(
         workspace = os.environ["SIM_WORKSPACE"]
         accesskey = os.environ["SIM_ACCESS_KEY"]
     elif config_setup or env_file:
+        print(
+            f"No system variables for workspace-id or access-key found, checking in env-file (.env by default)"
+        )
         workspace, accesskey = env_setup(env_file)
         load_dotenv(verbose=True, override=True)
 

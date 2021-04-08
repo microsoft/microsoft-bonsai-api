@@ -23,7 +23,7 @@ import os
 import pathlib
 from dotenv import load_dotenv, set_key
 import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Union
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig, BonsaiClient
 from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
@@ -138,7 +138,7 @@ class TemplateSimulatorSession:
             )
 
 
-def env_setup():
+def env_setup(env_file: str = ".env"):
     """Helper function to setup connection with Project Bonsai
 
     Returns
@@ -147,22 +147,22 @@ def env_setup():
         workspace, and access_key
     """
 
-    load_dotenv(verbose=True)
+    load_dotenv(dotenv_path=env_file, verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
 
-    env_file_exists = os.path.exists(".env")
+    env_file_exists = os.path.exists(env_file)
     if not env_file_exists:
-        open(".env", "a").close()
+        open(env_file, "a").close()
 
     if not all([env_file_exists, workspace]):
         workspace = input("Please enter your workspace id: ")
-        set_key(".env", "SIM_WORKSPACE", workspace)
+        set_key(env_file, "SIM_WORKSPACE", workspace)
     if not all([env_file_exists, access_key]):
         access_key = input("Please enter your access key: ")
-        set_key(".env", "SIM_ACCESS_KEY", access_key)
+        set_key(env_file, "SIM_ACCESS_KEY", access_key)
 
-    load_dotenv(verbose=True, override=True)
+    load_dotenv(dotenv_path=env_file, verbose=True, override=True)
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
 
@@ -215,7 +215,12 @@ def test_policy(
 
 
 def main(
-    render: bool = False, log_iterations: bool = False, config_setup: bool = False
+    render: bool=False,
+    log_iterations: bool=False,
+    config_setup: bool=False,
+    env_file: Union[str, bool]=".env",
+    workspace: str=None,
+    accesskey: str=None,
 ):
     """Main entrypoint for running simulator connections
 
@@ -225,12 +230,49 @@ def main(
         visualize steps in environment, by default True, by default False
     log_iterations: bool, optional
         log iterations during training to a CSV file
+    config_setup: bool, optional
+        if enabled then uses a local `.env` file to find sim workspace id and access_key
+    env_file: str, optional
+        if config_setup True, then where the environment variable for lookup exists
+    workspace: str, optional
+        optional flag from CLI for workspace to override
+    accesskey: str, optional
+        optional flag from CLI for accesskey to override
     """
 
-    # workspace environment variables
-    if config_setup:
-        env_setup()
-        load_dotenv(verbose=True, override=True)
+    # check if workspace or access-key passed in CLI
+    use_cli_args = all([workspace, accesskey])
+
+    # use dotenv file if provided
+    use_dotenv = env_file or config_setup
+
+    # check for accesskey and workspace id in system variables
+    # Three scenarios
+    # 1. workspace and accesskey provided by CLI args
+    # 2. dotenv provided
+    # 3. system variables
+    # do 1 if provided, use 2 if provided; ow use 3; if no sys vars or dotenv, fail
+
+    if use_cli_args:
+        # BonsaiClientConfig will retrieve as environment variables
+        os.environ["SIM_WORKSPACE"] = workspace
+        os.environ["SIM_ACCESS_KEY"] = accesskey
+    elif use_dotenv:
+        if not env_file:
+            env_file = ".env"
+        print(
+            f"No system variables for workspace-id or access-key found, checking in env-file at {env_file}"
+        )
+        workspace, accesskey = env_setup(env_file)
+        load_dotenv(env_file, verbose=True, override=True)
+    else:
+        try:
+            workspace = os.environ["SIM_WORKSPACE"]
+            accesskey = os.environ["SIM_ACCESS_KEY"]
+        except:
+            raise IndexError(
+                f"Workspace or access key not set or found. Use --config-setup for help setting up."
+            )
 
     # Grab standardized way to interact with sim API
     sim = TemplateSimulatorSession(render=render, log_data=log_iterations)
@@ -394,6 +436,27 @@ if __name__ == "__main__":
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
+    parser.add_argument(
+        "--env-file",
+        type=str,
+        metavar="ENVIRONMENT FILE",
+        help="path to your environment file",
+        default=None,
+    )
+    parser.add_argument(
+        "--workspace",
+        type=str,
+        metavar="WORKSPACE ID",
+        help="your workspace id",
+        default=None,
+    )
+    parser.add_argument(
+        "--accesskey",
+        type=str,
+        metavar="Your Bonsai workspace access-key",
+        help="your bonsai workspace access key",
+        default=None,
+    )
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -442,4 +505,7 @@ if __name__ == "__main__":
             config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
+            env_file=args.env_file,
+            workspace=args.workspace,
+            accesskey=args.accesskey,
         )

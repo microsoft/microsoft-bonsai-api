@@ -104,7 +104,7 @@ bonsai simulator unmanaged connect \
 
 Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:
 
-```
+```bash
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .
 ```
 

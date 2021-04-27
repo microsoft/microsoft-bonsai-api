@@ -107,7 +107,7 @@ python main.py --render
 
 ## Evaluation
 
-There's no way to Assess with multi-concept right now, so export the brain and use it with the sim using main.py. Logs will be saved to `/logs` as csv format. The episode configuration(s) are pulled from the `assess_config.json` file.
+The platform does not yet support assessment of programmed concepts, so export the brain and use it with the sim using main.py. Logs will be saved to `/logs` as csv format. The episode configuration(s) are pulled from the `assess_config.json` file.
 
 ```sh
 export SIM_WORKSPACE=<your-workspace-id>

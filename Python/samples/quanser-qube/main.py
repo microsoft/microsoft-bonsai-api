@@ -482,7 +482,7 @@ if __name__ == "__main__":
         default=200,
     )
 
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     if args.test_random:
         test_policy(

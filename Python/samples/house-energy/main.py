@@ -367,7 +367,7 @@ if __name__ == "__main__":
         help="Run simulator locally without connecting to platform",
     )
 
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     if args.test_local:
         test_random_policy(

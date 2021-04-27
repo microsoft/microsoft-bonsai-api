@@ -1,6 +1,12 @@
 ###
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
+
+# Multi-concept with programmed selector architecture using Quanser Qube.
+# Train the SwingUp Concept
+# Train the Balance Concept
+# Build a Programmed Concept for selecting between the two
+
 ###
 
 inkling "2.0"
@@ -14,6 +20,7 @@ const alpha_balance_threshold = 12
 # Constant threshold for defining terminal condition of motor
 const theta_rotation_threshold = 90
 
+# State from the sim and for the brain
 type ObservableState {
     theta: number, # radians, motor angle
     alpha: number, # radians, pendulum angle
@@ -21,11 +28,12 @@ type ObservableState {
     alpha_dot: number, # radians / s, pendulum angular velocity
 }
 
+# Action type definition is the same for both concepts
 type BrainAction {
-    Vm: Number.Float32<-3 .. 3>
+    Vm: Number.Float32<-3 .. 3> # Voltage of motor
 }
 
-# simulator configuration 
+# Simulator configuration 
 type SimConfig {
     Lp: number, # m, length of pole
     mp: number, #kg, mass of pole
@@ -48,6 +56,7 @@ function DegreesToRadians (Degrees: number): number {
     return Degrees * Math.Pi / 180
 }
 
+# Function for Linear Quadratic Regulator (Programmed Controller not used)
 function LQR(State: ObservableState): BrainAction {
     var K = [-2.0, 35.0, -1.5, 3.0]
     return {
@@ -55,6 +64,7 @@ function LQR(State: ObservableState): BrainAction {
     }
 }
 
+# Function for selecting which concept to toggle to
 function selector(State: ObservableState, balance: BrainAction, swingup: BrainAction): BrainAction {
     if Math.Abs(State.alpha) <= Math.Pi/3 {
         return balance
@@ -65,10 +75,14 @@ function selector(State: ObservableState, balance: BrainAction, swingup: BrainAc
 
 }
 
-simulator  QQ(action: BrainAction, config: SimConfig): ObservableState {
+# Simulator definition of simulator for both concepts
+simulator QQ (action: BrainAction, config: SimConfig): ObservableState {
 }
 
+# Define a concept graph with two learned concepts and a programmed 
+# selector concept.
 graph (input: ObservableState) {
+    # Learned concept for Balancing with initial conditions near inverted
     concept Balance(input): BrainAction {
         curriculum {
             source QQ
@@ -77,7 +91,7 @@ graph (input: ObservableState) {
                 EpisodeIterationLimit: 640, # 8 sec
             }
 
-            # goal for balancing
+            # Incentivize for balancing
             goal (State: ObservableState) {
                 avoid FallOver:
                     Math.Abs(State.alpha) in Goal.RangeAbove(DegreesToRadians(alpha_balance_threshold))
@@ -99,7 +113,7 @@ graph (input: ObservableState) {
                     Dr: 0.00027,
                     Dp: 0.00005,
                     frequency: 80,
-                    initial_theta: number<-1.4 .. 1.4>,
+                    initial_theta: number<-0.27 .. 0.27>,
                     initial_alpha: number<-0.05 .. 0.05>,  # reset inverted
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,
@@ -107,7 +121,8 @@ graph (input: ObservableState) {
             }
         }
     }
-        
+
+    # Learned concept for SwingUp with initial conditions near rest
     concept SwingUp(input): BrainAction {
         curriculum {
             source QQ
@@ -116,7 +131,7 @@ graph (input: ObservableState) {
                 EpisodeIterationLimit: 640, # 8 sec
             }
 
-            # goal for swing up 
+            # Incentivize for swing up 
             goal (State: ObservableState) {
                 reach Swing:
                     Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
@@ -136,7 +151,7 @@ graph (input: ObservableState) {
                     Dr: 0.00027,
                     Dp: 0.00005,
                     frequency: 80,
-                    initial_theta: number<-1.4 .. 1.4>,
+                    initial_theta: number<-0.27 .. 0.27>,
                     initial_alpha: number<Math.Pi-0.05 .. Math.Pi+0.05>,  # reset at rest
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,
@@ -145,9 +160,11 @@ graph (input: ObservableState) {
         }
     }
 
+    # Programmed concept to pick between strategies using pendulum angle
     concept SwitchControlStrategy(input, Balance, SwingUp): BrainAction {
         programmed selector
     }
 
+    # Set the output concept out of the graph
     output SwitchControlStrategy
 }

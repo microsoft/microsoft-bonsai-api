@@ -12,11 +12,11 @@
             "Lr": 0.085,
             "Dr": 0.00027,
             "Dp": 0.00005,
-            "frequency": 80,
-            "inital_theta": 0.4,
-            "initial_alpha": 3,
-            "initial_theta_dot": -0.03,
-            "initial_alpha_dot": -0.03
+            "frequency": 250,
+            "initial_theta": 0,
+            "initial_alpha": 3.0915,
+            "initial_theta_dot": 0.01,
+            "initial_alpha_dot": 0.01
         }
     ]
 }

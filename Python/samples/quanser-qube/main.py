@@ -205,10 +205,10 @@ def test_policy(
     for episode in range(1, num_episodes):
         iteration = 1
         terminal = False
-        sim_state = sim.episode_start(config=config)
+        sim_state = sim.episode_start(config=scenario_configs[episode-1])
         sim_state = sim.get_state()
         if log_iterations:
-            action = policy(sim_state, exported_brain_url)
+            action = policy(sim_state)
             for key, value in action.items():
                 action[key] = None
             sim.log_iterations(sim_state, action, episode, iteration)

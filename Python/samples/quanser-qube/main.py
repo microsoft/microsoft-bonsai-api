@@ -102,7 +102,13 @@ class TemplateSimulatorSession:
         """
         Should return True if the simulator cannot continue for some reason
         """
-        return False
+        sim_state = self.get_state()
+
+        # If arm hits rails of physical limit +/- 90 degrees
+        if abs(sim_state['theta']) > math.pi / 2:
+            return True
+        else:
+            return False
 
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
         """Log iterations during training to a CSV.
@@ -170,36 +176,44 @@ def env_setup(env_file: str = ".env"):
 
 
 def test_policy(
-    num_episodes: int = 10,
-    render: bool = True,
-    num_iterations: int = 200,
+    render: bool = False,
+    num_iterations: int = 640,
     log_iterations: bool = False,
     policy=random_policy,
     policy_name: str = "random",
+    scenario_file: str="assess_config.json",
 ):
     """Test a policy using random actions over a fixed number of episodes
 
     Parameters
     ----------
-    num_episodes : int, optional
-        number of iterations to run, by default 10
+    render : bool, optional
+        Flag to turn visualization on
     """
+    
+    # Use custom assessment scenario configs
+    with open(scenario_file) as fname:
+        assess_info = json.load(fname)
+    scenario_configs = assess_info['episodeConfigurations']
+    num_episodes = len(scenario_configs)+1
 
     current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     log_file_name = current_time + "_" + policy_name + "_log.csv"
     sim = TemplateSimulatorSession(
         render=render, log_data=log_iterations, log_file_name=log_file_name
     )
-    for episode in range(num_episodes):
-        iteration = 0
+    for episode in range(1, num_episodes):
+        iteration = 1
         terminal = False
-        # When testing, initialize throughout the range.
-        config = {
-            "initial_alpha": random.uniform(0, math.pi),
-            "initial_theta": random.uniform(0, 2 * math.pi),
-        }
         sim_state = sim.episode_start(config=config)
         sim_state = sim.get_state()
+        if log_iterations:
+            action = policy(sim_state, exported_brain_url)
+            for key, value in action.items():
+                action[key] = None
+            sim.log_iterations(sim_state, action, episode, iteration)
+        print(f"Running iteration #{iteration} for episode #{episode}")
+        iteration += 1
         while not terminal:
             action = policy(sim_state)
             sim.episode_step(action)
@@ -209,7 +223,7 @@ def test_policy(
             print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
             iteration += 1
-            terminal = iteration >= num_iterations
+            terminal = iteration >= num_iterations+2 or sim.halted()
 
     return sim
 
@@ -479,10 +493,21 @@ if __name__ == "__main__":
         type=int,
         metavar="EPISODE_ITERATIONS",
         help="Episode iteration limit when running local test.",
-        default=200,
+        default=640,
+    )
+    
+    parser.add_argument(
+        "--custom-assess",
+        type=str,
+        default=None,
+        help="Custom assess config json filename",
     )
 
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
+    
+    scenario_file = 'assess_config.json'
+    if args.custom_assess:
+        scenario_file = args.custom_assess
 
     if args.test_random:
         test_policy(
@@ -499,6 +524,7 @@ if __name__ == "__main__":
             policy=trained_brain_policy,
             policy_name="exported",
             num_iterations=args.iteration_limit,
+            scenario_file=scenario_file,
         )
     else:
         main(

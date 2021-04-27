@@ -8,13 +8,13 @@ For more information about the Qube click [here](https://www.quanser.com/product
 
 Train brain for two different concepts, either swing up or balance
 
-### SwingUp - starting near rest (machine_teach_swingup.ink)
+### SwingUp - starting near rest
 
 - Reset starts the pendulum from the bottom (at rest).
 - The task is to flip up the pendulum angle (alpha) from rest.
 - Episode ends once the motor angle (theta) is greater than 90 degrees.
 
-### Balance - starting near vertical (machine_teach_balance.ink)
+### Balance - starting near vertical
 
 - Reset starts the pendulum from the top (flipped up/inverted).
 - The task is to hold the pendulum angle (alpha) upright and center in between motor limits.
@@ -70,8 +70,6 @@ Train brain for two different concepts, either swing up or balance
 2. Open Anaconda / miniconda command prompt
 3. Change directory to the parent directory
     ```cmd
-    conda env update -f environment.yml
-    conda activate bonsai-preview
     cd Python/samples/quanser-qube
     pip install -r requirements.txt
     ```

@@ -6,7 +6,7 @@ Copyright 2020 Microsoft
 
 Usage:
   For registering simulator with the Bonsai service for training:
-    python __main__.py \
+    python main.py \
            --workspace <workspace_id> \
            --accesskey="<access_key> \
   Then connect your registered simulator to a Brain via UI

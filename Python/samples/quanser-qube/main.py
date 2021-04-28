@@ -105,10 +105,7 @@ class TemplateSimulatorSession:
         sim_state = self.get_state()
 
         # If arm hits rails of physical limit +/- 90 degrees
-        if abs(sim_state['theta']) > math.pi / 2:
-            return True
-        else:
-            return False
+        return abs(sim_state['theta']) >= math.pi / 2
 
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
         """Log iterations during training to a CSV.

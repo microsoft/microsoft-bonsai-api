@@ -1,4 +1,4 @@
-# Quanser Qube - Servo2 with Project Bonsai 
+# Quanser Qube - Servo2 with Project Bonsai
 
 For more information about the Qube click [here](https://www.quanser.com/products/qube-servo-2/)
 
@@ -6,19 +6,26 @@ For more information about the Qube click [here](https://www.quanser.com/product
 
 ## Objective
 
-Train brain for two different concepts, either swing up or balance
+Train a multi-concept brain with a programmed selector. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. We wish to learn separate concepts here and strategically determine when to rely on the action from the correct strategy using what's called a selector.
 
-### SwingUp - starting near rest (machine_teach_swingup.ink)
+> Learned concepts, custom assessment are on the roadmap, but not available yet
+
+[![Video](img/quanser.png)](https://www.youtube.com/watch?v=XUerP0Ex32E)
+![]()
+
+### SwingUp - starting near rest
 
 - Reset starts the pendulum from the bottom (at rest).
 - The task is to flip up the pendulum angle (alpha) from rest.
 - Episode ends once the motor angle (theta) is greater than 90 degrees.
 
-### Balance - starting near vertical (machine_teach_balance.ink)
+### Balance - starting near vertical
 
 - Reset starts the pendulum from the top (flipped up/inverted).
 - The task is to hold the pendulum angle (alpha) upright and center in between motor limits.
 - Episode ends once the pendulum angle (alpha) is greater than 12 degrees or motor angle (theta) is greater than 90 degrees.
+
+<img src="img/selector.png" alt="drawing" width="300"/>
 
 ## Action
 
@@ -53,10 +60,10 @@ Train brain for two different concepts, either swing up or balance
 - mp - Pendulum Link Mass [kg]
 - Dp - Pendulum Link equivalent viscous damping coefficient [N-m-s/rad]
 - frequency - Rate of of decision making and simulation dt [Hz]
-- theta - initial theta [rad]
-- alpha - initial alpha [rad]
-- theta_dot - initial theta_dot [rad / s]
-- alpha_dot - initial alpha_dot [rad / s]
+- initial_theta - initial theta [rad]
+- initial_alpha - initial alpha [rad]
+- initial_theta_dot - initial theta_dot [rad / s]
+- initial_alpha_dot - initial alpha_dot [rad / s]
 
 ## Simulator API - Python
 
@@ -70,24 +77,16 @@ Train brain for two different concepts, either swing up or balance
 2. Open Anaconda / miniconda command prompt
 3. Change directory to the parent directory
     ```cmd
-    conda env update -f environment.yml
-    conda activate bonsai-preview
     cd Python/samples/quanser-qube
     pip install -r requirements.txt
     ```
 
 ## Running the Simulator Locally
 
-Run the simulator locally without connecting to the platform to test the API.
+Run the simulator locally by the following command and setting environment variables for SIM_WORKSPACE and SIM_ACCESS_KEY.
 
 ```bash
-python main.py --test-local --render
-```
-
-Once you are satisfied, you can run the simulator again and connect to the Bonsai platform (note you can still use the `render` argument to visualize the simulator while training):
-
-```bash
-python main.py --config-setup
+python main.py
 ```
 
 and then attach to your brain:
@@ -97,8 +96,30 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c <concept_name> \
-    --simulator-name QuanserQube
+    --simulator-name QunaserQube
 ```
+
+Optionally, run the simulator locally with a visualization:
+
+```bash
+python main.py --render
+```
+
+## Evaluation
+
+The platform does not yet support assessment of programmed concepts, so export the brain and use it with the sim using main.py. Logs will be saved to `/logs` as csv format. The episode configuration(s) are pulled from the `assess_config.json` file.
+
+```sh
+export SIM_WORKSPACE=<your-workspace-id>
+export SIM_ACCESS_KEY=<your-access-key>
+az login
+az acr login -n <acr-name>
+docker pull <brain-uri>
+docker run -d -p 5000:<PORT> <brain-uri>
+python main.py --test-exported <port> --render
+```
+
+> An example: python main.py --test-exported 5005 --render --custom-assess assess_config.json
 
 ## Building Simulator Packages
 

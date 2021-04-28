@@ -1,0 +1,22 @@
+{
+    "version": "1.0.0",
+    "recipe": {},
+    "episodeConfigurations": [
+        {
+            "Lp": 0.129,
+            "mp": 0.024,
+            "Rm": 8.4,
+            "kt": 0.042,
+            "km": 0.042,
+            "mr": 0.095,
+            "Lr": 0.085,
+            "Dr": 0.00027,
+            "Dp": 0.00005,
+            "frequency": 250,
+            "initial_theta": 0,
+            "initial_alpha": 3.0915,
+            "initial_theta_dot": 0.01,
+            "initial_alpha_dot": 0.01
+        }
+    ]
+}

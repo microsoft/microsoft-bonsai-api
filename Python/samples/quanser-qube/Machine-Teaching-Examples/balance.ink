@@ -22,7 +22,7 @@ type ObservableState {
 }
 
 type BrainAction {
-    Vm: Number.Float32<-3 .. 3>
+    Vm: number<-3 .. 3>
 }
 
 # simulator configuration 
@@ -37,7 +37,7 @@ type SimConfig {
     Dr: number, # Equivalent viscous damping coefficient (N-m-s/rad)
     Dp: number, # Equivalent viscous damping coefficient (N-m-s/rad)
     frequency: number, # Hertz
-    inital_theta: number, # radians, motor angle
+    initial_theta: number, # radians, motor angle
     initial_alpha: number, # radians, pendulum angle. 0 : vertical, pi : down
     initial_theta_dot: number, # radians / s, motor angular velocity
     initial_alpha_dot: number, # radians / s, pendulum angular velocity
@@ -48,44 +48,11 @@ function DegreesToRadians (Degrees: number): number {
     return Degrees * Math.Pi / 180
 }
 
-function TerminalBalance (State: ObservableState) {
-    var terminal:Number.Bool
-    terminal = false
-    # Don't fall beyond region
-    if Math.Abs(State.alpha) > DegreesToRadians(alpha_balance_threshold) {
-        terminal = true
-    }
-
-    # Passed the rotation limit for rotation of the motor
-    if Math.Abs(State.theta) > DegreesToRadians(theta_rotation_threshold) {
-        terminal = true
-    }
-
-    return terminal
-}
-
-# Reward function that is evaluated after each iteration
-function RewardBalance (State: ObservableState) {
-    var r = 0
-    # Keep pendulum within valid range, considered balanced
-    if Math.Abs(State.alpha) < DegreesToRadians(alpha_balance_threshold) {
-        r = 1
-    }
-    else {
-        r = 0
-    }
-    return r
-}
-
 graph (input: ObservableState) {
     concept Balance(input): BrainAction {
         curriculum {
             source simulator (action: BrainAction, config: SimConfig): ObservableState {
             }
-
-            # Commented out because goal clause is used in place of reward/terminal
-            #terminal TerminalBalance
-            #reward RewardBalance
 
             training {
                 EpisodeIterationLimit: 640, # 8 sec
@@ -113,7 +80,7 @@ graph (input: ObservableState) {
                     Dr: 0.00027,
                     Dp: 0.00005,
                     frequency: 80,
-                    inital_theta: number<-1.4 .. 1.4>,
+                    initial_theta: number<-0.27 .. 0.27>,
                     initial_alpha: number<-0.05 .. 0.05>,  # reset inverted
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,

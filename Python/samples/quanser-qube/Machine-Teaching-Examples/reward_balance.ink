@@ -6,7 +6,6 @@
 inkling "2.0"
 using Number
 using Math
-using Goal
 
 # Constant threshold for desired region of pendulum, where 0 is vertical
 const alpha_balance_threshold = 12 
@@ -22,7 +21,7 @@ type ObservableState {
 }
 
 type BrainAction {
-    Vm: Number.Float32<-3 .. 3>
+    Vm: number<-3 .. 3>
 }
 
 # simulator configuration 
@@ -37,7 +36,7 @@ type SimConfig {
     Dr: number, # Equivalent viscous damping coefficient (N-m-s/rad)
     Dp: number, # Equivalent viscous damping coefficient (N-m-s/rad)
     frequency: number, # Hertz
-    inital_theta: number, # radians, motor angle
+    initial_theta: number, # radians, motor angle
     initial_alpha: number, # radians, pendulum angle. 0 : vertical, pi : down
     initial_theta_dot: number, # radians / s, motor angular velocity
     initial_alpha_dot: number, # radians / s, pendulum angular velocity
@@ -48,10 +47,14 @@ function DegreesToRadians (Degrees: number): number {
     return Degrees * Math.Pi / 180
 }
 
-function TerminalSwingUp (State: ObservableState) {
+function TerminalBalance (State: ObservableState) {
     var terminal:Number.Bool
     terminal = false
-    
+    # Don't fall beyond region
+    if Math.Abs(State.alpha) > DegreesToRadians(alpha_balance_threshold) {
+        terminal = true
+    }
+
     # Passed the rotation limit for rotation of the motor
     if Math.Abs(State.theta) > DegreesToRadians(theta_rotation_threshold) {
         terminal = true
@@ -61,38 +64,32 @@ function TerminalSwingUp (State: ObservableState) {
 }
 
 # Reward function that is evaluated after each iteration
-function RewardSwingUp (State: ObservableState) {
-    var r = 1 - ((0.8 * Math.Abs(State.alpha) + 0.2 * Math.Abs(0 - State.theta)) / Math.Pi)
-    var t = TerminalSwingUp(State)
-    if t == true {
-        return r - 100
+function RewardBalance (State: ObservableState) {
+    var r = 0
+    # Keep pendulum within valid range, considered balanced
+    if Math.Abs(State.alpha) < DegreesToRadians(alpha_balance_threshold) {
+        r = 1
     }
-    return r 
+    else {
+        r = 0
+    }
+    return r
 }
 
 graph (input: ObservableState) {
-    concept SwingUp(input): BrainAction {
+    concept Balance(input): BrainAction {
         curriculum {
             source simulator (action: BrainAction, config: SimConfig): ObservableState {
             }
-            
-            # Commented out because goal clause is used in place of reward/terminal
-            #terminal TerminalSwingUp
-            #reward RewardSwingUp
+
+            terminal TerminalBalance
+            reward RewardBalance
 
             training {
                 EpisodeIterationLimit: 640, # 8 sec
             }
 
-            # goal for swing up 
-            goal (State: ObservableState) {
-                reach Swing:
-                    Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
-                avoid `Hit Motor Limit`:
-                    Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
-            }
-
-            lesson `Start At Rest` {
+            lesson `Start Inverted` {
                 scenario {
                     Lp: 0.129,
                     mp: 0.024,
@@ -104,8 +101,8 @@ graph (input: ObservableState) {
                     Dr: 0.00027,
                     Dp: 0.00005,
                     frequency: 80,
-                    inital_theta: number<-1.4 .. 1.4>,
-                    initial_alpha: number<Math.Pi-0.05 .. Math.Pi+0.05>,  # reset at rest
+                    initial_theta: number<-0.27 .. 0.27>,
+                    initial_alpha: number<-0.05 .. 0.05>,  # reset inverted
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,
                 }

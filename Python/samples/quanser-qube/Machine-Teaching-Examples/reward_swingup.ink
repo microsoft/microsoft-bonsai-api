@@ -22,7 +22,7 @@ type ObservableState {
 }
 
 type BrainAction {
-    Vm: Number.Float32<-3 .. 3>
+    Vm: number<-3 .. 3>
 }
 
 # simulator configuration 
@@ -95,7 +95,7 @@ graph (input: ObservableState) {
                     Dr: 0.00027,
                     Dp: 0.00005,
                     frequency: 80,
-                    initial_theta: number<-1.4 .. 1.4>,
+                    initial_theta: number<-0.27 .. 0.27>,
                     initial_alpha: number<Math.Pi-0.05 .. Math.Pi+0.05>,  # reset at rest
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,

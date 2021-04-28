@@ -6,6 +6,7 @@
 inkling "2.0"
 using Number
 using Math
+using Goal
 
 # Constant threshold for desired region of pendulum, where 0 is vertical
 const alpha_balance_threshold = 12 
@@ -47,46 +48,24 @@ function DegreesToRadians (Degrees: number): number {
     return Degrees * Math.Pi / 180
 }
 
-function TerminalBalance (State: ObservableState) {
-    var terminal:Number.Bool
-    terminal = false
-    # Don't fall beyond region
-    if Math.Abs(State.alpha) > DegreesToRadians(alpha_balance_threshold) {
-        terminal = true
-    }
-
-    # Passed the rotation limit for rotation of the motor
-    if Math.Abs(State.theta) > DegreesToRadians(theta_rotation_threshold) {
-        terminal = true
-    }
-
-    return terminal
-}
-
-# Reward function that is evaluated after each iteration
-function RewardBalance (State: ObservableState) {
-    var r = 0
-    # Keep pendulum within valid range, considered balanced
-    if Math.Abs(State.alpha) < DegreesToRadians(alpha_balance_threshold) {
-        r = 1
-    }
-    else {
-        r = 0
-    }
-    return r
-}
-
 graph (input: ObservableState) {
     concept Balance(input): BrainAction {
         curriculum {
             source simulator (action: BrainAction, config: SimConfig): ObservableState {
             }
 
-            terminal TerminalBalance
-            reward RewardBalance
-
             training {
                 EpisodeIterationLimit: 640, # 8 sec
+            }
+
+            # goal for balancing
+            goal (State: ObservableState) {
+                avoid FallOver:
+                    Math.Abs(State.alpha) in Goal.RangeAbove(DegreesToRadians(alpha_balance_threshold))
+                avoid `Hit Motor Limit`:
+                    Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
+                minimize Center:
+                    Math.Abs(State.theta) in Goal.RangeBelow(DegreesToRadians(20))
             }
 
             lesson `Start Inverted` {

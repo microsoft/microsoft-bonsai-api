@@ -6,6 +6,7 @@
 inkling "2.0"
 using Number
 using Math
+using Goal
 
 # Constant threshold for desired region of pendulum, where 0 is vertical
 const alpha_balance_threshold = 12 
@@ -47,49 +48,25 @@ function DegreesToRadians (Degrees: number): number {
     return Degrees * Math.Pi / 180
 }
 
-function TerminalBalance (State: ObservableState) {
-    var terminal:Number.Bool
-    terminal = false
-    # Don't fall beyond region
-    if Math.Abs(State.alpha) > DegreesToRadians(alpha_balance_threshold) {
-        terminal = true
-    }
-
-    # Passed the rotation limit for rotation of the motor
-    if Math.Abs(State.theta) > DegreesToRadians(theta_rotation_threshold) {
-        terminal = true
-    }
-
-    return terminal
-}
-
-# Reward function that is evaluated after each iteration
-function RewardBalance (State: ObservableState) {
-    var r = 0
-    # Keep pendulum within valid range, considered balanced
-    if Math.Abs(State.alpha) < DegreesToRadians(alpha_balance_threshold) {
-        r = 1
-    }
-    else {
-        r = 0
-    }
-    return r
-}
-
 graph (input: ObservableState) {
-    concept Balance(input): BrainAction {
+    concept SwingUp(input): BrainAction {
         curriculum {
             source simulator (action: BrainAction, config: SimConfig): ObservableState {
             }
-
-            terminal TerminalBalance
-            reward RewardBalance
 
             training {
                 EpisodeIterationLimit: 640, # 8 sec
             }
 
-            lesson `Start Inverted` {
+            # goal for swing up 
+            goal (State: ObservableState) {
+                reach Swing:
+                    Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
+                avoid `Hit Motor Limit`:
+                    Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
+            }
+
+            lesson `Start At Rest` {
                 scenario {
                     Lp: 0.129,
                     mp: 0.024,
@@ -102,7 +79,7 @@ graph (input: ObservableState) {
                     Dp: 0.00005,
                     frequency: 80,
                     initial_theta: number<-0.27 .. 0.27>,
-                    initial_alpha: number<-0.05 .. 0.05>,  # reset inverted
+                    initial_alpha: number<Math.Pi-0.05 .. Math.Pi+0.05>,  # reset at rest
                     initial_theta_dot: number <-0.05 .. 0.05>,
                     initial_alpha_dot: number<-0.05 .. 0.05>,
                 }

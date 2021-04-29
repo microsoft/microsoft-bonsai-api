@@ -1,0 +1,114 @@
+{
+  "name": "cartpole",
+  "timeout": 60,
+  "description": {
+    "config": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "masspole",
+          "type": {
+            "category": "Number",
+            "comment": "Pole mass"
+          }
+        },
+        {
+          "name": "length",
+          "type": {
+            "category": "Number",
+            "comment": "Pole length"
+          }
+        },
+        {
+          "name": "noise",
+          "type": {
+            "category": "Number",
+            "comment": "Gaussian noise percentage to be added"
+          }
+        }
+      ]
+    },
+    "action": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "command",
+          "type": {
+            "category": "Number",
+            "namedValue": [
+              {
+                "name": "Left",
+                "value": -1
+              },
+              {
+                "name": "Right",
+                "value": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "state": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "x_position",
+          "type": {
+            "category": "Number",
+            "comment": "Position of cart in meters"
+          }
+        },
+        {
+          "name": "x_position_no_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Position of cart in meters. Clean from any introduced noise in config"
+          }
+        },
+        {
+          "name": "x_velocity",
+          "type": {
+            "category": "Number",
+            "comment": "Velocity of cart in x direction in meters/sec"
+          }
+        },
+        {
+          "name": "x_velocity_no_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Velocity of cart in x direction in meters/sec. Clean from any introduced noise in config"
+          }
+        },
+        {
+          "name": "angle_position",
+          "type": {
+            "category": "Number",
+            "comment": "Angle of pole in radians"
+          }
+        },
+        {
+          "name": "angle_position_no_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Angle of pole in radians. Clean from any introduced noise in config"
+          }
+        },
+        {
+          "name": "angle_velocity",
+          "type": {
+            "category": "Number",
+            "comment": "Angular velocity of pole in radians/sec"
+          }
+        },
+        {
+          "name": "angle_velocity_no_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Angular velocity of pole in radians/sec. Clean from any introduced noise in config"
+          }
+        }
+      ]
+    }
+  }
+}

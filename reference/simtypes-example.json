@@ -1,0 +1,107 @@
+// Simple number with default value
+{
+    "category": "number",
+    "defaultValue": 3.14159
+}
+
+// Number with range constraint and optional comment
+{
+    "category": "number",
+    "start": 3,
+    "stop": 5,
+    "step": 1,
+    "comment": "Value from one to five"
+}
+
+// Number with ordinal enumerated constraint
+{
+    "category": "number",
+    "values": [3, 4, 4.5, 7]
+}
+
+// Number with nominal enumerated constraint
+{
+    "category": "number",
+    "namedValues": [
+        {
+            "name": "Left",
+            "value": 0
+        }, {
+            "name": "Right",
+            "value": 1
+        }
+    ],
+    "defaultValue": 0
+}
+
+// Simple string
+{
+    "category": "string"
+}
+
+// String with ordinal enumerated constraint
+{
+    "category": "string",
+    "values": ["a", "b", "c"]
+}
+
+// String with nominal enumerated constraint
+{
+    "category": "string",
+    "namedValues": [
+        {
+            "name": "Left",
+            "value": "left"
+        }, {
+            "name": "Right",
+            "value": "right"
+        }
+    ]
+}
+
+// Array
+{
+    "category": "array",
+    "length": 3,
+    "type": {
+        "category": "number"
+    },
+    "defaultValue": [3, 4, 5]
+}
+
+// Struct
+{
+    "category": "struct",
+    "fields": [
+        {
+            "name": "a",
+            "type": {
+                "category": "number"
+            }
+        }, {
+            "name": "b",
+            "type": {
+                "category": "array",
+                "length": 2,
+                "type": {
+                    "category": "number"
+                }
+            }
+        }
+    ],
+    "defaultValue": {
+        "a": 3,
+        "b": [1, 2, 3]
+    }
+}
+
+// Special
+{
+    "category": "special",
+    "name": "Image.Gray",
+    "parameters": {
+        "width": 128,
+        "height": 128
+    }
+}
+

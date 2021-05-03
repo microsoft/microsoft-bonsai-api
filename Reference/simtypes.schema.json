@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Simulator Type Schema (SDK3)",
+  "definitions": {
+    "numberType": {
+      "$id": "#/typeDefinition/numberType",
+      "title": "Numeric type",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [ "Number" ]
+        },
+        "start": {
+          "type": "number"
+        },
+        "stop": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "namedValues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "defaultValue": {
+          "title": "Optional default value",
+          "type": "number"
+        },
+        "comment": {
+          "title": "Optional comment",
+          "type": "string"
+        }
+      },
+      "dependencies": {
+        "stop": [ "start" ],
+        "start": [ "stop" ],
+        "step": [ "start", "stop" ]
+      },
+      "required": [ "category" ]
+    },
+    "stringType": {
+      "$id": "#/typeDefinition/stringType",
+      "title": "String type",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [ "String" ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namedValues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "defaultValue": {
+          "title": "Optional default value",
+          "type": "string"
+        },
+        "comment": {
+          "title": "Optional comment",
+          "type": "string"
+        }
+      },
+      "required": [ "category" ]
+    },
+    "arrayType": {
+      "$id": "#/typeDefinition/arrayType",
+      "title": "Array type",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [ "Array" ]
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type": {
+          "$ref": "#/definitions/anyType"
+        },
+        "defaultValue": {
+          "title": "Optional default value",
+          "type": "array"
+        },
+        "comment": {
+          "title": "Optional comment",
+          "type": "string"
+        }
+      },
+      "required": [ "category", "length", "type" ]
+    },
+    "structType": {
+      "$id": "#/typeDefinition/structType",
+      "title": "Struct type",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [ "Struct" ]
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/definitions/anyType"
+              },
+              "comment": {
+                "title": "Optional comment",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "defaultValue": {
+          "title": "Optional default value",
+          "type": "object"
+        },
+        "comment": {
+          "title": "Optional comment",
+          "type": "string"
+        }
+      },
+      "required": [ "category", "fields" ]
+    },
+    "specialType": {
+      "$id": "#/typeDefinition/specialType",
+      "title": "Special type",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [ "Special" ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object"
+        }
+      },
+      "required": [ "category", "name" ]
+    },
+    "anyType": {
+      "$id": "#/typeDefinition/anyType",
+      "title": "Type definition",
+      "oneOf": [
+        { "$ref": "#/definitions/numberType" },
+        { "$ref": "#/definitions/stringType" },
+        { "$ref": "#/definitions/arrayType" },
+        { "$ref": "#/definitions/structType" },
+        { "$ref": "#/definitions/specialType" }
+      ]
+    }
+  },
+  "$ref": "#/definitions/anyType"
+}

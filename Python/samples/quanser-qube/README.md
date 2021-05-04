@@ -1,6 +1,6 @@
 # Quanser Qube - Servo2 with Project Bonsai
 
-For more information about the Qube click [here](https://www.quanser.com/products/qube-servo-2/)
+For more information about the Qube click see the [product page](https://www.quanser.com/products/qube-servo-2/). To learn more about this simulator, see this [whitepaper](https://arxiv.org/pdf/2001.02254.pdf).
 
 <img src="img/QUBE-Servo_2_angled_pendulum.jpg" alt="drawing" width="300"/>
 
@@ -8,7 +8,7 @@ For more information about the Qube click [here](https://www.quanser.com/product
 
 Train a multi-concept brain with a programmed selector. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. We wish to learn separate concepts here and strategically determine when to rely on the action from the correct strategy using what's called a selector.
 
-> Learned concepts, custom assessment are on the roadmap, but not available yet
+> ⚠️ Learned concepts, custom assessment are on the roadmap, but not available yet
 
 [![Video](img/quanser.png)](https://www.youtube.com/watch?v=XUerP0Ex32E)
 ![]()

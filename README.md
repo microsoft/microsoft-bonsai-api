@@ -22,6 +22,8 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/cartpole) - Classic CartPole simulator in Python. Balancing an inverted pendulum on a moving cart.
 
+[moab](https://github.com/microsoft/microsoft-bonsai-api/tree/moablogger/Python/samples/moab) - Teach an AI agent to balance a ball in the center of the Moab bot's plate.
+
 [house-energy](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/house-energy) - Control the temperature inside of a house according to the desired set temperatures just like a thermostat.
 
 [quanser-qube](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/quanser-qube) - Simulation of the real hardware, academic learning tool: Quanser Qube. Swing Up and Balancing an inverted pendulum with a rotary base.

@@ -1,0 +1,724 @@
+{
+  "name": "moab-py",
+  "timeout": 60,
+  "description": {
+    "config": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "initial_pitch",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_pitch}},
+            "start": -1,
+            "stop": 1,
+            "comment": "Initial plate pitch as a control input [-1..1]"
+          }
+        },
+        {
+          "name": "initial_roll",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_roll}},
+            "start": -1,
+            "stop": 1,
+            "comment": "Initial plate roll as a control input [-1..1]"
+          }
+        },
+        {
+          "name": "initial_height_z",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_height_z}},
+            "start": -1,
+            "stop": 1,
+            "comment": "Initial plate height as a control input [-1..1]"
+          }
+        },
+        {
+          "name": "time_delta",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{time_delta}},
+            "start": 0.1,
+            "stop": 0.0083333,
+            "comment": "Delay between simulation steps (s)"
+          }
+        },
+        {
+          "name": "jitter",
+          "type": {
+            "category": "Number",
+            "defaultValue": 0.0,
+            "start": 0.0,
+            "stop": 1.0,
+            "comment": "Step time jitter magnitude (s)"
+          }
+        },
+        {
+          "name": "gravity",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{gravity}},
+            "comment": "Absolute gravity value (m/s**2)"
+          }
+        },
+        {
+          "name": "plate_theta_vel_limit",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{plate_theta_vel_limit}},
+            "comment": "Max plate angular velocity (rad/s)"
+          }
+        },
+        {
+          "name": "plate_theta_acc",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{plate_theta_acc}},
+            "comment": "Plate angular acceleration (rad/s**2)"
+          }
+        },
+        {
+          "name": "plate_theta_limit",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{plate_theta_limit}},
+            "comment": "Angular rotation limit for plate, [-limit..limit] (rad)"
+          }
+        },
+        {
+          "name": "plate_z_limit",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{plate_z_limit}},
+            "comment": "Plate Z-translation limit (m)"
+          }
+        },
+        {
+          "name": "ball_mass",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{ball_mass}},
+            "comment": "Ball mass (kg)"
+          }
+        },
+        {
+          "name": "ball_radius",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{ball_radius}},
+            "comment": "Ball radius (m)"
+          }
+        },
+        {
+          "name": "ball_shell",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{ball_shell}},
+            "comment": "Ball shell thickness (m)"
+          }
+        },
+        {
+          "name": "obstacle_radius",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{obstacle_radius}},
+            "comment": "Obstacle radius (m). If zero, obstacle is disabled"
+          }
+        },
+        {
+          "name": "obstacle_x",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{obstacle_x}},
+            "comment": "Obstacle X position (m)"
+          }
+        },
+        {
+          "name": "obstacle_y",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{obstacle_y}},
+            "comment": "Obstacle Y position (m)"
+          }
+        },
+        {
+          "name": "target_x",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{target_x}},
+            "comment": "X position AI should move ball towards (m)"
+          }
+        },
+        {
+          "name": "target_y",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{target_y}},
+            "comment": "Y position AI should move ball towards (m)"
+          }
+        },
+        {
+          "name": "initial_x",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_x}},
+            "comment": "Initial ball X position (m)"
+          }
+        },
+        {
+          "name": "initial_y",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_y}},
+            "comment": "Initial ball Y position (m)"
+          }
+        },
+        {
+          "name": "initial_z",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_z}},
+            "comment": "Initial ball Z position (m)"
+          }
+        },
+        {
+          "name": "initial_vel_x",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_vel_x}},
+            "comment": "Initial ball X velocity (m/s)"
+          }
+        },
+        {
+          "name": "initial_vel_y",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_vel_y}},
+            "comment": "Initial ball Y velocity (m/s)"
+          }
+        },
+        {
+          "name": "initial_vel_z",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_vel_z}},
+            "comment": "Initial ball Z velocity (m/s)"
+          }
+        },
+        {
+          "name": "initial_speed",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_speed}},
+            "comment": "Initial ball speed. Must set initial_direction if used or speed will be 0.0. (m/s)"
+          }
+        },
+        {
+          "name": "initial_direction",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{initial_direction}},
+            "comment": "Initial ball direction, offset from vector towards target (rad)"
+          }
+        },
+        {
+          "name": "ball_noise",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{ball_noise}},
+            "comment": "Magnitude of gaussian noise added to ball position in range [-noise, noise] (m)"
+          }
+        },
+        {
+          "name": "plate_noise",
+          "type": {
+            "category": "Number",
+            "defaultValue": {{plate_noise}},
+            "comment": "Magnitude of gaussian noise added to plate angle  in range [-noise, noise] (rad)"
+          }
+        }
+      ]
+    },
+    "action": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "input_roll",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Commanded roll position"
+          }
+        },
+        {
+          "name": "input_pitch",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Commanded pitch control position"
+          }
+        },
+        {
+          "name": "input_height_z",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Starting Z plate height control value"
+          }
+        }
+      ]
+    },
+    "state": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "roll",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Current roll control [-1..1]"
+          }
+        },
+        {
+          "name": "pitch",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Current pitch control [-1..1]"
+          }
+        },
+        {
+          "name": "height_z",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "Current Z plate height control [-1..1]"
+          }
+        },
+        {
+          "name": "elapsed_time",
+          "type": {
+            "category": "Number",
+            "comment": "Time since episode start (s)"
+          }
+        },
+        {
+          "name": "time_delta",
+          "type": {
+            "category": "Number",
+            "comment": "Current time delta (s)"
+          }
+        },
+        {
+          "name": "jitter",
+          "type": {
+            "category": "Number",
+            "comment": "Current time jitter magnitude (s)"
+          }
+        },
+        {
+          "name": "step_time",
+          "type": {
+            "category": "Number",
+            "comment": "Actual simulation step time (s). Is time_delta + noise[-jitter, jitter]"
+          }
+        },
+        {
+          "name": "gravity",
+          "type": {
+            "category": "Number",
+            "comment": "Current gravity (m/s**2)"
+          }
+        },
+        {
+          "name": "plate_radius",
+          "type": {
+            "category": "Number",
+            "comment": "Radius of plate (m)"
+          }
+        },
+        {
+          "name": "plate_theta_vel_limit",
+          "type": {
+            "category": "Number",
+            "comment": "Current max angular velocity (rad/s)"
+          }
+        },
+        {
+          "name": "plate_theta_acc",
+          "type": {
+            "category": "Number",
+            "comment": "Current angular acceleration (rad/s**2)"
+          }
+        },
+        {
+          "name": "plate_theta_limit",
+          "type": {
+            "category": "Number",
+            "comment": "Current angular rotation limit [-limit..limit] (rad)"
+          }
+        },
+        {
+          "name": "plate_z_limit",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate z limits [-limit..limit] (m)"
+          }
+        },
+        {
+          "name": "ball_mass",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball mass (kg)"
+          }
+        },
+        {
+          "name": "ball_radius",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball radius (m)"
+          }
+        },
+        {
+          "name": "ball_shell",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball thickness (m)"
+          }
+        },
+        {
+          "name": "obstacle_radius",
+          "type": {
+            "category": "Number",
+            "comment": "Obstacle radius (m). If zero, obstacle is disabled"
+          }
+        },
+        {
+          "name": "obstacle_x",
+          "type": {
+            "category": "Number",
+            "comment": "Obstacle X position (m)"
+          }
+        },
+        {
+          "name": "obstacle_y",
+          "type": {
+            "category": "Number",
+            "comment": "Obstacle Y position (m)"
+          }
+        },
+        {
+          "name": "target_x",
+          "type": {
+            "category": "Number",
+            "start": -{{plate_radius}},
+            "stop": {{plate_radius}},
+            "comment": "Current target X position (m)"
+          }
+        },
+        {
+          "name": "target_y",
+          "type": {
+            "category": "Number",
+            "start": -{{plate_radius}},
+            "stop": {{plate_radius}},
+            "comment": "Current target Y position (m)"
+          }
+        },
+        {
+          "name": "plate_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate X position (m)"
+          }
+        },
+        {
+          "name": "plate_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Y position (m)"
+          }
+        },
+        {
+          "name": "plate_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Z position (m)"
+          }
+        },
+        {
+          "name": "plate_nor_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate X normal (unitless)"
+          }
+        },
+        {
+          "name": "plate_nor_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Y normal (unitless)"
+          }
+        },
+        {
+          "name": "plate_nor_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Z normal (unitless)"
+          }
+        },
+        {
+          "name": "plate_theta_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate X theta angle (rad)"
+          }
+        },
+        {
+          "name": "plate_theta_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Y theta angle (rad)"
+          }
+        },
+        {
+          "name": "plate_theta_vel_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate X theta velocity (rad/s)"
+          }
+        },
+        {
+          "name": "plate_theta_vel_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Y theta velocity (rad/s)"
+          }
+        },
+        {
+          "name": "plate_vel_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate Z velocity (m/s)"
+          }
+        },
+        {
+          "name": "ball_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball X position ground truth (m)"
+          }
+        },
+        {
+          "name": "ball_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball Y position ground truth (m)"
+          }
+        },
+        {
+          "name": "ball_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball Z position ground truth (m)"
+          }
+        },
+        {
+          "name": "ball_on_plate_x",
+          "type": {
+            "category": "Number",
+            "comment": "Ball X position in plate origin coordinates (m)"
+          }
+        },
+        {
+          "name": "ball_on_plate_y",
+          "type": {
+            "category": "Number",
+            "comment": "Ball Y position in plate origin coordinates (m)"
+          }
+        },
+        {
+          "name": "ball_vel_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball X velocity ground truth (m/s)"
+          }
+        },
+        {
+          "name": "ball_vel_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball Y velocity ground truth (m/s)"
+          }
+        },
+        {
+          "name": "ball_vel_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball Z velocity ground truth (m/s)"
+          }
+        },
+        {
+          "name": "ball_qat_x",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball rotation quaternion X component"
+          }
+        },
+        {
+          "name": "ball_qat_y",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball rotation quaternion Y component"
+          }
+        },
+        {
+          "name": "ball_qat_z",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball rotation quaternion Z component"
+          }
+        },
+        {
+          "name": "ball_qat_w",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball rotation quaternion W component"
+          }
+        },
+        {
+          "name": "obstacle_distance",
+          "type": {
+            "category": "Number",
+            "comment": "Scalar distance between ball and obstacle (m)"
+          }
+        },
+        {
+          "name": "obstacle_direction",
+          "type": {
+            "category": "Number",
+            "comment": "Direction to obstacle (rad)"
+          }
+        },
+        {
+          "name": "estimated_x",
+          "type": {
+            "category": "Number",
+            "start": -{{plate_radius}},
+            "stop": {{plate_radius}},
+            "comment": "Estimated ball X position, with ball noise applied (m)"
+          }
+        },
+        {
+          "name": "estimated_y",
+          "type": {
+            "category": "Number",
+            "start": -{{plate_radius}},
+            "stop": {{plate_radius}},
+            "comment": "Estimated ball Y position, with ball noise applied (m)"
+          }
+        },
+        {
+          "name": "estimated_radius",
+          "type": {
+            "category": "Number",
+            "start": -{{plate_radius}},
+            "stop": {{plate_radius}},
+            "comment": "Estimated ball radius, with ball noise applied (m)"
+          }
+        },
+        {
+          "name": "estimated_vel_x",
+          "type": {
+            "category": "Number",
+            "start": -1.0,
+            "stop": 1.0,
+            "comment": "Estimated ball X velocity, with ball noise applied (m)"
+          }
+        },
+        {
+          "name": "estimated_vel_y",
+          "type": {
+            "category": "Number",
+            "start": -1.0,
+            "stop": 1.0,
+            "comment": "Estimated ball Y velocity, with ball noise applied (m)"
+          }
+        },
+        {
+          "name": "estimated_speed",
+          "type": {
+            "category": "Number",
+            "start": -1.0,
+            "stop": 1.0,
+            "comment": "Current estimated ball speed towards target (m/s)"
+          }
+        },
+        {
+          "name": "estimated_direction",
+          "type": {
+            "category": "Number",
+            "start": -4,
+            "stop": 4,
+            "comment": "Current estimated ball heading towards target in X,Y plane (rad)"
+          }
+        },
+        {
+          "name": "estimated_distance",
+          "type": {
+            "category": "Number",
+            "start": 0,
+            "stop": 1.0,
+            "comment": "Current distance between ball and target in X,Y plane (m)"
+          }
+        },
+        {
+          "name": "ball_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Current ball noise magnitude (m)"
+          }
+        },
+        {
+          "name": "plate_noise",
+          "type": {
+            "category": "Number",
+            "comment": "Current plate angle noise magnitude (rad)"
+          }
+        },
+        {
+          "name": "ball_fell_off",
+          "type": {
+            "category": "Number",
+            "namedValues": [
+              {
+                "name": "False",
+                "value": 0
+              },
+              {
+                "name": "True",
+                "value": 1
+              }
+            ],
+            "comment": "Ball has fallen off the plate and is unreachable [0,1]"
+          }
+        },
+        {
+          "name": "iteration_count",
+          "type": {
+            "category": "Number",
+            "comment": "Current iteration count in this episode"
+          }
+        }
+      ]
+    }
+  }
+}

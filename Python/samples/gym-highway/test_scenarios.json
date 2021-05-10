@@ -6,6 +6,16 @@
             "controlled_vehicles": 1,
             "ego_spacing": 2,
             "vehicles_count": 15
+        },
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 25
+        },
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 50
         }
     ]
 }

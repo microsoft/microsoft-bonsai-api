@@ -74,6 +74,7 @@ class TemplateSimulatorSession:
         obs_type: str, optional
             the type of observations received from simulator. See allowable values: https://highway-env.readthedocs.io/en/latest/observations/index.html
         """
+
         self.simulator = gym.make(env_name)
         self.env_name = env_name
         self.render = render
@@ -225,12 +226,27 @@ def test_policy(
     policy_name: str = "random",
     scenario_file: str = "test_scenarios.json",
 ):
-    """Test a policy using random actions over a fixed number of episodes
+    """Test a policy using random actions or a trained brain over a fixed number of episodes
 
     Parameters
     ----------
     render : bool, optional
-        Flag to turn visualization on
+        [description], by default False
+    num_iterations : int, optional
+        [description], by default 640
+    log_iterations : bool, optional
+        [description], by default False
+    policy : [type], optional
+        [description], by default random_policy
+    policy_name : str, optional
+        [description], by default "random"
+    scenario_file : str, optional
+        list of episode initializations used in assessment, by default "test_scenarios.json"
+
+    Returns
+    -------
+    [type]
+        [description]
     """
 
     # Use custom assessment scenario configs

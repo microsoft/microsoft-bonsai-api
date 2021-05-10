@@ -118,7 +118,16 @@ class TemplateSimulatorSession:
         config : Dict[str, Any] or None
             paramters for initializing the simulator. See [docs](https://highway-env.readthedocs.io/en/latest/quickstart.html) for allowable parameters
         """
+
         self.config = config
+        # reset the environment if the env_name is in the SimConfig
+        if "env_name" in config.keys():
+            self.simulator = gym.make(config["env_name"])
+            self.state = self.simulator.reset().tolist()
+            self.reward = 0
+            self.terminal = False
+            self.env_name = config["env_name"]
+
         if config:
             for param, value in config.items():
                 self.simulator.config[param] = int(value)

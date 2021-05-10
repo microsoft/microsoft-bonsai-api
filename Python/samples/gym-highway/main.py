@@ -56,7 +56,7 @@ class TemplateSimulatorSession:
         render: bool = False,
         log_data: bool = False,
         log_file_name: str = None,
-        env_name: str = "intersection-v0",
+        env_name: str = "highway-v0",
         obs_type: str = "Kinematics",
     ):
         """Template Simulator Session for Highway environments. See API docs for more information: https://highway-env.readthedocs.io/en/latest/index.html
@@ -98,7 +98,7 @@ class TemplateSimulatorSession:
         Dict[str, Any]
             Get states from current simulator environment
         """
-        return {
+        state = {
             "vehicle1": self.state[0],
             "vehicle2": self.state[1],
             "vehicle3": self.state[2],
@@ -107,6 +107,8 @@ class TemplateSimulatorSession:
             "gym_reward": float(self.reward),
             "gym_terminal": bool(self.terminal),
         }
+
+        return state
 
     def episode_start(self, config: Union[Dict[str, Any], None] = None):
         """Initialize a new episode of the simulator with configuration parameters.
@@ -124,7 +126,10 @@ class TemplateSimulatorSession:
         # use OccupancyGrid as default observation view, see allowable values: https://highway-env.readthedocs.io/en/latest/observations/index.html
         # BUG: doesn't appear to work with OccupancyGrid if grid_step not provided: error msg unsupported operand type(s) for /: 'float' and 'NoneType'
         # caused by grid shape / grid_step (grid_step is None)
-        self.simulator.config["observation"] = {"type": self.obs_type}
+        self.simulator.config["observation"] = {
+            "type": self.obs_type,
+            "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],
+        }
 
         self.state = self.simulator.reset().tolist()
         self.reward = 0

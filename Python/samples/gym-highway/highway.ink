@@ -2,21 +2,21 @@ inkling "2.0"
 using Number
 
 type SimState{
-    vehicle1: number[5],
-    vehicle2: number[5],
-    vehicle3: number[5],
-    vehicle4: number[5],
-    vehicle5: number[5],
+    vehicle1: number[7],
+    vehicle2: number[7],
+    vehicle3: number[7],
+    vehicle4: number[7],
+    vehicle5: number[7],
     gym_reward: number,
     gym_terminal: Number.Bool
 }
 
 type GameState {
-    vehicle1: number[5],
-    vehicle2: number[5],
-    vehicle3: number[5],
-    vehicle4: number[5],
-    vehicle5: number[5],
+    vehicle1: number[7],
+    vehicle2: number[7],
+    vehicle3: number[7],
+    vehicle4: number[7],
+    vehicle5: number[7],
 }
 
 function Reward(State: SimState) {

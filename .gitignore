@@ -3,4 +3,8 @@
 **/bin/*
 **/obj/*
 **/.vs
-.vscode/*
+.vscode/
+*.code-workspace
+*.env
+logs/
+log/

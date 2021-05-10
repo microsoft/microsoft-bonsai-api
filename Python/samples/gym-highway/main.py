@@ -560,7 +560,6 @@ if __name__ == "__main__":
 
     args, _ = parser.parse_known_args()
 
-    scenario_file = "assess_config.json"
     if args.custom_assess:
         scenario_file = args.custom_assess
 
@@ -579,7 +578,6 @@ if __name__ == "__main__":
             policy=trained_brain_policy,
             policy_name="exported",
             num_iterations=args.iteration_limit,
-            scenario_file=scenario_file,
         )
     else:
         main(

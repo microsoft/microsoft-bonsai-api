@@ -76,6 +76,9 @@ class TemplateSimulatorSession:
         """
 
         self.simulator = gym.make(env_name)
+        self.state = self.simulator.reset().tolist()
+        self.reward = 0
+        self.terminal = False
         self.env_name = env_name
         self.render = render
         self.log_data = log_data
@@ -96,14 +99,13 @@ class TemplateSimulatorSession:
             Get states from current simulator environment
         """
         return {
-            ## Add simulator state as dictionary
             "vehicle1": self.state[0],
             "vehicle2": self.state[1],
             "vehicle3": self.state[2],
             "vehicle4": self.state[3],
             "vehicle5": self.state[4],
-            "gym_reward": self.reward,
-            "gym_terminal": self.terminal,
+            "gym_reward": float(self.reward),
+            "gym_terminal": bool(self.terminal),
         }
 
     def episode_start(self, config: Union[Dict[str, Any], None] = None):

@@ -1,0 +1,11 @@
+{
+    "version": "1.0.0",
+    "recipe": {},
+    "episodeConfigurations": [
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 15
+        }
+    ]
+}

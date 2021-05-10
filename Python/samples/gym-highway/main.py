@@ -56,7 +56,7 @@ class TemplateSimulatorSession:
         render: bool = False,
         log_data: bool = False,
         log_file_name: str = None,
-        env_name: str = "highway-v0",
+        env_name: str = "intersection-v0",
         obs_type: str = "Kinematics",
     ):
         """Template Simulator Session for Highway environments. See API docs for more information: https://highway-env.readthedocs.io/en/latest/index.html
@@ -119,7 +119,7 @@ class TemplateSimulatorSession:
         self.config = config
         if config:
             for param, value in config.items():
-                self.simulator.config[param] = value
+                self.simulator.config[param] = int(value)
 
         # use OccupancyGrid as default observation view, see allowable values: https://highway-env.readthedocs.io/en/latest/observations/index.html
         # BUG: doesn't appear to work with OccupancyGrid if grid_step not provided: error msg unsupported operand type(s) for /: 'float' and 'NoneType'

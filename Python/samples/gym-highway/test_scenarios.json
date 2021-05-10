@@ -5,17 +5,20 @@
         {
             "controlled_vehicles": 1,
             "ego_spacing": 2,
-            "vehicles_count": 15
+            "vehicles_count": 15,
+            "lanes_count": 2
         },
         {
             "controlled_vehicles": 1,
             "ego_spacing": 2,
-            "vehicles_count": 25
+            "vehicles_count": 25,
+            "lanes_count": 3
         },
         {
             "controlled_vehicles": 1,
             "ego_spacing": 2,
-            "vehicles_count": 50
+            "vehicles_count": 50,
+            "lanes_count": 4
         }
     ]
 }

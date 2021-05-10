@@ -58,13 +58,13 @@ graph (input: GameState): CarSteer {
             lesson MoreLanes {
                 scenario {
                     vehicles_count: 15,
-                    lanes_count: number<2..4>
+                    lanes_count: number<2..4 step 1>
                 }
             }
             lesson MoreCars {
                 scenario {
-                    vehicles_count: number<15..40>,
-                    lanes_count: number<2..4>
+                    vehicles_count: number<15..40 step 1>,
+                    lanes_count: number<2..4 step 1>
                 }
             }
         }

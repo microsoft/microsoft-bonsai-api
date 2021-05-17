@@ -50,18 +50,6 @@ graph (input: GameState) {
             reward Reward
             terminal Terminal
 
-            lesson `Four Lanes` {
-                scenario {
-                    vehicles_count: 50,
-                    lanes_count: 4
-                }
-            }
-            lesson `More Lanes` {
-                scenario {
-                    vehicles_count: 50,
-                    lanes_count: number<4..22 step 1>
-                }
-            }
             lesson `More Cars` {
                 scenario {
                     vehicles_count: number<50..100 step 1>,

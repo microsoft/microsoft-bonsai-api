@@ -137,7 +137,7 @@ class TemplateSimulatorSession:
         # caused by grid shape / grid_step (grid_step is None)
         self.simulator.config["observation"] = {
             "type": self.obs_type,
-            "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],
+            "features": ["x", "y", "vx", "vy", "cos_h", "sin_h"],
         }
 
         self.state = self.simulator.reset().tolist()

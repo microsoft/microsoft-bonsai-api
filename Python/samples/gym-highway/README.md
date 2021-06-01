@@ -1,26 +1,42 @@
-# Gym Highway Multi-Lesson
+# Gym Highway Env using Arrays in State
 
 ## Objective
 
-Demonstrate how curriculum learning with multiple lessons can benefit as a Machine Teaching strategy. An agent must drive on a high way with multiple lanes, trying to reach a high speed without collisions with other vehicles. Increasing the number of lanes and cars makes the problem more difficult.
+An agent must drive on a high way with multiple lanes, trying to reach a high speed without collisions with other vehicles. Increasing the number of lanes and cars makes the problem more difficult. This sample demonstrates usage of fixed length arrays in the Inkling state type definition.
 
 ![](https://raw.githubusercontent.com/eleurent/highway-env/gh-media/docs/media/highway.gif)
+
+
+### Acknowledgments
+
+[highway-env docs](https://highway-env.readthedocs.io/en/latest/index.html)
+
+```dotnetcli
+@misc{highway-env,
+  author = {Leurent, Edouard},
+  title = {An Environment for Autonomous Driving Decision-Making},
+  year = {2018},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/eleurent/highway-env}},
+}
+```
 
 ## Action
 
 | Action | Discrete |  Description  |
 | ------ | ---------------- | ------- |
-| steer     | [0, 1, 2, 3, 4]    |  0: 'LANE_LEFT', 1: 'IDLE', 2: 'LANE_RIGHT '3: 'FASTER', 4: 'SLOWER' |
+| steer     | 0, 1, 2, 3, 4    |  0: 'LANE_LEFT', 1: 'IDLE', 2: 'LANE_RIGHT '3: 'FASTER', 4: 'SLOWER' |
 
 ## States
 
 | State     | Type     | Description                                             |
 | --------- | --------- | ------------------------------------------------------- |
-| vehicle1     | array[6]     | ["x", "y", "vx", "vy", "cos_h", "cos_y"] for ego vehicle     |
-| vehicle2     | array[6]     | ["x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
-| vehicle3     | array[6]     | ["x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
-| vehicle4     | array[6]     | ["x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
-| vehicle5     | array[6]     | ["x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
+| vehicle1     | array[7]     | ["presence", "x", "y", "vx", "vy", "cos_h", "cos_y"] for ego vehicle     |
+| vehicle2     | array[7]     | ["presence", "x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
+| vehicle3     | array[7]     | ["presence", "x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
+| vehicle4     | array[7]     | ["presence", "x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
+| vehicle5     | array[7]     | ["presence", "x", "y", "vx", "vy", "cos_h", "cos_y"] for nearest vehicle     |
 
 ## Terminal Conditions
 

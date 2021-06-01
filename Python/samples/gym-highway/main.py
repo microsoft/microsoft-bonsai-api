@@ -104,9 +104,11 @@ class TemplateSimulatorSession:
             "vehicle3": self.state[2],
             "vehicle4": self.state[3],
             "vehicle5": self.state[4],
+            "collision": int(self.simulator.vehicle.crashed),
             "gym_reward": float(self.reward),
             "gym_terminal": bool(self.terminal),
         }
+        print(state)
 
         return state
 
@@ -137,7 +139,7 @@ class TemplateSimulatorSession:
         # caused by grid shape / grid_step (grid_step is None)
         self.simulator.config["observation"] = {
             "type": self.obs_type,
-            "features": ["x", "y", "vx", "vy", "cos_h", "sin_h"],
+            "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],
         }
 
         self.state = self.simulator.reset().tolist()
@@ -184,11 +186,18 @@ class TemplateSimulatorSession:
 
         def add_prefixes(d, prefix: str):
             return {f"{prefix}_{k}": v for k, v in d.items()}
+        
+        # Custom way to turn lists into strings for logging
+        log_state = state.copy()
+        
+        for key, value in log_state.items():
+            if type(value) == list:
+                log_state[key] = str(log_state[key])
 
-        state = add_prefixes(state, "state")
+        log_state = add_prefixes(log_state, "state")
         action = add_prefixes(action, "action")
         config = add_prefixes(self.config, "config")
-        data = {**state, **action, **config}
+        data = {**log_state, **action, **config}
         data["episode"] = episode
         data["iteration"] = iteration
         log_df = pd.DataFrame(data, index=[0])

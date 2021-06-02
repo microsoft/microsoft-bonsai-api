@@ -44,9 +44,14 @@ function Reward(State: SimState) {
     var b = 1
     var v_min = 20 # m/s
     var v_max = 30 # m/s
+
+    # Take the 3rd element of the ego vehicle's kinematics observation array
     var v = State.vehicle1[3]
 
-    return a * ((v - v_min) / (v_max - v_min)) - b * State.collision
+    var r = a * ((v - v_min) / (v_max - v_min)) - b * State.collision
+
+    # Normalize between 0 and 1 for max/min reward possible
+    return (r - -1) / (0.4 - -1)
 }
 
 # Use provided simulator's terminal condition for collisions
@@ -70,7 +75,8 @@ type HighwayConfig {
     controlled_vehicles: number,
     ego_spacing: number,
     vehicles_count: number,
-    lanes_count: number
+    lanes_count: number,
+    normalize: number,
 }
 
 # Specify the simulator
@@ -88,7 +94,8 @@ graph (input: GameState) {
             lesson `Vary Highway Scenario` {
                 scenario {
                     vehicles_count: number<25..50 step 1>,
-                    lanes_count: number<4..6 step 1>
+                    lanes_count: number<4..6 step 1>,
+                    normalize: false,
                 }
             }
         }

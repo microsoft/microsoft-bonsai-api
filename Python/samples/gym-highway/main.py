@@ -108,7 +108,6 @@ class TemplateSimulatorSession:
             "gym_reward": float(self.reward),
             "gym_terminal": bool(self.terminal),
         }
-        print(state)
 
         return state
 

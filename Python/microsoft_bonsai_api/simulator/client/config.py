@@ -6,10 +6,11 @@ __copyright__ = "Copyright 2020, Microsoft Corp."
 # pyright: strict
 
 from argparse import ArgumentParser, SUPPRESS
-import logging
+import json
 import os
 import sys
 from typing import List, Optional
+import uuid
 
 
 # CLI help strings
@@ -57,14 +58,17 @@ class BonsaiClientConfig:
         self.simulator_context = os.getenv("SIM_CONTEXT", "")
         self.enable_logging = enable_logging
 
-        if enable_logging:
-            logging.basicConfig()
-            logger = logging.getLogger("azure")
-            logger.setLevel(logging.DEBUG)
-
         # parse the args last
         if argv:
             self.argparse(argv)
+
+        # Finally, if this is an unmanaged simulator, then give it a clientId.
+        # Here's why: If this simulator is given a Purpose via the BonsaiCLI,
+        # then, if/when it re-registers, SimulatorGateway will restore this
+        # simulator's Purpose.
+        if not self.simulator_context:
+            client_id = uuid.uuid4().hex
+            self.simulator_context = json.dumps({"simulatorClientId": client_id})
 
     def argparse(self, argv: List[str]):
         """ parser command line arguments """

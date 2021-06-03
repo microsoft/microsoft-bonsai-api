@@ -1,0 +1,24 @@
+{
+    "version": "1.0.0",
+    "recipe": {},
+    "episodeConfigurations": [
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 25,
+            "lanes_count": 4
+        },
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 50,
+            "lanes_count": 5
+        },
+        {
+            "controlled_vehicles": 1,
+            "ego_spacing": 2,
+            "vehicles_count": 50,
+            "lanes_count": 6
+        }
+    ]
+}

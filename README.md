@@ -30,6 +30,8 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [highway-env](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/gym-highway) - Make decisions to speed up, slow down, change lanes, etc with a multi-lane highway. This sample uses arrays in Inkling for states and demonstrates usage of using an element of the array in the reward.
 
+[moabsim-py](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/moabsim-py) - Simulator for balancing a ball on a plate, based on hardware. Tutorial 2 is meant for deployment. Additional Inkling samples can be found in `/Machine-Teaching-Examples`.
+
 ### C#
 
 [cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/CSharp/samples/Microsoft.Bonsai.Api.Samples.Cartpole) - Classic CartPole simulator in C#. Balancing an inverted pendulum on a moving cart.

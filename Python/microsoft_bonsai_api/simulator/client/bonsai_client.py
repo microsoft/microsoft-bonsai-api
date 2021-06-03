@@ -1,5 +1,6 @@
 from microsoft_bonsai_api.simulator.generated import SimulatorAPI
 from .config import BonsaiClientConfig, validate_config
+import logging
 
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClient(SimulatorAPI):
@@ -9,6 +10,22 @@ class BonsaiClient(SimulatorAPI):
             "Content-Type": "application/json",
             "Authorization": config.access_key,
         }
+
+        logging.basicConfig()
+        logger = logging.getLogger("azure")
+
+        if config.enable_logging:
+            logger.setLevel(logging.DEBUG)
+        else:
+            # by default enable logs for Warning and above levels.
+            logger.setLevel(logging.WARNING)
+
+        # Add retry methods. This is used by Default RetryPolicy of azure.core
+        # https://github.com/Azure/azure-sdk-for-python/blob/master/sdk/core/azure-core/azure/core/pipeline/policies/_retry.py
+        kwargs.setdefault(
+            "retry_on_methods",
+            set(["HEAD", "GET", "PUT", "POST", "DELETE", "OPTIONS", "TRACE"]),
+        )
 
         super(BonsaiClient, self).__init__(
             base_url=config.server,

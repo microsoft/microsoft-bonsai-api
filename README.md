@@ -28,6 +28,8 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [house-energy](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/house-energy) - Simulator for controlling the temperature inside of a house to a desired temperatures, just like a thermostat.
 
+[highway-env](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Python/samples/gym-highway) - Make decisions to speed up, slow down, change lanes, etc with a multi-lane highway. This sample uses arrays in Inkling for states and demonstrates usage of using an element of the array in the reward.
+
 ### C#
 
 [cartpole](https://github.com/microsoft/microsoft-bonsai-api/tree/main/CSharp/samples/Microsoft.Bonsai.Api.Samples.Cartpole) - Classic CartPole simulator in C#. Balancing an inverted pendulum on a moving cart.

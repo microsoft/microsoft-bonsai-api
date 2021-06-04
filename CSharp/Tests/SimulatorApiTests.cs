@@ -25,7 +25,7 @@ namespace BonsaiSDK.Tests
         [Fact]
         public void TestSessionCreateGetAndDelete()
         {
-            SimulatorInterface createBody = new SimulatorInterface(name: "sim");
+            SimulatorInterface createBody = new SimulatorInterface(name: "sim", simulatorContext: this.config.SimulatorContext);
 
             SimulatorSessionResponse createResponse = this.client.Session.CreateAsync(config.Workspace, createBody).Result;
             Assert.NotNull(createResponse);
@@ -41,7 +41,7 @@ namespace BonsaiSDK.Tests
         [Fact]
         public void TestSessionAdvance()
         {
-            SimulatorInterface createBody = new SimulatorInterface(name: "sim");
+            SimulatorInterface createBody = new SimulatorInterface(name: "sim", simulatorContext: this.config.SimulatorContext);
 
             SimulatorSessionResponse createResponse = this.client.Session.CreateAsync(config.Workspace, createBody).Result;
             Assert.NotNull(createResponse);

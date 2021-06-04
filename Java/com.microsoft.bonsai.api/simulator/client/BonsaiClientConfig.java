@@ -1,5 +1,7 @@
 package com.microsoft.bonsai.simulatorapi.client;
 
+import java.util.UUID;
+
 /**
  * Manages configuration for connecting to the Bonsai platform
  */
@@ -59,8 +61,17 @@ public class BonsaiClientConfig {
         if(this.accessKey.isBlank())
             throw new IllegalArgumentException("Must pass an accessKey value ");
         
-        if (System.getenv(SIM_CONTEXT_ENV) != null) {
-			this.simulatorContext = System.getenv(SIM_CONTEXT_ENV);
+        if (System.getenv(SIM_CONTEXT_ENV) == null) {
+            //
+            // If there is no simulator context, then make one with a clientId.
+            // This will allow SimulatorGateway to recognize this simulator if/when
+            // it re-registers.
+            //
+            UUID clientId = UUID.randomUUID();
+            this.simulatorContext = "{ \"simulatorClientId\": \"" + clientId.toString() + "\" }";
+        }
+        else {
+            this.simulatorContext = System.getenv(SIM_CONTEXT_ENV);
         }
         
         if (System.getenv(SERVER_ENV) != null) {

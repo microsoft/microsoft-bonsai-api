@@ -6,6 +6,8 @@
 
 namespace Microsoft.Bonsai.SimulatorApi.Client
 {
+    using System;
+
     /// <summary>
     /// Configuration information needed to connect to the service.
     /// It will automatically read environment variables and set the config. You can use these setting later for calling APIs.
@@ -50,6 +52,12 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
 
             this.Workspace = string.IsNullOrEmpty(workspace) ? this.Workspace : workspace;
             this.AccessKey = string.IsNullOrEmpty(accessKey) ? this.AccessKey : accessKey;
+
+            if (string.IsNullOrEmpty(this.SimulatorContext))
+            {
+                string clientId = Guid.NewGuid().ToString("N");
+                this.SimulatorContext = $"{{ \"simulatorClientId\": \"{clientId}\" }}";
+            }
 
             this.EnableLogging = enableLogging;
         }

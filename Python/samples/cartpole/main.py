@@ -447,7 +447,7 @@ def main(
                 sim.episode_start(event.episode_start.config)
                 episode += 1
             elif event.type == "EpisodeStep":
-                # Simulate the next time step using the value of event.episode_step.action.
+                # Simulate the next state transition using the value of event.episode_step.action.
                 # This updates the simulation state, which will be sent back in the next loop when
                 # client.session.advance is called.
                 iteration += 1

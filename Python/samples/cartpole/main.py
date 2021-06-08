@@ -399,8 +399,10 @@ def main(
 
     try:
         while True:
-            # Advance by the new state depending on the event type
-            # TODO: it's risky not doing doing `get_state` without first initializing the sim
+            # Proceed to the next event by calling the advance function and passing the simulation state
+            # resulting from the previous event. Note that the sim must always be able to return a valid
+            # structure from get_state, including the first time advance is called, before an EpisodeStart
+            # message has been received.
             sim_state = SimulatorState(
                 sequence_id=sequence_id, state=sim.get_state(), halted=sim.halted(),
             )
@@ -445,6 +447,9 @@ def main(
                 sim.episode_start(event.episode_start.config)
                 episode += 1
             elif event.type == "EpisodeStep":
+                # Simulate the next state transition using the value of event.episode_step.action.
+                # This updates the simulation state, which will be sent back in the next loop when
+                # client.session.advance is called.
                 iteration += 1
                 delay = 0.0
                 if sim_speed > 0:

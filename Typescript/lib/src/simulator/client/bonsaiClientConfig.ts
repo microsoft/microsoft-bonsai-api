@@ -6,6 +6,8 @@
  * Copyright: (c) Microsoft. All rights reserved.
  */
 
+import { v4 as uuidv4 } from 'uuid';
+
 export class BonsaiClientConfig {
     server: string;
     workspace: string;
@@ -15,7 +17,7 @@ export class BonsaiClientConfig {
         this.server = process.env.SIM_API_HOST || 'https://api.bons.ai';
         this.workspace = process.env.SIM_WORKSPACE || workspace;
         this.accessKey = process.env.SIM_ACCESS_KEY || accessKey;
-        this.simulatorContext = process.env.SIM_CONTEXT || '';
+        this.simulatorContext = process.env.SIM_CONTEXT || JSON.stringify({ simulatorClientId: uuidv4() });
 
         const args = process.argv.slice(2);
         args.forEach((val) => {

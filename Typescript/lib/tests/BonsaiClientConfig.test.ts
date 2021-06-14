@@ -6,22 +6,6 @@
 
 import { BonsaiClientConfig } from '../src/simulator/client/bonsaiClientConfig';
 
-test('Config defaults', async () => {
-    const config = new BonsaiClientConfig();
-    expect(config.server).toBe('https://api.bons.ai');
-    expect(config.workspace).toBe('');
-    expect(config.accessKey).toBe('');
-    expect(config.simulatorContext).toBe('');
-});
-
-test('Config constructor', async () => {
-    const config = new BonsaiClientConfig('foo', 'bar');
-    expect(config.server).toBe('https://api.bons.ai');
-    expect(config.workspace).toBe('foo');
-    expect(config.accessKey).toBe('bar');
-    expect(config.simulatorContext).toBe('');
-});
-
 describe('environmental variables', () => {
     const OLD_ENV = process.env;
 
@@ -32,6 +16,32 @@ describe('environmental variables', () => {
 
     afterAll(() => {
         process.env = OLD_ENV;
+    });
+
+    test('Config defaults', async () => {
+        process.env.SIM_API_HOST = undefined;
+        process.env.SIM_WORKSPACE = undefined;
+        process.env.SIM_ACCESS_KEY = undefined;
+        process.env.SIM_CONTEXT = undefined;
+
+        const config = new BonsaiClientConfig();
+        expect(config.server).toBe('https://api.bons.ai');
+        expect(config.workspace).toBe('');
+        expect(config.accessKey).toBe('');
+        expect(config.simulatorContext).toContain('simulatorClientId');
+    });
+
+    test('Config constructor', async () => {
+        process.env.SIM_API_HOST = undefined;
+        process.env.SIM_WORKSPACE = undefined;
+        process.env.SIM_ACCESS_KEY = undefined;
+        process.env.SIM_CONTEXT = undefined;
+
+        const config = new BonsaiClientConfig('foo', 'bar');
+        expect(config.server).toBe('https://api.bons.ai');
+        expect(config.workspace).toBe('foo');
+        expect(config.accessKey).toBe('bar');
+        expect(config.simulatorContext).toContain('simulatorClientId');
     });
 
     test('Config with env variables', () => {

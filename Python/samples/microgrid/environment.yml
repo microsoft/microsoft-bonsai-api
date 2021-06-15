@@ -1,0 +1,24 @@
+name: bonsai-mgrid
+dependencies:
+  - python=3.7
+  - pip=19.1.1
+  - jupyter=1.0.0
+  - matplotlib=3.0.3
+  - seaborn=0.9.0
+  - plotly=3.10.0
+  - scipy=1.6.1
+  - pandas=1.2.3
+  - pip:
+      - microsoft-bonsai-api==0.1.2
+      - bonsai-cli==1.0.7
+      - azure-cli==2.5.1
+      - cufflinks==0.16
+      - vpython==7.6.0
+      - pyglet==1.5.0
+      - jinja2==2.11.2
+      - python-dotenv==0.13.0
+      - typer==0.2.1
+      - Kqlmagic==0.1.113.post1
+      - pytest==6.0.1
+      - numpy==1.20.1
+      - "--editable=git+https://github.com/Total-RD/pymgrid/@a18478145138921e3113e61b693b1c4cdb2c9945#egg=pymgrid"

@@ -6,9 +6,7 @@ For more information about the Qube click see the [product page](https://www.qua
 
 ## Objective
 
-Train a multi-concept brain with a programmed selector. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. We wish to learn separate concepts here and strategically determine when to rely on the action from the correct strategy using what's called a selector.
-
-> ⚠️ Learned concepts, custom assessment are on the roadmap, but not available yet
+Train a multi-concept brain with a learned selector choosing between two strategies: 1) Linear Quadratic Controller (LQR) that's programmed and 2) a learned concept for swinging up. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. The learned selector gets trained after the two concepts are created and uses the state variables as input to strategically select which strategy to use.
 
 [![Video](img/quanser.png)](https://www.youtube.com/watch?v=XUerP0Ex32E)
 ![]()

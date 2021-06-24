@@ -1,0 +1,9 @@
+{
+    "name": "Microgrid",
+    "timeout": 60,
+    "description": {
+        "config": {"empty":0},
+        "action": {"empty":0},
+        "state": {"empty":0}
+    }
+}

@@ -2,7 +2,7 @@
 
 """
 MSFT Bonsai SDK3 Template for Simulator Integration using Python
-Copyright 2020 Microsoft
+Copyright 2021 Microsoft
 
 Usage:
   For registering simulator with the Bonsai service for training:

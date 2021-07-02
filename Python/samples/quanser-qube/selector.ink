@@ -122,12 +122,15 @@ graph (input: ObservableState) {
             source QQ
 
             training {
-                EpisodeIterationLimit: 640 # 8 sec
+                EpisodeIterationLimit: 640, # 8 sec
+                NoProgressIterationLimit: 1000000
             }
             
             goal (State: ObservableState) {
-                minimize `Pendulum Angle`:
-                    Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(30))
+                drive `Pendulum Angle`:
+                    Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
+                avoid `Motor Limit`:
+                    Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
             }
 
             lesson `Start At Rest` {
@@ -150,7 +153,7 @@ graph (input: ObservableState) {
             }
         }
     }
-
+    
     # Set the output concept out of the graph
     output SwitchControlStrategy
 }

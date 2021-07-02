@@ -1,3 +1,4 @@
+# Helper function for arguments for pytest, with defaults
 def pytest_addoption(parser):
     parser.addoption("--port", action="store", default=5005)
     parser.addoption("--render", action="store", default=False)

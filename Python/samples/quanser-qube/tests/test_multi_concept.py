@@ -1,7 +1,7 @@
 """
 Pytest for confirming multi concept brain functions with learned selector,
-one learned concept, and one programmed concept. Assessment with multi-concept 
-is not available, so an exported brain is used. Usage:
+one learned concept, and one programmed concept. Evaluation is accomplished
+using exported brain with an optional flag for rendering. Usage:
 
 Train a multi-concept quanser qube brain following instructions, export
 to device, then run
@@ -44,7 +44,7 @@ def scenario_file(pytestconfig):
     return pytestconfig.getoption("scenario_file")
 
 # Main test function for
-# 1. Run exported brain test loop for number of scenarios (1) in assess_config.json
+# 1. Run exported brain test loop for number of scenarios (30) in assess_config.json
 # 2. Log exported brain data to csv
 # 3. qualifying pass/fail
 def test_exported_brain(port, render, num_iterations, scenario_file):

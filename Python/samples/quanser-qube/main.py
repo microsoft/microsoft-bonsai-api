@@ -84,9 +84,25 @@ class TemplateSimulatorSession:
             "alpha_dot": float(self.simulator.state[3]),
         }
 
-    def episode_start(self, config: Dict[str, Any]):
-        """ Called at the start of each episode """
-        ## Add simulator reset api here using config from desired lesson in inkling
+    def episode_start(self, config: Dict[str, Any], add_noise: bool = False):
+        """Reset environment with new scenario
+
+        Parameters
+        ----------
+        config : Dict[str, Any]
+            [description]
+        add_noise : bool, optional
+            [description], by default False
+        """
+
+        if add_noise:
+            for k in [
+                "initial_alpha",
+                "initial_alpha_dot",
+                "initial_theta",
+                "initial_theta_dot",
+            ]:
+                config[k] += random.uniform(-0.1, 0.1)
         self.config = config
         self.simulator.reset(config)
 
@@ -105,7 +121,7 @@ class TemplateSimulatorSession:
         sim_state = self.get_state()
 
         # If arm hits rails of physical limit +/- 90 degrees
-        return abs(sim_state['theta']) >= math.pi / 2
+        return abs(sim_state["theta"]) >= math.pi / 2
 
     def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
         """Log iterations during training to a CSV.
@@ -178,7 +194,9 @@ def test_policy(
     log_iterations: bool = False,
     policy=random_policy,
     policy_name: str = "random",
-    scenario_file: str="assess_config.json",
+    scenario_file: str = "assess_config.json",
+    num_episodes: int = 100,
+    add_noise: bool = True,
 ):
     """Test a policy using random actions over a fixed number of episodes
 
@@ -187,12 +205,13 @@ def test_policy(
     render : bool, optional
         Flag to turn visualization on
     """
-    
+
     # Use custom assessment scenario configs
     with open(scenario_file) as fname:
         assess_info = json.load(fname)
-    scenario_configs = assess_info['episodeConfigurations']
-    num_episodes = len(scenario_configs)+1
+    scenario_configs = assess_info["episodeConfigurations"]
+    if not num_episodes:
+        num_episodes = len(scenario_configs) + 1
 
     current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     log_file_name = current_time + "_" + policy_name + "_log.csv"
@@ -200,13 +219,17 @@ def test_policy(
         render=render, log_data=log_iterations, log_file_name=log_file_name
     )
     for episode in range(1, num_episodes):
+        scenario_counter = episode % len(scenario_configs)
         iteration = 1
         terminal = False
-        sim_state = sim.episode_start(config=scenario_configs[episode-1])
+        sim_state = sim.episode_start(
+            config=scenario_configs[scenario_counter], add_noise=add_noise
+        )
         sim_state = sim.get_state()
         if log_iterations:
+            # first action is irrelevant since it is not used at episode start
             action = policy(sim_state)
-            for key, value in action.items():
+            for key, _ in action.items():
                 action[key] = None
             sim.log_iterations(sim_state, action, episode, iteration)
         print(f"Running iteration #{iteration} for episode #{episode}")
@@ -220,18 +243,18 @@ def test_policy(
             print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
             iteration += 1
-            terminal = iteration >= num_iterations+2 or sim.halted()
+            terminal = iteration >= num_iterations + 2 or sim.halted()
 
     return sim
 
 
 def main(
-    render: bool=False,
-    log_iterations: bool=False,
-    config_setup: bool=False,
-    env_file: Union[str, bool]=".env",
-    workspace: str=None,
-    accesskey: str=None,
+    render: bool = False,
+    log_iterations: bool = False,
+    config_setup: bool = False,
+    env_file: Union[str, bool] = ".env",
+    workspace: str = None,
+    accesskey: str = None,
 ):
     """Main entrypoint for running simulator connections
 
@@ -492,7 +515,7 @@ if __name__ == "__main__":
         help="Episode iteration limit when running local test.",
         default=640,
     )
-    
+
     parser.add_argument(
         "--custom-assess",
         type=str,
@@ -501,8 +524,8 @@ if __name__ == "__main__":
     )
 
     args, _ = parser.parse_known_args()
-    
-    scenario_file = 'assess_config.json'
+
+    scenario_file = "assess_config.json"
     if args.custom_assess:
         scenario_file = args.custom_assess
 

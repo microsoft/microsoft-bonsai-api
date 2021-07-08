@@ -123,7 +123,7 @@ graph (input: ObservableState) {
 
             training {
                 EpisodeIterationLimit: 640, # 8 sec
-                NoProgressIterationLimit: 1000000
+                NoProgressIterationLimit: 750000
             }
             
             goal (State: ObservableState) {

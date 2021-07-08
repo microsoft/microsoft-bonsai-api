@@ -8,8 +8,7 @@ For more information about the Qube click see the [product page](https://www.qua
 
 Train a multi-concept brain with a learned selector choosing between two strategies: 1) Linear Quadratic Controller (LQR) that's programmed and 2) a learned concept for swinging up. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. The learned selector gets trained after the two concepts are created and uses the state variables as input to strategically select which strategy to use.
 
-[![Video](img/quanser.png)](https://www.youtube.com/watch?v=XUerP0Ex32E)
-![]()
+![](img/swingup-balance.gif)
 
 ### SwingUp - starting near rest
 

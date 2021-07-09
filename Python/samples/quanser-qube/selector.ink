@@ -131,6 +131,8 @@ graph (input: ObservableState) {
                     Math.Abs(State.alpha) in Goal.RangeBelow(DegreesToRadians(alpha_balance_threshold))
                 avoid `Motor Limit`:
                     Math.Abs(State.theta) in Goal.RangeAbove(DegreesToRadians(theta_rotation_threshold))
+                minimize Center:
+                    Math.Abs(State.theta) in Goal.RangeBelow(DegreesToRadians(20)) 
             }
 
             lesson `Start At Rest` {

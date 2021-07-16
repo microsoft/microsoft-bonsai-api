@@ -110,3 +110,5 @@ graph (input: ObservableState) {
         }
     }
 }
+
+const SimulatorVisualizer="/qubeviz/"

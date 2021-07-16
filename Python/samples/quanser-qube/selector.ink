@@ -159,3 +159,5 @@ graph (input: ObservableState) {
     # Set the output concept out of the graph
     output SwitchControlStrategy
 }
+
+const SimulatorVisualizer="/qubeviz/"

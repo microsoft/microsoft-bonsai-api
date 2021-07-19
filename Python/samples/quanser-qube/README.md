@@ -24,6 +24,12 @@ Train a multi-concept brain with a learned selector choosing between two strateg
 
 <img src="img/selector.png" alt="drawing" width="300"/>
 
+## Reference Frames and Coordinates
+
+When `alpha` is zero, the pendulum is upright. `theta` is the angle in the horizontal plane.
+
+<img src="img/angle_references.PNG" width="300"/>
+
 ## Action
 
 | Action | Continuous Value | Units   |
@@ -93,7 +99,7 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c <concept_name> \
-    --simulator-name QunaserQube
+    --simulator-name QuanserQube
 ```
 
 Optionally, run the simulator locally with a visualization:

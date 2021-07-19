@@ -21,8 +21,8 @@
           "type": {
             "category": "Number",
             "defaultValue": 0.0,
-            "start": -3.141592653589793,
-            "stop": 3.141592653589793,
+            "start": -3.191592653589793,
+            "stop": 3.191592653589793,
             "comment": "Starting angle of pendulum in radians"
           }
         },
@@ -44,54 +44,6 @@
             "start": -30,
             "stop": 30,
             "comment": "Starting anglular velocity of pendulum in radians per second"
-          }
-        },
-        {
-          "name": "target_theta",
-          "type": {
-            "category": "Number",
-            "defaultValue": 0.0,
-            "start": -1.5707963267948966,
-            "stop": 1.5707963267948966,
-            "comment": "Target angle of rotary arm in meters"
-          }
-        },
-        {
-          "name": "target_alpha",
-          "type": {
-            "category": "Number",
-            "defaultValue": 0.0,
-            "start": -3.141592653589793,
-            "stop": 3.141592653589793,
-            "comment": "Target angle of pendulum in meters"
-          }
-        },
-        {
-          "name": "target_theta_dot",
-          "type": {
-            "category": "Number",
-            "defaultValue": 0.0,
-            "start": -30,
-            "stop": 30,
-            "comment": "Target anglular velocity of the rotary arm in radians per second"
-          }
-        },
-        {
-          "name": "target_alpha_dot",
-          "type": {
-            "category": "Number",
-            "defaultValue": 0.0,
-            "start": -30,
-            "stop": 30,
-            "comment": "Target anglular velocity of pendulum in radians per second"
-          }
-        },
-        {
-          "name": "dt",
-          "type": {
-            "category": "Number",
-            "defaultValue": 0.04,
-            "comment": "Delay between simulation steps (s)"
           }
         },
         {
@@ -167,11 +119,11 @@
           }
         },
         {
-          "name": "g",
+          "name": "frequency",
           "type": {
             "category": "Number",
-            "defaultValue": 9.81,
-            "comment": "Gravity constant"
+            "defaultValue": 80,
+            "comment": "Control Frequency measured in Hz"
           }
         }
       ]
@@ -206,8 +158,8 @@
           "name": "alpha",
           "type": {
             "category": "Number",
-            "start": -3.141592653589793,
-            "stop": 3.141592653589793,
+            "start": -3.191592653589793,
+            "stop": 3.191592653589793,
             "comment": "Current angle of pendulum in radians"
           }
         },
@@ -217,7 +169,7 @@
             "category": "Number",
             "start": -30,
             "stop": 30,
-            "comment": "Current anglular velocity of the rotary arm in radians per second"
+            "comment": "Current angular velocity of the rotary arm in radians per second"
           }
         },
         {
@@ -226,43 +178,7 @@
             "category": "Number",
             "start": -30,
             "stop": 30,
-            "comment": "Current anglular velocity of pendulum in radians per second"
-          }
-        },
-        {
-          "name": "target_theta",
-          "type": {
-            "category": "Number",
-            "start": -1.5707963267948966,
-            "stop": 1.5707963267948966,
-            "comment": "Target angle of rotary arm in meters"
-          }
-        },
-        {
-          "name": "target_alpha",
-          "type": {
-            "category": "Number",
-            "start": -3.141592653589793,
-            "stop": 3.141592653589793,
-            "comment": "Target angle of pendulum in meters"
-          }
-        },
-        {
-          "name": "target_theta_dot",
-          "type": {
-            "category": "Number",
-            "start": -30,
-            "stop": 30,
-            "comment": "Target anglular velocity of the rotary arm in radians per second"
-          }
-        },
-        {
-          "name": "target_alpha_dot",
-          "type": {
-            "category": "Number",
-            "start": -30,
-            "stop": 30,
-            "comment": "Target anglular velocity of pendulum in radians per second"
+            "comment": "Current angular velocity of pendulum in radians per second"
           }
         }
       ]

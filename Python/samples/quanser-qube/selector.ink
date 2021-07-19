@@ -65,7 +65,6 @@ function LQR(State: ObservableState): BrainAction {
 
 # Simulator definition of simulator for both concepts
 simulator QQ (action: BrainAction, config: SimConfig): ObservableState {
-    package "QuanserQube"
 }
 
 # Define a concept graph with two learned concepts and a programmed 

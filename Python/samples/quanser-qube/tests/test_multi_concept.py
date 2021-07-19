@@ -19,6 +19,7 @@ import glob
 import pandas as pd
 import numpy as np
 import json
+import time
 
 # Allowing optional flags to replace defaults for pytest from tests\conftest.py
 @pytest.fixture()
@@ -86,7 +87,7 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
         brain_version,
         inkling_fname
     ))
-    concept_names = ['Swingup', 'Balance', 'SwitchControlStrategy']
+    concept_names = ['SwingUp', 'Balance', 'SwitchControlStrategy']
     for concept in concept_names:
         os.system('bonsai brain version start-training -n {} --version {} --simulator-package-name {} -c {}'.format(
             brain_name,
@@ -98,6 +99,7 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
         # Do not continue until training is complete
         running = True
         while running:
+            time.sleep(60)
             os.system('bonsai brain version show --name {} --version {} -o json > status.json'.format(
                 brain_name,
                 brain_version,
@@ -108,6 +110,7 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
                 pass
             else:
                 running = False
+                time.sleep(60)
                 print('Training complete...')
     print('All Concepts completed')
 
@@ -122,6 +125,7 @@ def test_export_and_run_brain(exported_brain_name, brain_name, brain_version, ch
     # Do not continue until export is complete
     running = True
     while running:
+        time.sleep(60)
         os.system('bonsai exportedbrain show --name {} -o json > status.json'.format(
             exported_brain_name,
         ))

@@ -151,7 +151,6 @@ def test_export_and_run_brain(exported_brain_name, brain_name, brain_version, ch
     # Run docker image
     os.system('docker run -d -p {}:5000 {}'.format(port, status['acrPath']))
 
-
 # Main test function for
 # 1. Run exported brain test loop for number of scenarios (30) in assess_config.json
 # 2. Log exported brain data to csv
@@ -177,5 +176,18 @@ def test_exported_brain(port, render, num_iterations, scenario_file):
     with open(max_file) as fname:
         df = pd.read_csv(fname)
 
-    assert np.mean(df['state_alpha'].iloc[-400:]) <= 0.03
-    assert np.mean(df['state_alpha_dot'].iloc[-400:]) <= 0.01
+    # Grab the last 400 iterations of each test episode and append average
+    alpha = []
+    alpha_dot = []
+    ep_current = 1
+    for ep in df['episode']:
+        if ep != ep_current:
+            alpha.append(np.mean(df[df['episode'] == ep-1]['state_alpha'].iloc[-400:]))
+            alpha_dot.append(np.mean(df[df['episode'] == ep-1]['state_alpha_dot'].iloc[-400:]))
+            ep_current += 1
+        else:
+            pass
+
+    # Confirm pendulum is upright within a reasonable amount of time
+    assert np.mean(alpha) <= 0.03
+    assert np.mean(alpha_dot) <= 0.01

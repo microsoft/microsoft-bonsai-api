@@ -6,12 +6,9 @@ For more information about the Qube click see the [product page](https://www.qua
 
 ## Objective
 
-Train a multi-concept brain with a programmed selector. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. We wish to learn separate concepts here and strategically determine when to rely on the action from the correct strategy using what's called a selector.
+Train a multi-concept brain with a learned selector choosing between two strategies: 1) Linear Quadratic Controller (LQR) that's programmed and 2) a learned concept for swinging up. Typically control theory will have separate controllers for the problem of swing up and balance. The reason is because the controllers are designed about different equilibrium points, i.e. pendulum at rest or pendulum upright. The learned selector gets trained after the two concepts are created and uses the state variables as input to strategically select which strategy to use.
 
-> ⚠️ Learned concepts, custom assessment are on the roadmap, but not available yet
-
-[![Video](img/quanser.png)](https://www.youtube.com/watch?v=XUerP0Ex32E)
-![]()
+![](img/swingup-balance.gif)
 
 ### SwingUp - starting near rest
 
@@ -26,6 +23,12 @@ Train a multi-concept brain with a programmed selector. Typically control theory
 - Episode ends once the pendulum angle (alpha) is greater than 12 degrees or motor angle (theta) is greater than 90 degrees.
 
 <img src="img/selector.png" alt="drawing" width="300"/>
+
+## Reference Frames and Coordinates
+
+When `alpha` is zero, the pendulum is upright. `theta` is the angle in the horizontal plane.
+
+<img src="img/angle_references.PNG" width="300"/>
 
 ## Action
 
@@ -96,7 +99,7 @@ bonsai simulator unmanaged connect \
     -b <brain_name> \
     -a Train \
     -c <concept_name> \
-    --simulator-name QunaserQube
+    --simulator-name QuanserQube
 ```
 
 Optionally, run the simulator locally with a visualization:

@@ -15,7 +15,7 @@ from .render_qube import QubeRendererVpython
 class QubeSimulator(object):
     """Simulation for the Quanser Qube Inverted Pendulum."""
 
-    def __init__(self, frequency=250):
+    def __init__(self, frequency=80):
         self.frequency = frequency
         self._dt = 1.0 / self.frequency
         self._max_voltage = 3.0
@@ -71,14 +71,14 @@ class QubeSimulator(object):
             self.Jp = self.mp * self.Lp ** 2 / 12  # Recalculate for new mp, Lp
             self.Jr = self.mr * self.Lr ** 2 / 12  # Recalculate for new mr, Lr
 
-            self.frequency = config.get("frequency", 250)
+            self.frequency = config.get("frequency", 80)
             self._dt = 1.0 / self.frequency
 
             self.state = np.array([
-                config.get("initial_theta", np.random.randn() * 0.05),
-                config.get("initial_alpha", np.pi + np.random.randn() * 0.05),
-                config.get("initial_theta_dot", np.random.randn() * 0.05),
-                config.get("initial_alpha_dot", np.random.randn() * 0.05),
+                config.get("initial_theta", np.random.uniform(-0.27, 0.27)),
+                config.get("initial_alpha", np.pi + np.random.uniform(-0.05, 0.05)),
+                config.get("initial_theta_dot", np.random.uniform(-0.05, 0.05)),
+                config.get("initial_alpha_dot", np.random.uniform(-0.05, 0.05)),
             ])
         return self.state
 
@@ -125,7 +125,7 @@ class QubeSimulator(object):
 '''
 # Need to comment out in order to call from script in another file
 if __name__ == '__main__':
-    qube = QubeSimulator(frequency=250)
+    qube = QubeSimulator(frequency=80)
 
     ## LQR benchmark controller gains
     K = np.array([-2.0, 35.0, -1.5, 3.0])

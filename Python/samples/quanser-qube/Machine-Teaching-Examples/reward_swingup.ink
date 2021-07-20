@@ -6,7 +6,6 @@
 inkling "2.0"
 using Number
 using Math
-using Goal
 
 # Constant threshold for desired region of pendulum, where 0 is vertical
 const alpha_balance_threshold = 12 
@@ -104,3 +103,5 @@ graph (input: ObservableState) {
         }
     }
 }
+
+const SimulatorVisualizer="/qubeviz/"

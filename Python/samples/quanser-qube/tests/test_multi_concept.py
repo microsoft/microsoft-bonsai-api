@@ -106,7 +106,7 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
         # Do not continue until training is complete
         running = True
         while running:
-            time.sleep(60)
+            time.sleep(20)
             os.system('bonsai brain version show --name {} --version {} -o json > status.json'.format(
                 brain_name,
                 brain_version,
@@ -117,7 +117,7 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
                 pass
             else:
                 running = False
-                time.sleep(60)
+                time.sleep(300)
                 print('Training complete...')
     print('All Concepts completed')
 

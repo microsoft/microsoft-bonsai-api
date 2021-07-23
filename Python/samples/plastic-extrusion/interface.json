@@ -1,0 +1,126 @@
+{
+    "name": "extrusion_demo",
+    "timeout": 60,
+    "description": {
+        "config": {
+            "category": "Struct",
+            "fields": [
+                {
+                    "name": "initial_screw_angular_speed",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Initial angular speed of the extruder screw (radians / second)"
+                    }
+                },
+                {
+                    "name": "initial_screw_angular_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Initial angular acceleration of the extruder screw (radians / second^2)"
+                    }
+                },
+                {
+                    "name": "initial_cutter_frequency",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Initial frequency of the cutter (hertz)"
+                    }
+                },
+                {
+                    "name": "initial_cutter_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Initial change in cutter frequency (1 / second^2)"
+                    }
+                },
+                {
+                    "name": "initial_temperature",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Initial temperature of material (Kelvin)"
+                    }
+                }
+            ]
+        },
+        "action": {
+            "category": "Struct",
+            "fields": [
+                {
+                    "name": "screw_angular_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Angular acceleration of the extruder screw (radians / second^2)"
+                    }
+                },
+                {
+                    "name": "cutter_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Change in cutter frequency (1 / second^2)"
+                    }
+                }
+            ]
+        },
+        "state": {
+            "category": "Struct",
+            "fields": [
+                {
+                    "name": "screw_angular_speed",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Angular speed of the screw (radians/second)"
+                    }
+                },
+                {
+                    "name": "screw_angular_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Angular acceleration of the screw (radians/second^2)"
+                    }
+                },
+                {
+                    "name": "cutter_frequency",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Frequency of the cutter (hertz)"
+                    }
+                },
+                {
+                    "name": "cutter_acceleration",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Change in frequency of the cutter (1 / second^2)"
+                    }
+                },
+                {
+                    "name": "temperature",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Temperature of material (Kelvin)"
+                    }
+                },
+                {
+                    "name": "product_length",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Length of finished product (meters)"
+                    }
+                },
+                {
+                    "name": "flow_rate",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Volumetric flow rate (i.e. throughput) of finished product (meters^3 / second)"
+                    }
+                },
+                {
+                    "name": "yield",
+                    "type": {
+                        "category": "Number",
+                        "comment": "Instantaneous manufacturing yield, i.e. the number of good parts per iteration (dimensionless)"
+                    }
+                }
+            ]
+        }
+    }
+}

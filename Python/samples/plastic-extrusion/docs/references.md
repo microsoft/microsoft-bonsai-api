@@ -18,6 +18,8 @@
 
 - [D] Whelan, T., Brydson, J., & De Laney, D.  *Practical Rheology Electronic Handbook* <https://www.dynisco.com/userfiles/files/Practical_Rheology_Handbook_full_version.pdf> (Dynisco, 2002).
 
+- [BCP] Vlachopoulos, J., Polychronopoulos, N., & Kontopoulou, M. Basic concepts in polymer melt rheology and their importance in processing. *Applied Polymer Rheology: Polymeric Fluids with Industrial Applications* (2011).
+
 - [PTE] Frankland, J. Extrusion: Processing rigid PVC? Know your rheology.  *Plastics Technology* <https://www.ptonline.com/articles/extrusion-processing-rigid-pvc-know-your-rheology-> (2014).
 
 - [PTPL] Frankland, J. The power-law coefficient: *Plastics Technology* <https://www.ptonline.com/columns/the-power-law-coefficient> (2012).

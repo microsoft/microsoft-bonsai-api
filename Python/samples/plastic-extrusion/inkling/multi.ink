@@ -74,14 +74,14 @@ simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
 
 graph (input: SimState): SimAction {
 
-    concept OptimizeLength(input): SimAction {
+    concept ControlLength(input): SimAction {
         curriculum {
 
             source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
+                drive ValidLength:
                     State.product_length
                     in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
                     within 2 * 60
@@ -128,28 +128,28 @@ graph (input: SimState): SimAction {
     }
 
 
-    concept OptimizeYield(input): SimAction {
+    concept ControlYield(input): SimAction {
 
         curriculum {
             source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
+                drive ValidLength:
                     State.product_length
                     in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
                     within 2 * 60
 
                 # keep screw angular speed in the 30-40 RPM range to optimize product quality
                 # <https://www.ptonline.com/articles/extrusion-processing-rigid-pvc-know-your-rheology->
-                maximize StableScrewSpeed:
+                maximize IdealScrewSpeed:
                     State.screw_angular_speed
                     in Goal.Range(
                         (30 / 60) * RadiansPerRevolution,
                         (40 / 60) * RadiansPerRevolution
                     )
 
-                maximize ProductYieldAtQuality:
+                maximize ProductYield:
                     State.yield in Goal.RangeAbove(0)
 
             }
@@ -194,7 +194,7 @@ graph (input: SimState): SimAction {
     }
 
 
-    output concept Selector(input, OptimizeLength, OptimizeYield): SimAction {
+    output concept Selector(input, ControlLength, ControlYield): SimAction {
         programmed function (State: SimState, control_length: SimAction, control_yield: SimAction): SimAction {
 
             # if the product length is not in spec, fix the length

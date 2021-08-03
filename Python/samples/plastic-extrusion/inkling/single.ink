@@ -71,14 +71,14 @@ simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
 
 graph (input: SimState): SimAction {
 
-    concept OptimizeLength(input): SimAction {
+    concept ControlLength(input): SimAction {
         curriculum {
 
             source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
+                drive ValidLength:
                     State.product_length
                     in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
                     within 2 * 60

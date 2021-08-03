@@ -68,7 +68,7 @@ type SimConfig {
 }
 
 
-simulator ExtrusionSimulator (Action: SimAction, Config: SimConfig): SimState {
+simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
 }
 
 
@@ -77,7 +77,7 @@ graph (input: SimState): SimAction {
     concept OptimizeLength(input): SimAction {
         curriculum {
 
-            source ExtrusionSimulator
+            source ExtrusionSim
 
             goal (State: SimState) {
 
@@ -131,7 +131,7 @@ graph (input: SimState): SimAction {
     concept OptimizeYield(input): SimAction {
 
         curriculum {
-            source ExtrusionSimulator
+            source ExtrusionSim
 
             goal (State: SimState) {
 

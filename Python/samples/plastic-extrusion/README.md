@@ -36,15 +36,14 @@ Note: installing the Bonsai API, CLI, and supporting packages in a virtual envir
 
 1. Clone the repo to your local machine.
 2. Create a new `.env` file in the root of the repo and add your workspace credentials.  See `template.env` for an example.
-3. Run `python main.py`.
+3. Build a local Docker container with `docker build -t extrusion .`
+4. Run the local Docker container with `docker run --env-file .env extrusion`
 
 You can now create and train a new brain with the Bonsai web interface or the CLI using the locally running simulator.
 
 ### Building the Simulator Image
 
-Local simulations can only run a single simulation instance for brain training.  To scale up the simulation, we will need to package it into a Docker container.
-
-Creating a Bonsai workspace automatically provisions an Azure Container Registry (ACR) instance.
+Unmanaged simulators can only run a single simulation instance for brain training.  To scale up the simulator, we will need to package it into a Docker container on Azure Container Registry (ACR).  (Creating a Bonsai workspace automatically provisions an associated ACR instance.)
 
 ```sh
 az acr login --name $RegistryName

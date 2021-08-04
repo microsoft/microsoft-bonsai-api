@@ -155,6 +155,18 @@ The optimize yield concept adds 2 additional goals:
 
 Training the *Optimize Length* concept at the provided settings takes about an hour, and training the *Optimize Yield* concept takes around 90 minutes.  At this point the first 2 lessons (*RandomizeStartNarrow* and *RandomizeStartMedium*) should have achieved 100% goal satisfaction, and the final lesson (*RandomizeStartWide*) should have achieved near-100% goal satisfaction.
 
+## Next Steps
+
+Try changing the following [curriculum training parameters](https://docs.microsoft.com/en-us/bonsai/inkling/keywords/curriculum#curriculum-training-parameters) from the example `single.ink` Inkling file and see how they affect the speed and performance of the brain training process:
+
+- the training duration in the `within` clause,
+- the `EpisodeIterationLimit`, and
+- the `NoProgressIterationLimit`.
+
+Since the `EpisodeIterationLimit` is set to 200 iterations in the example, using `within` durations greater than 200 iterations will have no effect unless you also increase the `EpisodeIterationLimit`.
+
+Finally, note that setting the `NoProgressIterationLimit` above 250,000 iterations (the default) will increase the overall brain training time.
+
 ## References
 
 See [References](./docs/references.md) for details.

@@ -1,5 +1,5 @@
 {
-    "name": "extrusion_demo",
+    "name": "PVC_Extruder",
     "timeout": 60,
     "description": {
         "config": {

@@ -66,6 +66,8 @@ type SimConfig {
 
 
 simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
+    # Automatically launch the simulator with this registered package name.
+    package "PVC_Extruder"
 }
 
 

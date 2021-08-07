@@ -118,7 +118,7 @@ export SIM_ACCESS_KEY=<your-access-key>
 az login
 az acr login -n <acr-name>
 docker pull <brain-uri>
-docker run -d -p 5000:<PORT> <brain-uri>
+docker run -d -p <PORT>:5000 <brain-uri>
 python main.py --test-exported <port> --render
 ```
 

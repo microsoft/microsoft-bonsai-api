@@ -20,6 +20,7 @@ import pandas as pd
 import numpy as np
 import json
 import time
+import pdb
 
 # Allowing optional flags to replace defaults for pytest from tests\conftest.py
 @pytest.fixture()
@@ -77,6 +78,16 @@ def test_package_simulator(simulator_package_name, acr_name):
 
     ))
 
+    os.system('az acr repository show --name {} --image {} > status.json'.format(
+        acr_name,
+        simulator_package_name
+    ))
+
+    with open('status.json') as fname:
+        status = json.load(fname)
+
+    assert status['createdTime'] is not None
+
 # Use CLI to create, upload inkling, train, and wait til complete
 def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package_name):
     os.system('bonsai brain create -n {}'.format(
@@ -119,6 +130,11 @@ def test_train_brain(brain_name, brain_version, inkling_fname, simulator_package
                 running = False
                 time.sleep(300)
                 print('Training complete...')
+
+        # Final check concepts are complete
+        with open('status.json') as fname:
+            status = json.load(fname)
+        assert status['status'] == 'Succeeded'
     print('All Concepts completed')
 
 # Use CLI to export brain and run locally on specified PORT
@@ -146,10 +162,17 @@ def test_export_and_run_brain(exported_brain_name, brain_name, brain_version, ch
 
     # Pull docker image
     os.system('az acr login -n {}'.format(status['acrPath'].split('.azurecr.io')[0])) 
-    os.system('docker pull {}'.format(status['acrPath']))
+    img = status['acrPath']
+    os.system('docker pull {}'.format(img))
     
     # Run docker image
-    os.system('docker run -d -p {}:5000 {}'.format(port, status['acrPath']))
+    os.system('docker run -d -p {}:5000 {}'.format(port, img))
+
+    # Confirm running locally
+    os.system('docker ps --filter publish={} --format="{}" > status.json'.format(port, "{{json .}}"))
+    with open('status.json') as fname:
+        status = json.load(fname)
+    assert status['Image'] == img
 
 # Main test function for
 # 1. Run exported brain test loop for number of scenarios (30) in assess_config.json

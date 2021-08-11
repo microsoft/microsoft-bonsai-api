@@ -279,6 +279,7 @@ def test_policy(
 
 def main(
     render: bool = False,
+    simulator_name: str = "Cartpole",
     log_iterations: bool = False,
     config_setup: bool = False,
     sim_speed: int = 0,
@@ -344,7 +345,7 @@ def main(
             )
 
     # Grab standardized way to interact with sim API
-    sim = TemplateSimulatorSession(render=render, log_data=log_iterations)
+    sim = TemplateSimulatorSession(render=render, log_data=log_iterations, env_name=simulator_name)
 
     # Configure client to interact with Bonsai service
     config_client = BonsaiClientConfig()
@@ -529,6 +530,14 @@ if __name__ == "__main__":
         help="Log iterations during training",
     )
     parser.add_argument(
+        "--sim-name",
+        type=str,
+        metavar="SIMULATOR NAME",
+        default="Cartpole",
+        help="Simulator name to use registering with the platform",
+    )
+
+    parser.add_argument(
         "--config-setup",
         action="store_true",
         default=False,
@@ -615,6 +624,7 @@ if __name__ == "__main__":
     else:
         main(
             config_setup=args.config_setup,
+            simulator_name=args.sim_name,
             render=args.render,
             log_iterations=args.log_iterations,
             sim_speed=args.sim_speed,

@@ -39,6 +39,11 @@ class House():
             self.Tset_schedule[96:204] = 20
             self.Tout_schedule = np.full(self.max_iterations, 32)
             self.occupancy_schedule = np.full(self.max_iterations, 1)
+        # constant
+        if schedule_index == 3:
+            self.Tset_schedule = np.full(self.max_iterations, 25)
+            self.Tout_schedule = np.full(self.max_iterations, 32)
+            self.occupancy_schedule = np.full(self.max_iterations, 1)
 
         self.Tset = self.Tset_schedule[0] # Set Temperature
         self.Tout = self.Tout_schedule[0] # Outside temperature

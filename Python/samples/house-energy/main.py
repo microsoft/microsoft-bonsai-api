@@ -235,8 +235,8 @@ def test_random_policy(
     """
 
     sim = TemplateSimulatorSession(render=render, log_file="house-energy.csv")
-    for episode in range(num_episodes):
-        iteration = 0
+    for episode in range(1, num_episodes+1):
+        iteration = 1
         terminal = False
         config = {
             "K": 0.5,
@@ -248,7 +248,15 @@ def test_random_policy(
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }
-        obs = sim.episode_start(config=config)
+        sim.episode_start(config=config)
+        sim_state = sim.get_state()
+        if log_iterations:
+            action = sim.random_policy()
+            for key, value in action.items():
+                action[key] = None
+            sim.log_iterations(
+                state=sim_state, action=action, episode=episode, iteration=iteration
+            )
         while not terminal:
             action = sim.random_policy()
             sim.episode_step(action)

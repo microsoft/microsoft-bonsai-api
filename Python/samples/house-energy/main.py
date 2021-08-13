@@ -7,6 +7,7 @@ import os
 import pathlib
 import time
 import datetime
+import random
 from distutils.util import strtobool
 from typing import Any, Dict, List, Union
 
@@ -52,7 +53,7 @@ class TemplateSimulatorSession:
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": 30,
-            "schedule_index": 2,
+            "schedule_index": 3,
             "number_of_days": 1,
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
@@ -168,12 +169,13 @@ class TemplateSimulatorSession:
 
         import pandas as pd
 
-        def add_prefixes(d, prefix: str):
-            return {f"{prefix}_{k}": v for k, v in d.items()}
+        # def add_prefixes(d, prefix: str):
+        #     return {f"{prefix}_{k}": v for k, v in d.items()}
 
-        state = add_prefixes(state, "state")
-        action = add_prefixes(action, "action")
-        config = add_prefixes(self.default_config, "config")
+        # state = add_prefixes(state, "state")
+        # action = add_prefixes(action, "action")
+        # config = add_prefixes(self.sim_config, "config")
+        config = self.sim_config
         data = {**state, **action, **config}
         data["episode"] = episode
         data["iteration"] = iteration
@@ -236,7 +238,17 @@ def test_random_policy(
     for episode in range(num_episodes):
         iteration = 0
         terminal = False
-        obs = sim.episode_start()
+        config = {
+            "K": 0.5,
+            "C": 0.3,
+            "Qhvac": 9,
+            "Tin_initial": random.randint(18, 30),
+            "schedule_index": 3,
+            "number_of_days": 1,
+            "timestep": 5,
+            "max_iterations": int(1 * 24 * 60 / 5),
+        }
+        obs = sim.episode_start(config=config)
         while not terminal:
             action = sim.random_policy()
             sim.episode_step(action)
@@ -371,7 +383,7 @@ if __name__ == "__main__":
 
     if args.test_local:
         test_random_policy(
-            render=args.render, num_episodes=1000, log_iterations=args.log_iterations
+            render=args.render, num_episodes=500, log_iterations=args.log_iterations
         )
     else:
         main(config_setup=args.config_setup, render=args.render)

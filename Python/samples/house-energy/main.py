@@ -257,6 +257,7 @@ def test_random_policy(
             sim.log_iterations(
                 state=sim_state, action=action, episode=episode, iteration=iteration
             )
+        iteration += 1
         while not terminal:
             action = sim.random_policy()
             sim.episode_step(action)

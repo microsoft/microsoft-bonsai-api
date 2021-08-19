@@ -1,0 +1,306 @@
+{
+  "version": "1.0.0",
+  "context": {},
+  "episodeConfigurations": [
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 27.02175259125061,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 18.874132202834385,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 22.99460018051132,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 21.726843557157462,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.452410227448503,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 27.47066367582313,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 28.93410189670768,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 22.102193960742543,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 18.14560935080507,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 22.122112150137852,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 28.397927549400187,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 26.232666742404767,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 27.425655390969663,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 24.015689119097466,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.370780460632258,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 21.890687174457835,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 26.092490995138483,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 27.855130079190594,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.29307922488725,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.061652973527586,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 24.212536424162604,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.74925108592981,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 27.295870711960184,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 29.702096325757218,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 19.03213584755975,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 22.15948051694885,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 20.458210960878194,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 26.414323559226915,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 25.087311980308144,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    },
+    {
+      "K": 0.5,
+      "C": 0.30000001192092896,
+      "Qhvac": 9,
+      "Tin_initial": 18.640579374914374,
+      "schedule_index": 2,
+      "number_of_days": 1,
+      "timestep": 5,
+      "max_iterations": 288
+    }
+  ]
+}

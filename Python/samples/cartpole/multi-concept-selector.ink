@@ -147,7 +147,7 @@ graph (input: ObservedState): Action {
             }
             lesson One {
                 # Because we're using relative positions, just need to randomize initial position to be far and close to the target.
-                # "GoLeft" starts the cart to the left of the target.
+                # "GoRight" starts the cart to the left of the target.
                 scenario {
                     initial_cart_position: number<-MaxPosition .. 0>,
                     target_pole_position: 0

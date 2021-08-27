@@ -10,7 +10,7 @@
 #   - GoRight: this applies when the cart is to the left of the target position, and learns
 #     how to move the cart right without dropping the pole.
 #   - PickOne: a selector concept that learns how to move the cart to the target position
-      and stabilize it there without dropping the pole, as appropriate for the current state.
+#     and stabilize it there without dropping the pole, as appropriate for the current state.
 #
 # https://docs.microsoft.com/en-us/bonsai/inkling/basics
 inkling "2.0"
@@ -120,7 +120,8 @@ graph (input: ObservedState): Action {
                 EpisodeIterationLimit: 200,
             }
             lesson One {
-                # Because we're using relative positions, just need to randomize initial position to be far and close to the target
+                # Because we're using relative positions, just need to randomize initial position to be far and close to the target.
+                # "GoLeft" starts the cart to the right of the target.
                 scenario {
                     initial_cart_position: number<0 .. MaxPosition>,
                     target_pole_position: 0
@@ -145,7 +146,8 @@ graph (input: ObservedState): Action {
                 EpisodeIterationLimit: 200,
             }
             lesson One {
-                # Because we're using relative positions, just need to randomize initial position to be far and close to the target
+                # Because we're using relative positions, just need to randomize initial position to be far and close to the target.
+                # "GoLeft" starts the cart to the left of the target.
                 scenario {
                     initial_cart_position: number<-MaxPosition .. 0>,
                     target_pole_position: 0

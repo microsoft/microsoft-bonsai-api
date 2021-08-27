@@ -243,7 +243,7 @@ def test_random_policy(
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": random.randint(18, 30),
-            "schedule_index": 3,
+            "schedule_index": 4,
             "number_of_days": 1,
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),

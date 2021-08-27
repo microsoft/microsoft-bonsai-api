@@ -163,6 +163,7 @@ graph (input: ObservedState): Action {
             source CartpoleSim
             training {
                 EpisodeIterationLimit: 200,
+                NoProgressIterationLimit: 1000000,
             }
             goal (state: SimState) {
                 avoid FallOver: Math.Abs(state.pole_angle) in Goal.RangeAbove(MaxPoleAngle)

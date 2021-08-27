@@ -171,6 +171,7 @@ graph (input: ObservedState): Action {
             }
             lesson One {
                 # Because we're using relative positions, just need to randomize initial position to be far and close to the target
+                # "PickOne" starts at a random position within the full range.
                 scenario {
                     initial_cart_position: number<-MaxPosition .. MaxPosition>,
                     target_pole_position: 0

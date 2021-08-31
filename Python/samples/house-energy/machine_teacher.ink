@@ -17,14 +17,13 @@ type SimAction {
 }
 
 type SimConfig {
-    K: Number.Float32, # Thermal conductivity
-    C: Number.Float32, # Thermal Capacity
+    K: number, # Thermal conductivity
+    C: number, # Thermal Capacity
     Qhvac: Number.Float32, # Heat Flux
     Tin_initial: number, # C
-    schedule_index: Number.Int8, # 1 - fixed, 2 - randomized
-    number_of_days: number,
-    timestep: number, # Min
-    max_iterations: number, # Alters schedule generation
+    Tout_initial: number, # C, sinewave signal bias
+    Tset_temp_transitions: number[1][2],
+    Tset_time_transitions: number[1][2],
 }
 
 function TempDiff(Tin:number, Tset:number) {
@@ -53,10 +52,10 @@ graph (input: ObservableState): SimAction {
                     C: 0.3,
                     Qhvac: 9,
                     Tin_initial: number<18 .. 30>,
-                    schedule_index: 2,
-                    number_of_days: 1,
-                    timestep: 5,
-                    max_iterations: MaxIterations
+                    Tout_initial: number<18 .. 22>, # C, sinewave signal bias
+                    Tset_temp_transitions: [20, 25],
+                    Tset_time_transitions: [0, 12],
+                }
                 }
             }
         }

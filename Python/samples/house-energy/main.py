@@ -53,8 +53,9 @@ class TemplateSimulatorSession:
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": 30,
-            "schedule_index": 3,
-            "number_of_days": 1,
+            "Tout_initial": 20,
+            "Tset_temp_transitions": [20, 25],
+            "Tset_time_transitions": [0, 12],
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }
@@ -80,9 +81,6 @@ class TemplateSimulatorSession:
 
         sim_state = {
             "Tset": float(self.simulator.Tset),
-            "Tset1": float(self.simulator.Tset1),  # forecast at +1 iteration
-            "Tset2": float(self.simulator.Tset2),  # forecast at +2 iterations
-            "Tset3": float(self.simulator.Tset3),  # forecast at +3 iterations
             "Tin": float(self.simulator.Tin),
             "Tout": float(self.simulator.Tout),
             "power": float(self.simulator.get_Power()),
@@ -109,13 +107,11 @@ class TemplateSimulatorSession:
             C=self.sim_config["C"],
             Qhvac=self.sim_config["Qhvac"],
             Tin_initial=self.sim_config["Tin_initial"],
+            Tout_initial=self.sim_config["Tout_initial"],
+            Tset_temp_transitions=self.sim_config["Tset_temp_transitions"],
+            Tset_time_transitions=self.sim_config["Tset_time_transitions"],
         )
-        self.simulator.setup_schedule(
-            days=self.sim_config["number_of_days"],
-            timestep=self.sim_config["timestep"],
-            schedule_index=self.sim_config["schedule_index"],
-            max_iterations=288,
-        )
+        self.simulator.build_schedule()
 
     def episode_start(self, config: Dict[str, Any] = None):
         """Method invoked at the start of each episode with a given 
@@ -243,8 +239,9 @@ def test_random_policy(
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": random.randint(18, 30),
-            "schedule_index": 3,
-            "number_of_days": 1,
+            "Tout_initial": 20,
+            "Tset_temp_transitions": [20, 25],
+            "Tset_time_transitions": [0, 12],
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }

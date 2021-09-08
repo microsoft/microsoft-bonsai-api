@@ -118,8 +118,8 @@ graph (input: SimState): SimAction {
 
             lesson RandomizeStartWide {
                 scenario {
-                    initial_screw_angular_speed: number <(10 * RadiansPerRevolution / 60) .. (110 * RadiansPerRevolution / 60)>,
-                    initial_cutter_frequency: number <0.03 .. 0.54>,
+                    initial_screw_angular_speed: number <(20 * RadiansPerRevolution / 60) .. (80 * RadiansPerRevolution / 60)>,
+                    initial_cutter_frequency: number <0.06 .. 0.40>,
 
                     initial_screw_angular_acceleration: number <-ScrewAccelerationMax .. ScrewAccelerationMax>,
                     initial_cutter_acceleration: number <-CutterAccelerationMax .. CutterAccelerationMax>,                
@@ -184,8 +184,8 @@ graph (input: SimState): SimAction {
 
             lesson RandomizeStartWide {
                 scenario {
-                    initial_screw_angular_speed: number <(10 * RadiansPerRevolution / 60) .. (110 * RadiansPerRevolution / 60)>,
-                    initial_cutter_frequency: number <0.03 .. 0.54>,
+                    initial_screw_angular_speed: number <(20 * RadiansPerRevolution / 60) .. (80 * RadiansPerRevolution / 60)>,
+                    initial_cutter_frequency: number <0.06 .. 0.40>,
 
                     initial_screw_angular_acceleration: number <-ScrewAccelerationMax .. ScrewAccelerationMax>,
                     initial_cutter_acceleration: number <-CutterAccelerationMax .. CutterAccelerationMax>,                

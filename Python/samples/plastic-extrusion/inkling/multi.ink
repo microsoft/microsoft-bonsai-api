@@ -137,11 +137,6 @@ graph (input: SimState): SimAction {
 
             goal (State: SimState) {
 
-                drive ValidLength:
-                    State.product_length
-                    in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
-                    within 2 * 60
-
                 # keep screw angular speed in the 30-40 RPM range to optimize product quality
                 # <https://www.ptonline.com/articles/extrusion-processing-rigid-pvc-know-your-rheology->
                 maximize IdealScrewSpeed:
@@ -158,7 +153,7 @@ graph (input: SimState): SimAction {
 
             training {
                 EpisodeIterationLimit: 200,  # default is 1,000
-             }
+            }
 
             lesson RandomizeStartNarrow {
                 scenario {

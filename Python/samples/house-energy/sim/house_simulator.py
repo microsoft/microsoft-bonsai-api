@@ -10,8 +10,10 @@ class House():
                 occupancy: float=1, 
                 Tin_initial: float=30, 
                 Tout_initial: float= 20,
-                Tset_temp_transitions: float = [20, 25],
-                Tset_time_transitions: float = [0, 12],
+                Tout_amplitude: float=5,
+                Tset_temp_start: float = 25,
+                Tset_temp_stop: float = 20,
+                Tset_time_transition: float = 12,
                 timestep: float=5, 
                 max_iterations: float=288,):
 
@@ -26,31 +28,31 @@ class House():
 
         self.timestep = timestep # minutes
         self.Tout_initial = Tout_initial # sinewave signal bias for outside temperature flucation
-        self.Tset_temp_transitions = Tset_temp_transitions # ordered array of temperature set points
-        self.Tset_time_transitions = Tset_time_transitions # ordered array of timestamps for temp transitions
-        self.max_iterations = max_iterations #10 more steps incase we need to use forecast
+        self.Tout_amplitude = Tout_amplitude # sinewave amplitude for outside temperature flucation
+        self.Tset_temp_start = Tset_temp_start # start temperature set point
+        self.Tset_temp_stop = Tset_temp_stop # step temperature set point
+        self.Tset_time_transition = Tset_time_transition # time (in hours) to switch from day to night Tset
+        self.max_iterations = max_iterations # length of episode in timestep (default=5min) intervals
         self.build_schedule()
 
-        plt.close()
+        #plt.close()
         self.fig, self.ax = plt.subplots(1, 1)
 
     def build_schedule(self):
         """ define the Tset_schedule, Tout_schedule, the length of schedule, timestep
         """
-        time = np.arange(self.max_iterations)
-        Tset_time_transitions_idx = [time_to_index(0, t) for t in self.Tset_time_transitions]
-        print(Tset_time_transitions_idx)
-        print(self.Tset_temp_transitions)
-        self.Tset_schedule = np.piecewise(
-                time,
-                [(time >= Tset_time_transitions_idx[i]) & (time <= Tset_time_transitions_idx[i+1]) for i in range(len(Tset_time_transitions_idx)-1)],
-                self.Tset_temp_transitions)
+
+        # Step function for Tset schedule
+        transition_idx = time_to_index(0, self.Tset_time_transition)
+        self.Tset_schedule = np.full(self.max_iterations + 1, self.Tset_temp_start)
+        self.Tset_schedule[transition_idx:] = self.Tset_temp_stop
         
-        self.Tout_schedule = 5*np.sin(np.linspace(0, 2*np.pi, self.max_iterations + 1)) + self.Tout_initial
+        # Sine wave for Tout schedule
+        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(-np.pi, np.pi, self.max_iterations + 1)) + self.Tout_initial
         self.occupancy_schedule = np.full(self.max_iterations, 1)
 
-        self.Tset = self.Tset_schedule[0] # Set Temperature
-        self.Tout = self.Tout_schedule[0] # Outside temperature
+        self.Tset = self.Tset_schedule[0] # Initial set Temperature
+        self.Tout = self.Tout_schedule[0] # Initial outside temperature
 
         # For plotting only
         self.time_to_plot = [0]
@@ -134,7 +136,7 @@ if __name__ == '__main__':
     import random
     house = House()
     
-    for episode in range(2):
+    for episode in range(1):
         house.build_schedule()
         for i in range(288):
             house.update_hvacON(random.randint(0, 1))

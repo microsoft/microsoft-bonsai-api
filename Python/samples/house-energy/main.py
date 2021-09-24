@@ -54,8 +54,10 @@ class TemplateSimulatorSession:
             "Qhvac": 9,
             "Tin_initial": 30,
             "Tout_initial": 20,
-            "Tset_temp_transitions": [20, 25],
-            "Tset_time_transitions": [0, 12],
+            "Tout_amplitude": 5,
+            "Tset_temp_start": 25,
+            "Tset_temp_stop": 20,
+            "Tset_time_transition": 8,
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }
@@ -108,8 +110,10 @@ class TemplateSimulatorSession:
             Qhvac=self.sim_config["Qhvac"],
             Tin_initial=self.sim_config["Tin_initial"],
             Tout_initial=self.sim_config["Tout_initial"],
-            Tset_temp_transitions=self.sim_config["Tset_temp_transitions"],
-            Tset_time_transitions=self.sim_config["Tset_time_transitions"],
+            Tout_amplitude=self.sim_config["Tout_amplitude"],
+            Tset_temp_start=self.sim_config["Tset_temp_start"],
+            Tset_temp_stop=self.sim_config["Tset_temp_stop"],
+            Tset_time_transition=self.sim_config["Tset_time_transition"],
         )
         self.simulator.build_schedule()
 
@@ -167,7 +171,7 @@ class TemplateSimulatorSession:
 
         # def add_prefixes(d, prefix: str):
         #     return {f"{prefix}_{k}": v for k, v in d.items()}
-
+        
         # state = add_prefixes(state, "state")
         # action = add_prefixes(action, "action")
         # config = add_prefixes(self.sim_config, "config")
@@ -238,10 +242,12 @@ def test_random_policy(
             "K": 0.5,
             "C": 0.3,
             "Qhvac": 9,
-            "Tin_initial": random.randint(18, 30),
-            "Tout_initial": 20,
-            "Tset_temp_transitions": [20, 25],
-            "Tset_time_transitions": [0, 12],
+            "Tin_initial": random.uniform(18, 30),
+            "Tout_initial": random.uniform(18, 25),
+            "Tout_amplitude": random.uniform(3, 5),
+            "Tset_temp_start": random.randint(20, 22),
+            "Tset_temp_stop": 25,
+            "Tset_time_transition": random.randint(8, 12),
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }

@@ -9,13 +9,13 @@ class House():
                 hvacON: float=0, 
                 occupancy: float=1, 
                 Tin_initial: float=30, 
-                Tout_initial: float= 20,
+                Tout_median: float= 20,
                 Tout_amplitude: float=5,
-                Tset_temp_start: float = 25,
-                Tset_temp_stop: float = 20,
-                Tset_time_transition: float = 12,
+                Tset_start: int = 25,
+                Tset_stop: int = 20,
+                Tset_transition: float = 12,
                 timestep: float=5, 
-                max_iterations: float=288,):
+                horizon: float=288,):
 
         self.K = K # thermal conductivity
         self.C = C # thermal capacity
@@ -27,15 +27,15 @@ class House():
         self.Phvac = Qhvac # Electric power capacity 
 
         self.timestep = timestep # minutes
-        self.Tout_initial = Tout_initial # sinewave signal bias for outside temperature flucation
+        self.Tout_median = Tout_median # sinewave signal bias for outside temperature flucation
         self.Tout_amplitude = Tout_amplitude # sinewave amplitude for outside temperature flucation
-        self.Tset_temp_start = Tset_temp_start # start temperature set point
-        self.Tset_temp_stop = Tset_temp_stop # step temperature set point
-        self.Tset_time_transition = Tset_time_transition # time (in hours) to switch from day to night Tset
-        self.max_iterations = max_iterations # length of episode in timestep (default=5min) intervals
+        self.Tset_start = Tset_start # start temperature set point
+        self.Tset_stop = Tset_stop # step temperature set point
+        self.Tset_transition = Tset_transition # time (in hours) to switch from day to night Tset
+        self.horizon = horizon # length of episode in timestep (default=5min) intervals
         self.build_schedule()
 
-        #plt.close()
+        plt.close()
         self.fig, self.ax = plt.subplots(1, 1)
 
     def build_schedule(self):
@@ -43,13 +43,13 @@ class House():
         """
 
         # Step function for Tset schedule
-        transition_idx = time_to_index(0, self.Tset_time_transition)
-        self.Tset_schedule = np.full(self.max_iterations + 1, self.Tset_temp_start)
-        self.Tset_schedule[transition_idx:] = self.Tset_temp_stop
+        transition_idx = time_to_index(0, self.Tset_transition)
+        self.Tset_schedule = np.full(self.horizon + 1, self.Tset_start)
+        self.Tset_schedule[transition_idx:] = self.Tset_stop
         
         # Sine wave for Tout schedule
-        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(-np.pi, np.pi, self.max_iterations + 1)) + self.Tout_initial
-        self.occupancy_schedule = np.full(self.max_iterations, 1)
+        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(-np.pi, np.pi, self.horizon + 1)) + self.Tout_median
+        self.occupancy_schedule = np.full(self.horizon, 1)
 
         self.Tset = self.Tset_schedule[0] # Initial set Temperature
         self.Tout = self.Tout_schedule[0] # Initial outside temperature
@@ -118,7 +118,7 @@ class House():
         return self
     
     def __next__(self):
-        if self.iteration <= self.max_iterations - 5:
+        if self.iteration <= self.horizon - 5:
             self.iteration += 1
             self.update_Tset(self.Tset_schedule[self.iteration])
             self.update_Tout(self.Tout_schedule[self.iteration])

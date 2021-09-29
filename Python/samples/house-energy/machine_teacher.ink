@@ -7,25 +7,25 @@ const MaxDeviation = 2
 const MaxIterations = 288
 
 type ObservableState {
-    Tset: Number.Float32,
-    Tin: Number.Float32,
-    Tout: Number.Float32,
+    Tset: number,
+    Tin: number,
+    Tout: number,
 }
 
 type SimAction {
-    hvacON: Number.Int8 <off=0, on=1,>
+    hvacON: number<off=0, on=1,>
 }
 
 type SimConfig {
     K: number, # Thermal conductivity
     C: number, # Thermal Capacity
-    Qhvac: Number.Float32, # Heat Flux
+    Qhvac: number, # Heat Flux
     Tin_initial: number, # C, initial indoor temperature
-    Tout_initial: number, # C, outdoor temperature sine wave signal bias
+    Tout_median: number, # C, outdoor temperature sine wave signal bias
     Tout_amplitude: number, # C, outdoor temperature sine wave amplitude 
-    Tset_temp_start: number, # C, starting Tset
-    Tset_temp_stop: number, # C, ending Tset
-    Tset_time_transition: number, # time (in hours) to transition from starting Tset to ending Tset
+    Tset_start:  number, # C, starting Tset
+    Tset_stop: number, # C, ending Tset
+    Tset_transition: number, # time (in hours) to transition from starting Tset to ending Tset
 }
 
 function TempDiff(Tin:number, Tset:number) {
@@ -54,12 +54,12 @@ graph (input: ObservableState): SimAction {
                     C: 0.3,
                     Qhvac: 9,
                     Tin_initial: number<18 .. 30>,
-                    Tout_initial: number<18 .. 25>, # C,
-                    Tset_temp_start: Number.Int8<20 .. 22>,
-                    Tset_temp_stop: 25,
-                    Tset_time_transition: Number.Int8<8 .. 12>,
+                    Tout_median: number<18 .. 25>, # C,
+                    Tout_amplitude: number<3 .. 5>,
+                    Tset_start: Number.Int8<20 .. 22>,
+                    Tset_stop: 25,
+                    Tset_transition: Number.Int8<8 .. 12>,
 
-                }
                 }
             }
         }

@@ -53,13 +53,13 @@ class TemplateSimulatorSession:
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": 30,
-            "Tout_initial": 20,
+            "Tout_median": 20,
             "Tout_amplitude": 5,
-            "Tset_temp_start": 25,
-            "Tset_temp_stop": 20,
-            "Tset_time_transition": 8,
+            "Tset_start": 25,
+            "Tset_stop": 20,
+            "Tset_transition": 8,
             "timestep": 5,
-            "max_iterations": int(1 * 24 * 60 / 5),
+            "horizon": int(1 * 24 * 60 / 5),
         }
         self._reset()
         self.terminal = False
@@ -109,11 +109,11 @@ class TemplateSimulatorSession:
             C=self.sim_config["C"],
             Qhvac=self.sim_config["Qhvac"],
             Tin_initial=self.sim_config["Tin_initial"],
-            Tout_initial=self.sim_config["Tout_initial"],
+            Tout_median=self.sim_config["Tout_median"],
             Tout_amplitude=self.sim_config["Tout_amplitude"],
-            Tset_temp_start=self.sim_config["Tset_temp_start"],
-            Tset_temp_stop=self.sim_config["Tset_temp_stop"],
-            Tset_time_transition=self.sim_config["Tset_time_transition"],
+            Tset_start=self.sim_config["Tset_start"],
+            Tset_stop=self.sim_config["Tset_stop"],
+            Tset_transition=self.sim_config["Tset_transition"],
         )
         self.simulator.build_schedule()
 
@@ -243,11 +243,11 @@ def test_random_policy(
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": random.uniform(18, 30),
-            "Tout_initial": random.uniform(18, 25),
+            "Tout_median": random.uniform(18, 25),
             "Tout_amplitude": random.uniform(3, 5),
-            "Tset_temp_start": random.randint(20, 22),
-            "Tset_temp_stop": 25,
-            "Tset_time_transition": random.randint(8, 12),
+            "Tset_start": random.randint(20, 22),
+            "Tset_stop": 25,
+            "Tset_transition": random.randint(8, 12),
             "timestep": 5,
             "max_iterations": int(1 * 24 * 60 / 5),
         }

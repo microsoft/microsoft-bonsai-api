@@ -36,15 +36,14 @@ Note: installing the Bonsai API, CLI, and supporting packages in a virtual envir
 
 1. Clone the repo to your local machine.
 2. Create a new `.env` file in the root of the repo and add your workspace credentials.  See `template.env` for an example.
-3. Run `python main.py`.
+3. Build a local Docker container with `docker build -t extrusion .`
+4. Run the local Docker container with `docker run --env-file .env extrusion`
 
 You can now create and train a new brain with the Bonsai web interface or the CLI using the locally running simulator.
 
 ### Building the Simulator Image
 
-Local simulations can only run a single simulation instance for brain training.  To scale up the simulation, we will need to package it into a Docker container.
-
-Creating a Bonsai workspace automatically provisions an Azure Container Registry (ACR) instance.
+Unmanaged simulators can only run a single simulation instance for brain training.  To scale up the simulator, we will need to package it into a Docker container on Azure Container Registry (ACR).  (Creating a Bonsai workspace automatically provisions an associated ACR instance.)
 
 ```sh
 az acr login --name $RegistryName
@@ -141,7 +140,7 @@ The example curriculum has 3 lessons, each with random values for initial parame
 
 The first lesson trains the brain over a narrow range of initial screw angular speeds (34-37 RPM) and commensurate initial cutter frequencies.
 
-The subsequent lessons widen the range of initial screw angular speeds by a factor of 5.
+The subsequent lessons widen the range of initial screw angular speeds by a factor of 5 and a factor of 3, respectively.
 
 ### Concept Design - Optimize Yield
 
@@ -150,11 +149,27 @@ Parts with the desired length can be produced by a range of screw angular speeds
 The optimize yield concept adds 2 additional goals:
 
 1) *keep the screw angular speed within 30-40 RPM* (the industry-standard rule of thumb for maintaining material quality of rigid PVC extrudate), and
-2) *maximize manufacturing yield*, i.e. the number of "good" parts per iteration, where good is defined as within the given tolerance for product length.
+2) *maximize manufacturing yield*, i.e. the number of "good" parts per iteration, where "good" is defined as being within the given tolerance for product length.
 
 ## Brain Training Results
 
-Training the *Optimize Length* concept at the provided settings takes about an hour, and training the *Optimize Yield* concept takes around 90 minutes.  At this point the first 2 lessons (*RandomizeStartNarrow* and *RandomizeStartMedium*) should have achieved 100% goal satisfaction, and the final lesson (*RandomizeStartWide*) should have achieved near-100% goal satisfaction.
+Training the *Optimize Length* concept at the provided settings takes about an hour, and at this point all 3 lessons (*RandomizeStartNarrow*, *RandomizeStartMedium*, and *RandomizeStartWide*) should have achieved 100% goal satisfaction.
+
+Training the *Optimize Yield* concept also takes about an hour, although the brain will likely report 100% goal satisfaction from the beginning.  This is not the full story, however; switching to the rewards view shows that the brain continues to learn and improve throughout the training session.  It's worth remembering that the yield optimization goal isn't well defined; *any* yield greater than zero satisfies the goal.  Of course, all other things being equal, larger yields are better than smaller ones; this is where the rewards view provides additional insight.
+
+To switch to the rewards view, right-click just above the training progress graph (e.g. where it says "OptimizeLength"), then click "Show rewards" in the pop-up menu.  (Similarly, to switch back to the goal satisfaction view, select "Show goals" in the pop-up menu.)
+
+## Next Steps
+
+Try changing the following [curriculum training parameters](https://docs.microsoft.com/en-us/bonsai/inkling/keywords/curriculum#curriculum-training-parameters) from the example `single.ink` Inkling file and see how they affect the speed and performance of the brain training process:
+
+- the training duration in the `within` clause,
+- the `EpisodeIterationLimit`, and
+- the `NoProgressIterationLimit`.
+
+Since the `EpisodeIterationLimit` is set to 200 iterations in the example, using `within` durations greater than 200 iterations will have no effect unless you also increase the `EpisodeIterationLimit`.
+
+Finally, note that setting the `NoProgressIterationLimit` above 250,000 iterations (the default) will increase the overall brain training time.
 
 ## References
 

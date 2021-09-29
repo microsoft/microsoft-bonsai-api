@@ -68,20 +68,22 @@ type SimConfig {
 }
 
 
-simulator ExtrusionSimulator (Action: SimAction, Config: SimConfig): SimState {
+simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
+    # Automatically launch the simulator with this registered package name.
+    package "PVC_Extruder"
 }
 
 
 graph (input: SimState): SimAction {
 
-    concept OptimizeLength(input): SimAction {
+    concept ControlLength(input): SimAction {
         curriculum {
 
-            source ExtrusionSimulator
+            source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
+                drive ValidLength:
                     State.product_length
                     in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
                     within 2 * 60
@@ -116,8 +118,8 @@ graph (input: SimState): SimAction {
 
             lesson RandomizeStartWide {
                 scenario {
-                    initial_screw_angular_speed: number <(10 * RadiansPerRevolution / 60) .. (110 * RadiansPerRevolution / 60)>,
-                    initial_cutter_frequency: number <0.03 .. 0.54>,
+                    initial_screw_angular_speed: number <(20 * RadiansPerRevolution / 60) .. (80 * RadiansPerRevolution / 60)>,
+                    initial_cutter_frequency: number <0.06 .. 0.40>,
 
                     initial_screw_angular_acceleration: number <-ScrewAccelerationMax .. ScrewAccelerationMax>,
                     initial_cutter_acceleration: number <-CutterAccelerationMax .. CutterAccelerationMax>,                
@@ -128,35 +130,30 @@ graph (input: SimState): SimAction {
     }
 
 
-    concept OptimizeYield(input): SimAction {
+    concept ControlYield(input): SimAction {
 
         curriculum {
-            source ExtrusionSimulator
+            source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
-                    State.product_length
-                    in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
-                    within 2 * 60
-
                 # keep screw angular speed in the 30-40 RPM range to optimize product quality
                 # <https://www.ptonline.com/articles/extrusion-processing-rigid-pvc-know-your-rheology->
-                maximize StableScrewSpeed:
+                maximize IdealScrewSpeed:
                     State.screw_angular_speed
                     in Goal.Range(
                         (30 / 60) * RadiansPerRevolution,
                         (40 / 60) * RadiansPerRevolution
                     )
 
-                maximize ProductYieldAtQuality:
+                maximize ProductYield:
                     State.yield in Goal.RangeAbove(0)
 
             }
 
             training {
                 EpisodeIterationLimit: 200,  # default is 1,000
-             }
+            }
 
             lesson RandomizeStartNarrow {
                 scenario {
@@ -182,8 +179,8 @@ graph (input: SimState): SimAction {
 
             lesson RandomizeStartWide {
                 scenario {
-                    initial_screw_angular_speed: number <(10 * RadiansPerRevolution / 60) .. (110 * RadiansPerRevolution / 60)>,
-                    initial_cutter_frequency: number <0.03 .. 0.54>,
+                    initial_screw_angular_speed: number <(20 * RadiansPerRevolution / 60) .. (80 * RadiansPerRevolution / 60)>,
+                    initial_cutter_frequency: number <0.06 .. 0.40>,
 
                     initial_screw_angular_acceleration: number <-ScrewAccelerationMax .. ScrewAccelerationMax>,
                     initial_cutter_acceleration: number <-CutterAccelerationMax .. CutterAccelerationMax>,                
@@ -194,7 +191,7 @@ graph (input: SimState): SimAction {
     }
 
 
-    output concept Selector(input, OptimizeLength, OptimizeYield): SimAction {
+    output concept Selector(input, ControlLength, ControlYield): SimAction {
         programmed function (State: SimState, control_length: SimAction, control_yield: SimAction): SimAction {
 
             # if the product length is not in spec, fix the length

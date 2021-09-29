@@ -65,20 +65,22 @@ type SimConfig {
 }
 
 
-simulator ExtrusionSimulator (Action: SimAction, Config: SimConfig): SimState {
+simulator ExtrusionSim (Action: SimAction, Config: SimConfig): SimState {
+    # Automatically launch the simulator with this registered package name.
+    package "PVC_Extruder"
 }
 
 
 graph (input: SimState): SimAction {
 
-    concept OptimizeLength(input): SimAction {
+    concept ControlLength(input): SimAction {
         curriculum {
 
-            source ExtrusionSimulator
+            source ExtrusionSim
 
             goal (State: SimState) {
 
-                drive LengthWithinTolerance:
+                drive ValidLength:
                     State.product_length
                     in Goal.Range(LengthTarget - LengthTolerance, LengthTarget + LengthTolerance)
                     within 2 * 60
@@ -113,8 +115,8 @@ graph (input: SimState): SimAction {
 
             lesson RandomizeStartWide {
                 scenario {
-                    initial_screw_angular_speed: number <(10 * RadiansPerRevolution / 60) .. (110 * RadiansPerRevolution / 60)>,
-                    initial_cutter_frequency: number <0.03 .. 0.54>,
+                    initial_screw_angular_speed: number <(20 * RadiansPerRevolution / 60) .. (80 * RadiansPerRevolution / 60)>,
+                    initial_cutter_frequency: number <0.06 .. 0.40>,
 
                     initial_screw_angular_acceleration: number <-ScrewAccelerationMax .. ScrewAccelerationMax>,
                     initial_cutter_acceleration: number <-CutterAccelerationMax .. CutterAccelerationMax>,                

@@ -1,18 +1,16 @@
 inkling "2.0"
 using Goal
 
+type SimConfig {
+    initial_value: number,
+}
+
 type SimState {
-    state_config_val: number,
-    state_action_val: number,
-    total: number,
+    value: number
 }
 
 type Action {
-    action_val: number<0..10 step 1>,
-}
-
-type SimConfig {
-    config_val: number,
+    addend: number<-10..10>
 }
 
 graph (input: SimState): Action {
@@ -22,17 +20,16 @@ graph (input: SimState): Action {
             }
 
             training {
-                EpisodeIterationLimit: 5,
+                EpisodeIterationLimit: 10
             }
 
             goal (state: SimState) {
-                drive HighTotal:
-                    state.total in Goal.Range(29.9, 30.1)
+                reach Goal: state.value in Goal.Range(49.9, 50.1)
             }
 
             lesson `learn 1` {
                 scenario { 
-                    config_val: number<0 .. 29 step 1>,
+                    initial_value: number<0 .. 100>,
                 }
             }
         }

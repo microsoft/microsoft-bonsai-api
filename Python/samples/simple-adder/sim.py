@@ -1,25 +1,16 @@
 class Sim:
     def __init__(self):
-        self.reset({ 'config_val': 0})
+        self.reset({ 'initial_value': 0})
 
     def reset(self, config):
-        self.config = config;
-        self.action = { 'action_val': 0 }
-        self.total = 0
+        self.value = config['initial_value']
 
     def step(self, action):
-        self.action = action
+        self.value += action['addend']
 
     @property
     def state(self):
-        self.total += self.action['action_val']
-
-        state = { 'total': self.total}
-        # TODO: Is sorting keys necessary? Why does order matter? Does it fully solve the problem of hash tables that could still reorder properties?
-        for config_key, config_value in sorted(self.config.items()):
-            state['state_' + config_key] = config_value
-        for action_key, action_value in sorted(self.action.items()):
-            state['state_' + action_key] = action_value
+        state = { 'value': self.value }
         return state
 
     @property

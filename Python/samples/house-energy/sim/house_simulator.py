@@ -11,9 +11,9 @@ class House():
                 Tin_initial: float=30, 
                 Tout_median: float= 20,
                 Tout_amplitude: float=5,
-                Tset_start: int = 25,
-                Tset_stop: int = 20,
-                Tset_transition: float = 12,
+                Tset_start: int = 20,
+                Tset_stop: int = 25,
+                Tset_transition: float = 100,
                 timestep: float=5, 
                 horizon: float=288,):
 
@@ -43,9 +43,8 @@ class House():
         """
 
         # Step function for Tset schedule
-        transition_idx = time_to_index(0, self.Tset_transition)
         self.Tset_schedule = np.full(self.horizon + 1, self.Tset_start)
-        self.Tset_schedule[transition_idx:] = self.Tset_stop
+        self.Tset_schedule[self.Tset_transition:] = self.Tset_stop
         
         # Sine wave for Tout schedule
         self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(-np.pi, np.pi, self.horizon + 1)) + self.Tout_median
@@ -126,11 +125,6 @@ class House():
         else:
             StopIteration
 
-
-def time_to_index(days, hours, timestep=5):
-    hours_index = int(hours * 60 / timestep)
-    days_index = int(days * 24 * 60 / timestep)
-    return hours_index + days_index
 
 if __name__ == '__main__':
     import random

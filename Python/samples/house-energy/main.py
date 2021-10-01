@@ -55,9 +55,9 @@ class TemplateSimulatorSession:
             "Tin_initial": 30,
             "Tout_median": 20,
             "Tout_amplitude": 5,
-            "Tset_start": 25,
-            "Tset_stop": 20,
-            "Tset_transition": 8,
+            "Tset_start": 20,
+            "Tset_stop": 25,
+            "Tset_transition": 100,
             "timestep": 5,
             "horizon": int(1 * 24 * 60 / 5),
         }
@@ -247,9 +247,9 @@ def test_random_policy(
             "Tout_amplitude": random.uniform(3, 5),
             "Tset_start": random.randint(20, 22),
             "Tset_stop": 25,
-            "Tset_transition": random.randint(8, 12),
+            "Tset_transition": random.randint(100, 124),
             "timestep": 5,
-            "max_iterations": int(1 * 24 * 60 / 5),
+            "horizon": 288,
         }
         sim.episode_start(config=config)
         sim_state = sim.get_state()

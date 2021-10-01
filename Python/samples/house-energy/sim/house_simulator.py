@@ -11,8 +11,8 @@ class House():
                 Tin_initial: float=30, 
                 Tout_median: float= 20,
                 Tout_amplitude: float=5,
-                Tset_start: int = 20,
-                Tset_stop: int = 25,
+                Tset_start: int = 25,
+                Tset_stop: int = 20,
                 Tset_transition: float = 100,
                 timestep: float=5, 
                 horizon: float=288,):

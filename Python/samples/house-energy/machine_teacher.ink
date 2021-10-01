@@ -56,9 +56,9 @@ graph (input: ObservableState): SimAction {
                     Tin_initial: number<18 .. 30>,
                     Tout_median: number<18 .. 25>, # C,
                     Tout_amplitude: number<3 .. 5>,
-                    Tset_start: Number.Int8<20 .. 22>,
-                    Tset_stop: 25,
-                    Tset_transition: Number.Int8<8 .. 12>,
+                    Tset_start: 25,
+                    Tset_stop: Number.Int8<20 .. 22>,
+                    Tset_transition: Number.Int8<100 .. 124>,
 
                 }
             }

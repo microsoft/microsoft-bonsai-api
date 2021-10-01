@@ -8,12 +8,12 @@ class House():
                 Qhvac: float=9, 
                 hvacON: float=0, 
                 occupancy: float=1, 
-                Tin_initial: float=30, 
-                Tout_median: float= 20,
+                Tin_initial: float= 25, 
+                Tout_median: float= 25,
                 Tout_amplitude: float=5,
                 Tset_start: int = 25,
                 Tset_stop: int = 20,
-                Tset_transition: float = 100,
+                Tset_transition: float = 144,
                 timestep: float=5, 
                 horizon: float=288,):
 
@@ -47,7 +47,7 @@ class House():
         self.Tset_schedule[self.Tset_transition:] = self.Tset_stop
         
         # Sine wave for Tout schedule
-        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(-np.pi, np.pi, self.horizon + 1)) + self.Tout_median
+        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(0, 2*np.pi, self.horizon + 1)) + self.Tout_median
         self.occupancy_schedule = np.full(self.horizon, 1)
 
         self.Tset = self.Tset_schedule[0] # Initial set Temperature

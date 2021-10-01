@@ -52,14 +52,14 @@ class TemplateSimulatorSession:
             "K": 0.5,
             "C": 0.3,
             "Qhvac": 9,
-            "Tin_initial": 30,
-            "Tout_median": 20,
+            "Tin_initial": 25,
+            "Tout_median": 25,
             "Tout_amplitude": 5,
             "Tset_start": 25,
             "Tset_stop": 20,
-            "Tset_transition": 100,
+            "Tset_transition": 144,
             "timestep": 5,
-            "horizon": int(1 * 24 * 60 / 5),
+            "horizon": 288,
         }
         self._reset()
         self.terminal = False
@@ -243,11 +243,11 @@ def test_random_policy(
             "C": 0.3,
             "Qhvac": 9,
             "Tin_initial": random.uniform(18, 30),
-            "Tout_median": random.uniform(18, 25),
+            "Tout_median": random.uniform(23, 30),
             "Tout_amplitude": random.uniform(3, 5),
             "Tset_start": 25,
             "Tset_stop": random.randint(20, 22),
-            "Tset_transition": random.randint(100, 124),
+            "Tset_transition": random.randint(100, 148),
             "timestep": 5,
             "horizon": 288,
         }

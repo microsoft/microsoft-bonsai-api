@@ -33,7 +33,7 @@ from microsoft_bonsai_api.simulator.generated.models import (
 from azure.core.exceptions import HttpResponseError
 import argparse
 from sim.qube_simulator import QubeSimulator
-from policies import random_policy, brain_policy
+from policies import random_policy, brain_policy, forget_memory
 
 LOG_PATH = "logs"
 
@@ -204,6 +204,12 @@ def test_policy(
         terminal = False
         sim_state = sim.episode_start(config=scenario_configs[episode-1])
         sim_state = sim.get_state()
+
+        if any('exported_brain_url' in key for key in policy.keywords):
+            # Reset the Memory vector because exported brains don't understand episodes 
+            url = '{}/v1'.format(policy.keywords['exported_brain_url'])
+            forget_memory(url)
+
         if log_iterations:
             action = policy(sim_state)
             for key, value in action.items():

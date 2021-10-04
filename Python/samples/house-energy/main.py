@@ -10,7 +10,7 @@ import datetime
 import random
 from distutils.util import strtobool
 from typing import Any, Dict, List, Union
-
+from azure.core.exceptions import HttpResponseError
 from dotenv import load_dotenv, set_key
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
@@ -18,11 +18,25 @@ from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
 )
 
-from policies import random_policy
+from policies import random_policy, forget_memory, brain_policy
 from sim import house_simulator
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-log_path = "logs"
+LOG_PATH = "logs"
+
+def ensure_log_dir(log_full_path):
+    """
+    Ensure the directory for logs exists — create if needed.
+    """
+    print(f"logfile: {log_full_path}")
+    logs_directory = pathlib.Path(log_full_path).parent.absolute()
+    print(f"Checking {logs_directory}")
+    if not pathlib.Path(logs_directory).exists():
+        print(
+            "Directory does not exist at {0}, creating now...".format(
+                str(logs_directory)
+            )
+        )
+        logs_directory.mkdir(parents=True, exist_ok=True)
 
 
 class TemplateSimulatorSession:
@@ -30,8 +44,9 @@ class TemplateSimulatorSession:
         self,
         modeldir: str = "sim",
         render: bool = False,
+        log_data: bool = False,
+        log_file_name: str = None,
         env_name: str = "HouseEnergy",
-        log_file: Union[str, None] = None,
     ):
         """Template for simulating sessions with microsoft_bonsai_api
 
@@ -47,7 +62,6 @@ class TemplateSimulatorSession:
 
         self.modeldir = modeldir
         self.env_name = env_name
-        print("Using simulator file from: ", os.path.join(dir_path, self.modeldir))
         self.default_config = {
             "K": 0.5,
             "C": 0.3,
@@ -64,19 +78,13 @@ class TemplateSimulatorSession:
         self._reset()
         self.terminal = False
         self.render = render
-        if not log_file:
+        self.log_data = log_data
+        if not log_file_name:
             current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-            log_file = current_time + "_" + env_name + "_log.csv"
-            log_file = os.path.join(log_path, log_file)
-            logs_directory = pathlib.Path(log_file).parent.absolute()
-            if not pathlib.Path(logs_directory).exists():
-                print(
-                    "Directory does not exist at {0}, creating now...".format(
-                        str(logs_directory)
-                    )
-                )
-                logs_directory.mkdir(parents=True, exist_ok=True)
-        self.log_file = os.path.join(log_path, log_file)
+            log_file_name = current_time + "_" + env_name + "_log.csv"
+
+        self.log_full_path = os.path.join(LOG_PATH, log_file_name)
+        ensure_log_dir(self.log_full_path)
 
     def get_state(self) -> Dict[str, float]:
         """ Called to retreive the current state of the simulator. """
@@ -126,7 +134,7 @@ class TemplateSimulatorSession:
         config : Dict[str, Any]
             SimConfig parameters for the current episode defined in Inkling
         """
-
+        self.config = config
         self._reset(config)
 
     def episode_step(self, action: Dict[str, Any]):
@@ -219,86 +227,130 @@ def env_setup():
 
     return workspace, access_key
 
-
-def test_random_policy(
-    num_episodes: int = 10,
+def test_policy(
     render: bool = False,
+    num_iterations: int = 288,
     log_iterations: bool = False,
-    max_iterations: int = 288,
+    policy=random_policy,
+    policy_name: str = "random",
+    scenario_file: str="assess_config.json",
 ):
     """Test a policy using random actions over a fixed number of episodes
 
     Parameters
     ----------
-    num_episodes : int, optional
-        number of iterations to run, by default 10
+    render : bool, optional
+        Flag to turn visualization on
     """
+    
+    # Use custom assessment scenario configs
+    with open(scenario_file) as fname:
+        assess_info = json.load(fname)
+    scenario_configs = assess_info['episodeConfigurations']
+    num_episodes = len(scenario_configs)+1
 
-    sim = TemplateSimulatorSession(render=render, log_file="house-energy.csv")
-    for episode in range(1, num_episodes+1):
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    log_file_name = current_time + "_" + policy_name + "_log.csv"
+    sim = TemplateSimulatorSession(
+        render=render, log_data=log_iterations, log_file_name=log_file_name
+    )
+    for episode in range(1, num_episodes):
         iteration = 1
         terminal = False
-        config = {
-            "K": 0.5,
-            "C": 0.3,
-            "Qhvac": 9,
-            "Tin_initial": random.uniform(18, 30),
-            "Tout_median": random.uniform(23, 30),
-            "Tout_amplitude": random.uniform(3, 5),
-            "Tset_start": 25,
-            "Tset_stop": random.randint(20, 22),
-            "Tset_transition": random.randint(100, 148),
-            "timestep": 5,
-            "horizon": 288,
-        }
-        sim.episode_start(config=config)
+        sim_state = sim.episode_start(config=scenario_configs[episode-1])
         sim_state = sim.get_state()
+        
+        if any('exported_brain_url' in key for key in policy.keywords):
+            # Reset the Memory vector because exported brains don't understand episodes 
+            url = '{}/v1'.format(policy.keywords['exported_brain_url'])
+            forget_memory(url)
+
         if log_iterations:
-            action = sim.random_policy()
+            action = policy(sim_state)
             for key, value in action.items():
                 action[key] = None
-            sim.log_iterations(
-                state=sim_state, action=action, episode=episode, iteration=iteration
-            )
+            sim.log_iterations(sim_state, action, episode, iteration)
+        print(f"Running iteration #{iteration} for episode #{episode}")
         iteration += 1
         while not terminal:
-            action = sim.random_policy()
+            action = policy(sim_state)
             sim.episode_step(action)
             sim_state = sim.get_state()
             if log_iterations:
-                sim.log_iterations(
-                    state=sim_state, action=action, episode=episode, iteration=iteration
-                )
+                sim.log_iterations(sim_state, action, episode, iteration)
             print(f"Running iteration #{iteration} for episode #{episode}")
             print(f"Observations: {sim_state}")
             iteration += 1
-            terminal = iteration > max_iterations
+            terminal = iteration >= num_iterations+2 or sim.halted()
 
+    return sim
 
-def main(render: bool = False, config_setup: bool = False):
+def main(
+    render: bool = False,
+    log_iterations: bool=False,
+    config_setup: bool = False, 
+    env_file: Union[str, bool]=".env",
+    workspace: str=None,
+    accesskey: str=None,
+):
     """Main entrypoint for running simulator connections
 
     Parameters
     ----------
     render : bool, optional
         visualize steps in environment, by default True, by default False
+    log_iterations: bool, optional
+        log iterations during training to a CSV file
+    config_setup: bool, optional
+        if enabled then uses a local `.env` file to find sim workspace id and access_key
+    env_file: str, optional
+        if config_setup True, then where the environment variable for lookup exists
+    workspace: str, optional
+        optional flag from CLI for workspace to override
+    accesskey: str, optional
+        optional flag from CLI for accesskey to override
     """
 
-    # workspace environment variables
-    if config_setup:
-        env_setup()
-        load_dotenv(verbose=True, override=True)
+    # check if workspace or access-key passed in CLI
+    use_cli_args = all([workspace, accesskey])
+
+    # use dotenv file if provided
+    use_dotenv = env_file or config_setup
+
+    # check for accesskey and workspace id in system variables
+    # Three scenarios
+    # 1. workspace and accesskey provided by CLI args
+    # 2. dotenv provided
+    # 3. system variables
+    # do 1 if provided, use 2 if provided; ow use 3; if no sys vars or dotenv, fail
+
+    if use_cli_args:
+        # BonsaiClientConfig will retrieve as environment variables
+        os.environ["SIM_WORKSPACE"] = workspace
+        os.environ["SIM_ACCESS_KEY"] = accesskey
+    elif use_dotenv:
+        if not env_file:
+            env_file = ".env"
+        print(
+            f"No system variables for workspace-id or access-key found, checking in env-file at {env_file}"
+        )
+        workspace, accesskey = env_setup(env_file)
+        load_dotenv(env_file, verbose=True, override=True)
+    else:
+        try:
+            workspace = os.environ["SIM_WORKSPACE"]
+            accesskey = os.environ["SIM_ACCESS_KEY"]
+        except:
+            raise IndexError(
+                f"Workspace or access key not set or found. Use --config-setup for help setting up."
+            )
 
     # Grab standardized way to interact with sim API
-    sim = TemplateSimulatorSession(render=render)
+    sim = TemplateSimulatorSession(render=render, log_data=log_iterations)
 
     # Configure client to interact with Bonsai service
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
-
-    # # Load json file as simulator integration config type file
-    # with open("interface.json") as file:
-    #     interface = json.load(file)
 
     # Create simulator session and init sequence id
     registration_info = SimulatorInterface(
@@ -306,43 +358,112 @@ def main(render: bool = False, config_setup: bool = False):
         timeout=60,
         simulator_context=config_client.simulator_context,
     )
-    registered_session = client.session.create(
-        workspace_name=config_client.workspace, body=registration_info
-    )
-    print("Registered simulator.")
-    sequence_id = 1
+
+    def CreateSession(
+        registration_info: SimulatorInterface, config_client: BonsaiClientConfig
+    ):
+        """Creates a new Simulator Session and returns new session, sequenceId
+        """
+
+        try:
+            print(
+                "config: {}, {}".format(config_client.server, config_client.workspace)
+            )
+            registered_session: SimulatorSessionResponse = client.session.create(
+                workspace_name=config_client.workspace, body=registration_info
+            )
+            print("Registered simulator. {}".format(registered_session.session_id))
+
+            return registered_session, 1
+        except HttpResponseError as ex:
+            print(
+                "HttpResponseError in Registering session: StatusCode: {}, Error: {}, Exception: {}".format(
+                    ex.status_code, ex.error.message, ex
+                )
+            )
+            raise ex
+        except Exception as ex:
+            print(
+                "UnExpected error: {}, Most likely, it's some network connectivity issue, make sure you are able to reach bonsai platform from your network.".format(
+                    ex
+                )
+            )
+            raise ex
+
+    registered_session, sequence_id = CreateSession(registration_info, config_client)
+    episode = 0
+    iteration = 0
 
     try:
         while True:
             # Advance by the new state depending on the event type
+            # TODO: it's risky not doing doing `get_state` without first initializing the sim
             sim_state = SimulatorState(
                 sequence_id=sequence_id, state=sim.get_state(), halted=sim.halted(),
             )
-            event = client.session.advance(
-                workspace_name=config_client.workspace,
-                session_id=registered_session.session_id,
-                body=sim_state,
-            )
-            sequence_id = event.sequence_id
-            print("[{}] Last Event: {}".format(time.strftime("%H:%M:%S"), event.type))
+            try:
+                event = client.session.advance(
+                    workspace_name=config_client.workspace,
+                    session_id=registered_session.session_id,
+                    body=sim_state,
+                )
+                sequence_id = event.sequence_id
+                print(
+                    "[{}] Last Event: {}".format(time.strftime("%H:%M:%S"), event.type)
+                )
+            except HttpResponseError as ex:
+                print(
+                    "HttpResponseError in Advance: StatusCode: {}, Error: {}, Exception: {}".format(
+                        ex.status_code, ex.error.message, ex
+                    )
+                )
+                # This can happen in network connectivity issue, though SDK has retry logic, but even after that request may fail,
+                # if your network has some issue, or sim session at platform is going away..
+                # So let's re-register sim-session and get a new session and continue iterating. :-)
+                registered_session, sequence_id = CreateSession(
+                    registration_info, config_client
+                )
+                continue
+            except Exception as err:
+                print("Unexpected error in Advance: {}".format(err))
+                # Ideally this shouldn't happen, but for very long-running sims It can happen with various reasons, let's re-register sim & Move on.
+                # If possible try to notify Bonsai team to see, if this is platform issue and can be fixed.
+                registered_session, sequence_id = CreateSession(
+                    registration_info, config_client
+                )
+                continue
 
             # Event loop
             if event.type == "Idle":
                 time.sleep(event.idle.callback_time)
                 print("Idling...")
             elif event.type == "EpisodeStart":
+                print(event.episode_start.config)
                 sim.episode_start(event.episode_start.config)
+                episode += 1
             elif event.type == "EpisodeStep":
+                iteration += 1
                 sim.episode_step(event.episode_step.action)
+                if sim.log_data:
+                    sim.log_iterations(
+                        episode=episode,
+                        iteration=iteration,
+                        state=sim.get_state(),
+                        action=event.episode_step.action,
+                    )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
+                iteration = 0
             elif event.type == "Unregister":
-                print("Simulator Session unregistered by platform because '{}', Registering again!".format(event.unregister.details))
-                client.session.delete(
-                    workspace_name=config_client.workspace,
-                    session_id=registered_session.session_id,
+                print(
+                    "Simulator Session unregistered by platform because '{}', Registering again!".format(
+                        event.unregister.details
+                    )
                 )
-                print("Unregistered simulator.")
+                registered_session, sequence_id = CreateSession(
+                    registration_info, config_client
+                )
+                continue
             else:
                 pass
     except KeyboardInterrupt:
@@ -360,43 +481,108 @@ def main(render: bool = False, config_setup: bool = False):
         )
         print("Unregistered simulator because: {}".format(err))
 
-
 if __name__ == "__main__":
 
     import argparse
-
+    
     parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
     parser.add_argument(
-        "--render",
-        type=lambda x: bool(strtobool(x)),
-        default=False,
-        help="Render training episodes",
+        "--render", action="store_true", default=False, help="Render training episodes",
     )
     parser.add_argument(
         "--log-iterations",
-        type=lambda x: bool(strtobool(x)),
+        action="store_true",
         default=False,
         help="Log iterations during training",
     )
     parser.add_argument(
         "--config-setup",
-        type=lambda x: bool(strtobool(x)),
+        action="store_true",
         default=False,
         help="Use a local environment file to setup access keys and workspace ids",
     )
     parser.add_argument(
-        "--test-local",
-        type=lambda x: bool(strtobool(x)),
-        default=False,
-        help="Run simulator locally without connecting to platform",
+        "--env-file",
+        type=str,
+        metavar="ENVIRONMENT FILE",
+        help="path to your environment file",
+        default=None,
+    )
+    parser.add_argument(
+        "--workspace",
+        type=str,
+        metavar="WORKSPACE ID",
+        help="your workspace id",
+        default=None,
+    )
+    parser.add_argument(
+        "--accesskey",
+        type=str,
+        metavar="Your Bonsai workspace access-key",
+        help="your bonsai workspace access key",
+        default=None,
+    )
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--test-random",
+        action="store_true",
+        help="Run simulator locally with a random policy, without connecting to platform",
+    )
+
+    group.add_argument(
+        "--test-exported",
+        type=int,
+        const=5000,  # if arg is passed with no PORT, use this
+        nargs="?",
+        metavar="PORT",
+        help="Run simulator with an exported brain running on localhost:PORT (default 5000)",
+    )
+
+    parser.add_argument(
+        "--iteration-limit",
+        type=int,
+        metavar="EPISODE_ITERATIONS",
+        help="Episode iteration limit when running local test.",
+        default=640,
+    )
+    
+    parser.add_argument(
+        "--custom-assess",
+        type=str,
+        default=None,
+        help="Custom assess config json filename",
     )
 
     args, _ = parser.parse_known_args()
+    
+    scenario_file = 'assess_config.json'
+    if args.custom_assess:
+        scenario_file = args.custom_assess
 
-    if args.test_local:
-        test_random_policy(
-            render=args.render, num_episodes=500, log_iterations=args.log_iterations
+    if args.test_random:
+        test_policy(
+            render=args.render, log_iterations=args.log_iterations, policy=random_policy
+        )
+    elif args.test_exported:
+        port = args.test_exported
+        url = f"http://localhost:{port}"
+        print(f"Connecting to exported brain running at {url}...")
+        trained_brain_policy = partial(brain_policy, exported_brain_url=url)
+        test_policy(
+            render=args.render,
+            log_iterations=args.log_iterations,
+            policy=trained_brain_policy,
+            policy_name="exported",
+            num_iterations=args.iteration_limit,
+            scenario_file=scenario_file,
         )
     else:
-        main(config_setup=args.config_setup, render=args.render)
-
+        main(
+            config_setup=args.config_setup,
+            render=args.render,
+            log_iterations=args.log_iterations,
+            env_file=args.env_file,
+            workspace=args.workspace,
+            accesskey=args.accesskey,
+        )

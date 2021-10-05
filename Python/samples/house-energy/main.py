@@ -188,14 +188,15 @@ class TemplateSimulatorSession:
         data["episode"] = episode
         data["iteration"] = iteration
         log_df = pd.DataFrame(data, index=[0])
-
-        if os.path.exists(self.log_file):
+        
+        if os.path.exists(self.log_full_path):
             log_df.to_csv(
-                path_or_buf=self.log_file, mode="a", header=False, index=False
+                path_or_buf=self.log_full_path, mode="a", header=False, index=False
             )
         else:
-            log_df.to_csv(path_or_buf=self.log_file, mode="w", header=True, index=False)
-
+            log_df.to_csv(
+                path_or_buf=self.log_full_path, mode="w", header=True, index=False
+            )
 
 def env_setup():
     """Helper function to setup connection with Project Bonsai

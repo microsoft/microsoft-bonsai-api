@@ -107,7 +107,7 @@ class TemplateSimulatorSession:
         # If arm hits rails of physical limit +/- 90 degrees
         return abs(sim_state['theta']) >= math.pi / 2
 
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
+    def log_iterations(self, state, action, episode: int = 1, iteration: int = 1):
         """Log iterations during training to a CSV.
 
         Parameters
@@ -131,14 +131,31 @@ class TemplateSimulatorSession:
         data["iteration"] = iteration
         log_df = pd.DataFrame(data, index=[0])
 
-        if os.path.exists(self.log_full_path):
+        if episode == 1 and iteration == 1:
+            print('Collecting episode start logdf, waiting for action keys from episode step')
+            self.initial_log = data
+        elif iteration >= 2:
+            if os.path.exists(self.log_full_path):
+                log_df.to_csv(
+                    path_or_buf=self.log_full_path, mode="a", header=False, index=False
+                )
+            else:
+                initial_actions = {}
+                for key, val in action.items():
+                    initial_actions[key] = None
+                self.initial_log.update(initial_actions) 
+                self.initial_log = pd.DataFrame(self.initial_log, index=[0])
+                log_df = pd.concat([self.initial_log, log_df], sort=False)
+                log_df.to_csv(
+                    path_or_buf=self.log_full_path, mode="w", header=True, index=False
+                )
+        elif iteration == 1:
             log_df.to_csv(
                 path_or_buf=self.log_full_path, mode="a", header=False, index=False
             )
         else:
-            log_df.to_csv(
-                path_or_buf=self.log_full_path, mode="w", header=True, index=False
-            )
+            print('Something else went wrong with logs')
+            exit()
 
 
 def env_setup(env_file: str = ".env"):
@@ -343,7 +360,7 @@ def main(
 
     registered_session, sequence_id = CreateSession(registration_info, config_client)
     episode = 0
-    iteration = 0
+    iteration = 1
 
     try:
         while True:
@@ -392,9 +409,16 @@ def main(
                 print(event.episode_start.config)
                 sim.episode_start(event.episode_start.config)
                 episode += 1
+                if sim.log_data:
+                    sim.log_iterations(
+                        episode=episode,
+                        iteration=iteration,
+                        state=sim.get_state(),
+                        action={},
+                    )
             elif event.type == "EpisodeStep":
-                iteration += 1
                 sim.episode_step(event.episode_step.action)
+                iteration += 1
                 if sim.log_data:
                     sim.log_iterations(
                         episode=episode,

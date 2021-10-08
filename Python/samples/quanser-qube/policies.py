@@ -7,7 +7,6 @@ import random
 from typing import Dict
 import requests
 
-
 def random_policy(state):
     """
     Ignore the state, move randomly.
@@ -24,3 +23,13 @@ def brain_policy(
     response = requests.get(prediction_endpoint, json=state)
 
     return response.json()
+
+def forget_memory(
+    url: str = "http://localhost:5000/v1"
+):
+    # Reset the Memory vector because exported brains don't understand episodes 
+    response = requests.delete(url)
+    if response.status_code == 204:
+        print('Resetting Memory vector in exported brain...')
+    else:
+       print('Error: {}'.format(response.status_code)) 

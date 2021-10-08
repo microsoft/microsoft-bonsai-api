@@ -12,6 +12,7 @@ from distutils.util import strtobool
 from typing import Any, Dict, List, Union
 from azure.core.exceptions import HttpResponseError
 from dotenv import load_dotenv, set_key
+import json
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorInterface,
@@ -164,7 +165,7 @@ class TemplateSimulatorSession:
 
         return random_policy()
 
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
+    def log_iterations(self, state, action, episode: int = 1, iteration: int = 1):
         """Log iterations during training to a CSV.
 
         Parameters
@@ -188,16 +189,43 @@ class TemplateSimulatorSession:
         data["episode"] = episode
         data["iteration"] = iteration
         log_df = pd.DataFrame(data, index=[0])
-        
-        if os.path.exists(self.log_full_path):
+
+        if episode == 1 and iteration == 1:
+            # Store initial states and configs because we don't have actions yet
+            print('Collecting episode start logdf, waiting for action keys from episode step')
+            self.initial_log = data
+        elif iteration >= 2:
+            if os.path.exists(self.log_full_path):
+                # Check if we've alrdy written to a file with 2 rows, continue writing
+                log_df = pd.DataFrame({k: log_df[k] for k in self.desired_dict_order})
+                log_df.to_csv(
+                    path_or_buf=self.log_full_path, mode="a", header=False, index=False
+                )
+            else:
+                # Take intial states and configs from ep 1, update with actions with None
+                for key, val in action.items():
+                    self.initial_log[key] = None
+                self.initial_log = pd.DataFrame(self.initial_log, index=[0])
+                self.action_keys = action.keys()
+
+                log_df = pd.concat([self.initial_log, log_df], sort=False)
+                log_df.to_csv(
+                    path_or_buf=self.log_full_path, mode="w", header=True, index=False
+                )
+                if episode == 1 and iteration == 2:
+                    self.desired_dict_order = log_df.keys()
+        elif iteration == 1:
+            # Now every episode start will use action keys and reorder dict properly
+            for key in self.action_keys:
+                log_df[key] = None
+            log_df = pd.DataFrame({k: log_df[k] for k in self.desired_dict_order})
             log_df.to_csv(
                 path_or_buf=self.log_full_path, mode="a", header=False, index=False
             )
         else:
-            log_df.to_csv(
-                path_or_buf=self.log_full_path, mode="w", header=True, index=False
-            )
-
+            print('Something else went wrong with logs')
+            exit()
+            
 def env_setup():
     """Helper function to setup connection with Project Bonsai
 
@@ -260,17 +288,15 @@ def test_policy(
         terminal = False
         sim_state = sim.episode_start(config=scenario_configs[episode-1])
         sim_state = sim.get_state()
-        
-        if any('exported_brain_url' in key for key in policy.keywords):
-            # Reset the Memory vector because exported brains don't understand episodes 
-            url = '{}/v1'.format(policy.keywords['exported_brain_url'])
-            forget_memory(url)
+
+        if policy_name != 'random':
+            if any('exported_brain_url' in key for key in policy.keywords):
+                # Reset the Memory vector because exported brains don't understand episodes 
+                url = '{}/v1'.format(policy.keywords['exported_brain_url'])
+                forget_memory(url)
 
         if log_iterations:
-            action = policy(sim_state)
-            for key, value in action.items():
-                action[key] = None
-            sim.log_iterations(sim_state, action, episode, iteration)
+            sim.log_iterations(sim_state, {}, episode, iteration)
         print(f"Running iteration #{iteration} for episode #{episode}")
         iteration += 1
         while not terminal:
@@ -287,9 +313,9 @@ def test_policy(
     return sim
 
 def main(
-    render: bool = False,
+    render: bool=False,
     log_iterations: bool=False,
-    config_setup: bool = False, 
+    config_setup: bool=False,
     env_file: Union[str, bool]=".env",
     workspace: str=None,
     accesskey: str=None,
@@ -393,7 +419,7 @@ def main(
 
     registered_session, sequence_id = CreateSession(registration_info, config_client)
     episode = 0
-    iteration = 0
+    iteration = 1
 
     try:
         while True:
@@ -442,9 +468,16 @@ def main(
                 print(event.episode_start.config)
                 sim.episode_start(event.episode_start.config)
                 episode += 1
+                if sim.log_data:
+                    sim.log_iterations(
+                        episode=episode,
+                        iteration=iteration,
+                        state=sim.get_state(),
+                        action={},
+                    )
             elif event.type == "EpisodeStep":
-                iteration += 1
                 sim.episode_step(event.episode_step.action)
+                iteration += 1
                 if sim.log_data:
                     sim.log_iterations(
                         episode=episode,
@@ -454,7 +487,7 @@ def main(
                     )
             elif event.type == "EpisodeFinish":
                 print("Episode Finishing...")
-                iteration = 0
+                iteration = 1
             elif event.type == "Unregister":
                 print(
                     "Simulator Session unregistered by platform because '{}', Registering again!".format(

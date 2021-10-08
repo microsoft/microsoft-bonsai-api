@@ -205,10 +205,11 @@ def test_policy(
         sim_state = sim.episode_start(config=scenario_configs[episode-1])
         sim_state = sim.get_state()
 
-        if any('exported_brain_url' in key for key in policy.keywords):
-            # Reset the Memory vector because exported brains don't understand episodes 
-            url = '{}/v1'.format(policy.keywords['exported_brain_url'])
-            forget_memory(url)
+        if policy_name != 'random':
+            if any('exported_brain_url' in key for key in policy.keywords):
+                # Reset the Memory vector because exported brains don't understand episodes 
+                url = '{}/v1'.format(policy.keywords['exported_brain_url'])
+                forget_memory(url)
 
         if log_iterations:
             action = policy(sim_state)

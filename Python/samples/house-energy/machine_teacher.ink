@@ -20,6 +20,7 @@ type SimConfig {
     K: number, # Thermal conductivity
     C: number, # Thermal Capacity
     Qhvac: number, # Heat Flux
+    horizon: number, # Signal Length based on EpisodeLength
     Tin_initial: number, # C, initial indoor temperature
     Tout_median: number, # C, outdoor temperature: sine wave signal bias
     Tout_amplitude: number, # C, outdoor temperature: sine wave amplitude 
@@ -53,6 +54,7 @@ graph (input: ObservableState): SimAction {
                     K: 0.5,
                     C: 0.3,
                     Qhvac: 9,
+                    horizon: MaxIterations,
                     Tin_initial: number<18 .. 30>,
                     Tout_median: number< 23 .. 30>, # C,
                     Tout_amplitude: number<3 .. 5>,

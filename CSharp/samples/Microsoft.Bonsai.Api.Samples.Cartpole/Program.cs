@@ -5,11 +5,15 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bonsai.Api.Samples.Cartpole
 {
     class Program
     {
+        //the cartpole model
+        private static Model model = new Model();
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,128 +37,30 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
         /// </summary>
         private static void TrainAndAssess()
         {
-            int sequenceId = 1;
+            
             String workspaceName = GetWorkspace();
             String accessKey = GetAccessKey();
 
             BonsaiClientConfig bcConfig = new BonsaiClientConfig(workspaceName, accessKey);
-
             BonsaiClient client = new BonsaiClient(bcConfig);
 
-            //the cartpole model
-            Model model = new Model();
-
-            // object that indicates if we have registered successfully
-            object registered = null;
-            string sessionId = "";
-
-            while (true)
+            client.EpisodeStart += (o,e) => { Config config = new Config(); model.Start(config); };
+            client.EpisodeStep += (o, e) => 
             {
-                // go through the registration process
-                if (registered == null)
-                {
-                    var sessions = client.Session;
+                Action action = new Action();
+                dynamic stepAction = e.Action;
+                action.Command = stepAction.command.Value;
 
-                    SimulatorInterface sim_interface = new SimulatorInterface();
+                // move the model forward
+                model.Step(action);
 
-                    sim_interface.Name = "Cartpole-CSharp";
-                    sim_interface.Timeout = 60;
-                    sim_interface.Capabilities = null;
+            };
 
-                    // minimum required
-                    sim_interface.SimulatorContext = bcConfig.SimulatorContext;
+            client.EpisodeFinish += (o,e) => { Console.WriteLine(e.EpisodeFinishReason.ToString()); };
 
-                    var registrationResponse = sessions.CreateWithHttpMessagesAsync(workspaceName, sim_interface).Result;
+            Task.Run(() => client.Connect(model));
 
-                    if (registrationResponse.Body.GetType() == typeof(SimulatorSessionResponse))
-                    {
-                        registered = registrationResponse;
-
-                        SimulatorSessionResponse sessionResponse = registrationResponse.Body;
-
-                        // this is required
-                        sessionId = sessionResponse.SessionId;
-                    }
-
-                    Console.WriteLine(DateTime.Now + " - registered session " + sessionId);
-
-                }
-                else // now we are registered
-                {
-                    Console.WriteLine(DateTime.Now + " - advancing " + sequenceId);
-
-                    // build the SimulatorState object
-                    SimulatorState simState = new SimulatorState();
-                    simState.SequenceId = sequenceId; // required
-                    simState.State = model.State; // required
-                    simState.Halted = model.Halted; // required
-
-                    try
-                    {
-                        // advance only returns an object, so we need to check what type of object
-                        var response = client.Session.AdvanceWithHttpMessagesAsync(workspaceName, sessionId, simState).Result;
-
-                        // if we get an error during advance
-                        if (response.Body.GetType() == typeof(EventModel))
-                        {
-
-                            EventModel eventModel = (EventModel)response.Body;
-                            Console.WriteLine(DateTime.Now + " - received event: " + eventModel.Type);
-                            sequenceId = eventModel.SequenceId; // get the sequence from the result
-
-                            // now check the type of event and handle accordingly
-
-                            if (eventModel.Type == EventType.EpisodeStart)
-                            {
-
-                                Config config = new Config();
-
-                                // use eventModel.EpisodeStart.Config to obtain values (not used in Cartpole)
-
-                                model.Start(config);
-
-                            }
-                            else if (eventModel.Type == EventType.EpisodeStep)
-                            {
-                                Action action = new Action();
-
-                                dynamic stepAction = eventModel.EpisodeStep.Action;
-
-                                action.Command = stepAction.command.Value;
-
-                                // move the model forward
-                                model.Step(action);
-                            }
-                            else if (eventModel.Type == EventType.EpisodeFinish)
-                            {
-                                Console.WriteLine("Episode Finish");
-                            }
-                            else if (eventModel.Type == EventType.Idle)
-                            {
-                                Thread.Sleep(Convert.ToInt32(eventModel.Idle.CallbackTime) * 1000);
-                            }
-                            else if (eventModel.Type == EventType.Unregister)
-                            {
-                                try
-                                {
-                                    client.Session.DeleteWithHttpMessagesAsync(workspaceName, sessionId).Wait();
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine("cannot unregister: " + ex.Message);
-                                }
-                            }
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine("Error occurred at " + DateTime.UtcNow + ":" );
-                        Console.WriteLine(ex.ToString());
-                        Console.WriteLine("Simulation will now end");
-                        Environment.Exit(0);
-                    }
-                }
-            }
+            Console.ReadLine(); //hold open the console
         }
 
         private static void RunPrediction(string predictionurl)

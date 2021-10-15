@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Bonsai.SimulatorApi.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bonsai.Api.Samples.Cartpole
 {
-    public class Model
+    public class Model : IModel
     {
 
         // simulation constants
@@ -29,7 +30,7 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
         internal double pole_center_velocity;
         internal double target_pole_position;
 
-        public Model()
+        public Model() 
         {
 
         }
@@ -82,23 +83,12 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             pole_center_velocity = cart_velocity + Math.Sin(pole_angular_velocity) * POLE_HALF_LENGTH;
         }
 
-        public bool Halted
-        {
+        public object State { get { return new State(this); } }
+        public bool? Halted {
             get
             {
                 return Math.Abs(pole_angle) >= Math.PI / 2;
             }
         }
-
-
-        public State State
-        {
-            get
-            {
-                return new State(this);
-            }
-        }
-
-
     }
 }

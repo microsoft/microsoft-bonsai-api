@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Program - Copy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Bonsai.Api\Simulator\Microsoft.Bonsai.Api.Simulator.csproj" />
   </ItemGroup>
 

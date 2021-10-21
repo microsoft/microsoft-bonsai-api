@@ -596,7 +596,7 @@ if __name__ == "__main__":
 
     if args.test_random:
         test_policy(
-            render=args.render, log_iterations=args.log_iterations, policy=random_policy
+            render=args.render, log_iterations=args.log_iterations, policy=random_policy, scenario_file=scenario_file
         )
     elif args.test_exported:
         port = args.test_exported

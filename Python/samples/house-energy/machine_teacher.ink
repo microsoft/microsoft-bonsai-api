@@ -7,24 +7,26 @@ const MaxDeviation = 2
 const MaxIterations = 288
 
 type ObservableState {
-    Tset: Number.Float32,
-    Tin: Number.Float32,
-    Tout: Number.Float32,
+    Tset: number,
+    Tin: number,
+    Tout: number,
 }
 
 type SimAction {
-    hvacON: Number.Int8 <off=0, on=1,>
+    hvacON: number<off=0, on=1,>
 }
 
 type SimConfig {
-    K: Number.Float32, # Thermal conductivity
-    C: Number.Float32, # Thermal Capacity
-    Qhvac: Number.Float32, # Heat Flux
-    Tin_initial: number, # C
-    schedule_index: Number.Int8, # 1 - fixed, 2 - randomized
-    number_of_days: number,
-    timestep: number, # Min
-    max_iterations: number, # Alters schedule generation
+    K: number, # Thermal conductivity
+    C: number, # Thermal Capacity
+    Qhvac: number, # Heat Flux
+    horizon: number, # Signal Length based on EpisodeLength
+    Tin_initial: number, # C, initial indoor temperature
+    Tout_median: number, # C, outdoor temperature: sine wave signal bias
+    Tout_amplitude: number, # C, outdoor temperature: sine wave amplitude 
+    Tset_start:  number, # C, starting Tset
+    Tset_stop: number, # C, ending Tset
+    Tset_transition: number, # time (in iterations of timesteps) to transition from starting Tset to ending Tset
 }
 
 function TempDiff(Tin:number, Tset:number) {
@@ -52,11 +54,14 @@ graph (input: ObservableState): SimAction {
                     K: 0.5,
                     C: 0.3,
                     Qhvac: 9,
+                    horizon: MaxIterations,
                     Tin_initial: number<18 .. 30>,
-                    schedule_index: 2,
-                    number_of_days: 1,
-                    timestep: 5,
-                    max_iterations: MaxIterations
+                    Tout_median: number< 23 .. 30>, # C,
+                    Tout_amplitude: number<3 .. 5>,
+                    Tset_start: 25,
+                    Tset_stop: Number.Int8<20 .. 22>,
+                    Tset_transition: Number.Int16<100 .. 148>,
+
                 }
             }
         }

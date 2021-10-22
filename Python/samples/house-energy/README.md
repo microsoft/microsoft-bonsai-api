@@ -49,17 +49,19 @@ bonsai simulator unmanaged connect -b $brain_name --action Train --concept-name 
 ## Terminal Conditions
 
 - Exceed 288 iterations in an episode
-- Exceed > 10°C of desired temperature
 
 ## Configuration Parameters
 
 - K
 - C
 - Qhvac
-- schedule_index
-- number_of_days
-- timestep
 - Tin_initial
+- Tout_initial
+- Tout_amplitude
+- Tset_temp_start
+- Tset_temp_stop
+- Tset_time_transition
+- timestep
 - max_iterations
 
 ### Initial conditions
@@ -71,7 +73,7 @@ bonsai simulator unmanaged connect -b $brain_name --action Train --concept-name 
 
 ## Simulator API - Python
 
-- `setup_schedule()`
+- `build_schedule()`
 - `update_hvacON()`
 - `update_Tin()`
 - `show()`

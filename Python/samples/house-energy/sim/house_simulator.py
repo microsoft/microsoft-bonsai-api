@@ -2,7 +2,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class House():
-    def __init__(self, K: float=0.5, C: float=0.3, Qhvac: float=9, hvacON: float=0, occupancy: float=1, Tin_initial: float=30):
+    def __init__(self, 
+                K: float=0.5, 
+                C: float=0.3, 
+                Qhvac: float=9, 
+                hvacON: float=0, 
+                occupancy: float=1, 
+                Tin_initial: float= 25, 
+                Tout_median: float= 25,
+                Tout_amplitude: float=5,
+                Tset_start: int = 25,
+                Tset_stop: int = 20,
+                Tset_transition: float = 144,
+                timestep: float=5, 
+                horizon: float=288,):
+
         self.K = K # thermal conductivity
         self.C = C # thermal capacity
         self.Tin = Tin_initial # Inside Temperature 
@@ -12,50 +26,38 @@ class House():
         self.occupancy = occupancy # 0 (no one in the room) or 1 (somebody in the room)
         self.Phvac = Qhvac # Electric power capacity 
 
+        self.timestep = timestep # minutes
+        self.Tout_median = Tout_median # sinewave signal bias for outside temperature flucation
+        self.Tout_amplitude = Tout_amplitude # sinewave amplitude for outside temperature flucation
+        self.Tset_start = Tset_start # start temperature set point
+        self.Tset_stop = Tset_stop # step temperature set point
+        self.Tset_transition = Tset_transition # time (in hours) to switch from day to night Tset
+        self.horizon = horizon # length of episode in timestep (default=5min) intervals
+        self.build_schedule()
+
         plt.close()
         self.fig, self.ax = plt.subplots(1, 1)
 
-    def setup_schedule(self, days: int=1, timestep: int=5, schedule_index: int=2, max_iterations: int=288):
+    def build_schedule(self):
         """ define the Tset_schedule, Tout_schedule, the length of schedule, timestep
         """
-        self.timestep = timestep # keep in minutes here to keep number of minutes for days consistent
-        self.max_iterations = max_iterations #10 more steps incase we need to use forecast
 
-        # randomize
-        if schedule_index == 1:
-            self.Tset_schedule = np.full(self.max_iterations, 25)
-            self.Tout_schedule = np.full(self.max_iterations, 32)
-            self.occupancy_schedule = np.full(self.max_iterations, 1)
-            for d in range(days):
-                a = time_to_index(d, 9)
-                b = time_to_index(d, 17)
-                self.Tset_schedule[a:b]= np.random.randint(low=18, high=25)
-                c = time_to_index(d, 0)
-                d = time_to_index(d, 24)
-                self.Tout_schedule[c:d] = np.random.randint(low=28, high=35)
-        # simpler
-        if schedule_index == 2:
-            self.Tset_schedule = np.full(self.max_iterations, 25)
-            self.Tset_schedule[96:204] = 20
-            self.Tout_schedule = np.full(self.max_iterations, 32)
-            self.occupancy_schedule = np.full(self.max_iterations, 1)
-        # constant
-        if schedule_index == 3:
-            self.Tset_schedule = np.full(self.max_iterations, 25)
-            self.Tout_schedule = np.full(self.max_iterations, 32)
-            self.occupancy_schedule = np.full(self.max_iterations, 1)
+        # Step function for Tset schedule
+        self.Tset_schedule = np.full(self.horizon + 1, self.Tset_start)
+        self.Tset_schedule[self.Tset_transition:] = self.Tset_stop
+        
+        # Sine wave for Tout schedule
+        self.Tout_schedule = self.Tout_amplitude * np.sin(np.linspace(0, 2*np.pi, self.horizon + 1)) + self.Tout_median
+        self.occupancy_schedule = np.full(self.horizon, 1)
 
-        self.Tset = self.Tset_schedule[0] # Set Temperature
-        self.Tout = self.Tout_schedule[0] # Outside temperature
-
-        self.Tset1 = self.Tset_schedule[1] # Set Temperature i+1
-        self.Tset2 = self.Tset_schedule[2] # Set Temperature i+2
-        self.Tset3 = self.Tset_schedule[3] # Set Temperature i+3
+        self.Tset = self.Tset_schedule[0] # Initial set Temperature
+        self.Tout = self.Tout_schedule[0] # Initial outside temperature
 
         # For plotting only
         self.time_to_plot = [0]
         self.Tin_to_plot = [self.Tin]
         self.Tset_to_plot = [self.Tset]
+        self.Tout_to_plot = [self.Tout]
 
         self.__iter__()
 
@@ -81,6 +83,7 @@ class House():
         self.__next__()
         self.Tset_to_plot.append(self.Tset)
         self.Tin_to_plot.append(self.Tin)
+        self.Tout_to_plot.append(self.Tout)
         self.time_to_plot.append(self.iteration * 5)
 
     def get_Power(self):
@@ -93,6 +96,7 @@ class House():
         self.ax.clear()
         self.ax.plot(self.time_to_plot, self.Tin_to_plot, label='Tin')
         self.ax.plot(self.time_to_plot, self.Tset_to_plot, label='Tset')
+        self.ax.plot(self.time_to_plot, self.Tout_to_plot, label='Tout')
         self.ax.set_xlabel('Time [min]')
         self.ax.set_ylabel(r'Temperature [$^\circ$C]')
         plt.legend()
@@ -113,35 +117,24 @@ class House():
         return self
     
     def __next__(self):
-        if self.iteration <= self.max_iterations - 5:
+        if self.iteration <= self.horizon - 5:
             self.iteration += 1
             self.update_Tset(self.Tset_schedule[self.iteration])
-            self.Tset1 = self.Tset_schedule[self.iteration+1]
-            self.Tset2 = self.Tset_schedule[self.iteration+2]
-            self.Tset3 = self.Tset_schedule[self.iteration+3]
             self.update_Tout(self.Tout_schedule[self.iteration])
             self.update_occupancy(self.occupancy_schedule[self.iteration])
         else:
             StopIteration
 
 
-def time_to_index(days, hours, timestep=5):
-    hours_index = int(hours * 60 / timestep)
-    days_index = int(days * 24 * 60 / timestep)
-    return hours_index + days_index
-
 if __name__ == '__main__':
     import random
     house = House()
     
-    for episode in range(2):
-        house.setup_schedule(days=1,
-                             timestep=5,
-                             schedule_index=2,
-                             max_iterations= 288)
+    for episode in range(1):
+        house.build_schedule()
         for i in range(288):
             house.update_hvacON(random.randint(0, 1))
             house.update_Tin()
-            print('Tin : {}'.format(house.Tin))
+            # print('Tin : {}'.format(house.Tin))
             house.show()
 

@@ -92,7 +92,11 @@ Press Ctrl+C to stop the simulator running main.py in your first console window.
 
 ### 4. Build the simulator package and scale training using the cloud
 
-Building a Docker container image and push it to your registry.
+> For this step, you must have Docker installed on your local machine. The community edition of Docker is available for
+> [Windows](https://docs.docker.com/docker-for-windows/install), [Linux](https://docs.docker.com/engine/install), and
+> [MacOS](https://docs.docker.com/docker-for-mac/install).
+
+Build a Docker container image and push it to your registry.
 In the following commands, `<SUBSCRIPTION_ID>` and `<ACR_REGISTRY_NAME>` should be replaced with
 [your workspace details](https://docs.microsoft.com/en-us/bonsai/cookbook/get-workspace-info):
 

@@ -68,9 +68,26 @@ python main.py
 
 The output should say `Registered simulator` followed by--every several seconds a lines saying `Last Event: Idle`. Press Ctrl+C to stop the simulator.
 
-### 4. Build simulator package
+While main.py continues to run, open a new commmand window and use the Bonsai CLI to create a Bonsai brain and start training by:
 
-Scale your simulator by building the Docker container image, pushing it to your registry, and creating a simulator package.
+```
+bonsai brain create -n simple-adder
+bonsai brain version update-inkling -f machine_teacher.ink -n simple-adder
+bonsai brain version start-training -n simple-adder
+bonsai simulator unmanaged connect -a Train -b simple-adder -c Concept --simulator-name simple-adder
+```
+
+The output should say `Simulators Connected: 1`. After a minute or so, you should see lots of activity in the console window that
+is running main.py and if you open your [Bonsai worspace](https://preview.bons.ai/) you should see that the brain named simple-adder
+is running training episodes. We'll complete training in a faster way in the next step, so for now you can manually stop training by:
+
+```
+bonsai brain version stop-training -n simple-adder
+```
+
+### 4. Build the simulator package and scale training using the cloud
+
+Scale your simulator by building the Docker container image, pushing it to your registry, creating a simulator package, and running training using that package.
 In the following commands, `<SUBSCRIPTION_ID>` and `<ACR_REGISTRY_NAME>` should be replaced with
 [your workspace details](https://docs.microsoft.com/en-us/bonsai/cookbook/get-workspace-info):
 
@@ -80,15 +97,6 @@ docker tag simple-adder:latest <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:lates
 az acr login --subscription <SUBSCRIPTION_ID> --name <ACR_REGISTRY_NAME>
 docker push <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
 bonsai simulator package container create --name simple-adder -u <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest --max-instance-count 25 -r 1 -m 1 -p Linux
-```
-
-### 5. Train a brain
-
-Start training by:
-
-```
-bonsai brain create -n simple-adder
-bonsai brain version update-inkling -f machine_teacher.ink -n simple-adder
 bonsai brain version start-training -n simple-adder --simulator-package-name simple-adder
 ```
 

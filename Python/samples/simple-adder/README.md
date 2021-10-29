@@ -66,7 +66,10 @@ Run the simulator locally by:
 python main.py
 ```
 
-The output should say `Registered simulator` followed by--every several seconds a lines saying `Last Event: Idle`. Press Ctrl+C to stop the simulator.
+The output should say `Registered simulator` followed by--every several seconds--a line saying `Last Event: Idle`.
+
+> NOTE: The next step uses Bonsai CLI commands.
+> If you prefer, these opererations can also be performed using your [Bonsai worspace](https://preview.bons.ai/) GUI as described in [Link an unmanaged simulator to Bonsai](https://docs.microsoft.com/en-us/bonsai/guides/run-a-local-sim?tabs=bash%2Ctest-with-ui&pivots=sim-lang-python).
 
 While main.py continues to run, open a new commmand window and use the Bonsai CLI to create a Bonsai brain and start training by:
 
@@ -85,9 +88,11 @@ is running training episodes. We'll complete training in a faster way in the nex
 bonsai brain version stop-training -n simple-adder
 ```
 
+Press Ctrl+C to stop the simulator running main.py in your first console window.
+
 ### 4. Build the simulator package and scale training using the cloud
 
-Scale your simulator by building the Docker container image, pushing it to your registry, creating a simulator package, and running training using that package.
+Building a Docker container image and push it to your registry.
 In the following commands, `<SUBSCRIPTION_ID>` and `<ACR_REGISTRY_NAME>` should be replaced with
 [your workspace details](https://docs.microsoft.com/en-us/bonsai/cookbook/get-workspace-info):
 
@@ -96,6 +101,14 @@ docker build -t simple-adder:latest -f Dockerfile .
 docker tag simple-adder:latest <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
 az acr login --subscription <SUBSCRIPTION_ID> --name <ACR_REGISTRY_NAME>
 docker push <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
+```
+
+> NOTE: The next step uses Bonsai CLI commands.
+> If you prefer, these opererations can also be performed using your [Bonsai worspace](https://preview.bons.ai/) GUI as described in [Add a training simulator to your Bonsai workspace](https://docs.microsoft.com/en-us/bonsai/guides/add-simulator?tabs=add-cli%2Ctrain-inkling&pivots=sim-platform-other).
+
+Creating a Bonsai simulator package and running training with it by:
+
+```
 bonsai simulator package container create --name simple-adder -u <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest --max-instance-count 25 -r 1 -m 1 -p Linux
 bonsai brain version start-training -n simple-adder --simulator-package-name simple-adder
 ```

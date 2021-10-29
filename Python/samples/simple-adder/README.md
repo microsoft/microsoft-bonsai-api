@@ -51,11 +51,10 @@ Make sure those environment variables have been applied in the command window th
 
 ### 2. Set up Python environment
 
-Create a conda environment by:
+Set up your python environment as described in the [Bonsai CLI Get started docs](https://docs.microsoft.com/en-us/bonsai/cli).
+Then install the Python requirements of this sample by:
 
 ```
-conda create -n simple-adder python=3.7
-conda activate simple-adder
 pip install -r requirements.txt
 ```
 

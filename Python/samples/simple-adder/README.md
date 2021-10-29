@@ -74,18 +74,18 @@ The output should say `Registered simulator` followed by--every several seconds-
 While main.py continues to run, open a new commmand window and use the Bonsai CLI to create a Bonsai brain and start training by:
 
 ```
-bonsai brain create -n simple-adder
-bonsai brain version update-inkling -f machine_teacher.ink -n simple-adder
-bonsai brain version start-training -n simple-adder
-bonsai simulator unmanaged connect -a Train -b simple-adder -c Concept --simulator-name simple-adder
+bonsai brain create -n simple-adder-brain
+bonsai brain version update-inkling -f machine_teacher.ink -n simple-adder-brain
+bonsai brain version start-training -n simple-adder-brain
+bonsai simulator unmanaged connect --simulator-name simple-adder-sim -a Train -b simple-adder-brain -c Concept
 ```
 
 The output should say `Simulators Connected: 1`. After a minute or so, you should see lots of activity in the console window that
-is running main.py and if you open your [Bonsai worspace](https://preview.bons.ai/) you should see that the brain named simple-adder
+is running main.py and if you open your [Bonsai worspace](https://preview.bons.ai/) you should see that the brain named simple-adder-brain
 is running training episodes. We'll complete training in a faster way in the next step, so for now you can manually stop training by:
 
 ```
-bonsai brain version stop-training -n simple-adder
+bonsai brain version stop-training -n simple-adder-brain
 ```
 
 Press Ctrl+C to stop the simulator running main.py in your first console window.
@@ -97,10 +97,10 @@ In the following commands, `<SUBSCRIPTION_ID>` and `<ACR_REGISTRY_NAME>` should 
 [your workspace details](https://docs.microsoft.com/en-us/bonsai/cookbook/get-workspace-info):
 
 ```
-docker build -t simple-adder:latest -f Dockerfile .
-docker tag simple-adder:latest <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
+docker build -t simple-adder-container:latest -f Dockerfile .
+docker tag simple-adder-container:latest <ACR_REGISTRY_NAME>.azurecr.io/simple-adder-container:latest
 az acr login --subscription <SUBSCRIPTION_ID> --name <ACR_REGISTRY_NAME>
-docker push <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
+docker push <ACR_REGISTRY_NAME>.azurecr.io/simple-adder-container:latest
 ```
 
 > NOTE: The next step uses Bonsai CLI commands.
@@ -109,11 +109,11 @@ docker push <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest
 Creating a Bonsai simulator package and running training with it by:
 
 ```
-bonsai simulator package container create --name simple-adder -u <ACR_REGISTRY_NAME>.azurecr.io/simple-adder:latest --max-instance-count 25 -r 1 -m 1 -p Linux
-bonsai brain version start-training -n simple-adder --simulator-package-name simple-adder
+bonsai simulator package container create -n simple-adder-pkg -u <ACR_REGISTRY_NAME>.azurecr.io/simple-adder-container:latest --max-instance-count 25 -r 1 -m 1 -p Linux
+bonsai brain version start-training -n simple-adder-brain --simulator-package-name simple-adder-pkg
 ```
 
-Next, open your [Bonsai worspace](https://preview.bons.ai/) and you should see your simple-adder brain is running training.
+Next, open your [Bonsai worspace](https://preview.bons.ai/) and you should see your simple-adder-brain brain is running training.
 If you look in the Train tab, after a few minutes, you will see that simulators have started up and episodes are being executed.
 After approximately 200,000 iterations you should see in the training graph shows 100% goal satisfaction and 100% success rate.
 You can stop the training at this point or let training continue to run. It will eventually stop when it can no longer find improvements

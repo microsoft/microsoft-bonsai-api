@@ -4,7 +4,6 @@ import os
 import time
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
-from azure.core.exceptions import HttpResponseError
 from sim import Sim
 
 def main():

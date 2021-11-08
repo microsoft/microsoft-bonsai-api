@@ -7,17 +7,18 @@ class SimulatorModel:
     Implements the reset and step methods required for a Bonsai simulator.
     """
 
-    class SimStatus(NamedTuple):
-        halted: bool
-        state: Dict[str, Any]
-
     def __init__(self):
+        """ Perform global initialization here if needed before running episodes. """
         pass
 
-    def reset(self, config) -> SimStatus:
+    def reset(self, config) -> Dict[str, Any]:
+        """ Reset any state from the previous episode and get ready to start a new episode. """
         self.adder = Adder(config['initial_value'])
-        return self.SimStatus(False, { 'value': self.adder.value })
+        return { 'sim_halted': False, 'value': self.adder.value }
 
-    def step(self, action) -> SimStatus:
+    def step(self, action) -> Dict[str, Any]:
+        """ Apply the specified action and perform one simulation step. """
         self.adder.add(action['addend'])
-        return self.SimStatus(False, { 'value': self.adder.value })
+        # If 'sim_halted' is set to True, that indicates that the simulator is unable to continue and
+        # the episode will be discarded. This simulator sets it to False becasue it can always continue.
+        return { 'sim_halted': False, 'value': self.adder.value }

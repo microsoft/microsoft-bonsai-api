@@ -4,7 +4,7 @@ import os
 import time
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
-from simulator_model import SimulatorModel
+from sim.simulator_model import SimulatorModel
 
 def main():
     workspace = os.getenv("SIM_WORKSPACE")

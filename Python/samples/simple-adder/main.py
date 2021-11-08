@@ -4,13 +4,11 @@ import os
 import time
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
-from sim import Sim
+from simulator_model import SimulatorModel
 
 def main():
     workspace = os.getenv("SIM_WORKSPACE")
     accesskey = os.getenv("SIM_ACCESS_KEY")
-
-    sim_model = Sim()
 
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
@@ -27,6 +25,7 @@ def main():
     print(f"Registered simulator. {registered_session.session_id}")
 
     sequence_id = 1
+    sim_model = SimulatorModel()
     sim_model_halted = False
     sim_model_state = {}
 

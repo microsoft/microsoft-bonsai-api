@@ -1,6 +1,6 @@
 from typing import NamedTuple, Dict, Any
 
-class Sim:
+class SimulatorModel:
     class SimStatus(NamedTuple):
         halted: bool
         state: Dict[str, Any]

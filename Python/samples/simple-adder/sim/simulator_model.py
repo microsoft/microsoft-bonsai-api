@@ -1,3 +1,4 @@
+from sim.adder import Adder
 from typing import NamedTuple, Dict, Any
 
 class SimulatorModel:
@@ -9,9 +10,9 @@ class SimulatorModel:
         pass
 
     def reset(self, config) -> SimStatus:
-        self.value = config['initial_value']
-        return self.SimStatus(False, { 'value': self.value })
+        self.adder = Adder(config['initial_value'])
+        return self.SimStatus(False, { 'value': self.adder.value })
 
     def step(self, action) -> SimStatus:
-        self.value += action['addend']
-        return self.SimStatus(False, { 'value': self.value })
+        self.adder.add(action['addend'])
+        return self.SimStatus(False, { 'value': self.adder.value })

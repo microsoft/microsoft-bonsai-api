@@ -7,6 +7,10 @@ from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, 
 from sim.simulator_model import SimulatorModel
 
 def main():
+    """
+    Creates a Bonsai simulator session and executes Bonsai episodes.
+    """
+
     workspace = os.getenv("SIM_WORKSPACE")
     accesskey = os.getenv("SIM_ACCESS_KEY")
 

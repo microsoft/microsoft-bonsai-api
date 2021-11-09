@@ -1,18 +1,17 @@
+from typing import NamedTuple, Dict, Any
+
 class Sim:
+    class SimStatus(NamedTuple):
+        halted: bool
+        state: Dict[str, Any]
+
     def __init__(self):
-        self.reset({ 'initial_value': 0})
+        pass
 
-    def reset(self, config):
+    def reset(self, config) -> SimStatus:
         self.value = config['initial_value']
+        return self.SimStatus(False, { 'value': self.value })
 
-    def step(self, action):
+    def step(self, action) -> SimStatus:
         self.value += action['addend']
-
-    @property
-    def state(self):
-        state = { 'value': self.value }
-        return state
-
-    @property
-    def halted(self):
-        return False
+        return self.SimStatus(False, { 'value': self.value })

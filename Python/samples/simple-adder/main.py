@@ -4,14 +4,15 @@ import os
 import time
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
-from azure.core.exceptions import HttpResponseError
-from sim import Sim
+from sim.simulator_model import SimulatorModel
 
 def main():
+    """
+    Creates a Bonsai simulator session and executes Bonsai episodes.
+    """
+
     workspace = os.getenv("SIM_WORKSPACE")
     accesskey = os.getenv("SIM_ACCESS_KEY")
-
-    simulator = Sim()
 
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
@@ -28,10 +29,12 @@ def main():
     print(f"Registered simulator. {registered_session.session_id}")
 
     sequence_id = 1
+    sim_model = SimulatorModel()
+    sim_model_state = { 'sim_halted': False }
 
     try:
         while True:
-            sim_state = SimulatorState(sequence_id=sequence_id, state=simulator.state.copy(), halted=simulator.halted)
+            sim_state = SimulatorState(sequence_id=sequence_id, state=sim_model_state, halted=sim_model_state.get('sim_halted', False))
             event = client.session.advance(
                 workspace_name=config_client.workspace,
                 session_id=registered_session.session_id,
@@ -44,14 +47,14 @@ def main():
                 time.sleep(event.idle.callback_time)
             elif event.type == "EpisodeStart":
                 print(f"config {event.episode_start.config}")
-                simulator.reset(event.episode_start.config)
-                print(f"state {simulator.state}")
+                sim_model_state = sim_model.reset(event.episode_start.config)
+                print(f"state {sim_model_state}")
             elif event.type == "EpisodeStep":
                 print(f"action {event.episode_step.action}")
-                simulator.step(event.episode_step.action)
-                print(f"state {simulator.state}")
+                sim_model_state = sim_model.step(event.episode_step.action)
+                print(f"state {sim_model_state}")
             elif event.type == "EpisodeFinish":
-                pass
+                sim_model_state = { 'sim_halted': False }
             elif event.type == "Unregister":
                 print(f"Simulator Session unregistered by platform because '{event.unregister.details}'")
                 return

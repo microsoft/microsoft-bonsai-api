@@ -1,4 +1,5 @@
-# this is one of the cached base images available for ACI
+# Base this container on the Python slim container image available from ACI.
+# See Image Variants at https://hub.docker.com/_/python for information about different flavors of Python containers.
 FROM python:3.7.4-slim
 
 # Set up the simulator

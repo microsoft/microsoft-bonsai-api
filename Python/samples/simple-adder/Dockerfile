@@ -1,5 +1,5 @@
 # this is one of the cached base images available for ACI
-FROM python:3.7.4
+FROM python:3.7.4-slim
 
 # Set up the simulator
 WORKDIR /src

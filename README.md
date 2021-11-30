@@ -44,7 +44,7 @@ Samples that show how to use microsoft-bonsai-api and connect with the Bonsai pl
 
 [adder](https://github.com/microsoft/microsoft-bonsai-api/tree/main/Typescript/samples/adder) - Simple simulator that adds numbers and computes a reward based on the result.
 
-### Other Bonsai repositories
+## Other Bonsai repositories
 
 [bonsai-common](https://github.com/microsoft/bonsai-common) - A Python framework for interfacing with the bonsai platform.
 

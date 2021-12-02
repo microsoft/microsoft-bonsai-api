@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Microsoft.Bonsai.Api.Samples.Cartpole": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "predict https://cartpoleevents.azurewebsites.net/v1/prediction"
     }
   }
 }

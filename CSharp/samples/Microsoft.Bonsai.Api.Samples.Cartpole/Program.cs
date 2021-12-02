@@ -21,21 +21,21 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
         /// <remarks>
         /// You can run the example by itself, or pass the predict and http://localhost:5000/v1/prediction url 
         /// </remarks>
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             if (args.Length == 0)
-                TrainAndAssess();
+                await TrainAndAssess();
             else
             {
                 if (args[0] == "predict")
-                    RunPrediction(args[1]);//assumes the second value is the URL
+                    await RunPrediction(args[1]);//assumes the second value is the URL
             }
         }
 
         /// <summary>
         /// Run the Train or Assessment loop
         /// </summary>
-        private static void TrainAndAssess()
+        private static async Task TrainAndAssess()
         {
             
             String workspaceName = GetWorkspace();
@@ -58,41 +58,29 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
 
             client.EpisodeFinish += (o,e) => { Console.WriteLine(e.EpisodeFinishReason.ToString()); };
 
-            Task.Run(() => client.Connect(model));
+            await client.Connect(model);
 
             Console.ReadLine(); //hold open the console
         }
 
-        private static void RunPrediction(string predictionurl)
+        private static async Task RunPrediction(string predictionurl)
         {
-            Model model = new Model();
+            BonsaiClientConfig bcConfig = new BonsaiClientConfig(predictionurl);
+            BonsaiClient client = new BonsaiClient(bcConfig);
 
-            HttpClient bc = new HttpClient();
-
-            while (true)
+            client.EpisodeStep += (o, e) =>
             {
-                // create the request object -- using random numbers in the state range
-                string reqJson = JsonConvert.SerializeObject(model.State);
+                Action action = new Action();
+                dynamic stepAction = e.Action;
+                action.Command = stepAction.command.Value;
 
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(predictionurl),
-                    Content = new StringContent(reqJson, Encoding.UTF8, "application/json")
-                };
+                Console.WriteLine(action.Command);
 
-                var resp = bc.SendAsync(request).Result;
-                resp.EnsureSuccessStatusCode();
+                // move the model forward
+                model.Step(action);
+            };
 
-                var respJson = resp.Content.ReadAsStringAsync().Result;
-
-                // convert the json string to a dynamic object with Kp and Ki types
-                Action resultObj = (Action)JsonConvert.DeserializeObject(respJson);
-
-                Console.WriteLine($"Kp = {resultObj.Command}");
-                model.Step(resultObj);
-            }
-
+            await client.Connect(model);
         }
 
         private static string GetWorkspace()

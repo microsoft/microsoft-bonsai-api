@@ -8,11 +8,13 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
 {
     using System;
     using System.Net.Http;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Bonsai.SimulatorApi;
     using Microsoft.Bonsai.SimulatorApi.Models;
     using Microsoft.Rest.TransientFaultHandling;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Bonsai API client for simulators to talk to Bonsai platform.
@@ -67,14 +69,24 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         
         public BonsaiClient(BonsaiClientConfig config) : base(handlers: new [] { new CustomRequestHandler() })
         {
-            if (string.IsNullOrEmpty(config.AccessKey))
+            if (!config.UseExportedBrain)
             {
-                throw new System.Exception("AccessKey not set in config!");
-            }
+                if (string.IsNullOrEmpty(config.AccessKey))
+                {
+                    throw new System.Exception("AccessKey not set in config!");
+                }
 
-            if (string.IsNullOrEmpty(config.Workspace))
+                if (string.IsNullOrEmpty(config.Workspace))
+                {
+                    throw new System.Exception("Bonsai workspace not set in config!");
+                }
+            }
+            else
             {
-                throw new System.Exception("Bonsai workspace not set in config!");
+                if(string.IsNullOrWhiteSpace(config.Server))
+                {
+                    throw new System.Exception("No URL configured for the exported brain");
+                }
             }
 
             BonsaiClient.config = config;
@@ -83,117 +95,157 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
             this.SetRetryPolicy(retryPolicy);
         }
 
-
+        /// <summary>
+        /// Call connect to start and run your model against Bonsai
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task Connect(IModel model)
         {
-            SimulatorInterface sim_interface = new SimulatorInterface();
+            if (config.UseExportedBrain)
+            {
+                await ConnectExportedBrain(model);
+            }
+            else
+            {
+                SimulatorInterface sim_interface = new SimulatorInterface();
 
-            sim_interface.Name = "CSharp-Simulator";
-            sim_interface.Timeout = 60;
-            sim_interface.Capabilities = null;
+                sim_interface.Name = "CSharp-Simulator";
+                sim_interface.Timeout = 60;
+                sim_interface.Capabilities = null;
 
-            await Connect(sim_interface, model);
+                await ConnectTrainAndAssess(sim_interface, model);
+            }
         }
 
-        public async Task Connect(SimulatorInterface sim_interface, IModel model)
+        /// <summary>
+        /// Connects the model and starts for training and assessment
+        /// </summary>
+        /// <param name="sim_interface"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task ConnectTrainAndAssess(SimulatorInterface sim_interface, IModel model)
         {
-            await Task.Run(() => {
-                // object that indicates if we have registered successfully
-                object registered = null;
-                string sessionId = "";
-                int sequenceId = 1;
+            // object that indicates if we have registered successfully
+            object registered = null;
+            string sessionId = "";
+            int sequenceId = 1;
 
-                while (true)
+            while (true)
+            {
+                // go through the registration process
+                if (registered == null)
                 {
-                    // go through the registration process
-                    if (registered == null)
+                    var sessions = this.Session;
+
+                    // minimum required
+                    sim_interface.SimulatorContext = BonsaiClient.config.SimulatorContext;
+
+                    var registrationResponse = await sessions.CreateWithHttpMessagesAsync(BonsaiClient.config.Workspace, sim_interface);
+
+                    if (registrationResponse.Body.GetType() == typeof(SimulatorSessionResponse))
                     {
-                        var sessions = this.Session;
+                        registered = registrationResponse;
 
-                        // minimum required
-                        sim_interface.SimulatorContext = BonsaiClient.config.SimulatorContext;
+                        SimulatorSessionResponse sessionResponse = registrationResponse.Body;
 
-                        var registrationResponse = sessions.CreateWithHttpMessagesAsync(BonsaiClient.config.Workspace, sim_interface).Result;
-
-                        if (registrationResponse.Body.GetType() == typeof(SimulatorSessionResponse))
-                        {
-                            registered = registrationResponse;
-
-                            SimulatorSessionResponse sessionResponse = registrationResponse.Body;
-
-                            // this is required
-                            sessionId = sessionResponse.SessionId;
-                        }
-
-                        Console.WriteLine(DateTime.Now + " - registered session " + sessionId);
-
+                        // this is required
+                        sessionId = sessionResponse.SessionId;
                     }
-                    else // now we are registered
+
+                    Console.WriteLine(DateTime.Now + " - registered session " + sessionId);
+
+                }
+                else // now we are registered
+                {
+                    Console.WriteLine(DateTime.Now + " - advancing " + sequenceId);
+
+                    // build the SimulatorState object
+                    SimulatorState simState = new SimulatorState();
+                    simState.SequenceId = sequenceId; // required
+                    simState.State = model.State; // required
+                    simState.Halted = model.Halted; // required
+
+                    try
                     {
-                        Console.WriteLine(DateTime.Now + " - advancing " + sequenceId);
+                        // advance only returns an object, so we need to check what type of object
+                        var response = await this.Session.AdvanceWithHttpMessagesAsync(BonsaiClient.config.Workspace, sessionId, simState);
 
-                        // build the SimulatorState object
-                        SimulatorState simState = new SimulatorState();
-                        simState.SequenceId = sequenceId; // required
-                        simState.State = model.State; // required
-                        simState.Halted = model.Halted; // required
-
-                        try
+                        // if we get an error during advance
+                        if (response.Body.GetType() == typeof(EventModel))
                         {
-                            // advance only returns an object, so we need to check what type of object
-                            var response = this.Session.AdvanceWithHttpMessagesAsync(BonsaiClient.config.Workspace, sessionId, simState).Result;
 
-                            // if we get an error during advance
-                            if (response.Body.GetType() == typeof(EventModel))
+                            EventModel eventModel = (EventModel)response.Body;
+                            Console.WriteLine(DateTime.Now + " - received event: " + eventModel.Type);
+                            sequenceId = eventModel.SequenceId; // get the sequence from the result
+
+                            // now check the type of event and handle accordingly
+
+                            if (eventModel.Type == EventType.EpisodeStart)
                             {
-
-                                EventModel eventModel = (EventModel)response.Body;
-                                Console.WriteLine(DateTime.Now + " - received event: " + eventModel.Type);
-                                sequenceId = eventModel.SequenceId; // get the sequence from the result
-
-                                // now check the type of event and handle accordingly
-
-                                if (eventModel.Type == EventType.EpisodeStart)
+                                OnEpisodeStart(new EpisodeStartEventArgs() { Config = eventModel.EpisodeStart.Config });
+                            }
+                            else if (eventModel.Type == EventType.EpisodeStep)
+                            {
+                                OnEpisodeStep(new EpisodeStepEventArgs() { Action = eventModel.EpisodeStep.Action });
+                            }
+                            else if (eventModel.Type == EventType.EpisodeFinish)
+                            {
+                                // Console.WriteLine("Episode Finish");
+                                OnEpisodeFinish(new EpisodeFinishEventArgs() { EpisodeFinishReason = eventModel.EpisodeFinish.Reason });
+                            }
+                            else if (eventModel.Type == EventType.Idle)
+                            {
+                                Thread.Sleep(Convert.ToInt32(eventModel.Idle.CallbackTime) * 1000);
+                            }
+                            else if (eventModel.Type == EventType.Unregister)
+                            {
+                                try
                                 {
-                                    OnEpisodeStart(new EpisodeStartEventArgs() { Config = eventModel.EpisodeStart.Config });
+                                    await this.Session.DeleteWithHttpMessagesAsync(BonsaiClient.config.Workspace, sessionId);
                                 }
-                                else if (eventModel.Type == EventType.EpisodeStep)
+                                catch (Exception ex)
                                 {
-                                    OnEpisodeStep(new EpisodeStepEventArgs() { Action = eventModel.EpisodeStep.Action });
-                                }
-                                else if (eventModel.Type == EventType.EpisodeFinish)
-                                {
-                                    // Console.WriteLine("Episode Finish");
-                                    OnEpisodeFinish(new EpisodeFinishEventArgs() { EpisodeFinishReason = eventModel.EpisodeFinish.Reason });
-                                }
-                                else if (eventModel.Type == EventType.Idle)
-                                {
-                                    Thread.Sleep(Convert.ToInt32(eventModel.Idle.CallbackTime) * 1000);
-                                }
-                                else if (eventModel.Type == EventType.Unregister)
-                                {
-                                    try
-                                    {
-                                        this.Session.DeleteWithHttpMessagesAsync(BonsaiClient.config.Workspace, sessionId).Wait();
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("cannot unregister: " + ex.Message);
-                                    }
+                                    Console.WriteLine("cannot unregister: " + ex.Message);
                                 }
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error occurred at " + DateTime.UtcNow + ":");
-                            Console.WriteLine(ex.ToString());
-                            Console.WriteLine("Simulation will now end");
-                            Environment.Exit(0);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error occurred at " + DateTime.UtcNow + ":");
+                        Console.WriteLine(ex.ToString());
+                        Console.WriteLine("Simulation will now end");
+                        Environment.Exit(0);
                     }
                 }
-            });
+            }
+            
         }
+
+        public async Task ConnectExportedBrain(IModel model)
+        {
+            HttpClient bc = new HttpClient();
+
+            while (true)
+            {
+                // create the request object -- using random numbers in the state range
+                string reqJson = JsonConvert.SerializeObject(model.State);
+
+                var content = new StringContent(reqJson, Encoding.UTF8, "application/json");
+                
+                var resp = await bc.PostAsync(config.Server, content);
+                resp.EnsureSuccessStatusCode();
+
+                var respJson = await resp.Content.ReadAsStringAsync();
+
+                // convert the json string to a dynamic object with Kp and Ki types
+                object resultObj = JsonConvert.DeserializeObject(respJson);
+
+                OnEpisodeStep(new EpisodeStepEventArgs() { Action =  resultObj });
+            }
+        }
+
 
         protected virtual void OnEpisodeStart(EpisodeStartEventArgs args)
         {

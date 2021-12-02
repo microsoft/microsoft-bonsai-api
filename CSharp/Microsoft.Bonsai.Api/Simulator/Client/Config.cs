@@ -20,28 +20,33 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         /// <summary>
         /// bonsai workspace.
         /// </summary>
-        public string Workspace;
+        public string Workspace { get; set; }
 
         /// <summary>
         /// AccessKey for your bonsai workspace, for authentication with the platform.
         /// </summary>
-        public string AccessKey;
+        public string AccessKey { get; set; }
 
         /// <summary>
         /// Flag to indicate if you want to enable verbose logging to debug.
         /// </summary>
-        public bool EnableLogging;
+        public bool EnableLogging { get; set; }
 
         /// <summary>
         /// Bonsai API Server URL.
         /// </summary>
-        public string Server;
+        public string Server { get; set; }
 
         /// <summary>
         /// SimulatorContext string, that needs to be passed while creating SimulatorSession.
         /// This is opaque string and you don't need to worry, but make sure, you pass it during sim creation.
         /// </summary>
-        public string SimulatorContext;
+        public string SimulatorContext { get; set; }
+
+        /// <summary>
+        /// True/False indicating to use an exported brain
+        /// </summary>
+        public bool UseExportedBrain { get; set; }
 
         public BonsaiClientConfig(string workspace, string accessKey = "", bool enableLogging = false)
         {
@@ -60,6 +65,16 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
             }
 
             this.EnableLogging = enableLogging;
+        }
+
+        /// <summary>
+        /// Configure the SDK to use the exported brain
+        /// </summary>
+        /// <param name="exportedBrainUrl">The URL for the exported brain</param>
+        public BonsaiClientConfig(string exportedBrainUrl)
+        {
+            this.UseExportedBrain = true;
+            this.Server = exportedBrainUrl;
         }
     }
 }

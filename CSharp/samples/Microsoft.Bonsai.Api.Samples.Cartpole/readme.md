@@ -40,7 +40,7 @@ where
 - **%SIM_ACCESS_KEY%** either exists in your environment variables, or is your access key
 - **csharp-cartpole** is your docker image name
 
-If you don't have Docker installed or you don't want to build it on your local machine first, you can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) with the following command to build the provided Dockerfile that creates a simulator package directly on Azure Container Registry (note the trailing period!):
+If you don't have Docker installed or you don't want to build the container on your local machine first, you can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) with the following command to build the provided Dockerfile that creates a simulator package directly on Azure Container Registry (note the trailing period!):
 
 ```azurecli
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .
@@ -62,15 +62,13 @@ az account set --subscription <SUBSCRIPTION_ID>
 
 ## Training
 
-Once you've built the simulator package and pushed it to Azure Container Registry, you can use the Bonsai Web UI to import the simulator.
-
-Go to your [workspace](https://preview.bons.ai/) and look for the `+ Add sim` button in the bottom left corner. Alternatively, you can use the [`bonsai-cli`](https://pypi.org/project/bonsai-cli/) to add the simulator with the [bonsai simulator package container create](https://docs.microsoft.com/en-us/bonsai/cli/simulator/package/add) command.
+Once you've built the simulator package and pushed it to Azure Container Registry, you can use the Bonsai Web UI to import the simulator. Go to your [workspace](https://preview.bons.ai/) and look for the `+ Add sim` button in the bottom left corner. Alternatively, you can use the [`bonsai-cli`](https://pypi.org/project/bonsai-cli/) to add the simulator with the [bonsai simulator package container create](https://docs.microsoft.com/en-us/bonsai/cli/simulator/package/add) command.
 
 Finally, use the Inkling code from `machine-teaching.ink` to train a brain using the simulator package created above. Be sure to add the package name to `source simulator{}` in your training concept graph on line 46.
 
 
 # Assessment
-To assess your brain during or after training is complete, click "New assessment" on the `Train` tab in the Bonsai Web UI t create a new custom assessment. Alternatively, you can use the `bonsai-cli` to [start an assessment](https://docs.microsoft.com/en-us/bonsai/cli/brain/version/assessment/start).
+To assess your brain during or after training is complete, click `New assessment` on the `Train` tab in the Bonsai Web UI t create a new custom assessment. Alternatively, you can use the `bonsai-cli` to [start an assessment](https://docs.microsoft.com/en-us/bonsai/cli/brain/version/assessment/start).
 
 # Prediction
 

@@ -345,7 +345,9 @@ def main(
             )
 
     # Grab standardized way to interact with sim API
-    sim = TemplateSimulatorSession(render=render, log_data=log_iterations, env_name=simulator_name)
+    sim = TemplateSimulatorSession(
+        render=render, log_data=log_iterations, env_name=simulator_name
+    )
 
     # Configure client to interact with Bonsai service
     config_client = BonsaiClientConfig()
@@ -366,8 +368,7 @@ def main(
     def CreateSession(
         registration_info: SimulatorInterface, config_client: BonsaiClientConfig
     ):
-        """Creates a new Simulator Session and returns new session, sequenceId
-        """
+        """Creates a new Simulator Session and returns new session, sequenceId"""
 
         try:
             print(
@@ -404,9 +405,21 @@ def main(
             # resulting from the previous event. Note that the sim must always be able to return a valid
             # structure from get_state, including the first time advance is called, before an EpisodeStart
             # message has been received.
-            sim_state = SimulatorState(
-                sequence_id=sequence_id, state=sim.get_state(), halted=sim.halted(),
-            )
+            if random.randrange(0, 9) == 1:
+                sim_state = SimulatorState(
+                    sequence_id=sequence_id,
+                    state=sim.get_state(),
+                    halted=sim.halted(),
+                    error="random error",
+                )
+            else:
+                sim_state = SimulatorState(
+                    sequence_id=sequence_id,
+                    state=sim.get_state(),
+                    halted=sim.halted(),
+                    error="none",
+                )
+
             try:
                 event = client.session.advance(
                     workspace_name=config_client.workspace,
@@ -521,7 +534,10 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
     parser.add_argument(
-        "--render", action="store_true", default=False, help="Render training episodes",
+        "--render",
+        action="store_true",
+        default=False,
+        help="Render training episodes",
     )
     parser.add_argument(
         "--log-iterations",
@@ -567,7 +583,8 @@ if __name__ == "__main__":
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "--test-random", action="store_true",
+        "--test-random",
+        action="store_true",
     )
 
     group.add_argument(
@@ -633,4 +650,3 @@ if __name__ == "__main__":
             workspace=args.workspace,
             accesskey=args.accesskey,
         )
-

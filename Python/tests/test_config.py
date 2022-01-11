@@ -3,8 +3,9 @@ Tests for Config class
 Copyright 2020 Microsoft
 """
 
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from unittest.mock import patch
+
+from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 
 
 def test_default_config():

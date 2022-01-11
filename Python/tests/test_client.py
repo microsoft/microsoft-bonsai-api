@@ -21,18 +21,20 @@ def test_default_client_construction():
 
 
 def test_no_access_key_throws_error():
-    config = BonsaiClientConfig()
-    config.workspace = "1"
+    with patch.dict("os.environ", {}, clear=True):
+        config = BonsaiClientConfig()
+        config.workspace = "1"
 
-    with pytest.raises(RuntimeError):
-        BonsaiClient(config)
+        with pytest.raises(RuntimeError):
+            BonsaiClient(config)
 
 
 def test_no_workspace_throws_error():
-    config = BonsaiClientConfig()
-    config.access_key = "1"
-    with pytest.raises(RuntimeError):
-        BonsaiClient(config)
+    with patch.dict("os.environ", {}, clear=True):
+        config = BonsaiClientConfig()
+        config.access_key = "1"
+        with pytest.raises(RuntimeError):
+            BonsaiClient(config)
 
 
 def test_400_err_registration():

@@ -9,9 +9,10 @@ from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 
 
 def test_default_config():
-    config = BonsaiClientConfig()
-    assert config.workspace == ""
-    assert config.server == "https://api.bons.ai"
+    with patch.dict("os.environ", {}, clear=True):
+        config = BonsaiClientConfig()
+        assert config.workspace == ""
+        assert config.server == "https://api.bons.ai"
 
 
 def test_config_reads_env_vars():

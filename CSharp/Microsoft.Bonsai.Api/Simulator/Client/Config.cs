@@ -7,6 +7,7 @@
 namespace Microsoft.Bonsai.SimulatorApi.Client
 {
     using System;
+    using System.Security;
 
     /// <summary>
     /// Configuration information needed to connect to the service.
@@ -75,6 +76,29 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         {
             this.UseExportedBrain = true;
             this.Server = exportedBrainUrl;
+            this.UseClientSecret = false;
         }
+
+        /// <summary>
+        /// Configure the SDK to use the exported brain
+        /// </summary>
+        /// <param name="exportedBrainUrl">The URL for the exported brain</param>
+        public BonsaiClientConfig(string tokenGrantingAddress, string applicationId, string clientSecret, string exportedBrainUrl)
+        {
+            this.UseClientSecret = true;
+            this.ApplicationId = applicationId;
+            this.ClientSecret = clientSecret;
+            this.TokenGrantingAddress = tokenGrantingAddress;
+            this.UseExportedBrain = true;
+            this.Server = exportedBrainUrl;
+        }
+
+        public string TokenGrantingAddress { get; set; }
+        public string ApplicationId { get; set; }
+        
+        // use SecureString?
+        public string ClientSecret { get; set; }
+
+        public bool UseClientSecret { get; set; }
     }
 }

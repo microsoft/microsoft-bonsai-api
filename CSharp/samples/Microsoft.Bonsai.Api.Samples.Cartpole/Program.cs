@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Microsoft.Bonsai.Api.Samples.Cartpole
 {
@@ -44,7 +46,12 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             BonsaiClientConfig bcConfig = new BonsaiClientConfig(workspaceName, accessKey);
             BonsaiClient client = new BonsaiClient(bcConfig);
 
-            client.EpisodeStart += (o,e) => { Config config = new Config(); model.Start(config); };
+            client.EpisodeStart += (o,e) => 
+            { 
+                Config config = new Config(); 
+                model.Start(config); 
+            };
+
             client.EpisodeStep += (o, e) => 
             {
                 Action action = new Action();
@@ -63,12 +70,64 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             Console.ReadLine(); //hold open the console
         }
 
-        private static async Task RunPrediction(string predictionurl)
+        private static async Task RunPrediction(string exportedBrainUrl)
         {
-            BonsaiClientConfig bcConfig = new BonsaiClientConfig(predictionurl);
-            BonsaiClient client = new BonsaiClient(bcConfig);
+            BonsaiClientConfig bcConfig;
 
-            client.EpisodeStep += (o, e) =>
+            #region if internal to sdk
+
+            bool useCredentials = true;
+
+            if (File.Exists("aad.json"))
+            {
+                AzureADAppDetails aad = JsonConvert.DeserializeObject<AzureADAppDetails>(File.ReadAllText("aad.json"));
+
+                bcConfig = new BonsaiClientConfig(aad.OAuthTokenUrl, aad.ApplicationId, aad.ClientSecret, exportedBrainUrl);
+            }
+            else
+            {
+                bcConfig = new BonsaiClientConfig(exportedBrainUrl);
+            }
+            #endregion
+
+            BonsaiClient bonsaiClient = new BonsaiClient(bcConfig);
+
+            #region client manages own auth flow
+            //string authorizationToken = "";
+            
+            //if (useCredentials)
+            //{
+            //    AzureADAppDetails aad = JsonConvert.DeserializeObject<AzureADAppDetails>(File.ReadAllText("aad.json"));
+
+            //    bonsaiClient.SetBearerTokenForExportedBrain += (o, e)  =>   
+            //    {
+            //        // TODO: Refresh the token
+
+            //        if (string.IsNullOrWhiteSpace(authorizationToken))
+            //        {
+            //            // send the client secret to obtain the authorization token
+            //            var form = new Dictionary<string, string>()
+            //            {
+            //                { "grant_type", "client_credentials" },
+            //                { "client_id", aad.ApplicationId},
+            //                { "client_secret", aad.ClientSecret},
+            //                { "resource", $"api://{aad.ApplicationId}" }, //<--this edits the audience, which is what is needed
+            //            };
+
+            //            using HttpClient oauthClient = new HttpClient();
+            //            HttpResponseMessage tokenResponse = oauthClient.PostAsync(aad.OAuthTokenUrl, new FormUrlEncodedContent(form)).Result;
+            //            var jsonContent = tokenResponse.Content.ReadAsStringAsync().Result;
+            //            AADToken tok = JsonConvert.DeserializeObject<AADToken>(jsonContent);
+            //            authorizationToken = tok.AccessToken;
+            //        }
+
+            //        // set the auth token value to be used for calling the exported brain
+            //        bonsaiClient.AuthorizationTokenForExportedBrain = authorizationToken;
+            //    };
+            //}
+            #endregion
+
+            bonsaiClient.EpisodeStep += (o, e) =>
             {
                 Action action = new Action();
                 dynamic stepAction = e.Action;
@@ -80,7 +139,7 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
                 model.Step(action);
             };
 
-            await client.Connect(model);
+            await bonsaiClient.Connect(model);
         }
 
         private static string GetWorkspace()
@@ -106,5 +165,18 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             //fill in your Bonsai access key
             return "<your_bonsai_access_key>";
         }
+    }
+
+    [JsonObject]
+    public class AzureADAppDetails
+    {
+        [JsonProperty(PropertyName = "appId", Required = Required.Always)]
+        public string ApplicationId { get; set; }
+
+        [JsonProperty(PropertyName = "clientSecret", Required = Required.Always)]
+        public string ClientSecret { get; set; }
+
+        [JsonProperty(PropertyName = "tokenAddress", Required = Required.Always)]
+        public string OAuthTokenUrl { get; set; }
     }
 }

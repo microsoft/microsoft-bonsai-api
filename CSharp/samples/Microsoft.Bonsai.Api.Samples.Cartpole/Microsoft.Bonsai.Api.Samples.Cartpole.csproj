@@ -13,4 +13,10 @@
     <ProjectReference Include="..\..\Microsoft.Bonsai.Api\Simulator\Microsoft.Bonsai.Api.Simulator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="aad.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

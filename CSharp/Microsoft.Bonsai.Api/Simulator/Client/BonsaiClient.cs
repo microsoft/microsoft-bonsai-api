@@ -7,6 +7,7 @@
 namespace Microsoft.Bonsai.SimulatorApi.Client
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
     using System.Threading;
@@ -30,6 +31,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         public EventHandler<EpisodeStartEventArgs> EpisodeStart;
         public EventHandler<EpisodeStepEventArgs> EpisodeStep;
         public EventHandler<EpisodeFinishEventArgs> EpisodeFinish;
+        public EventHandler SetBearerTokenForExportedBrain;
 
         /// <summary>
         /// Currently handles authentication and logging. But we can add other logic in this interceptor as well.
@@ -223,18 +225,53 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
             
         }
 
+        public string AuthorizationTokenForExportedBrain { get; set; }
+
         public async Task ConnectExportedBrain(IModel model)
         {
-            HttpClient bc = new HttpClient();
+            HttpClient client = new HttpClient();
+
+            #region if internal to the SDK
+            this.AuthorizationTokenForExportedBrain = "";
+
+            // need to handle refresh tokens
+
+            if (config.UseClientSecret)
+            {
+                var form = new Dictionary<string, string>()
+                {
+                    { "grant_type", "client_credentials" },
+                    { "client_id", config.ApplicationId},
+                    { "client_secret", config.ClientSecret},
+                    { "resource", $"api://{config.ApplicationId}" }, //<--this edits the audience, which is what is needed
+                };
+
+                HttpResponseMessage tokenResponse = await client.PostAsync(config.TokenGrantingAddress, new FormUrlEncodedContent(form));
+                var jsonContent = await tokenResponse.Content.ReadAsStringAsync();
+                AADToken tok = JsonConvert.DeserializeObject<AADToken>(jsonContent);
+
+                this.AuthorizationTokenForExportedBrain = tok.AccessToken;
+            }
+            #endregion
 
             while (true)
             {
+                // give the caller a chance to inject an updated token before each request is made
+                OnSetBearerTokenForExportedBrain();
+
+                // use the auth token if its not empty
+                if (!string.IsNullOrWhiteSpace (this.AuthorizationTokenForExportedBrain))
+                {
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.AuthorizationTokenForExportedBrain);
+                }
+
                 // create the request object -- using random numbers in the state range
                 string reqJson = JsonConvert.SerializeObject(model.State);
 
                 var content = new StringContent(reqJson, Encoding.UTF8, "application/json");
                 
-                var resp = await bc.PostAsync(config.Server, content);
+                var resp = await client.PostAsync(config.Server, content);
                 resp.EnsureSuccessStatusCode();
 
                 var respJson = await resp.Content.ReadAsStringAsync();
@@ -245,7 +282,6 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
                 OnEpisodeStep(new EpisodeStepEventArgs() { Action =  resultObj });
             }
         }
-
 
         protected virtual void OnEpisodeStart(EpisodeStartEventArgs args)
         {
@@ -276,6 +312,13 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
 
         }
 
+        protected virtual void OnSetBearerTokenForExportedBrain()
+        {
+            if (SetBearerTokenForExportedBrain != null)
+            {
+                SetBearerTokenForExportedBrain(this, EventArgs.Empty);
+            }
+        }
     }
 
     public interface IModel
@@ -307,5 +350,20 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
     public class UnregisterEventArgs : EventArgs
     {
         public UnregisterReason? UnregisterReason { get; set; }
+    }
+
+    public class AADToken
+    {
+        [JsonProperty("access_token")]
+        public string AccessToken { get; set; }
+
+        [JsonProperty("token_type")]
+        public string TokenType { get; set; }
+
+        [JsonProperty("expires_in")]
+        public int ExpiresIn { get; set; }
+
+        [JsonProperty("refresh_token")]
+        public string RefreshToken { get; set; }
     }
 }

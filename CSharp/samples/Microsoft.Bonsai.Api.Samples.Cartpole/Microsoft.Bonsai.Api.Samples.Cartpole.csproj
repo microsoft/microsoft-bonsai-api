@@ -3,11 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject></StartupObject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Program - Copy.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Bonsai.Api\Simulator\Microsoft.Bonsai.Api.Simulator.csproj" />

@@ -83,12 +83,12 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         /// Configure the SDK to use the exported brain
         /// </summary>
         /// <param name="exportedBrainUrl">The URL for the exported brain</param>
-        public BonsaiClientConfig(string tokenGrantingAddress, string applicationId, string clientSecret, string exportedBrainUrl)
+        public BonsaiClientConfig(string oauthTokenGrantingUri, string applicationId, string clientSecret, string exportedBrainUrl)
         {
             this.UseClientSecret = true;
             this.ApplicationId = applicationId;
             this.ClientSecret = clientSecret;
-            this.TokenGrantingAddress = tokenGrantingAddress;
+            this.TokenGrantingAddress = oauthTokenGrantingUri;
             this.UseExportedBrain = true;
             this.Server = exportedBrainUrl;
         }

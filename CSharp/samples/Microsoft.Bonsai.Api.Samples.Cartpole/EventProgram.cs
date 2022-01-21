@@ -88,7 +88,7 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             
             BonsaiClient bonsaiClient = new BonsaiClient(bcConfig);
 
-            bonsaiClient.EpisodeStep += (o, e) =>
+            bonsaiClient.ActionReceived += (o, e) =>
             {
                 Action action = new Action();
                 dynamic stepAction = e.Action;

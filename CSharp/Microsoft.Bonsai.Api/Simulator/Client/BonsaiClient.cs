@@ -31,6 +31,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         public EventHandler<EpisodeStartEventArgs> EpisodeStart;
         public EventHandler<EpisodeStepEventArgs> EpisodeStep;
         public EventHandler<EpisodeFinishEventArgs> EpisodeFinish;
+        public EventHandler<ActionReceivedEventArgs> ActionReceived;
         public EventHandler SetBearerTokenForExportedBrain;
 
         /// <summary>
@@ -279,7 +280,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
                 // convert the json string to a dynamic object with Kp and Ki types
                 object resultObj = JsonConvert.DeserializeObject(respJson);
 
-                OnEpisodeStep(new EpisodeStepEventArgs() { Action =  resultObj });
+                OnActionReceived(new ActionReceivedEventArgs() { Action =  resultObj });
             }
         }
 
@@ -319,6 +320,16 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
                 SetBearerTokenForExportedBrain(this, EventArgs.Empty);
             }
         }
+
+        protected virtual void OnActionReceived(ActionReceivedEventArgs args)
+        {
+
+            if (ActionReceived != null)
+            {
+                ActionReceived(this, args);
+            }
+
+        }
     }
 
     public interface IModel
@@ -334,6 +345,11 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
 
     public class EpisodeStepEventArgs : EventArgs 
     { 
+        public object Action { get; set; }
+    }
+
+    public class ActionReceivedEventArgs : EventArgs
+    {
         public object Action { get; set; }
     }
 

@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 
+from asyncio.log import logger
+from cmath import log
 import os
 import time
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
 from sim.simulator_model import SimulatorModel
+
+#additional imports
+import logging
+import logging.handlers
+import sys
 
 def main():
     """
@@ -15,7 +22,35 @@ def main():
     accesskey = os.getenv("SIM_ACCESS_KEY")
 
     config_client = BonsaiClientConfig()
+    config_client.enable_logging = True #enable DEBUG on the logger
+    
     client = BonsaiClient(config_client)
+
+    #get the logger used by BonsaiClient and clear any existing handlers 
+    logger = logging.getLogger('azure')
+    logger.root.handlers.clear() #this is needed to clear all default handlers
+
+    #create preferred output formats, if desired
+    log_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
+    log_console_format = "[%(levelname)s]: %(message)s"
+
+    # create a handler for DEBUG outputs
+    debugFileHandler = logging.handlers.RotatingFileHandler('simdebugoutput.log',  maxBytes=10**6, backupCount=5)
+    debugFileHandler.setLevel(logging.DEBUG)
+    debugFileHandler.setFormatter(logging.Formatter(log_file_format))
+    logger.handlers.append(debugFileHandler)
+
+    # create a handler for INFO outputs
+    infoOutputHandler = logging.StreamHandler(sys.stdout)
+    infoOutputHandler.setLevel(logging.INFO)
+    infoOutputHandler.setFormatter(logging.Formatter(log_console_format))
+    logger.handlers.append(infoOutputHandler)
+
+    # create a handler for ERROR outputs
+    errorOutputHandler = logging.StreamHandler(sys.stderr)
+    errorOutputHandler.setLevel(logging.ERROR)
+    errorOutputHandler.setFormatter(logging.Formatter(log_console_format))
+    logger.handlers.append(errorOutputHandler)
 
     registration_info = SimulatorInterface(
         name="simple-adder-sim",

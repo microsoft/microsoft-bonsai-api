@@ -28,6 +28,7 @@ def main():
 
     #get the logger used by BonsaiClient and clear any existing handlers 
     logger = logging.getLogger('azure')
+    logger.setLevel(logging.DEBUG)
     logger.root.handlers.clear() #this is needed to clear all default handlers
 
     #create preferred output formats, if desired

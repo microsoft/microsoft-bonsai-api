@@ -18,8 +18,14 @@ function main() {
     const config = new Simulator.Client.BonsaiClientConfig();
     const client = new Simulator.Client.BonsaiClient(config);
 
+    //
+    // SimInterface contains all the information, that can be passed during sim session creation.
+    // apart from name, simulatorContext and timeout, user can also pass optional description and capabilities here.
+    //
     const simInterface: Simulator.Generated.SimulatorAPIModels.SimulatorInterface = {
         name: 'adder',
+        simulatorContext: config.simulatorContext,
+        timeout: 10,
     };
 
     log('Attempting to register simulator');

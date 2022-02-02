@@ -6,6 +6,8 @@ Brain states and return Brain actions.
 import random
 from typing import Dict
 
+import requests
+
 
 def random_policy(state: Dict = None):
     """

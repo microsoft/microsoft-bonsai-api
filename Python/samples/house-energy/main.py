@@ -3,23 +3,22 @@
 Microsoft-Bonsai-API integration with House Energy Simulator
 """
 
+import datetime
+import json
 import os
 import pathlib
 import time
-import datetime
-import random
-from distutils.util import strtobool
-from typing import Any, Dict, List, Union
+from functools import partial
+from typing import Any, Dict, Union
+
 from azure.core.exceptions import HttpResponseError
 from dotenv import load_dotenv, set_key
-import json
-from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
+from microsoft_bonsai_api.simulator.client import (BonsaiClient,
+                                                   BonsaiClientConfig)
 from microsoft_bonsai_api.simulator.generated.models import (
-    SimulatorInterface,
-    SimulatorState,
-)
+    SimulatorInterface, SimulatorState)
 
-from policies import random_policy, forget_memory, brain_policy
+from policies import brain_policy, forget_memory, random_policy
 from sim import house_simulator
 
 LOG_PATH = "logs"
@@ -180,7 +179,6 @@ class TemplateSimulatorSession:
 
         # def add_prefixes(d, prefix: str):
         #     return {f"{prefix}_{k}": v for k, v in d.items()}
-        
         # state = add_prefixes(state, "state")
         # action = add_prefixes(action, "action")
         # config = add_prefixes(self.sim_config, "config")

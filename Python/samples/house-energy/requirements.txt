@@ -3,4 +3,4 @@ numpy>=1.15.1
 python-dotenv==0.13.0
 bonsai-cli==1.0.0
 microsoft-bonsai-api==0.1.1
-matplotlib==3.0.3
+matplotlib

@@ -9,7 +9,10 @@ class SimulatorModel:
 
     def __init__(self):
         """ Perform global initialization here if needed before running episodes. """
-        pass
+        self.interface = {
+            'name': 'simple-adder-sim',
+            'timeout': 60,
+        }
 
     def reset(self, config) -> Dict[str, Any]:
         """ Reset any state from the previous episode and get ready to start a new episode. """

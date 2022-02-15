@@ -1,4 +1,4 @@
-FROM python:3.9.10-windowsservercore-1809
+FROM python:3.7.3-windowsservercore-1809
 
 # $ProgressPreference: https://github.com/PowerShell/PowerShell/issues/2138#issuecomment-251261324
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]

@@ -1,3 +1,5 @@
+# Note that a Python 3.9 base image is used because the official Python docker images at
+# https://hub.docker.com/_/python no longer support Python 3.7 for Windows Server Core.
 FROM python:3.9.10-windowsservercore-1809
 
 # $ProgressPreference: https://github.com/PowerShell/PowerShell/issues/2138#issuecomment-251261324

@@ -12,7 +12,9 @@ ADD requirements.txt /src/requirements.txt
 RUN pip install --upgrade pip --user
 RUN pip3 install setuptools wheel 
 RUN pip3 install -r requirements.txt 
-# update certificates:
+
+# Update trusted root certificates from Windows Update.
+# See https://bugs.python.org/issue36137 for more information.
 RUN certutil -generateSSTFromWU roots.sst 
 RUN certutil -addstore -f root roots.sst 
 RUN del roots.sst

@@ -27,6 +27,10 @@ def get_app():
         "/v2/workspaces/{workspace}/simulatorSessions/{session_id}/advance",
         stub.get_next_event,
     )
+    app.router.add_delete(
+        "/v2/workspaces/{workspace}/simulatorSessions/{session_id}",
+        stub.delete,
+    )
     return app
 
 
@@ -80,11 +84,15 @@ class SimulatorGatewayStub:
         ):
             return web.Response(status=503, text="Service Unavailable")
 
+        if self._count == 100:
+            return web.json_response(MOCK_UNREGISTER_RESPONSE)
+
         if self._count == 1:
             return web.json_response(MOCK_EPISODE_START_RESPONSE)
 
         if self._count % 25 == 0:
             return web.json_response(MOCK_EPISODE_FINISH_RESPONSE)
+
 
         if "500" in request.match_info["workspace"]:
             return web.json_response(status=500, text="Internal Server Error")
@@ -93,6 +101,9 @@ class SimulatorGatewayStub:
 
     async def unregister(self, request):
         return web.json_response(MOCK_UNREGISTER_RESPONSE)
+
+    async def delete(self, request):
+        return web.HTTPNoContent()
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
   "profiles": {
     "Microsoft.Bonsai.Api.Samples.Cartpole": {
       "commandName": "Project",
-      "commandLineArgs": "predict https://cartpoleevents.azurewebsites.net/v1/prediction"
+      "commandLineArgs": "predict https://coe-from-cli.azurewebsites.net/v1/prediction False"
     }
   }
 }

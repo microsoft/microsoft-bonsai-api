@@ -9,6 +9,17 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
     {
         public static void Main(string[] args)
         {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(var a in args)
+            {
+                if (sb.Length > 0)
+                    sb.Append(" ");
+
+                sb.Append(a);
+            }
+
+            Console.WriteLine($"Starting program with {sb.ToString()}");
 
             Console.WriteLine("Enter 0 for EventProgram or 1 for LoopProgram:");
             string choice = Console.ReadLine();

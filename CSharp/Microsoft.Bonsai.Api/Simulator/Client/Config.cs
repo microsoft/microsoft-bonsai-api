@@ -49,6 +49,11 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         /// </summary>
         public bool UseExportedBrain { get; set; }
 
+        /// <summary>
+        /// True/False indicating to use an exported brain
+        /// </summary>
+        public int ExportedBrainClientTimeout { get; set; }
+
         public BonsaiClientConfig(string workspace, string accessKey = "", bool enableLogging = false)
         {
             this.Workspace = System.Environment.GetEnvironmentVariable("SIM_WORKSPACE");

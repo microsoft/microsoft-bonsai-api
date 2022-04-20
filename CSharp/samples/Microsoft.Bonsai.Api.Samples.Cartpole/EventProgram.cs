@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Bonsai.Api.Samples.Cartpole
 {
-    class EventProgram
+    public class EventProgram
     {
         //the cartpole model
         private static Model model = new Model();
@@ -30,7 +30,18 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             else
             {
                 if (args[0] == "predict")
-                    await RunPrediction(args[1]);//assumes the second value is the URL
+                {
+                    bool useAuthentication = false;
+                    string predictionUrl = "";
+
+                    if (args.Length >= 2)
+                        predictionUrl = args[1];//assumes the second value is the URL
+
+                    if (args.Length == 3)
+                        useAuthentication = bool.Parse(args[2]);
+
+                    await RunPrediction(predictionUrl, useAuthentication);
+                }
             }
         }
 
@@ -70,22 +81,28 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
             Console.ReadLine(); //hold open the console
         }
 
-        private static async Task RunPrediction(string exportedBrainUrl)
+        private static async Task RunPrediction(string exportedBrainUrl, bool useCredentials)
         {
             BonsaiClientConfig bcConfig;
 
-            bool useCredentials = true;
-
             if (useCredentials)
             {
-                AzureADAppDetails aad = JsonConvert.DeserializeObject<AzureADAppDetails>(File.ReadAllText("aad.json"));
+                string strExeFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                string strWorkPath = System.IO.Path.GetDirectoryName(strExeFilePath);
+                string aadpath = Path.Combine(strWorkPath, "aad.json");
+
+                AzureADAppDetails aad = JsonConvert.DeserializeObject<AzureADAppDetails>(File.ReadAllText(aadpath));
                 bcConfig = new BonsaiClientConfig(aad.OAuthTokenUrl, aad.ApplicationId, aad.ClientSecret, exportedBrainUrl);
             }
             else
             {
                 bcConfig = new BonsaiClientConfig(exportedBrainUrl);
             }
-            
+
+            bcConfig.ExportedBrainClientTimeout = 600;
+
+            Console.WriteLine($"Running prediction against {exportedBrainUrl} with credentials? {useCredentials}");
+
             BonsaiClient bonsaiClient = new BonsaiClient(bcConfig);
 
             bonsaiClient.ActionReceived += (o, e) =>

@@ -231,6 +231,7 @@ namespace Microsoft.Bonsai.SimulatorApi.Client
         public async Task ConnectExportedBrain(IModel model)
         {
             HttpClient client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(config.ExportedBrainClientTimeout);
 
             #region if internal to the SDK
             this.AuthorizationTokenForExportedBrain = "";

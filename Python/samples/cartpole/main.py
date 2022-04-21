@@ -470,11 +470,25 @@ def main(
                             scale=sigma,
                         )
                         print("stochastic sim delay: {}s".format(delay))
+
+
+
                         time.sleep(delay)
                     else:  # fixed delay
                         delay = sim_speed
                         print("sim delay: {}s".format(delay))
                         time.sleep(delay)
+
+                s = datetime.datetime.now().minute
+
+                if s % 5 == 0:
+                    print('sleeping for 120 seconds')
+                    time.sleep(120)
+
+                # if s % 9 == 0:
+                #     print('dividing by zero')
+                #     error = 12/0
+
                 sim.episode_step(event.episode_step.action)
                 if sim.log_data:
                     sim.log_iterations(

@@ -1,4 +1,4 @@
-  <Project Sdk="Microsoft.NET.Sdk">
+﻿  <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
  </PropertyGroup>
@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Core" Version="1.1.0" />
-    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.21" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.13" />
   </ItemGroup>

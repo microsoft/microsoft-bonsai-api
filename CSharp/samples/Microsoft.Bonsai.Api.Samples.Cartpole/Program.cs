@@ -122,6 +122,15 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
 
                                 action.Command = stepAction.command.Value;
 
+                                int seconds = DateTime.Now.Second;
+
+                                if(seconds % 3 == 0)
+                                {
+                                    Console.WriteLine("Sleeping for 120 seconds");
+                                    Thread.Sleep(TimeSpan.FromSeconds(120));
+                                }
+
+
                                 // move the model forward
                                 model.Step(action);
                             }
@@ -191,7 +200,9 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
 
         private static string GetWorkspace()
         {
+            return "998edb0d-525c-4858-9a80-dce2153e0ed0";
 
+            // use this one if want an error
             if (Environment.GetEnvironmentVariable("SIM_WORKSPACE") != null)
             {
                 return Environment.GetEnvironmentVariable("SIM_WORKSPACE");
@@ -203,7 +214,9 @@ namespace Microsoft.Bonsai.Api.Samples.Cartpole
 
         private static String GetAccessKey()
         {
+            return "NGEwNjEyYjY1ZjgxNGEzNGE3Nzc2MDgzYzlkNTFhMDk6M2ZhZjFkOGEtYTE5OS00MGIxLWE4OWMtM2ZlMmJmZmNiMzEz";
 
+            // use this one if want an error
             if (Environment.GetEnvironmentVariable("SIM_ACCESS_KEY") != null)
             {
                 return Environment.GetEnvironmentVariable("SIM_ACCESS_KEY");

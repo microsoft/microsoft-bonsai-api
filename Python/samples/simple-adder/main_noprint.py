@@ -16,6 +16,10 @@ def main():
     workspace = os.getenv("SIM_WORKSPACE")
     accesskey = os.getenv("SIM_ACCESS_KEY")
 
+    current_log_level = os.getenv("LOGLEVEL")
+
+    print('current_log_level={}'.format(current_log_level))
+
     config_client = BonsaiClientConfig()
     config_client.enable_logging = True
     client = BonsaiClient(config_client)

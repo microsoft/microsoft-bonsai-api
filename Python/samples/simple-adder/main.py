@@ -17,6 +17,8 @@ def main():
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
 
+    
+
     registration_info = SimulatorInterface(
         name="simple-adder-sim",
         timeout=60,

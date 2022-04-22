@@ -1,3 +1,4 @@
+from cmath import log
 import functools
 from typing import Any, cast, Callable, TypeVar
 
@@ -7,6 +8,12 @@ from microsoft_bonsai_api.simulator.generated.operations import SessionOperation
 from microsoft_bonsai_api.simulator.generated.models import EventType
 from .config import BonsaiClientConfig, validate_config
 import logging
+
+from collections import Counter
+from logging import Logger, StreamHandler, LogRecord, Formatter
+import sys
+import json 
+
 
 _TCallable = TypeVar("_TCallable", bound=Callable[..., Any])
 
@@ -39,7 +46,6 @@ def wrap_session_operation(method: _TCallable) -> _TCallable:
             raise
 
     return cast(_TCallable, wrapped)
-
 
 class SessionOperationsWrapper(SessionOperations):
     """
@@ -105,7 +111,31 @@ class SessionOperationsWrapper(SessionOperations):
 
         return event
 
+# https://docs.python.org/3/howto/logging-cookbook.html
+class BonsaiLogAdapter(logging.LoggerAdapter):
+    def process(self, msg, kwargs):
+        return '[%s] %s' % (self.extra['sessionId'], msg), kwargs
 
+#
+# JSON format -> https://stackoverflow.com/questions/50144628/python-logging-into-file-as-a-dictionary-or-json 
+#
+
+class BonsaiLogHandler(StreamHandler):
+    """
+    Specialized handler for the logs that pertain to the Bonsai SDK
+    """
+    
+  
+    def __init__(self, format=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def emit(self, record: LogRecord) -> None:
+        json_data = {}
+        for attr in filter(lambda attr: not attr.endswith("__"), dir(record)):
+            json_data[attr] = record.__getattribute__(attr)
+        del json_data["getMessage"]
+        print(json_data)
+    
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClient(SimulatorAPI):
     def __init__(self, config: BonsaiClientConfig, **kwargs):
@@ -117,6 +147,8 @@ class BonsaiClient(SimulatorAPI):
 
         logging.basicConfig()
         logger = logging.getLogger("azure")
+        bonsai_handler = BonsaiLogHandler()
+        logger.addHandler(bonsai_handler)
 
         if config.enable_logging:
             logger.setLevel(logging.DEBUG)
@@ -146,8 +178,12 @@ class BonsaiClient(SimulatorAPI):
         # ... move the underlying SessionOperations instance out of the way (maybe we'll need it?)...
         self._session = self.session
 
+
         # ... and decorate it with logging operations!
         self.session = SessionOperationsWrapper(self._session, logger)
 
+        adapter = BonsaiLogAdapter(logger, {'sessionId': self.session.session_id})
+
         # Now, when the simulator calls client.session.<whatever>(), that call will
         # pass through our wrapper on its way to the "real" SessionOperations method.
+

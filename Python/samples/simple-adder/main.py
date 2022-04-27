@@ -2,6 +2,7 @@
 
 import os
 import time
+import json
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
 from sim.simulator_model import SimulatorModel
@@ -16,12 +17,16 @@ def main():
 
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
+    
+    # Load json file as simulator integration config type file
+    with open("interface.json") as file:
+        interface = json.load(file)
 
     registration_info = SimulatorInterface(
         name="simple-adder-sim",
         timeout=60,
         simulator_context=config_client.simulator_context,
-        description=None,
+        description=interface["description"]
     )
 
     print(f"config: {config_client.server}, {config_client.workspace}")

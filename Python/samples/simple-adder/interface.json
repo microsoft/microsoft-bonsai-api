@@ -1,0 +1,43 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/microsoft-bonsai-api/main/Reference/siminterface.schema.json",
+    "name": "simpleAdder",
+    "timeout": 60,
+    "description": {
+      "config": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "initial_value",
+            "type": {
+              "category": "Number",
+              "comment": "Initial Starting Number"
+            }
+          }      
+      ]
+      },
+      "action": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "addend",
+            "type": {
+              "category": "Number",
+              "comment": "-10 to 10, number to be added"
+             }
+          }
+        ]
+      },
+      "state": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": {
+              "category": "Number",
+              "comment": "Current Sim Number"
+            }
+          }
+        ]
+      }
+    }
+  }

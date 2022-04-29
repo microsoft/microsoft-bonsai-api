@@ -15,6 +15,7 @@ def main():
     accesskey = os.getenv("SIM_ACCESS_KEY")
 
     config_client = BonsaiClientConfig()
+    config_client.enable_logging = True
     client = BonsaiClient(config_client)
 
     registration_info = SimulatorInterface(

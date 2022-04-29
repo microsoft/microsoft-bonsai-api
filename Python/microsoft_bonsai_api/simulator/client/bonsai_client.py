@@ -26,7 +26,11 @@ _TCallable = TypeVar("_TCallable", bound=Callable[..., Any])
 def wrap_session_operation(method: _TCallable) -> _TCallable:
     @functools.wraps(method)
     def wrapped(self, *args, **kwargs):
-        self._logger.debug("Calling session.%s".format(method.__name__))
+        #print(method.__name__)
+
+        method_name = method.__name__
+
+        self._logger.info("Calling session.{}".format(method_name),extra={'sessionId':self.session_id})
         try:
             return method(self, *args, **kwargs)
         except HttpResponseError as ex:
@@ -37,11 +41,12 @@ def wrap_session_operation(method: _TCallable) -> _TCallable:
                 contents = ex.response.contents
 
             self._logger.error(
-                "Error when calling Session.%s: (%s) %s",
+                "Error when calling Session.{}: ({}) {}".format(
                 method.__name__,
                 ex.response.status_code,
-                contents,
+                contents),
                 exc_info=True,
+                extra={'sessionId':self.session_id}
             )
             raise
 
@@ -81,7 +86,7 @@ class SessionOperationsWrapper(SessionOperations):
         session = self._real_ops.create(*args, **kwargs)
 
         self.session_id = session.session_id
-        self._logger.info("Created session %s", self.session_id)
+        self._logger.info("Created session {}".format(self.session_id), extra={'sessionId':self.session_id})
 
         return session
 
@@ -103,19 +108,14 @@ class SessionOperationsWrapper(SessionOperations):
 
         if event.type == EventType.unregister:
             self._logger.warn(
-                "Simulator %s received Unregister message from platform because '%s' with details '%s'",
+                "Simulator {} received Unregister message from platform because '{}' with details '{}'".format(
                 self.session_id,
                 event.unregister.reason,
-                event.unregister.details,
+                event.unregister.details),
+                extra={'sessionId':self.session_id}
             )
 
         return event
-
-# https://docs.python.org/3/howto/logging-cookbook.html
-class BonsaiLogAdapter(logging.LoggerAdapter):
-    def process(self, msg, kwargs):
-        return '[%s] %s' % (self.extra['sessionId'], msg), kwargs
-
 #
 # JSON format -> https://stackoverflow.com/questions/50144628/python-logging-into-file-as-a-dictionary-or-json 
 #
@@ -124,20 +124,25 @@ class BonsaiLogHandler(StreamHandler):
     """
     Specialized handler for the logs that pertain to the Bonsai SDK
     """
-    
-  
     def __init__(self, format=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def emit(self, record: LogRecord) -> None:
+        
+        #ignore anything not directly from Bonsai 
+        if record.levelno != 10 and 'azure.' in record.name:
+            return
+
         json_data = {}
         for attr in filter(lambda attr: not attr.endswith("__"), dir(record)):
             json_data[attr] = record.__getattribute__(attr)
         del json_data["getMessage"]
-        print(json_data)
-    
+
+        print(json.dumps(json_data))
+
 # The API object that handles the REST connection to the bonsai platform.
 class BonsaiClient(SimulatorAPI):
+    
     def __init__(self, config: BonsaiClientConfig, **kwargs):
         validate_config(config)
         self._headers = {
@@ -147,14 +152,17 @@ class BonsaiClient(SimulatorAPI):
 
         logging.basicConfig()
         logger = logging.getLogger("azure")
+        
+        logger.root.handlers.clear()
+
         bonsai_handler = BonsaiLogHandler()
         logger.addHandler(bonsai_handler)
 
         if config.enable_logging:
             logger.setLevel(logging.DEBUG)
         else:
-            # by default enable logs for Warning and above levels.
-            logger.setLevel(logging.WARNING)
+            # by default enable logs for INFO and above levels.
+            logger.setLevel(logging.INFO)
 
         # Add retry methods. This is used by Default RetryPolicy of azure.core
         # https://github.com/Azure/azure-sdk-for-python/blob/master/sdk/core/azure-core/azure/core/pipeline/policies/_retry.py
@@ -167,7 +175,7 @@ class BonsaiClient(SimulatorAPI):
             base_url=config.server,
             headers=self._headers,
             logging_enable=config.enable_logging,
-            kwargs=kwargs,
+            kwargs=kwargs
         )
 
         #
@@ -182,8 +190,5 @@ class BonsaiClient(SimulatorAPI):
         # ... and decorate it with logging operations!
         self.session = SessionOperationsWrapper(self._session, logger)
 
-        adapter = BonsaiLogAdapter(logger, {'sessionId': self.session.session_id})
-
         # Now, when the simulator calls client.session.<whatever>(), that call will
         # pass through our wrapper on its way to the "real" SessionOperations method.
-

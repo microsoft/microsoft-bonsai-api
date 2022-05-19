@@ -30,9 +30,7 @@ setup(
     packages=find_namespace_packages(include=["microsoft_bonsai_api.*"]),
     install_requires=[
         "msrest>=0.6.0",
-        "azure-core<2.0.0,>=1.2.0",
-        "msal>=1.2.0,<=1.4.3",
-        "msal_extensions>=0.1.3,<=0.2.2",
+        "azure-core<2.0.0,>=1.2.0"
     ],
     test_suite="pytest",
     tests_require=["pytest>=5.4.2"],

@@ -19,14 +19,14 @@ def main():
     client = BonsaiClient(config_client)
     
     # Load json file as simulator integration config type file
-    with open("interface.json") as file:
-        interface = json.load(file)
+    # with open("interface.json") as file:
+    #     interface = json.load(file)
 
     registration_info = SimulatorInterface(
         name="simple-adder-sim",
         timeout=60,
-        simulator_context=config_client.simulator_context,
-        description=interface["description"]
+        simulator_context=config_client.simulator_context
+        # description=interface["description"]
     )
 
     print(f"config: {config_client.server}, {config_client.workspace}")

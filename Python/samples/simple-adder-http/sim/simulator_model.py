@@ -14,7 +14,7 @@ class SimulatorModel:
     def reset(self, config) -> Dict[str, Any]:
         """ Reset any state from the previous episode and get ready to start a new episode. """
         # self.adder = Adder(config['initial_value'])
-        res = requests.post('http://localhost:15000/sim_reset', json=config) 
+        res = requests.post('http://localhost:15000/reset', json=config) 
   
         # Convert response data to json
         return_dict = {'sim_halted': False}
@@ -25,7 +25,7 @@ class SimulatorModel:
     def step(self, action) -> Dict[str, Any]:
         """ Apply the specified action and perform one simulation step. """
         # self.adder.add(action['addend'])
-        res = requests.post('http://localhost:15000/sim_step', json=action) 
+        res = requests.post('http://localhost:15000/step', json=action) 
   
         # Convert response data to json
         return_dict = {'sim_halted': False}

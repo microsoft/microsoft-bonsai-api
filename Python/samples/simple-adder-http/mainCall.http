@@ -1,0 +1,17 @@
+POST http://otriotwoplayer.azurewebsites.net/v1/prediction HTTP/1.1
+content-type: application/json
+
+{
+    "_comment": "From Otrio",
+    "actionMask": [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "flatBoard": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],  
+    "playerCount": 2,
+    "playerIndex": 2,
+    "stepScore": 0,
+    "player0Small": 0,
+    "player0Medium": 0,
+    "player0Large": 0,
+    "player1Small": 0,
+    "player1Medium": 0,
+    "player1Large": 0
+}

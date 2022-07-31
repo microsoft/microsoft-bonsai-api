@@ -1,0 +1,10 @@
+FROM mainnodepython_demo
+
+WORKDIR /usr/src/app
+COPY c:\\bonsai-otrio\\ .
+RUN npm install
+RUN npm run build
+
+COPY myshell.sh .
+
+CMD ./myshell.sh

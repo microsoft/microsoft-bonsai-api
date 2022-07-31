@@ -34,5 +34,5 @@ def sim_step():
     return json.dumps({"value":simModel.value})
 
 if __name__ == "__main__": 
-    app.run(port=15000)
+    app.run(port=21000)
     simModel = Adder(1.0)

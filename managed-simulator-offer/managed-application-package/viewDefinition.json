@@ -6,7 +6,7 @@
             "kind": "Overview",
           "properties": {
             "header": "Managed Simulator Application for Bonsai",
-            "description": "This managed application is deployed by a Managed Simulator Offer for Bonsai. The managed application is used to track and and bill for commercial usage of the simulation vendor's application runtime when used for horizontal scaling in the Azure Cloud.\n\n"
+            "description": "This managed application entitles the use of simulators according to the terms of an offer in Azure Marketplace.\n\n"
           }
         }
     ]

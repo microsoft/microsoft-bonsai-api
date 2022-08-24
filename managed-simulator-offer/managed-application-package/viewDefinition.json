@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/viewdefinition/0.0.1-preview/ViewDefinition.json#",
+    "contentVersion": "0.0.0.1",
+    "views": [
+        {
+            "kind": "Overview",
+          "properties": {
+            "header": "Managed Simulator Application for Bonsai",
+            "description": "This managed application entitles the use of simulators according to the terms of an offer in Azure Marketplace.\n\n"
+          }
+        }
+    ]
+}

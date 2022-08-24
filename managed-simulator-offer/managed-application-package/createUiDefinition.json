@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [
+            {
+                "name": "name",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Name",
+                "defaultValue": "",
+                "toolTip": "Use only allowed characters",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9]{3,24}$",
+                    "validationMessage": "Only lower case letters and numbers, and the value must be 3-24 characters long."
+                },
+                "visible": true
+            }
+        ],
+        "steps": [],
+        "outputs": {
+            "location": "[location()]",
+            "name": "[basics('name')]"
+        }
+    }
+}

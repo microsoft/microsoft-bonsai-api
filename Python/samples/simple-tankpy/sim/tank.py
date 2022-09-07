@@ -17,7 +17,7 @@ class Tank():
         self.tankArea = self.pi * (self.tankRadius**2) # area = pi * r**2
         self.vTank = self.tankArea * self.tankHeight # volume of tank (m3)
         self.vLiq = vLiq # volume of liquid in tank (m3)
-        self.drainRadius = .5# m
+        self.drainRadius = 0.75 # m
         self.drainArea = self.pi * (self.drainRadius**2) # area = pi * r**2
         self.hLiq = 0 # m 
         self.overflowed = False

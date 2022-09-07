@@ -9,16 +9,18 @@ class SimulatorModel:
 
     def reset(self, config) -> Dict[str, Any]:
         """ Reset any state from the previous episode and get ready to start a new episode. """
-        self.tc = TankController(config['hSetPoint'], config['initialFlow'])
+        self.tc = TankController(config['hSetPoint'], config['initialFlow'], config['vLiq'] ,config['controlFreqMultiplier'] )
         return { 'sim_halted': False, 
                 'hLiq': self.tc.blt.hLiq,
+                'hSetPoint': self.tc.blt.hSetPoint,
                 'overflow': self.tc.blt.overflowed} # added the dict to this file
 
     def step(self, action) -> Dict[str, Any]:
         """ Apply the specified action and perform one simulation step. """
         self.tc.step(action['flowrate'])
         # If 'sim_halted' is set to True, that indicates that the simulator is unable to continue and
-        # the episode will be discarded. This simulator sets it to False becasue it can always continue.
+        # the episode will be discarded. This simulator sets it to False because it can always continue.
         return { 'sim_halted': False, 
                 'hLiq': self.tc.blt.hLiq,
+                'hSetPoint': self.tc.blt.hSetPoint,
                 'overflow': self.tc.blt.overflowed}

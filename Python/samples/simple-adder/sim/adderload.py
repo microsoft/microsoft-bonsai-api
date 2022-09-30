@@ -4,12 +4,12 @@ from stabmodel import StabModel
 
 env = StabModel()
 
-models_dir = f"models/ppo2"
-model_path = f"{models_dir}/run96"
+models_dir = f"models/ppo5"
+model_path = f"{models_dir}/run7"
 
 model = PPO.load(model_path, env=env)
 
-episodes = 10
+episodes = 2
 
 for ep in range(episodes):
     obs = env.reset()

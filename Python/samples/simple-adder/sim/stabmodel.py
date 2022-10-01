@@ -28,19 +28,19 @@ class StabModel(gym.Env):
     def step(self, action):
         self.stepCount += 1
         self.adder.add(action[0])
-        self.reward = 100 - abs(50 - self.adder.value)
         self.observation = [self.adder.value]
         self.observation = np.array(self.observation, dtype=np.float32)
+        
+        # Reward function...
+        self.reward = 10 - abs(50 - self.adder.value)
         if self.stepCount > 10:
             self.done = True
             self.reward = -500
-        if self.adder.value >= 100 or self.adder.value <= 0:
-            self.done = True
-            self.reward = -300
         if self.adder.value >= 49.9 and self.adder.value <= 50.1:
             self.reward = 100000
             print("reward at: ", str(self.stepCount)," reset count: ", str(self.currentReset-self.lastReset))
             self.lastReset = self.currentReset
             self.done = True
-        self.reward = self.reward - (self.stepCount * 5)
+        # self.reward = self.reward - (self.stepCount * 5)
+        
         return self.observation, self.reward, self.done, {}

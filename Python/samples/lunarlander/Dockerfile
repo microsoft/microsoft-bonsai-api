@@ -19,4 +19,4 @@ COPY . /src
 RUN pip3 install -r requirements.txt
 
 # This will be the command to run the simulator
-CMD ["python3", "main.py", "--config-setup"]
+CMD ["python3", "main.py"]

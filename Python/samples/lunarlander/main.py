@@ -80,25 +80,28 @@ def test_policy(
         log_data=log_iterations,
         debug=debug
     )
+    # Define terminal function if exists in simulation, otherwise always False.
+    terminal_f = lambda: False
+    if hasattr(sim_session.sim, "terminal"):
+        terminal_f = lambda: sim_session.sim.terminal
+    # Iterate over all desired episodes
     for episode in range(1, num_episodes):
         iteration = 1
-        terminal = False
-        sim_state = sim_session.episode_start(config=scenario_configs[episode - 1])
-        sim_state = sim_session.get_state()
+        terminal = terminal_f()
+        sim_state = sim_session.reset(config=scenario_configs[episode - 1])
         if debug:
             # Logging now happens directly within TemplateSimulatorSession.
             print(f"\nRunning iteration #{iteration} for episode #{episode}")
         iteration += 1
         while not terminal:
             action = policy(sim_state)
-            sim_session.episode_step(action)
-            sim_state = sim_session.get_state()
+            sim_state = sim_session.step(action)
             # Logging now happens directly within TemplateSimulatorSession.
             
             if debug:
                 print(f"Running iteration #{iteration} for episode #{episode}")
             iteration += 1
-            terminal = iteration >= num_iterations + 2 or sim_session.terminal
+            terminal = iteration >= num_iterations + 2 or terminal_f()
 
     return sim_session
 

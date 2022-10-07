@@ -12,35 +12,14 @@ import gym
 import numpy as np
 import copy
 
-LOG_PATH = "logs"
-
-
-def ensure_log_dir(log_full_path: str):
-    """Create a log directory if needed
-
-    Parameters
-    ----------
-    log_full_path : str
-        path of log directory
-    """
-    print(f"Log filename: {log_full_path}")
-    logs_directory = pathlib.Path(log_full_path).parent.absolute()
-    print(f"Log directory: {logs_directory}")
-    if not pathlib.Path(logs_directory).exists():
-        print(
-            "Directory does not exist at {0}, creating now...".format(
-                str(logs_directory)
-            )
-        )
-        logs_directory.mkdir(parents=True, exist_ok=True)
+from log_feature import SimLogger
 
 
 class LunarLander:
     def __init__(
         self,
         render: bool = False,
-        log_data: bool = False,
-        log_file_name: str = None,
+        log_data: Union[bool, str] = False,
         env_name: str = "LunarLanderContinuous-v2",
         obs_type: str = "Kinematics", # TODO: Review if Kinematics is needed (config-related)
         debug: bool = True,
@@ -52,10 +31,9 @@ class LunarLander:
         ----------
         render : bool, optional
             render every control timestep of the environment, by default False
-        log_data : bool, optional
-            whether to MDP data to CSV, by default False
-        log_file_name : str, optional
-            where to log data, only applicable if `log_data=True`, by default None
+        log_data : bool/str, optional
+            whether to MDP data to CSV, by default False.
+            If str is provided, CSV name generation will use tag for unique identification.
         env_name : str, optional
             the name of the simulator environment to create, by default "highway-v0"
         obs_type: str, optional
@@ -72,18 +50,9 @@ class LunarLander:
         self.render = render
         self.debug = debug
 
-        # Keep track of episode & iteration (for reference, even when the sim is wrapped).
-        self.episode = 0
-        self.iteration = 0
-
         # Logging features
         self.log_data = log_data
-        if not log_file_name:
-            current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-            log_file_name = current_time + "_" + env_name + "_log.csv"
-
-        self.log_full_path = os.path.join(LOG_PATH, log_file_name)
-        ensure_log_dir(self.log_full_path)
+        self.sim_logger = SimLogger(log_data=self.log_data)
 
         # Initialize MT configuration parameters.
         self.initialize_MT_vars()
@@ -148,8 +117,8 @@ class LunarLander:
             --> Note, valid MT parameters are listed in "self.bonsai_MT_config".
         """
         # Update episode number, and restart iteration count.
-        self.episode += 1
-        self.iteration = 0
+        if self.log_data:
+            self.sim_logger.new_episode()
 
         # Reset concept
         self.concept = 0
@@ -204,10 +173,9 @@ class LunarLander:
 
         # Log iterations at every episode step.
         if self.log_data:
-            self.log_iterations(state=self.get_state(),
-                                action=action,
-                                episode=self.episode,
-                                iteration=self.iteration)
+            self.sim_logger.log_iterations(state=self.get_state(),
+                                           action=action,
+                                           config=self.config)
 
         # Hold concept with same action if selected, otherwise, run as normal
         if self.hold_concept_with_same_action:
@@ -309,8 +277,8 @@ class LunarLander:
         # -> Used to automatically capture last concept selected by a modular decomposed control.
         #   -> self.concept is reset to "0" every self.hold_selected_concept iterations.
         #   -> Useful to prevent the control from changing policies too often by forcing the control agent to only change when concept is "0".
-        # -> If integrating with Bonsai, the decomposition looks as follow:
-        #   -> 0 = None, 1 = Move right, 2 = Move left, 3 = Move down, 4 = Stabilize, 5 = ApproachLand
+        # -> If integrating with Bonsai, the decomposition must look as follows:
+        #   -> 0 = None, 1 = Move right, 2 = Move left, 3 = Move down, 4 = Move up, 5 = ApproachLand
         self.concept = 0
         self.hold_selected_concept = 1 # <1 .. 50>
         self.i_hold_selected_concept = 0 # iterates over the number of selected 'hold_selected_concept'
@@ -361,47 +329,6 @@ class LunarLander:
         
         # Reset MT auxiliary vars to zero after stepping for random actions.
         self.reset_MT_vars()
-
-
-    def log_iterations(self, state, action, episode: int = 0, iteration: int = 1):
-        """Log iterations during training to a CSV.
-
-        Parameters
-        ----------
-        state : Dict
-        action : Dict
-        episode : int, optional
-        iteration : int, optional
-        """
-
-        import pandas as pd
-
-        def add_prefixes(d, prefix: str):
-            return {f"{prefix}_{k}": v for k, v in d.items()}
-        
-        # Custom way to turn lists into strings for logging
-        log_state = state.copy()
-        
-        for key, value in log_state.items():
-            if type(value) == list:
-                log_state[key] = str(log_state[key])
-
-        log_state = add_prefixes(log_state, "state")
-        action = add_prefixes(action, "action")
-        config = add_prefixes(self.config, "config")
-        data = {**log_state, **action, **config}
-        data["episode"] = episode
-        data["iteration"] = iteration
-        log_df = pd.DataFrame(data, index=[0])
-
-        if os.path.exists(self.log_full_path):
-            log_df.to_csv(
-                path_or_buf=self.log_full_path, mode="a", header=False, index=False
-            )
-        else:
-            log_df.to_csv(
-                path_or_buf=self.log_full_path, mode="w", header=True, index=False
-            )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 from LunarLander import LunarLander
-from typing import NamedTuple, Dict, Any
+from typing import NamedTuple, Dict, Any, Union
 
 
 class SimulatorModel:
@@ -10,7 +10,7 @@ class SimulatorModel:
 
     def __init__(self,
         render: bool = False,
-        log_data: bool = False,
+        log_data: Union[bool, str] = False,
         debug: bool = True,):
         """ Perform global initialization here if needed before running episodes. """
 

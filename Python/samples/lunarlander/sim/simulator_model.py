@@ -23,7 +23,7 @@ class SimulatorModel:
 
         # initialize sim
         self.sim = LunarLander(render = self.render,
-                               log_data = self.log_data, # Data disabled since it is taken care by this class.
+                               log_data = self.log_data,
                                debug = self.debug)
         
         pass

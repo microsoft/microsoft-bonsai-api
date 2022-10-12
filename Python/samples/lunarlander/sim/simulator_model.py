@@ -1,4 +1,4 @@
-from LunarLander import LunarLander
+from sim.LunarLander import LunarLander
 from typing import NamedTuple, Dict, Any, Union
 
 
@@ -28,12 +28,13 @@ class SimulatorModel:
         
         pass
 
+    @property
+    def sim_name(self):
+        return "LunarLanderSim"
+
     def reset(self, config) -> Dict[str, Any]:
         """ Reset any state from the previous episode and get ready to start a new episode. """
-        self.sim = LunarLander(render = self.render,
-                               log_data = self.log_data, # Data disabled since it is taken care by this class.
-                               debug = self.debug)
-                
+        
         # Start simulation.
         self.sim.episode_start(config)
 

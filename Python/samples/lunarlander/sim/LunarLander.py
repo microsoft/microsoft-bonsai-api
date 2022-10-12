@@ -12,7 +12,7 @@ import gym
 import numpy as np
 import copy
 
-from log_feature import SimLogger
+from sim.log_feature import SimLogger
 
 
 class LunarLander:
@@ -168,8 +168,6 @@ class LunarLander:
         action : Dict[str, Any]
             Control/action to iterate in the environment
         """
-        # Update iteration number.
-        self.iteration += 1
 
         # Log iterations at every episode step.
         if self.log_data:

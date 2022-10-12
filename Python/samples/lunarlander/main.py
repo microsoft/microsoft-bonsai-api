@@ -133,9 +133,15 @@ def main(
         accesskey = os.environ["SIM_ACCESS_KEY"]
     except:
         raise IndexError(
-            f"Workspace or access key not set or found. Use --config-setup for help setting up."
+            f"Workspace or access key not set or found. Please define them as part of your environment variables."
         )
 
+    # Create sim model object
+    sim_model = SimulatorModel(
+        render=render,
+        log_data=log_iterations,
+        debug=debug
+    )
 
     # Configure client to interact with Bonsai service
     config_client = BonsaiClientConfig()
@@ -143,7 +149,7 @@ def main(
 
     # Create simulator session and init sequence id
     registration_info = SimulatorInterface(
-        name="LunarLanderContinuous-v2",
+        name=sim_model.sim_name,
         timeout=60,
         simulator_context=config_client.simulator_context,
     )
@@ -151,26 +157,54 @@ def main(
     print(
         "config: {}, {}".format(config_client.server, config_client.workspace)
     )
-    registered_session: SimulatorSessionResponse = client.session.create(
-        workspace_name=config_client.workspace, body=registration_info
-    )
-    print("Registered simulator. {}".format(registered_session.session_id))
+    
+    
+    def CreateSession(
+        registration_info: SimulatorInterface, config_client: BonsaiClientConfig
+    ):
+        """Creates a new Simulator Session and returns new session, sequenceId
+        """
+
+        try:
+            print(
+                "config: {}, {}".format(config_client.server, config_client.workspace)
+            )
+            registered_session: SimulatorSessionResponse = client.session.create(
+                workspace_name=config_client.workspace, body=registration_info
+            )
+            print("Registered simulator. {}".format(registered_session.session_id))
+
+            return registered_session, 1
+        except HttpResponseError as ex:
+            print(
+                "HttpResponseError in Registering session: StatusCode: {}, Error: {}, Exception: {}".format(
+                    ex.status_code, ex.error.message, ex
+                )
+            )
+            raise ex
+        except Exception as ex:
+            print(
+                "UnExpected error: {}, Most likely, it's some network connectivity issue, make sure you are able to reach bonsai platform from your network.".format(
+                    ex
+                )
+            )
+            raise ex
+
+    registered_session, sequence_id = CreateSession(registration_info, config_client)
 
     episode = 0
     iteration = 0
-    sim_model = SimulatorModel(
-        render=render,
-        log_data=log_iterations,
-        debug=debug
-    )
     sim_model_state = { 'sim_halted': False }
     try:
         while True:
-            # Advance by the new state depending on the event type
-            # TODO: it's risky using `get_state` without first initializing the sim
+            # Proceed to the next event by calling the advance function and passing the simulation state
+            # resulting from the previous event. Note that the sim must always be able to return a valid
+            # structure from get_state, including the first time advance is called, before an EpisodeStart
+            # message has been received.
+            # WARNING: it's risky using `get_state` without first initializing the sim.
             sim_state = SimulatorState(
                 sequence_id=sequence_id, state=sim_model_state, halted=sim_model_state.get('sim_halted', False)
-                )
+            )
     
             try:
                 event = client.session.advance(
@@ -324,7 +358,6 @@ if __name__ == "__main__":
         )
     else:
         main(
-            config_setup=args.config_setup,
             render=args.render,
             log_iterations=args.log_iterations,
             debug=args.debug,

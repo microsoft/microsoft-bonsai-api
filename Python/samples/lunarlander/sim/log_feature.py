@@ -63,6 +63,8 @@ class SimLogger:
         self.log_full_path = os.path.join(LOG_PATH, log_file_name)
         ensure_log_dir(self.log_full_path)
 
+        print("Log feature activated:", self.log_data)
+
 
     def new_episode(self):
         self.episode += 1

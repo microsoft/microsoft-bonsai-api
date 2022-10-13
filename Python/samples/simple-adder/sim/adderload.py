@@ -5,7 +5,7 @@ from stabmodel import StabModel
 env = StabModel()
 
 models_dir = f"models/sac1"
-model_path = f"{models_dir}/run2"
+model_path = f"{models_dir}/run18"
 
 model = SAC.load(model_path, env=env)
 

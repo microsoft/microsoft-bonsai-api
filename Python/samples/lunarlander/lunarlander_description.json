@@ -1,0 +1,167 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/microsoft-bonsai-api/main/Reference/siminterface.schema.json",
+  "name": "lunarlander",
+  "timeout": 60,
+  "description": {
+    "config": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "randomized_steps",
+          "type": {
+            "category": "Number",
+            "comment": "RANDOMIZATION: For the number of iterations defined by this parameter, random actions are applied to the lander during epiosode initialization (at Episode Start)."
+          }
+        },
+        {
+          "name": "delta_action",
+          "type": {
+            "category": "Number",
+            "comment": "SIM CONFIG: Initialization parameter for current episode: (0) for full action values, (1) when actions from the brain should be interpreted as delta (increment) from previous iteration full action value."
+          }
+        }
+        
+      ]
+    },
+    "action": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "engine1",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "The force applied to the main engine towards the ground. 0 is shutdown, 1 is push upwards."
+           }
+        },
+        {
+          "name": "engine2",
+          "type": {
+            "category": "Number",
+            "start": -1,
+            "stop": 1,
+            "comment": "The force applied to the lateral engines. -1 is push to the left, 1 is push to the right. (note) Alternatively, you can provide both 'engine_left' & 'engine_right' actions, independently, with values within the [0, 1] range."
+           }
+        }
+      ]
+    },
+    "state": {
+      "category": "Struct",
+      "fields": [
+        {
+          "name": "x_position",
+          "type": {
+            "category": "Number",
+            "comment": "Horizontal position of the spaceship."
+          }
+        },
+        {
+          "name": "y_position",
+          "type": {
+            "category": "Number",
+            "comment": "Vertical position of the spaceship."
+          }
+        },
+        {
+          "name": "x_velocity",
+          "type": {
+            "category": "Number",
+            "comment": "Horizontal velocity of the spaceship. Positive value infers moving right."
+          }
+        },
+        {
+          "name": "y_velocity",
+          "type": {
+            "category": "Number",
+            "comment": "Vertical velocity of the spaceship. Positive value infers moving up."
+          }
+        },
+        {
+          "name": "angle",
+          "type": {
+            "category": "Number",
+            "comment": "Angle of the spaceship respect the vertical axis. Positive values infers spaceship head is tilted to the right."
+          }
+        },
+        {
+          "name": "rotation",
+          "type": {
+            "category": "Number",
+            "comment": "Angular speed of the spaceship respect the vertical axis. Positive value infers clockwise rotation."
+          }
+        },
+        {
+          "name": "left_leg",
+          "type": {
+            "category": "Number",
+            "comment": "Flag that indicates whether the LEFT leg of the spaceship is touching the ground (1) or not (0)."
+          }
+        },
+        {
+          "name": "right_leg",
+          "type": {
+            "category": "Number",
+            "comment": "Flag that indicates whether the RIGHT leg of the spaceship is touching the ground (1) or not (0)."
+          }
+        },
+        {
+          "name": "ship_crashed",
+          "type": {
+            "category": "Number",
+            "comment": "Flag that informs when crashing conditions have been reached (1) VS good-to-continue operation (0)."
+          }
+        },
+        {
+          "name": "ship_landed",
+          "type": {
+            "category": "Number",
+            "comment": "Flag that informs when landing conditions have been reached (1) VS not-landed status (0)."
+          }
+        },
+        {
+          "name": "randomized_steps",
+          "type": {
+            "category": "Number",
+            "comment": "Config parameter applied to initial randomization of the simulation for current episode."
+          }
+        },
+        {
+          "name": "delta_action",
+          "type": {
+            "category": "Number",
+            "comment": "Initialization config parameter for current episode: (0) for full action values, (1) when actions from the brain should be interpreted as delta (increment) from previous iteration full action value."
+          }
+        },
+        {
+          "name": "prev_engine1",
+          "type": {
+            "category": "Number",
+            "comment": "(auxiliary) Indicates the last action applied for engine1. Useful only when delta_action is True (1)."
+          }
+        },
+        {
+          "name": "prev_engine2",
+          "type": {
+            "category": "Number",
+            "comment": "(auxiliary) Indicates the last action applied for engine2. Useful only when delta_action is True (1)."
+          }
+        },
+        {
+          "name": "gym_reward",
+          "type": {
+            "category": "Number",
+            "comment": "(RL-reference) Reward provided by Gym to current state (Gym is the API that contains the Lunar Lander sample)."
+          }
+        },
+        {
+          "name": "gym_terminal",
+          "type": {
+            "category": "Number",
+            "comment": "(RL-reference) Terminal status provided by Gym to current state (Gym is the API that contains the Lunar Lander sample)."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -89,10 +89,6 @@ class LunarLander:
             "gym_reward": float(self.reward),
             "gym_terminal": bool(self.terminal),
             # UNUSED AT THE MOMENT
-            "prev_x_position": float(self.state_prev[0]),
-            "prev_y_position": float(self.state_prev[1]),
-            "prev_x_velocity": float(self.state_prev[2]),
-            "prev_y_velocity": float(self.state_prev[3]),
             "concept": float(self.concept),
         }
 

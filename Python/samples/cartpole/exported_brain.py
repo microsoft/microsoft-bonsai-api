@@ -1,7 +1,7 @@
 
 import requests
 from typing import Dict
-from sim.simulator_model import Simulator_Model
+from sim.simulator_model import SimulatorModel
 import random
 
 def brain_policy(state: Dict[str, float], exported_brain_url):
@@ -19,7 +19,7 @@ def test_policy(
 ):
     """Test an exported brain policy over a fixed number of episodes
     """
-    sim = Simulator_Model()
+    sim = SimulatorModel()
     
     for episode in range(exported_brain_episodes):
         iteration = 0

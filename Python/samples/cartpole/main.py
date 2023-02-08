@@ -9,7 +9,7 @@ from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, 
 from sim.simulator_model import SimulatorModel
 
 
-def main():
+def main(render):
     """
     Creates a Bonsai simulator session and executes Bonsai episodes.
     """

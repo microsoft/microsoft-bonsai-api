@@ -1,5 +1,5 @@
 from sim.cartpole import CartPole
-from typing import NamedTuple, Dict, Any
+from typing import Dict, Any
 
 class SimulatorModel:
     """

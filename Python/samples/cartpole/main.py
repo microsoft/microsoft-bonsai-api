@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 
-import os
 import time
 import json
+import argparse
+from exported_brain import test_policy
 from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface, SimulatorState, SimulatorSessionResponse
 from sim.simulator_model import SimulatorModel
+
 
 def main():
     """
     Creates a Bonsai simulator session and executes Bonsai episodes.
     """
 
-    workspace = os.getenv("SIM_WORKSPACE")
-    accesskey = os.getenv("SIM_ACCESS_KEY")
+    # workspace = os.getenv("SIM_WORKSPACE")
+    # accesskey = os.getenv("SIM_ACCESS_KEY")
 
     config_client = BonsaiClientConfig()
     client = BonsaiClient(config_client)
@@ -69,4 +71,43 @@ def main():
         print(f"Unregistered simulator because {type(err).__name__}: {err}")
 
 if __name__ == "__main__":
-    main()
+
+    parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
+    parser.add_argument(
+        "--render", action="store_true", default=False, help="Render training episodes",
+    )
+    
+    parser.add_argument(
+        "--exported-brain-iterations",
+        type=int,
+        help="Number of iterations per episode when running test.",
+        default=200,
+    )
+    
+    parser.add_argument(
+        "--exported-brain-episodes",
+        type=int,
+        help="Number of episodes when running test.",
+        default=10,
+    )
+    
+    parser.add_argument(
+        "--exported-brain-url",
+        type=str,
+        help="Run simulator with an exported brain at url. (ex. http://localhost:5000)",
+    )
+
+    args, _ = parser.parse_known_args()
+
+    if args.exported_brain_url:
+        url = args.exported_brain_url
+        print(f"Connecting to exported brain running at {url}...")
+        test_policy(
+            render=args.render,
+            exported_brain_iterations=args.exported_brain_iterations,
+            exported_brain_episodes=args.exported_brain_episodes,
+            exported_brain_url=url
+        )
+    else:
+        main(render=args.render)
+

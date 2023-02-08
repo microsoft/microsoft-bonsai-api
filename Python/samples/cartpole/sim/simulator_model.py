@@ -10,6 +10,7 @@ class SimulatorModel:
     def __init__(self):
         """ Perform global initialization here if needed before running episodes. """
         self.cartpole = CartPole()
+        self.sim_name = "CartPole"
 
     def reset(self, config) -> Dict[str, Any]:
         """ Reset any state from the previous episode and get ready to start a new episode. """

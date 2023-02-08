@@ -22,8 +22,10 @@ def main():
     with open("interface.json") as file:
         interface = json.load(file)
 
+    sim_model = SimulatorModel()
+
     registration_info = SimulatorInterface(
-        name="simple-adder-sim",
+        name=sim_model.sim_name,
         timeout=60,
         simulator_context=config_client.simulator_context,
         description=interface["description"]
@@ -34,7 +36,6 @@ def main():
     print(f"Registered simulator. {registered_session.session_id}")
 
     sequence_id = 1
-    sim_model = SimulatorModel()
     sim_model_state = { 'sim_halted': False }
 
     try:

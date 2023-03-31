@@ -10,12 +10,43 @@ from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface
 from sim import extrusion_model as em
 from sim import units
 
+import argparse
+import datetime
+import pathlib
 
 # time step (seconds) between state updates
 Δt = 1
 
+LOG_PATH = "logs"
+
+
+def ensure_log_dir(log_full_path):
+    """
+    Ensure the directory for logs exists — create if needed.
+    """
+    print(f"logfile: {log_full_path}")
+    logs_directory = pathlib.Path(log_full_path).parent.absolute()
+    print(f"Checking {logs_directory}")
+    if not pathlib.Path(logs_directory).exists():
+        print(
+            "Directory does not exist at {0}, creating now...".format(
+                str(logs_directory)
+            )
+        )
+        logs_directory.mkdir(parents=True, exist_ok=True)
+
 
 class ExtruderSimulation(SimulatorSession):
+    def __init__(self, config, log_data: bool = False, log_file_name: str = None):
+        super().__init__(config)
+        self.log_data = log_data
+        if not log_file_name and log_data:
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            log_file_name = current_time + "_extrusion_log.csv"
+
+        self.log_full_path = os.path.join(LOG_PATH, log_file_name)
+        ensure_log_dir(self.log_full_path)
+
     def reset(
         self,
         ω0_s: float = 1e-6,
@@ -157,8 +188,54 @@ class ExtruderSimulation(SimulatorSession):
             description=interface["description"],
         )
 
+    def log_iterations(
+        self, state, action, config, episode: int = 0, iteration: int = 1
+    ):
+        """Log iterations during training to a CSV.
+
+        Parameters
+        ----------
+        state : Dict
+        action : Dict
+        episode : int, optional
+        iteration : int, optional
+        """
+
+        import pandas as pd
+
+        def add_prefixes(d, prefix: str):
+            return {f"{prefix}_{k}": v for k, v in d.items()}
+
+        state = add_prefixes(state, "state")
+        action = add_prefixes(action, "action")
+        config = add_prefixes(config, "config")
+        data = {**state, **action, **config}
+        data["episode"] = episode
+        data["iteration"] = iteration
+        log_df = pd.DataFrame(data, index=[0])
+
+        if os.path.exists(self.log_full_path):
+            log_df.to_csv(
+                path_or_buf=self.log_full_path, mode="a", header=False, index=False
+            )
+        else:
+            log_df.to_csv(
+                path_or_buf=self.log_full_path, mode="w", header=True, index=False
+            )
+
 
 def main():
+
+    parser = argparse.ArgumentParser(description="Bonsai and Simulator Integration...")
+
+    parser.add_argument(
+        "--log-iterations",
+        action="store_true",
+        default=False,
+        help="Log iterations during training",
+    )
+
+    args = parser.parse_args()
 
     workspace = os.getenv("SIM_WORKSPACE")
     access_key = os.getenv("SIM_ACCESS_KEY")
@@ -172,13 +249,35 @@ def main():
         raise ValueError("The access key for the Bonsai workspace is not set.")
 
     config = BonsaiClientConfig(workspace=workspace, access_key=access_key)
-
-    extruder_sim = ExtruderSimulation(config)
+    extruder_sim = ExtruderSimulation(config=config, log_data=args.log_iterations)
 
     extruder_sim.reset()
 
+    episode = 0
+    iteration = 0
+    config = None
     while extruder_sim.run():
-        continue
+        event = extruder_sim._last_event
+        if event is None:
+            continue
+
+        if extruder_sim.log_data:
+            if event.type == "EpisodeStart":
+                episode += 1
+                config = event.episode_start.config
+
+            elif event.type == "EpisodeStep":
+                iteration += 1
+                extruder_sim.log_iterations(
+                    state=extruder_sim.get_state(),
+                    action=event.episode_step.action,
+                    config=config,
+                    episode=episode,
+                    iteration=iteration,
+                )
+
+            elif event.type == "EpisodeFinish":
+                iteration = 0
 
 
 if __name__ == "__main__":

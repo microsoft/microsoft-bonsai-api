@@ -5,4 +5,4 @@ bonsai-cli==1.0.0
 microsoft-bonsai-api==0.1.1
 pyglet==1.5.15
 pandas==0.25.1
-scipy==1.4.1
+scipy==1.10.0
